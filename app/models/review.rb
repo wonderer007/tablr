@@ -7,4 +7,13 @@ class Review < ApplicationRecord
   has_many :keywords
   has_many :suggestions
   has_many :complaints
+
+  def self.tokenizer
+    @tokenizer ||= Tiktoken.encoding_for_model("text-embedding-3-small")
+  end
+
+  def self.token_count(text)
+    return 0 if text.blank?
+    tokenizer.encode(text).length
+  end
 end

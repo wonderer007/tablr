@@ -23,8 +23,9 @@ class Apify::UpdateReview < ApplicationService
           likes_count: review['likesCount'],
           food_rating: review['reviewDetailedRating']['foodRating'],
           service_rating: review['reviewDetailedRating']['Service'],
-          atmosphere: review['reviewDetailedRating']['Atmosphere'],
+          atmosphere_rating: review['reviewDetailedRating']['Atmosphere'],
           data: review,
+          published_at: review['publishedAtDate'].to_datetime,
           created_at: Time.zone.now,
           updated_at: Time.zone.now
         }

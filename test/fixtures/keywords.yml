@@ -1,0 +1,17 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  place: one
+  text: MyString
+  sentiment: 1
+  sentiment_score: 1.5
+  category: one
+  is_dish: false
+
+two:
+  place: two
+  text: MyString
+  sentiment: 1
+  sentiment_score: 1.5
+  category: two
+  is_dish: false

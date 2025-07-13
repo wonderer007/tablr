@@ -7,7 +7,7 @@ class Apify::UpdateReview < ApplicationService
 
   def call
     return unless place.syncing_reviews?
-    
+
     data = Apify::Client.get_run_info(Review::ACTOR_ID, place.review_actor_run_id)
 
     if data.dig('data', 'status') == 'SUCCEEDED'

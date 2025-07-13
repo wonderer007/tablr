@@ -6,7 +6,7 @@ class Review < ApplicationRecord
   belongs_to :place
   has_many :keywords
   has_many :suggestions
-  has_many :complaints
+  has_many :complains
 
   def self.tokenizer
     @tokenizer ||= Tiktoken.encoding_for_model("text-embedding-3-small")

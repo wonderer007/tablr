@@ -8,6 +8,7 @@ class CreatePlaces < ActiveRecord::Migration[7.2]
       t.datetime :place_synced_at
       t.integer :status
       t.string :url
+      t.jsonb :data
 
       t.timestamps
     end

@@ -10,7 +10,10 @@ class CreateReviews < ActiveRecord::Migration[7.2]
       t.integer :likes_count
       t.integer :food_rating
       t.integer :service_rating
-      t.integer :atmosphere
+      t.integer :atmosphere_rating
+      t.datetime :published_at
+      t.jsonb :data
+      t.boolean :processed, default: false
 
       t.timestamps
     end

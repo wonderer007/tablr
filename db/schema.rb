@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_07_12_200135) do
+ActiveRecord::Schema[7.2].define(version: 2025_07_12_160936) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -32,16 +32,16 @@ ActiveRecord::Schema[7.2].define(version: 2025_07_12_200135) do
   end
 
   create_table "keywords", force: :cascade do |t|
-    t.bigint "place_id", null: false
-    t.string "text"
+    t.bigint "review_id", null: false
+    t.string "name"
     t.integer "sentiment"
     t.float "sentiment_score"
     t.bigint "category_id", null: false
-    t.boolean "is_dish"
+    t.boolean "is_dish", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["category_id"], name: "index_keywords_on_category_id"
-    t.index ["place_id"], name: "index_keywords_on_place_id"
+    t.index ["review_id"], name: "index_keywords_on_review_id"
   end
 
   create_table "places", force: :cascade do |t|
@@ -52,9 +52,9 @@ ActiveRecord::Schema[7.2].define(version: 2025_07_12_200135) do
     t.datetime "place_synced_at"
     t.integer "status"
     t.string "url"
+    t.jsonb "data"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.jsonb "data"
     t.index ["url"], name: "index_places_on_url", unique: true
   end
 
@@ -69,10 +69,11 @@ ActiveRecord::Schema[7.2].define(version: 2025_07_12_200135) do
     t.integer "food_rating"
     t.integer "service_rating"
     t.integer "atmosphere_rating"
+    t.datetime "published_at"
+    t.jsonb "data"
+    t.boolean "processed", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.jsonb "data"
-    t.datetime "published_at"
     t.index ["external_review_id"], name: "index_reviews_on_external_review_id", unique: true
     t.index ["place_id"], name: "index_reviews_on_place_id"
   end
@@ -90,7 +91,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_07_12_200135) do
   add_foreign_key "complains", "categories"
   add_foreign_key "complains", "reviews"
   add_foreign_key "keywords", "categories"
-  add_foreign_key "keywords", "places"
+  add_foreign_key "keywords", "reviews"
   add_foreign_key "reviews", "places"
   add_foreign_key "suggestions", "categories"
   add_foreign_key "suggestions", "reviews"

@@ -1,0 +1,30 @@
+<!-- Dashboard Layout - Complete dashboard interface using components -->
+
+<!DOCTYPE html>
+<html class="h-full bg-white">
+<head>
+  <title><%= content_for?(:title) ? yield(:title) : "Dashboard" %></title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <%= csrf_meta_tags %>
+  <%= csp_meta_tag %>
+
+  <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+  <%= javascript_importmap_tags %>
+</head>
+
+<body class="h-full">
+  <div>
+    <!-- Sidebar Component (includes mobile off-canvas and desktop static sidebar) -->
+    <%= render 'shared/sidebar' %>
+
+    <!-- Main content area with sidebar offset -->
+    <div class="lg:pl-72">
+      <!-- Top Navigation Component -->
+      <%= render 'shared/top_navigation' %>
+
+      <!-- Main Content Component -->
+      <%= render 'shared/main_content' %>
+    </div>
+  </div>
+</body>
+</html> 

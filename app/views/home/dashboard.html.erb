@@ -1,10 +1,115 @@
-<div class="min-h-screen bg-gray-100 flex items-center justify-center">
-  <div class="bg-white p-8 rounded-lg shadow-lg text-center">
-    <h1 class="text-3xl font-bold text-blue-600 mb-4">🎉 Tailwind CSS is working!</h1>
-    <p class="text-gray-700">This is a test page styled with Tailwind CSS.</p>
+<%# Dashboard View - Uses the dashboard layout with sample content %>
 
-    <button class="mt-6 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition">
-      Test Button
-    </button>
+<% content_for :title, "Dashboard - Tablr" %>
+
+<!-- Sample Dashboard Content -->
+<div class="space-y-6">
+  <!-- Page Header -->
+  <div>
+    <h1 class="text-2xl font-semibold text-gray-900">Dashboard</h1>
+    <p class="mt-2 text-sm text-gray-700">Welcome to your dashboard. Here's an overview of your data.</p>
+  </div>
+
+  <!-- Stats Grid -->
+  <div class="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
+    <!-- Stat Card 1 -->
+    <div class="overflow-hidden rounded-lg bg-white px-4 py-5 shadow sm:p-6">
+      <dt class="truncate text-sm font-medium text-gray-500">Total Places</dt>
+      <dd class="mt-1 text-3xl font-semibold tracking-tight text-gray-900">2,847</dd>
+    </div>
+
+    <!-- Stat Card 2 -->
+    <div class="overflow-hidden rounded-lg bg-white px-4 py-5 shadow sm:p-6">
+      <dt class="truncate text-sm font-medium text-gray-500">Total Reviews</dt>
+      <dd class="mt-1 text-3xl font-semibold tracking-tight text-gray-900">12,345</dd>
+    </div>
+
+    <!-- Stat Card 3 -->
+    <div class="overflow-hidden rounded-lg bg-white px-4 py-5 shadow sm:p-6">
+      <dt class="truncate text-sm font-medium text-gray-500">Categories</dt>
+      <dd class="mt-1 text-3xl font-semibold tracking-tight text-gray-900">24</dd>
+    </div>
+
+    <!-- Stat Card 4 -->
+    <div class="overflow-hidden rounded-lg bg-white px-4 py-5 shadow sm:p-6">
+      <dt class="truncate text-sm font-medium text-gray-500">Keywords</dt>
+      <dd class="mt-1 text-3xl font-semibold tracking-tight text-gray-900">156</dd>
+    </div>
+  </div>
+
+  <!-- Recent Activity -->
+  <div class="overflow-hidden rounded-lg bg-white shadow">
+    <div class="px-4 py-5 sm:p-6">
+      <h3 class="text-base font-semibold leading-6 text-gray-900">Recent Activity</h3>
+      <div class="mt-6 flow-root">
+        <ul role="list" class="-mb-8">
+          <li>
+            <div class="relative pb-8">
+              <span class="absolute left-4 top-4 -ml-px h-full w-0.5 bg-gray-200" aria-hidden="true"></span>
+              <div class="relative flex space-x-3">
+                <div>
+                  <span class="h-8 w-8 rounded-full bg-green-500 flex items-center justify-center ring-8 ring-white">
+                    <svg class="h-5 w-5 text-white" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                      <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clip-rule="evenodd" />
+                    </svg>
+                  </span>
+                </div>
+                <div class="flex min-w-0 flex-1 justify-between space-x-4 pt-1.5">
+                  <div>
+                    <p class="text-sm text-gray-500">New place <span class="font-medium text-gray-900">"Coffee Shop Downtown"</span> was added</p>
+                  </div>
+                  <div class="whitespace-nowrap text-right text-sm text-gray-500">
+                    <time datetime="2020-09-20">2 hours ago</time>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </li>
+          <li>
+            <div class="relative pb-8">
+              <span class="absolute left-4 top-4 -ml-px h-full w-0.5 bg-gray-200" aria-hidden="true"></span>
+              <div class="relative flex space-x-3">
+                <div>
+                  <span class="h-8 w-8 rounded-full bg-blue-500 flex items-center justify-center ring-8 ring-white">
+                    <svg class="h-5 w-5 text-white" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                      <path d="M10 8a3 3 0 100-6 3 3 0 000 6zM3.465 14.493a1.23 1.23 0 00.41 1.412A9.957 9.957 0 0010 18c2.31 0 4.438-.784 6.131-2.1.43-.333.604-.903.408-1.41a7.002 7.002 0 00-13.074.003z" />
+                    </svg>
+                  </span>
+                </div>
+                <div class="flex min-w-0 flex-1 justify-between space-x-4 pt-1.5">
+                  <div>
+                    <p class="text-sm text-gray-500">New review was processed for <span class="font-medium text-gray-900">"Restaurant XYZ"</span></p>
+                  </div>
+                  <div class="whitespace-nowrap text-right text-sm text-gray-500">
+                    <time datetime="2020-09-19">4 hours ago</time>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </li>
+          <li>
+            <div class="relative pb-8">
+              <div class="relative flex space-x-3">
+                <div>
+                  <span class="h-8 w-8 rounded-full bg-yellow-500 flex items-center justify-center ring-8 ring-white">
+                    <svg class="h-5 w-5 text-white" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                      <path fill-rule="evenodd" d="M8.485 2.495c.673-1.167 2.357-1.167 3.03 0l6.28 10.875c.673 1.167-.17 2.625-1.516 2.625H3.72c-1.347 0-2.189-1.458-1.515-2.625L8.485 2.495zM10 5a.75.75 0 01.75.75v3.5a.75.75 0 01-1.5 0v-3.5A.75.75 0 0110 5zm0 9a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd" />
+                    </svg>
+                  </span>
+                </div>
+                <div class="flex min-w-0 flex-1 justify-between space-x-4 pt-1.5">
+                  <div>
+                    <p class="text-sm text-gray-500">Keyword analysis completed for <span class="font-medium text-gray-900">"Italian Restaurants"</span></p>
+                  </div>
+                  <div class="whitespace-nowrap text-right text-sm text-gray-500">
+                    <time datetime="2020-09-18">1 day ago</time>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
   </div>
 </div>

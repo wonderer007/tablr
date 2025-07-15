@@ -23,23 +23,33 @@ export default class extends Controller {
     const options = {
       mode: "range",
       dateFormat: "Y-m-d",
-      allowInput: true,
+      allowInput: false, // Prevent manual input to avoid parsing issues
       clickOpens: true,
-      onChange: (selectedDates, dateStr, instance) => {
+      onChange: (selectedDates, dateStr) => {
         if (selectedDates.length === 2) {
-          this.startDateTarget.value = this.formatDate(selectedDates[0])
-          this.endDateTarget.value = this.formatDate(selectedDates[1])
+          const [startDate, endDate] = selectedDates
+          this.startDateTarget.value = this.formatDate(startDate)
+          this.endDateTarget.value = this.formatDate(endDate)
+          this.inputTarget.value = dateStr // Use flatpickr's formatted string
         } else if (selectedDates.length === 1) {
-          this.startDateTarget.value = this.formatDate(selectedDates[0])
+          const [startDate] = selectedDates
+          this.startDateTarget.value = this.formatDate(startDate)
           this.endDateTarget.value = ""
+          this.inputTarget.value = dateStr // Use flatpickr's formatted string
         } else {
           this.startDateTarget.value = ""
           this.endDateTarget.value = ""
+          this.inputTarget.value = ""
         }
+      },
+      onClose: (selectedDates, dateStr) => {
+        // Update the input value with flatpickr's formatted string on close
+        this.inputTarget.value = dateStr
       },
       onClear: () => {
         this.startDateTarget.value = ""
         this.endDateTarget.value = ""
+        this.inputTarget.value = ""
       }
     }
 
@@ -54,7 +64,8 @@ export default class extends Controller {
   }
 
   formatDate(date) {
-    return date.toISOString().split('T')[0]
+    // Use local date to avoid timezone issues
+    return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`
   }
 
   clear() {
@@ -63,5 +74,6 @@ export default class extends Controller {
     }
     this.startDateTarget.value = ""
     this.endDateTarget.value = ""
+    this.inputTarget.value = ""
   }
 } 

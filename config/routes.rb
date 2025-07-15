@@ -11,6 +11,7 @@ Rails.application.routes.draw do
   get '/dashboard', to: 'home#dashboard'
   resources :reviews, only: [:index, :show]
   resources :complains, only: [:index]
+  resources :suggestions, only: [:index]
   # Defines the root path route ("/")
   # root "posts#index"
 end

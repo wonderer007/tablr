@@ -1,183 +1,239 @@
-<div class="px-4 sm:px-6 lg:px-8">
-  <div class="sm:flex sm:items-center">
-    <div class="sm:flex-auto">
-      <h1 class="text-base font-semibold text-gray-900">Reviews</h1>
-      <p class="mt-2 text-sm text-gray-700">A list of all reviews including ratings, feedback, and context.</p>
+<div class="bg-white">
+  <div class="px-4 py-5 sm:px-6">
+    <div class="sm:flex sm:items-center sm:justify-between">
+      <div class="sm:flex-auto">
+        <h1 class="text-2xl font-bold tracking-tight text-gray-900">Reviews</h1>
+        <div class="mt-2 flex items-center gap-x-2">
+          <p class="text-sm text-gray-700">A list of all reviews including ratings, feedback, and context.</p>
+          <span class="inline-flex items-center rounded-md bg-gray-50 px-2 py-1 text-xs font-medium text-gray-600 ring-1 ring-inset ring-gray-500/10">
+            <%= pluralize(@reviews.total_count, 'review') %>
+          </span>
+        </div>
+      </div>
+      <div class="mt-4 sm:mt-0 sm:flex-none">
+        <button type="button" class="inline-flex items-center gap-x-2 rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+          <svg class="-ml-0.5 size-5" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M15.312 11.424a5.5 5.5 0 01-9.201 2.466l-.312-.311h2.433a.75.75 0 000-1.5H3.989a.75.75 0 00-.75.75v4.242a.75.75 0 001.5 0v-2.43l.31.31a7 7 0 0011.712-3.138.75.75 0 00-1.449-.39zm1.23-3.723a.75.75 0 00.219-.53V2.929a.75.75 0 00-1.5 0v2.433l-.31-.31A7 7 0 003.239 8.188a.75.75 0 101.448.389A5.5 5.5 0 0113.89 6.11l.311.31h-2.432a.75.75 0 000 1.5h4.243a.75.75 0 00.53-.219z" clip-rule="evenodd" />
+          </svg>
+          Sync Reviews
+        </button>
+      </div>
     </div>
-    <div class="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
-      <button type="button" class="block rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Sync Reviews</button>
-    </div>
-  </div>
 
-  <%= search_form_for @q, url: reviews_path, method: :get do |f| %>
-    <div class="mt-8 flow-root">
-      <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
-        <div class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
+    <%= search_form_for @q, url: reviews_path, method: :get do |f| %>
+      <div class="mt-6 bg-white shadow-sm rounded-lg border border-gray-200 divide-y divide-gray-200">
+        <div class="px-4 py-5 sm:px-6">
+          <div class="-ml-4 -mt-4 flex flex-wrap items-center justify-between sm:flex-nowrap">
+            <div class="ml-4 mt-4">
+              <h3 class="text-base font-semibold leading-6 text-gray-900">Filter Reviews</h3>
+              <p class="mt-1 text-sm text-gray-500">Use the filters below to narrow down the reviews.</p>
+            </div>
+            <div class="ml-4 mt-4 flex-shrink-0">
+              <div class="flex items-center gap-x-3">
+                <%= f.submit "Apply Filters", class: "rounded-md bg-indigo-600 px-3.5 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600" %>
+                <%= link_to "Clear All", reviews_path, class: "rounded-md bg-white px-3.5 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50" %>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="px-4 py-5 sm:p-6">
+          <div class="grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+            <div class="sm:col-span-2">
+              <label for="text" class="block text-sm font-medium leading-6 text-gray-900">Review</label>
+              <div class="mt-2 relative">
+                <%= f.search_field :text_cont, 
+                    placeholder: "Search reviews...", 
+                    autocomplete: "off",
+                    class: "block w-full rounded-md border-0 px-4 py-2 text-gray-900 shadow-sm ring-1 ring-inset #{params.dig(:q, :text_cont).present? ? 'ring-indigo-600 bg-indigo-50/50' : 'ring-gray-300'} placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" %>
+                <% if params.dig(:q, :text_cont).present? %>
+                  <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+                    <svg class="size-4 text-indigo-600" viewBox="0 0 20 20" fill="currentColor">
+                      <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clip-rule="evenodd" />
+                    </svg>
+                  </div>
+                <% end %>
+              </div>
+            </div>
+
+            <div class="sm:col-span-1">
+              <label for="stars" class="block text-sm font-medium leading-6 text-gray-900">Rating</label>
+              <div class="mt-2">
+                <%= f.select :stars_gteq, 
+                    options_for_select([['Any', ''], ['1+ Stars', 1], ['2+ Stars', 2], ['3+ Stars', 3], ['4+ Stars', 4], ['5 Stars', 5]], params.dig(:q, :stars_gteq)), 
+                    {}, 
+                    class: "block w-full rounded-md border-0 px-3 py-2 text-gray-900 shadow-sm ring-1 ring-inset #{params.dig(:q, :stars_gteq).present? ? 'ring-indigo-600 bg-indigo-50/50 font-medium' : 'ring-gray-300'} focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" %>
+              </div>
+            </div>
+
+            <div class="sm:col-span-1">
+              <label for="food" class="block text-sm font-medium leading-6 text-gray-900">Food</label>
+              <div class="mt-2">
+                <%= f.select :food_rating_gteq, 
+                    options_for_select([['Any', ''], ['1+ Stars', 1], ['2+ Stars', 2], ['3+ Stars', 3], ['4+ Stars', 4], ['5 Stars', 5]], params.dig(:q, :food_rating_gteq)), 
+                    {}, 
+                    class: "block w-full rounded-md border-0 px-3 py-2 text-gray-900 shadow-sm ring-1 ring-inset #{params.dig(:q, :food_rating_gteq).present? ? 'ring-indigo-600 bg-indigo-50/50 font-medium' : 'ring-gray-300'} focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" %>
+              </div>
+            </div>
+
+            <div class="sm:col-span-1">
+              <label for="service" class="block text-sm font-medium leading-6 text-gray-900">Service</label>
+              <div class="mt-2">
+                <%= f.select :service_rating_gteq, 
+                    options_for_select([['Any', ''], ['1+ Stars', 1], ['2+ Stars', 2], ['3+ Stars', 3], ['4+ Stars', 4], ['5 Stars', 5]], params.dig(:q, :service_rating_gteq)), 
+                    {}, 
+                    class: "block w-full rounded-md border-0 px-3 py-2 text-gray-900 shadow-sm ring-1 ring-inset #{params.dig(:q, :service_rating_gteq).present? ? 'ring-indigo-600 bg-indigo-50/50 font-medium' : 'ring-gray-300'} focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" %>
+              </div>
+            </div>
+
+            <div class="sm:col-span-1">
+              <label for="atmosphere" class="block text-sm font-medium leading-6 text-gray-900">Atmosphere</label>
+              <div class="mt-2">
+                <%= f.select :atmosphere_rating_gteq, 
+                    options_for_select([['Any', ''], ['1+ Stars', 1], ['2+ Stars', 2], ['3+ Stars', 3], ['4+ Stars', 4], ['5 Stars', 5]], params.dig(:q, :atmosphere_rating_gteq)), 
+                    {}, 
+                    class: "block w-full rounded-md border-0 px-3 py-2 text-gray-900 shadow-sm ring-1 ring-inset #{params.dig(:q, :atmosphere_rating_gteq).present? ? 'ring-indigo-600 bg-indigo-50/50 font-medium' : 'ring-gray-300'} focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" %>
+              </div>
+            </div>
+
+            <div class="sm:col-span-2">
+              <label for="published" class="block text-sm font-medium leading-6 text-gray-900">Published</label>
+              <div class="mt-2" data-controller="date-range" 
+                   data-date-range-start-date-value="<%= params.dig(:q, :published_at_gteq) %>"
+                   data-date-range-end-date-value="<%= params.dig(:q, :published_at_lteq) %>">
+                <%= f.text_field :published_at_gteq, 
+                    value: params.dig(:q, :published_at_gteq), 
+                    placeholder: "Select date range...",
+                    autocomplete: "off",
+                    data: { 
+                      date_range_target: "input",
+                      date_range_start_date_target: "startDate"
+                    },
+                    class: "block w-full rounded-md border-0 px-4 py-2 text-gray-900 shadow-sm ring-1 ring-inset #{params.dig(:q, :published_at_gteq).present? ? 'ring-indigo-600 bg-indigo-50/50' : 'ring-gray-300'} placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" %>
+                <%= f.hidden_field :published_at_lteq, 
+                    value: params.dig(:q, :published_at_lteq),
+                    data: { date_range_target: "endDate" } %>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-6 overflow-hidden shadow ring-1 ring-black ring-opacity-5 sm:rounded-lg">
+        <div class="min-w-full">
           <table class="min-w-full divide-y divide-gray-300">
-            <thead>
+            <thead class="bg-gray-50">
               <tr>
-                <th scope="col" class="py-3.5 pr-3 pl-4 text-left text-sm font-semibold text-gray-900 sm:pl-0">
-                  <div class="space-y-2">
-                    <%= sort_link(@q, :text, { class: "group inline-flex" }) do %>
-                      <span class="flex items-center text-sm/6 font-medium text-gray-900">
-                        Review
-                        <span class="ml-2 flex-none rounded <%= sort_indicator_class(params.dig(:q, :s), 'text') %>">
-                          <%= sort_arrow_icon(params.dig(:q, :s), 'text') %>
-                        </span>
-                      </span>
-                    <% end %>
-                    <%= f.search_field :text_cont, 
-                        placeholder: "Search reviews...", 
-                        autocomplete: "off",
-                        class: "block w-full rounded-md bg-white shadow-sm ring-1 ring-inset ring-gray-300 px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-200 sm:text-sm/6" %>
-                  </div>
+                <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">
+                  <%= sort_link(@q, :text, { class: "group inline-flex items-center gap-x-2" }) do %>
+                    Review
+                    <span class="ml-2 flex-none rounded <%= sort_indicator_class(params.dig(:q, :s), 'text') %>">
+                      <%= sort_arrow_icon(params.dig(:q, :s), 'text') %>
+                    </span>
+                  <% end %>
                 </th>
                 <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
-                  <div class="space-y-2">
-                    <%= sort_link(@q, :stars, { class: "group inline-flex text-sm/6 font-medium text-gray-900" }) do %>
-                      Rating
-                      <span class="ml-2 flex-none rounded <%= sort_indicator_class(params.dig(:q, :s), 'stars') %>">
-                        <%= sort_arrow_icon(params.dig(:q, :s), 'stars') %>
-                      </span>
-                    <% end %>
-                    <%= f.select :stars_gteq, 
-                        options_for_select([['Any', ''], ['1+', 1], ['2+', 2], ['3+', 3], ['4+', 4], ['5', 5]], params.dig(:q, :stars_gteq)), 
-                        {}, 
-                        class: "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" %>
-                  </div>
+                  <%= sort_link(@q, :stars, { class: "group inline-flex items-center gap-x-2" }) do %>
+                    Rating
+                    <span class="ml-2 flex-none rounded <%= sort_indicator_class(params.dig(:q, :s), 'stars') %>">
+                      <%= sort_arrow_icon(params.dig(:q, :s), 'stars') %>
+                    </span>
+                  <% end %>
                 </th>
                 <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
-                  <div class="space-y-2">
-                    <%= sort_link(@q, :food_rating,{ class: "group inline-flex text-sm/6 font-medium text-gray-900" }) do %>
-                      Food
-                      <span class="ml-2 flex-none rounded <%= sort_indicator_class(params.dig(:q, :s), 'food_rating') %>">
-                        <%= sort_arrow_icon(params.dig(:q, :s), 'food_rating') %>
-                      </span>
-                    <% end %>
-                    <%= f.select :food_rating_gteq, 
-                        options_for_select([['Any', ''], ['1+', 1], ['2+', 2], ['3+', 3], ['4+', 4], ['5', 5]], params.dig(:q, :food_rating_gteq)), 
-                        {}, 
-                        class: "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" %>
-                  </div>
+                  <%= sort_link(@q, :food_rating, { class: "group inline-flex items-center gap-x-2" }) do %>
+                    Food
+                    <span class="ml-2 flex-none rounded <%= sort_indicator_class(params.dig(:q, :s), 'food_rating') %>">
+                      <%= sort_arrow_icon(params.dig(:q, :s), 'food_rating') %>
+                    </span>
+                  <% end %>
                 </th>
                 <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
-                  <div class="space-y-2">
-                    <%= sort_link(@q, :service_rating, { class: "group inline-flex text-sm/6 font-medium text-gray-900" }) do %>
-                      Service
-                      <span class="ml-2 flex-none rounded <%= sort_indicator_class(params.dig(:q, :s), 'service_rating') %>">
-                        <%= sort_arrow_icon(params.dig(:q, :s), 'service_rating') %>
-                      </span>
-                    <% end %>
-                    <%= f.select :service_rating_gteq, 
-                        options_for_select([['Any', ''], ['1+', 1], ['2+', 2], ['3+', 3], ['4+', 4], ['5', 5]], params.dig(:q, :service_rating_gteq)), 
-                        {}, 
-                        class: "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" %>
-                  </div>
+                  <%= sort_link(@q, :service_rating, { class: "group inline-flex items-center gap-x-2" }) do %>
+                    Service
+                    <span class="ml-2 flex-none rounded <%= sort_indicator_class(params.dig(:q, :s), 'service_rating') %>">
+                      <%= sort_arrow_icon(params.dig(:q, :s), 'service_rating') %>
+                    </span>
+                  <% end %>
                 </th>
                 <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
-                  <div class="space-y-2">
-                    <%= sort_link(@q, :atmosphere_rating, { class: "group inline-flex text-sm/6 font-medium text-gray-900" }) do %>
-                      Atmosphere
-                      <span class="ml-2 flex-none rounded <%= sort_indicator_class(params.dig(:q, :s), 'atmosphere_rating') %>">
-                        <%= sort_arrow_icon(params.dig(:q, :s), 'atmosphere_rating') %>
-                      </span>
-                    <% end %>
-                    <%= f.select :atmosphere_rating_gteq, 
-                        options_for_select([['Any', ''], ['1+', 1], ['2+', 2], ['3+', 3], ['4+', 4], ['5', 5]], params.dig(:q, :atmosphere_rating_gteq)), 
-                        {}, 
-                        class: "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" %>
-                  </div>
+                  <%= sort_link(@q, :atmosphere_rating, { class: "group inline-flex items-center gap-x-2" }) do %>
+                    Atmosphere
+                    <span class="ml-2 flex-none rounded <%= sort_indicator_class(params.dig(:q, :s), 'atmosphere_rating') %>">
+                      <%= sort_arrow_icon(params.dig(:q, :s), 'atmosphere_rating') %>
+                    </span>
+                  <% end %>
                 </th>
                 <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
-                  <div class="space-y-2">
-                    <%= sort_link(@q, :published_at, { class: "group inline-flex text-sm/6 font-medium text-gray-900" }) do %>
-                      Published
-                      <span class="ml-2 flex-none rounded <%= sort_indicator_class(params.dig(:q, :s), 'published_at') %>">
-                        <%= sort_arrow_icon(params.dig(:q, :s), 'published_at') %>
-                      </span>
-                    <% end %>
-                    <div data-controller="date-range" 
-                         data-date-range-start-date-value="<%= params.dig(:q, :published_at_gteq) %>"
-                         data-date-range-end-date-value="<%= params.dig(:q, :published_at_lteq) %>">
-                      <%= f.text_field :published_at_gteq, 
-                          value: params.dig(:q, :published_at_gteq), 
-                          placeholder: "Select date range...",
-                          autocomplete: "off",
-                          data: { 
-                            date_range_target: "input",
-                            date_range_start_date_target: "startDate"
-                          },
-                          class: "block w-full rounded-md bg-white shadow-sm ring-1 ring-inset ring-gray-300 px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-200 sm:text-sm/6" %>
-                      <%= f.hidden_field :published_at_lteq, 
-                          value: params.dig(:q, :published_at_lteq),
-                          data: { date_range_target: "endDate" } %>
-                    </div>
-                  </div>
+                  <%= sort_link(@q, :published_at, { class: "group inline-flex items-center gap-x-2" }) do %>
+                    Published
+                    <span class="ml-2 flex-none rounded <%= sort_indicator_class(params.dig(:q, :s), 'published_at') %>">
+                      <%= sort_arrow_icon(params.dig(:q, :s), 'published_at') %>
+                    </span>
+                  <% end %>
                 </th>
-                <th scope="col" class="relative py-3.5 pr-4 pl-3 sm:pr-0">
-                  <div class="space-y-2">
-                    <span class="sr-only">Actions</span>
-                    <div class="flex flex-col space-y-2">
-                      <%= f.submit "Filter", class: "rounded-md bg-indigo-600 px-3 py-1.5 text-xs font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600" %>
-                      <%= link_to "Clear", reviews_path, class: "text-xs text-gray-500 hover:text-gray-700 text-center" %>
-                    </div>
-                  </div>
+                <th scope="col" class="relative py-3.5 pl-3 pr-4 sm:pr-6">
+                  <span class="sr-only">Actions</span>
                 </th>
               </tr>
             </thead>
             <tbody class="divide-y divide-gray-200 bg-white">
               <% @reviews.each do |review| %>
-                <tr>
-                  <td class="py-5 pr-3 pl-4 text-sm whitespace-nowrap sm:pl-0">
-                    <div class="flex items-center">
-                      <div class="size-11 shrink-0">
-                        <img
-                          class="size-11 rounded-full object-cover"
-                          src="<%= review.image_url %>"
-                          alt="Reviewer's profile picture"
-                          width="44"
-                          height="44"
-                          loading="lazy"
-                          onerror="this.onerror=null;this.src='/images/default-profile.png';"
-                        />
-                      </div>
-                      <div class="ml-4">
-                        <div class="font-medium text-gray-900"><%= review.name %></div>
-                        <div class="mt-1 text-gray-500 relative group">
-                          <%= truncate(review.text, length: 50, separator: ' ') %>
-                        </div>
+                <tr class="hover:bg-gray-50">
+                  <td class="py-4 pl-4 pr-3 sm:pl-6">
+                    <div class="flex items-center gap-x-4">
+                      <img class="size-10 flex-none rounded-full bg-gray-50"
+                            src="<%= review.image_url %>"
+                            alt="<%= review.name %>'s profile picture"
+                            width="40"
+                            height="40"
+                            loading="lazy"
+                            onerror="this.onerror=null;this.src='/images/default-profile.png';" />
+                      <div class="min-w-0">
+                        <p class="text-sm font-semibold leading-6 text-gray-900"><%= review.name %></p>
+                        <p class="mt-1 truncate text-sm leading-5 text-gray-500" title="<%= review.text %>">
+                          <%= truncate(review.text, length: 70, separator: ' ') %>
+                        </p>
                       </div>
                     </div>
                   </td>
-                  <td class="px-3 py-5 text-sm whitespace-nowrap text-gray-500">
+                  <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                     <%= render 'shared/star_rating', rating: review.stars, show_number: false %>
                   </td>
-                  <td class="px-3 py-5 text-sm whitespace-nowrap text-gray-500">
+                  <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                     <% if review.food_rating.present? %>
                       <%= render 'shared/star_rating', rating: review.food_rating, show_number: false %>
                     <% else %>
                       <span class="text-gray-400">N/A</span>
                     <% end %>
                   </td>
-                  <td class="px-3 py-5 text-sm whitespace-nowrap text-gray-500">
+                  <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                     <% if review.service_rating.present? %>
                       <%= render 'shared/star_rating', rating: review.service_rating, show_number: false %>
                     <% else %>
                       <span class="text-gray-400">N/A</span>
                     <% end %>
                   </td>
-                  <td class="px-3 py-5 text-sm whitespace-nowrap text-gray-500">
+                  <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                     <% if review.atmosphere_rating.present? %>
                       <%= render 'shared/star_rating', rating: review.atmosphere_rating, show_number: false %>
                     <% else %>
                       <span class="text-gray-400">N/A</span>
                     <% end %>
                   </td>
-                  <td class="px-3 py-5 text-sm whitespace-nowrap text-gray-500">
+                  <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                     <%= review.published_at&.strftime('%b %d, %Y') || 'N/A' %>
                   </td>
-                  <td class="relative py-5 pr-4 pl-3 text-right text-sm font-medium whitespace-nowrap sm:pr-0">
-                    <a href="#" class="text-indigo-600 hover:text-indigo-900">View<span class="sr-only">, Review</span></a>
+                  <td class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
+                    <div class="flex justify-end gap-x-4">
+                      <button type="button" class="text-indigo-600 hover:text-indigo-900">
+                        <svg class="size-5" viewBox="0 0 20 20" fill="currentColor">
+                          <path d="M10 12.5a2.5 2.5 0 100-5 2.5 2.5 0 000 5z" />
+                          <path fill-rule="evenodd" d="M.664 10.59a1.651 1.651 0 010-1.186A10.004 10.004 0 0110 3c4.257 0 7.893 2.66 9.336 6.41.147.381.146.804 0 1.186A10.004 10.004 0 0110 17c-4.257 0-7.893-2.66-9.336-6.41zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd" />
+                        </svg>
+                        <span class="sr-only">View <%= review.name %>'s review</span>
+                      </button>
+                    </div>
                   </td>
                 </tr>
               <% end %>
@@ -186,7 +242,11 @@
         </div>
       </div>
     </div>
-  <% end %>
+      </div>
+    <% end %>
 
-  <%= render 'shared/pagination', paginated_collection: @reviews %>
+    <div class="mt-6">
+      <%= render 'shared/pagination', paginated_collection: @reviews %>
+    </div>
+  </div>
 </div>

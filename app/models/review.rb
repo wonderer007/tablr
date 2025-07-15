@@ -10,7 +10,7 @@ class Review < ApplicationRecord
 
   # Ransack configuration
   def self.ransackable_attributes(auth_object = nil)
-    %w[stars food_rating service_rating atmosphere_rating published_at created_at processed text external_review_id]
+    %w[stars food_rating service_rating atmosphere_rating published_at processed text]
   end
 
   def self.ransackable_associations(auth_object = nil)

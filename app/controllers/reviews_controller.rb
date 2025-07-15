@@ -6,9 +6,12 @@ class ReviewsController < ApplicationController
     @q = place.reviews.ransack(params[:q])
     @reviews = @q.result(distinct: true)
     
-    # Apply default sorting if no sort is specified
     @reviews = @reviews.order(published_at: :desc) if params[:q].blank? || params[:q][:s].blank?
     @reviews = @reviews.page(params[:page]).per(30)
-    # Pagination enabled with Kaminari
+  end
+
+  def show
+    place = Place.first
+    @review = place.reviews.includes(suggestions: :category, complains: :category).find(params[:id])
   end
 end

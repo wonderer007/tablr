@@ -1,0 +1,93 @@
+<%= search_form_for @q, url: reviews_path, method: :get, class: "bg-white shadow-sm ring-1 ring-gray-900/5 sm:rounded-xl md:col-span-2" do |f| %>
+  <div class="px-4 py-6 sm:p-8">
+    <div class="grid max-w-2xl grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+      <!-- Text Search -->
+      <div class="sm:col-span-3">
+        <%= f.label :text_cont, "Search Reviews", class: "block text-sm font-medium leading-6 text-gray-900" %>
+        <div class="mt-2">
+          <%= f.search_field :text_cont, 
+              placeholder: "Search review text...", 
+              class: "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" %>
+        </div>
+      </div>
+
+      <!-- Rating Filter -->
+      <div class="sm:col-span-1">
+        <%= f.label :stars_gteq, "Min Rating", class: "block text-sm font-medium leading-6 text-gray-900" %>
+        <div class="mt-2">
+          <%= f.select :stars_gteq, 
+              options_for_select([['Any', ''], ['1+', 1], ['2+', 2], ['3+', 3], ['4+', 4], ['5', 5]], params.dig(:q, :stars_gteq)), 
+              {}, 
+              class: "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6" %>
+        </div>
+      </div>
+
+      <!-- Food Rating Filter -->
+      <div class="sm:col-span-1">
+        <%= f.label :food_rating_gteq, "Min Food", class: "block text-sm font-medium leading-6 text-gray-900" %>
+        <div class="mt-2">
+          <%= f.select :food_rating_gteq, 
+              options_for_select([['Any', ''], ['1+', 1], ['2+', 2], ['3+', 3], ['4+', 4], ['5', 5]], params.dig(:q, :food_rating_gteq)), 
+              {}, 
+              class: "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6" %>
+        </div>
+      </div>
+
+      <!-- Service Rating Filter -->
+      <div class="sm:col-span-1">
+        <%= f.label :service_rating_gteq, "Min Service", class: "block text-sm font-medium leading-6 text-gray-900" %>
+        <div class="mt-2">
+          <%= f.select :service_rating_gteq, 
+              options_for_select([['Any', ''], ['1+', 1], ['2+', 2], ['3+', 3], ['4+', 4], ['5', 5]], params.dig(:q, :service_rating_gteq)), 
+              {}, 
+              class: "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6" %>
+        </div>
+      </div>
+
+      <!-- Atmosphere Rating Filter -->
+      <div class="sm:col-span-1">
+        <%= f.label :atmosphere_rating_gteq, "Min Atmosphere", class: "block text-sm font-medium leading-6 text-gray-900" %>
+        <div class="mt-2">
+          <%= f.select :atmosphere_rating_gteq, 
+              options_for_select([['Any', ''], ['1+', 1], ['2+', 2], ['3+', 3], ['4+', 4], ['5', 5]], params.dig(:q, :atmosphere_rating_gteq)), 
+              {}, 
+              class: "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6" %>
+        </div>
+      </div>
+
+      <!-- Date Range -->
+      <div class="sm:col-span-2">
+        <%= f.label :published_at_gteq, "Published After", class: "block text-sm font-medium leading-6 text-gray-900" %>
+        <div class="mt-2">
+          <%= f.date_field :published_at_gteq, 
+              value: params.dig(:q, :published_at_gteq), 
+              class: "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" %>
+        </div>
+      </div>
+
+      <div class="sm:col-span-2">
+        <%= f.label :published_at_lteq, "Published Before", class: "block text-sm font-medium leading-6 text-gray-900" %>
+        <div class="mt-2">
+          <%= f.date_field :published_at_lteq, 
+              value: params.dig(:q, :published_at_lteq), 
+              class: "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" %>
+        </div>
+      </div>
+
+      <!-- Processed Filter -->
+      <div class="sm:col-span-2">
+        <%= f.label :processed_eq, "Processed Status", class: "block text-sm font-medium leading-6 text-gray-900" %>
+        <div class="mt-2">
+          <%= f.select :processed_eq, 
+              options_for_select([['All', ''], ['Processed', true], ['Not Processed', false]], params.dig(:q, :processed_eq)), 
+              {}, 
+              class: "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6" %>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="flex items-center justify-end gap-x-6 border-t border-gray-900/10 px-4 py-4 sm:px-8">
+    <%= link_to "Clear Filters", reviews_path, class: "text-sm font-semibold leading-6 text-gray-900" %>
+    <%= f.submit "Apply Filters", class: "rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600" %>
+  </div>
+<% end %> 

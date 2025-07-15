@@ -10,8 +10,9 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_07_12_160936) do
+ActiveRecord::Schema[7.2].define(version: 2025_07_14_232109) do
   # These are extensions that must be enabled in order to support this database
+  enable_extension "pg_trgm"
   enable_extension "plpgsql"
 
   create_table "categories", force: :cascade do |t|
@@ -74,8 +75,21 @@ ActiveRecord::Schema[7.2].define(version: 2025_07_12_160936) do
     t.boolean "processed", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "name"
+    t.string "image_url"
+    t.index ["atmosphere_rating"], name: "index_reviews_on_atmosphere_rating"
+    t.index ["created_at"], name: "index_reviews_on_created_at"
     t.index ["external_review_id"], name: "index_reviews_on_external_review_id", unique: true
+    t.index ["food_rating"], name: "index_reviews_on_food_rating"
+    t.index ["place_id", "processed"], name: "index_reviews_on_place_id_and_processed"
+    t.index ["place_id", "published_at"], name: "index_reviews_on_place_id_and_published_at"
+    t.index ["place_id", "stars"], name: "index_reviews_on_place_id_and_stars"
     t.index ["place_id"], name: "index_reviews_on_place_id"
+    t.index ["processed"], name: "index_reviews_on_processed"
+    t.index ["published_at"], name: "index_reviews_on_published_at"
+    t.index ["service_rating"], name: "index_reviews_on_service_rating"
+    t.index ["stars"], name: "index_reviews_on_stars"
+    t.index ["text"], name: "index_reviews_on_text", opclass: :gin_trgm_ops, using: :gin
   end
 
   create_table "suggestions", force: :cascade do |t|

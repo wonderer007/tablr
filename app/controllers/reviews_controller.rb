@@ -3,6 +3,12 @@ class ReviewsController < ApplicationController
 
   def index
     place = Place.first
-    @reviews = place.reviews.order(published_at: :desc).limit(50)
+    @q = place.reviews.ransack(params[:q])
+    @reviews = @q.result(distinct: true)
+    
+    # Apply default sorting if no sort is specified
+    @reviews = @reviews.order(published_at: :desc) if params[:q].blank? || params[:q][:s].blank?
+    @reviews = @reviews.page(params[:page]).per(30)
+    # Pagination enabled with Kaminari
   end
 end

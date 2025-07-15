@@ -1,0 +1,21 @@
+<div class="flex items-center justify-between border-t border-gray-200 bg-white px-4 py-3 sm:px-6">
+  <div class="flex flex-1 justify-between sm:hidden">
+    <%== paginate paginated_collection, remote: false, param_name: :page %>
+  </div>
+  <div class="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
+    <div>
+      <p class="text-sm text-gray-700">
+        Showing
+        <span class="font-medium"><%= paginated_collection.offset_value + 1 %></span>
+        to
+        <span class="font-medium"><%= [paginated_collection.offset_value + paginated_collection.limit_value, paginated_collection.total_count].min %></span>
+        of
+        <span class="font-medium"><%= paginated_collection.total_count %></span>
+        results
+      </p>
+    </div>
+    <div>
+      <%== paginate paginated_collection, remote: false, param_name: :page %>
+    </div>
+  </div>
+</div> 

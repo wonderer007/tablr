@@ -1,3 +1,95 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Flatpickr Date Range Picker Custom Styles */
+.flatpickr-calendar {
+  @apply bg-white border border-gray-300 rounded-lg shadow-lg;
+  font-family: inherit;
+}
+
+.flatpickr-calendar.open {
+  @apply z-50;
+}
+
+.flatpickr-months {
+  @apply bg-gray-50 border-b border-gray-200 rounded-t-lg;
+}
+
+.flatpickr-month {
+  @apply text-gray-900;
+}
+
+.flatpickr-current-month {
+  @apply py-2;
+}
+
+.flatpickr-monthDropdown-months {
+  @apply bg-transparent border-0 text-gray-900 font-medium;
+}
+
+.flatpickr-current-month .numInputWrapper {
+  @apply bg-transparent border-0 text-gray-900 font-medium;
+}
+
+.flatpickr-current-month .numInputWrapper input {
+  @apply bg-transparent border-0 text-gray-900 font-medium;
+}
+
+.flatpickr-weekdays {
+  @apply bg-gray-50;
+}
+
+.flatpickr-weekday {
+  @apply text-gray-600 font-medium text-xs;
+}
+
+.flatpickr-days {
+  @apply bg-white;
+}
+
+.flatpickr-day {
+  @apply text-gray-900 border-0 rounded-md;
+}
+
+.flatpickr-day:hover {
+  @apply bg-indigo-100 text-indigo-900;
+}
+
+.flatpickr-day.selected {
+  @apply bg-indigo-600 text-white;
+}
+
+.flatpickr-day.selected.startRange {
+  @apply bg-indigo-600 text-white;
+}
+
+.flatpickr-day.selected.endRange {
+  @apply bg-indigo-600 text-white;
+}
+
+.flatpickr-day.inRange {
+  @apply bg-indigo-100 text-indigo-900;
+}
+
+.flatpickr-day.today {
+  @apply bg-indigo-50 text-indigo-900 border-indigo-500;
+}
+
+.flatpickr-day.disabled {
+  @apply text-gray-400 cursor-not-allowed;
+}
+
+.flatpickr-day.disabled:hover {
+  @apply bg-transparent;
+}
+
+.flatpickr-prev-month,
+.flatpickr-next-month {
+  @apply text-gray-600 hover:text-gray-900;
+}
+
+.flatpickr-prev-month svg,
+.flatpickr-next-month svg {
+  @apply fill-current;
+}

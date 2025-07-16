@@ -1,16 +1,16 @@
 <!-- Sidebar Component - Includes both mobile off-canvas and desktop static sidebar -->
 
 <!-- Off-canvas menu for mobile -->
-<div class="relative z-50 lg:hidden" role="dialog" aria-modal="true">
+<div class="relative z-50 lg:hidden hidden" role="dialog" aria-modal="true" data-controller="sidebar" data-sidebar-target="mobileSidebar">
   <!-- Off-canvas menu backdrop -->
-  <div class="fixed inset-0 bg-gray-900/80" aria-hidden="true"></div>
+  <div class="fixed inset-0 bg-gray-900/80" aria-hidden="true" data-sidebar-target="backdrop" data-action="click->sidebar#close"></div>
 
   <div class="fixed inset-0 flex">
     <!-- Off-canvas menu panel -->
     <div class="relative mr-16 flex w-full max-w-xs flex-1">
       <!-- Close button -->
       <div class="absolute top-0 left-full flex w-16 justify-center pt-5">
-        <button type="button" class="-m-2.5 p-2.5">
+        <button type="button" class="-m-2.5 p-2.5" data-action="click->sidebar#close">
           <span class="sr-only">Close sidebar</span>
           <svg class="size-6 text-white" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" data-slot="icon">
             <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />

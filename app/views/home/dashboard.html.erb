@@ -421,6 +421,207 @@
             </div>
          </dl>
        </div>
+
+       <!-- Category Sentiment Analysis Section -->
+       <% if @current_category_sentiments.any? %>
+         <div class="bg-white rounded-2xl shadow-xl border border-gray-100 p-8">
+           <div class="mb-8">
+             <h3 class="text-xl font-bold text-gray-900 mb-2">Category Sentiment Analysis</h3>
+             <p class="text-gray-600">Keyword sentiment breakdown by category for the last <%= @duration_days %> days</p>
+           </div>
+
+           <div class="grid grid-cols-1 gap-6 lg:grid-cols-2 xl:grid-cols-3">
+             <% @current_category_sentiments.each do |category_id, category_data| %>
+               <% change_data = @category_sentiment_changes[category_id] %>
+               <div class="relative group">
+                 <div class="bg-gradient-to-br from-slate-50 to-slate-100 rounded-xl p-6 border border-slate-200 hover:shadow-lg transition-all duration-200 hover:scale-105">
+                                       <!-- Category Header -->
+                    <div class="flex items-center justify-between mb-6">
+                      <div class="flex items-center space-x-3">
+                        <div class="p-2 bg-gradient-to-br from-slate-600 to-slate-700 rounded-lg">
+                          <% case category_data[:name].downcase %>
+                          <% when 'food' %>
+                            <svg class="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                              <path stroke-linecap="round" stroke-linejoin="round" d="M12 8.25v-1.5m0 1.5c-1.355 0-2.697.056-4.024.166C6.845 8.51 6 9.473 6 10.608v2.513m6-4.87c1.355 0 2.697.055 4.024.165C17.155 8.51 18 9.473 18 10.608v2.513m-3-4.87v-1.5m-6 1.5v-1.5m12 9.75l-1.5.75a3.354 3.354 0 01-3 0 3.354 3.354 0 00-3 0 3.354 3.354 0 01-3 0 3.354 3.354 0 00-3 0 3.354 3.354 0 01-3 0L3 16.5m15-3.38a48.474 48.474 0 00-6-.37c-2.032 0-4.034.125-6 .37m12 0c.39.049.777.102 1.163.16 1.07.16 1.837 1.094 1.837 2.175v5.169c0 .621-.504 1.125-1.125 1.125H4.125A1.125 1.125 0 013 20.625v-5.17c0-1.08.768-2.014 1.837-2.174A47.78 47.78 0 016 13.12M12.265 3.11a.375.375 0 11-.53 0L12 2.845l.265.265zm-3 0a.375.375 0 11-.53 0L9 2.845l.265.265zm6 0a.375.375 0 11-.53 0L15 2.845l.265.265z" />
+                            </svg>
+                          <% when 'timing' %>
+                            <svg class="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                              <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                          <% when 'pricing' %>
+                            <svg class="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                              <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m-3-2.818l.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                          <% when 'ambiance', 'ambience' %>
+                            <svg class="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                              <path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456zM16.894 20.567L16.5 21.75l-.394-1.183a2.25 2.25 0 00-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 001.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 001.423 1.423l1.183.394-1.183.394a2.25 2.25 0 00-1.423 1.423z" />
+                            </svg>
+                          <% when 'cleanliness' %>
+                            <svg class="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                              <path stroke-linecap="round" stroke-linejoin="round" d="M9.75 3.104v5.714a2.25 2.25 0 01-.659 1.591L5 14.5M9.75 3.104c-.251.023-.501.05-.75.082m.75-.082a24.301 24.301 0 014.5 0m0 0v5.714c0 .597.237 1.17.659 1.591L19.8 15.3M14.25 3.104c.251.023.501.05.75.082M19.8 15.3l-1.57.393A9.065 9.065 0 0112 15a9.065 9.065 0 00-6.23-.693L5 14.5m14.8.8l1.402 1.402c1.232 1.232.65 3.318-1.067 3.611A48.309 48.309 0 0112 21c-2.773 0-5.491-.235-8.135-.687-1.718-.293-2.3-2.379-1.067-3.61L5 14.5" />
+                            </svg>
+                          <% when 'service' %>
+                            <svg class="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                              <path stroke-linecap="round" stroke-linejoin="round" d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 00-5.058 2.772m0 0a3 3 0 00-4.681 2.72 8.986 8.986 0 003.74.477m.94-3.197a5.971 5.971 0 00-.94 3.197M15 6.75a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z" />
+                            </svg>
+                          <% else %>
+                            <!-- Generic tag icon for other categories -->
+                            <svg class="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                              <path stroke-linecap="round" stroke-linejoin="round" d="M9.568 3H5.25A2.25 2.25 0 003 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581c.699.699 1.78.872 2.607.33a18.095 18.095 0 005.223-5.223c.542-.827.369-1.908-.33-2.607L11.16 3.66A2.25 2.25 0 009.568 3z" />
+                              <path stroke-linecap="round" stroke-linejoin="round" d="M6 6h.008v.008H6V6z" />
+                            </svg>
+                          <% end %>
+                        </div>
+                        <div>
+                          <h4 class="text-lg font-semibold text-slate-900"><%= category_data[:name].titleize %></h4>
+                         <div class="flex items-center space-x-2 mt-1">
+                           <span class="text-sm text-slate-600"><%= number_with_delimiter(category_data[:total]) %> keywords</span>
+                           <% total_change = change_data[:total] %>
+                           <% if total_change[:value] != 0 %>
+                             <div class="flex items-center space-x-1 px-2 py-1 rounded-full <%= total_change[:positive] ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700' %>">
+                               <% if total_change[:positive] %>
+                                 <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                                   <path fill-rule="evenodd" d="M10 17a.75.75 0 01-.75-.75V5.612L5.29 9.77a.75.75 0 01-1.08-1.04l5.25-5.5a.75.75 0 011.08 0l5.25 5.5a.75.75 0 11-1.08 1.04l-3.96-4.158V16.25A.75.75 0 0110 17z" clip-rule="evenodd" />
+                                 </svg>
+                               <% else %>
+                                 <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                                   <path fill-rule="evenodd" d="M10 3a.75.75 0 01.75.75v10.638l3.96-4.158a.75.75 0 111.08 1.04l-5.25 5.5a.75.75 0 01-1.08 0l-5.25-5.5a.75.75 0 111.08-1.04l-3.96 4.158V3.75A.75.75 0 0110 3z" clip-rule="evenodd" />
+                                 </svg>
+                               <% end %>
+                               <span class="text-xs font-semibold"><%= total_change[:value].abs %>%</span>
+                             </div>
+                           <% end %>
+                         </div>
+                       </div>
+                     </div>
+                   </div>
+
+                   <!-- Sentiment Breakdown -->
+                   <div class="space-y-4">
+                     <!-- Positive Sentiment -->
+                     <div class="flex items-center justify-between">
+                       <div class="flex items-center space-x-3">
+                         <div class="p-1.5 bg-green-100 rounded-lg">
+                           <svg class="w-4 h-4 text-green-600" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                             <path stroke-linecap="round" stroke-linejoin="round" d="M15.182 15.182a4.5 4.5 0 01-6.364 0M21 12a9 9 0 11-18 0 9 9 0 0118 0zM9.75 9.75c0 .414-.168.75-.375.75S9 10.164 9 9.75 9.168 9 9.375 9s.375.336.375.75zm-.375 0h.008v.015h-.008V9.75zm5.625 0c0 .414-.168.75-.375.75s-.375-.336-.375-.75.168-.75.375-.75.375.336.375.75zm-.375 0h.008v.015h-.008V9.75z" />
+                           </svg>
+                         </div>
+                         <div>
+                           <p class="text-sm font-medium text-gray-900">Positive</p>
+                           <p class="text-xs text-gray-500"><%= category_data[:positive_percentage] %>% of keywords</p>
+                         </div>
+                       </div>
+                       <div class="flex items-center space-x-2">
+                         <span class="text-lg font-bold text-green-600"><%= number_with_delimiter(category_data[:positive]) %></span>
+                         <% pos_change = change_data[:positive] %>
+                         <% if pos_change[:value] != 0 %>
+                           <div class="flex items-center space-x-1 px-1.5 py-0.5 rounded text-xs <%= pos_change[:positive] ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700' %>">
+                             <% if pos_change[:positive] %>
+                               <svg class="w-2.5 h-2.5" fill="currentColor" viewBox="0 0 20 20">
+                                 <path fill-rule="evenodd" d="M10 17a.75.75 0 01-.75-.75V5.612L5.29 9.77a.75.75 0 01-1.08-1.04l5.25-5.5a.75.75 0 011.08 0l5.25 5.5a.75.75 0 11-1.08 1.04l-3.96-4.158V16.25A.75.75 0 0110 17z" clip-rule="evenodd" />
+                               </svg>
+                             <% else %>
+                               <svg class="w-2.5 h-2.5" fill="currentColor" viewBox="0 0 20 20">
+                                 <path fill-rule="evenodd" d="M10 3a.75.75 0 01.75.75v10.638l3.96-4.158a.75.75 0 111.08 1.04l-5.25 5.5a.75.75 0 01-1.08 0l-5.25-5.5a.75.75 0 111.08-1.04l-3.96 4.158V3.75A.75.75 0 0110 3z" clip-rule="evenodd" />
+                               </svg>
+                             <% end %>
+                             <span class="font-semibold"><%= pos_change[:value].abs %>%</span>
+                           </div>
+                         <% end %>
+                       </div>
+                     </div>
+
+                     <!-- Negative Sentiment -->
+                     <div class="flex items-center justify-between">
+                       <div class="flex items-center space-x-3">
+                         <div class="p-1.5 bg-red-100 rounded-lg">
+                           <svg class="w-4 h-4 text-red-600" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                             <path stroke-linecap="round" stroke-linejoin="round" d="M15.182 16.318A4.486 4.486 0 0012.016 15a4.486 4.486 0 00-3.198 1.318M21 12a9 9 0 11-18 0 9 9 0 0118 0zM9.75 9.75c0 .414-.168.75-.375.75S9 10.164 9 9.75 9.168 9 9.375 9s.375.336.375.75zm-.375 0h.008v.015h-.008V9.75zm5.625 0c0 .414-.168.75-.375.75s-.375-.336-.375-.75.168-.75.375-.75.375.336.375.75zm-.375 0h.008v.015h-.008V9.75z" />
+                           </svg>
+                         </div>
+                         <div>
+                           <p class="text-sm font-medium text-gray-900">Negative</p>
+                           <p class="text-xs text-gray-500"><%= category_data[:negative_percentage] %>% of keywords</p>
+                         </div>
+                       </div>
+                       <div class="flex items-center space-x-2">
+                         <span class="text-lg font-bold text-red-600"><%= number_with_delimiter(category_data[:negative]) %></span>
+                         <% neg_change = change_data[:negative] %>
+                         <% if neg_change[:value] != 0 %>
+                           <div class="flex items-center space-x-1 px-1.5 py-0.5 rounded text-xs <%= neg_change[:positive] ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700' %>">
+                             <% if neg_change[:positive] %>
+                               <svg class="w-2.5 h-2.5" fill="currentColor" viewBox="0 0 20 20">
+                                 <path fill-rule="evenodd" d="M10 17a.75.75 0 01-.75-.75V5.612L5.29 9.77a.75.75 0 01-1.08-1.04l5.25-5.5a.75.75 0 011.08 0l5.25 5.5a.75.75 0 11-1.08 1.04l-3.96-4.158V16.25A.75.75 0 0110 17z" clip-rule="evenodd" />
+                               </svg>
+                             <% else %>
+                               <svg class="w-2.5 h-2.5" fill="currentColor" viewBox="0 0 20 20">
+                                 <path fill-rule="evenodd" d="M10 3a.75.75 0 01.75.75v10.638l3.96-4.158a.75.75 0 111.08 1.04l-5.25 5.5a.75.75 0 01-1.08 0l-5.25-5.5a.75.75 0 111.08-1.04l-3.96 4.158V3.75A.75.75 0 0110 3z" clip-rule="evenodd" />
+                               </svg>
+                             <% end %>
+                             <span class="font-semibold"><%= neg_change[:value].abs %>%</span>
+                           </div>
+                         <% end %>
+                       </div>
+                     </div>
+
+                     <!-- Neutral Sentiment -->
+                     <div class="flex items-center justify-between">
+                       <div class="flex items-center space-x-3">
+                         <div class="p-1.5 bg-gray-100 rounded-lg">
+                           <svg class="w-4 h-4 text-gray-600" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                             <path stroke-linecap="round" stroke-linejoin="round" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0zM9.75 9.75c0 .414-.168.75-.375.75S9 10.164 9 9.75 9.168 9 9.375 9s.375.336.375.75zm-.375 0h.008v.015h-.008V9.75zm5.625 0c0 .414-.168.75-.375.75s-.375-.336-.375-.75.168-.75.375-.75.375.336.375.75zm-.375 0h.008v.015h-.008V9.75z" />
+                           </svg>
+                         </div>
+                         <div>
+                           <p class="text-sm font-medium text-gray-900">Neutral</p>
+                           <p class="text-xs text-gray-500"><%= category_data[:neutral_percentage] %>% of keywords</p>
+                         </div>
+                       </div>
+                       <div class="flex items-center space-x-2">
+                         <span class="text-lg font-bold text-gray-600"><%= number_with_delimiter(category_data[:neutral]) %></span>
+                         <% neu_change = change_data[:neutral] %>
+                         <% if neu_change[:value] != 0 %>
+                           <div class="flex items-center space-x-1 px-1.5 py-0.5 rounded text-xs <%= neu_change[:positive] ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700' %>">
+                             <% if neu_change[:positive] %>
+                               <svg class="w-2.5 h-2.5" fill="currentColor" viewBox="0 0 20 20">
+                                 <path fill-rule="evenodd" d="M10 17a.75.75 0 01-.75-.75V5.612L5.29 9.77a.75.75 0 01-1.08-1.04l5.25-5.5a.75.75 0 011.08 0l5.25 5.5a.75.75 0 11-1.08 1.04l-3.96-4.158V16.25A.75.75 0 0110 17z" clip-rule="evenodd" />
+                               </svg>
+                             <% else %>
+                               <svg class="w-2.5 h-2.5" fill="currentColor" viewBox="0 0 20 20">
+                                 <path fill-rule="evenodd" d="M10 3a.75.75 0 01.75.75v10.638l3.96-4.158a.75.75 0 111.08 1.04l-5.25 5.5a.75.75 0 01-1.08 0l-5.25-5.5a.75.75 0 111.08-1.04l-3.96 4.158V3.75A.75.75 0 0110 3z" clip-rule="evenodd" />
+                               </svg>
+                             <% end %>
+                             <span class="font-semibold"><%= neu_change[:value].abs %>%</span>
+                           </div>
+                         <% end %>
+                       </div>
+                     </div>
+                   </div>
+
+                   <!-- Sentiment Distribution Bar -->
+                   <div class="mt-6">
+                     <div class="flex items-center justify-between text-xs text-gray-500 mb-2">
+                       <span>Sentiment Distribution</span>
+                       <span><%= number_with_delimiter(category_data[:total]) %> total</span>
+                     </div>
+                     <div class="h-2 bg-gray-200 rounded-full overflow-hidden flex">
+                       <% if category_data[:positive_percentage] > 0 %>
+                         <div class="bg-green-500" style="width: <%= category_data[:positive_percentage] %>%"></div>
+                       <% end %>
+                       <% if category_data[:negative_percentage] > 0 %>
+                         <div class="bg-red-500" style="width: <%= category_data[:negative_percentage] %>%"></div>
+                       <% end %>
+                       <% if category_data[:neutral_percentage] > 0 %>
+                         <div class="bg-gray-500" style="width: <%= category_data[:neutral_percentage] %>%"></div>
+                       <% end %>
+                     </div>
+                   </div>
+                 </div>
+               </div>
+             <% end %>
+           </div>
+         </div>
+       <% end %>
      </div>
    </div>
  </div>

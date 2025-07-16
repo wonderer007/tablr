@@ -1,8 +1,8 @@
 <!-- Profile Dropdown Component - User avatar and dropdown menu -->
 
-<div class="relative">
+<div class="relative" data-controller="profile-dropdown">
   <!-- Profile button -->
-  <button type="button" class="relative flex items-center" id="user-menu-button" aria-expanded="false" aria-haspopup="true">
+  <button type="button" class="relative flex items-center" id="user-menu-button" aria-expanded="false" aria-haspopup="true" data-profile-dropdown-target="button" data-action="click->profile-dropdown#toggle">
     <span class="absolute -inset-1.5"></span>
     <span class="sr-only">Open user menu</span>
     <img class="size-8 rounded-full bg-gray-50" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="" />
@@ -15,7 +15,7 @@
   </button>
 
   <!-- Dropdown menu -->
-  <div class="absolute right-0 z-10 mt-2.5 w-32 origin-top-right rounded-md bg-white py-2 shadow-lg ring-1 ring-gray-900/5 focus:outline-hidden" role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" tabindex="-1">
+  <div class="absolute right-0 z-10 mt-2.5 w-32 origin-top-right rounded-md bg-white py-2 shadow-lg ring-1 ring-gray-900/5 focus:outline-hidden hidden" role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" tabindex="-1" data-profile-dropdown-target="menu">
     <!-- Profile link -->
     <a href="#" class="block px-3 py-1 text-sm/6 text-gray-900" role="menuitem" tabindex="-1" id="user-menu-item-0">Your profile</a>
     <!-- Sign out link -->

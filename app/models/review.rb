@@ -27,25 +27,4 @@ class Review < ApplicationRecord
     return 0 if text.blank?
     tokenizer.encode(text).length
   end
-
-  # assignment sentiment based on the keywords
-  # if positive keyword count is more than negative keyword count, then sentiment is positive
-  # if negative keyword count is more than positive keyword count, then sentiment is negative
-  # if positive and negative keyword count is equal, then sentiment is neutral
-  # if no keywords, then sentiment is neutral
-  def assign_sentiment
-    return if sentiment.present?
-
-    positive_keywords = keywords.where(sentiment: :positive).count
-    negative_keywords = keywords.where(sentiment: :negative).count
-    if positive_keywords > negative_keywords
-      self.sentiment = :positive
-    elsif negative_keywords > positive_keywords
-      self.sentiment = :negative
-    else
-      self.sentiment = :neutral
-    end
-
-    save!
-  end
 end

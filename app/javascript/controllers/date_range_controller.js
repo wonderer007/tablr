@@ -75,5 +75,11 @@ export default class extends Controller {
     this.startDateTarget.value = ""
     this.endDateTarget.value = ""
     this.inputTarget.value = ""
+    
+    // Submit the form to refresh with default values
+    const form = this.element.closest('form')
+    if (form) {
+      form.submit()
+    }
   }
 } 

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_07_14_232109) do
+ActiveRecord::Schema[7.2].define(version: 2025_07_16_002535) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
   enable_extension "plpgsql"
@@ -77,6 +77,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_07_14_232109) do
     t.datetime "updated_at", null: false
     t.string "name"
     t.string "image_url"
+    t.integer "sentiment"
     t.index ["atmosphere_rating"], name: "index_reviews_on_atmosphere_rating"
     t.index ["created_at"], name: "index_reviews_on_created_at"
     t.index ["external_review_id"], name: "index_reviews_on_external_review_id", unique: true

@@ -38,7 +38,7 @@
         </div>
 
         <div class="px-4 py-5 sm:p-6">
-          <div class="grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+          <div class="grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-7">
             <div class="sm:col-span-2">
               <label for="text" class="block text-sm font-medium leading-6 text-gray-900">Review</label>
               <div class="mt-2 relative">
@@ -53,6 +53,16 @@
                     </svg>
                   </div>
                 <% end %>
+              </div>
+            </div>
+
+            <div class="sm:col-span-1">
+              <label for="sentiment" class="block text-sm font-medium leading-6 text-gray-900">Sentiment</label>
+              <div class="mt-2">
+                <%= f.select :sentiment_eq, 
+                    options_for_select([['Any', ''], ['Positive', 0], ['Negative', 1], ['Neutral', 2]], params.dig(:q, :sentiment_eq)), 
+                    {}, 
+                    class: "block w-full rounded-md border-0 px-3 py-2 text-gray-900 shadow-sm ring-1 ring-inset #{params.dig(:q, :sentiment_eq).present? ? 'ring-indigo-600 bg-indigo-50/50 font-medium' : 'ring-gray-300'} focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" %>
               </div>
             </div>
 
@@ -131,6 +141,14 @@
                     </span>
                   <% end %>
                 </th>
+                  <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
+                    <%= sort_link(@q, :sentiment, { class: "group inline-flex items-center gap-x-2" }) do %>
+                      Sentiment
+                      <span class="ml-2 flex-none rounded <%= sort_indicator_class(params.dig(:q, :s), 'sentiment') %>">
+                        <%= sort_arrow_icon(params.dig(:q, :s), 'sentiment') %>
+                      </span>
+                    <% end %>
+                  </th>
                 <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
                   <%= sort_link(@q, :stars, { class: "group inline-flex items-center gap-x-2" }) do %>
                     Rating
@@ -191,10 +209,29 @@
                       <div class="min-w-0">
                         <p class="text-sm font-semibold leading-6 text-gray-900"><%= review.name %></p>
                         <p class="mt-1 truncate text-sm leading-5 text-gray-500" title="<%= review.text %>">
-                          <%= truncate(review.text, length: 70, separator: ' ') %>
+                          <%= truncate(review.text, length: 50, separator: ' ') %>
                         </p>
                       </div>
                     </div>
+                  </td>
+                  <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                    <% if review.sentiment.present? %>
+                      <span class="inline-flex items-center rounded-md px-2 py-1 text-xs font-medium ring-1 ring-inset
+                        <%= case review.sentiment
+                            when 'positive'
+                              'bg-green-50 text-green-700 ring-green-600/20'
+                            when 'negative'
+                              'bg-red-50 text-red-700 ring-red-600/20'
+                            when 'neutral'
+                              'bg-gray-50 text-gray-600 ring-gray-500/10'
+                            else
+                              'bg-gray-50 text-gray-600 ring-gray-500/10'
+                            end %>">
+                        <%= review.sentiment&.titleize %>
+                      </span>
+                    <% else %>
+                      <span class="text-gray-400">N/A</span>
+                    <% end %>
                   </td>
                   <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                     <%= render 'shared/star_rating', rating: review.stars, show_number: false %>

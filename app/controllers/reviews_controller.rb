@@ -7,7 +7,7 @@ class ReviewsController < ApplicationController
     @reviews = @q.result(distinct: true)
     
     @reviews = @reviews.order(published_at: :desc) if params[:q].blank? || params[:q][:s].blank?
-    @reviews = @reviews.page(params[:page]).per(30)
+    @reviews = @reviews.page(params[:page]).per(20)
   end
 
   def show

@@ -12,4 +12,7 @@ Rails.application.routes.draw do
   resources :reviews, only: [:index, :show]
   resources :complains, only: [:index]
   resources :suggestions, only: [:index]
+  namespace :sentiment_analysis do
+    resources :categories, only: [:index, :show]
+  end
 end

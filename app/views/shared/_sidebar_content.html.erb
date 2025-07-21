@@ -61,6 +61,15 @@
               Sentiment Analysis
             </a>
           </li>
+          <!-- Comparisons -->
+          <li>
+            <a href="<%= comparisons_path %>" class="group flex gap-x-3 rounded-md <%= current_page?(comparisons_path) ? 'bg-indigo-700 text-white' : 'text-indigo-200 hover:bg-indigo-700 hover:text-white' %> p-2 text-sm/6 font-semibold">
+              <svg class="size-6 shrink-0 <%= current_page?(comparisons_path) ? 'text-white' : 'text-indigo-200 group-hover:text-white' %>" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" data-slot="icon">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3 17v-2a4 4 0 014-4h10a4 4 0 014 4v2M16 7a4 4 0 11-8 0 4 4 0 018 0z" />
+              </svg>
+              Comparisons
+            </a>
+          </li>
         </ul>
       </li>
       

@@ -9,7 +9,7 @@ Rails.application.routes.draw do
   get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
   get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
   get '/dashboard', to: 'home#dashboard', as: :dashboard
-  get 'comparisons', to: 'comparisons#index'
+  get 'analytics', to: 'analytics#index'
   resources :reviews, only: [:index, :show]
   resources :complains, only: [:index]
   resources :suggestions, only: [:index]

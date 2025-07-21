@@ -1,10 +1,10 @@
-class ComparisonsController < ApplicationController
+class AnalyticsController < ApplicationController
   layout 'dashboard'
 
   def index
     respond_to do |format|
       format.html do
-        # Render the comparisons page
+        # Render the analytics page
       end
       format.json do
         # Handle full date format (YYYY-MM-DD) from date range picker

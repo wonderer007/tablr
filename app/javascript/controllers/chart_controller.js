@@ -170,7 +170,7 @@ export default class extends Controller {
     const dataType = this.getSelectedDataType()
     const categoryId = this.getSelectedCategory()
 
-    let url = `/comparisons.json?start_date=${startDate}&end_date=${endDate}&data_type=${dataType}`
+    let url = `/analytics.json?start_date=${startDate}&end_date=${endDate}&data_type=${dataType}`
     if (dataType === 'sentiment_analysis' && categoryId) {
       url += `&category_id=${categoryId}`
     }

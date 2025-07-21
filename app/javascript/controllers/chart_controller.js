@@ -3,7 +3,7 @@ import { Controller } from "@hotwired/stimulus"
 export default class extends Controller {
   static targets = [
     "canvas", "form", "startDate", "endDate", "chartTitle", "chartDescription",
-    "dataType", "ratingFilters", "reviewFilters", "sentimentFilters", "suggestionsFilters",
+    "dataType", "chartType", "ratingFilters", "reviewFilters", "sentimentFilters", "suggestionsFilters",
     "starToggle", "foodToggle", "serviceToggle", "atmosphereToggle",
     "totalReviewsToggle", "positiveToggle", "negativeToggle", "neutralToggle",
     "totalKeywordsToggle", "positiveKeywordsToggle", "negativeKeywordsToggle", "neutralKeywordsToggle", "categorySelect",
@@ -65,6 +65,11 @@ export default class extends Controller {
       this.toggleFilterCategories()
       this.updateChartLabels()
       this.fetchAndRenderChart()
+    })
+
+    // Chart type dropdown
+    this.chartTypeTarget.addEventListener('change', () => {
+      if (this.chartData) this.renderChart(this.chartData)
     })
 
     // Rating toggles
@@ -160,6 +165,10 @@ export default class extends Controller {
     return this.dataTypeTarget.value || 'ratings'
   }
 
+  getSelectedChartType() {
+    return this.chartTypeTarget.value || 'bar'
+  }
+
   getSelectedCategory() {
     return this.hasCategorySelectTarget ? this.categorySelectTarget.value : ''
   }
@@ -200,6 +209,56 @@ export default class extends Controller {
     }
   }
 
+  createDatasets(label, data, color, chartType) {
+    const datasets = []
+
+    if (chartType === 'mixed') {
+      // For mixed charts, create both bar and line datasets
+      datasets.push({
+        label: `${label} (Bar)`,
+        data: data,
+        type: 'bar',
+        backgroundColor: color,
+        borderColor: color,
+      })
+      
+      datasets.push({
+        label: `${label} (Line)`,
+        data: data,
+        type: 'line',
+        backgroundColor: 'transparent',
+        borderColor: color,
+        borderWidth: 3,
+        pointBackgroundColor: color,
+        pointBorderColor: color,
+        pointRadius: 5,
+        fill: false,
+      })
+    } else if (chartType === 'line') {
+      // For line charts only
+      datasets.push({
+        label: label,
+        data: data,
+        backgroundColor: 'transparent',
+        borderColor: color,
+        borderWidth: 3,
+        pointBackgroundColor: color,
+        pointBorderColor: color,
+        pointRadius: 5,
+        fill: false,
+      })
+    } else {
+      // For bar charts only
+      datasets.push({
+        label: label,
+        data: data,
+        backgroundColor: color,
+      })
+    }
+
+    return datasets
+  }
+
   renderRatingsChart(data) {
     const labels = data.map(item => item.month)
     const starRatings = data.map(item => item.average_rating)
@@ -207,44 +266,29 @@ export default class extends Controller {
     const serviceRatings = data.map(item => item.service_rating)
     const atmosphereRatings = data.map(item => item.atmosphere_rating)
 
+    const chartType = this.getSelectedChartType()
     const datasets = []
     
     if (this.starToggleTarget.checked) {
-      datasets.push({
-        label: 'Star Rating',
-        data: starRatings,
-        backgroundColor: 'rgba(37, 99, 235, 0.7)',
-      })
+      datasets.push(...this.createDatasets('Star Rating', starRatings, 'rgba(37, 99, 235, 0.7)', chartType))
     }
     
     if (this.foodToggleTarget.checked) {
-      datasets.push({
-        label: 'Food Rating',
-        data: foodRatings,
-        backgroundColor: 'rgba(16, 185, 129, 0.7)',
-      })
+      datasets.push(...this.createDatasets('Food Rating', foodRatings, 'rgba(16, 185, 129, 0.7)', chartType))
     }
     
     if (this.serviceToggleTarget.checked) {
-      datasets.push({
-        label: 'Service Rating',
-        data: serviceRatings,
-        backgroundColor: 'rgba(234, 179, 8, 0.7)',
-      })
+      datasets.push(...this.createDatasets('Service Rating', serviceRatings, 'rgba(234, 179, 8, 0.7)', chartType))
     }
     
     if (this.atmosphereToggleTarget.checked) {
-      datasets.push({
-        label: 'Atmosphere Rating',
-        data: atmosphereRatings,
-        backgroundColor: 'rgba(239, 68, 68, 0.7)',
-      })
+      datasets.push(...this.createDatasets('Atmosphere Rating', atmosphereRatings, 'rgba(239, 68, 68, 0.7)', chartType))
     }
 
     if (this.chart) this.chart.destroy()
     
     this.chart = new Chart(this.canvasTarget, {
-      type: 'bar',
+      type: chartType === 'mixed' ? 'bar' : chartType,
       data: {
         labels: labels,
         datasets: datasets
@@ -267,48 +311,33 @@ export default class extends Controller {
 
   renderReviewsChart(data) {
     const labels = data.map(item => item.month)
+    const chartType = this.getSelectedChartType()
     const datasets = []
 
     // Add total reviews dataset
     if (this.totalReviewsToggleTarget.checked && data.length > 0 && data[0].total_reviews !== undefined) {
-      datasets.push({
-        label: 'Total Reviews',
-        data: data.map(item => item.total_reviews),
-        backgroundColor: 'rgba(99, 102, 241, 0.7)',
-      })
+      datasets.push(...this.createDatasets('Total Reviews', data.map(item => item.total_reviews), 'rgba(99, 102, 241, 0.7)', chartType))
     }
 
     // Add positive reviews dataset
     if (this.positiveToggleTarget.checked && data.length > 0 && data[0].positive_reviews !== undefined) {
-      datasets.push({
-        label: 'Positive',
-        data: data.map(item => item.positive_reviews),
-        backgroundColor: 'rgba(16, 185, 129, 0.7)',
-      })
+      datasets.push(...this.createDatasets('Positive', data.map(item => item.positive_reviews), 'rgba(16, 185, 129, 0.7)', chartType))
     }
 
     // Add negative reviews dataset
     if (this.negativeToggleTarget.checked && data.length > 0 && data[0].negative_reviews !== undefined) {
-      datasets.push({
-        label: 'Negative',
-        data: data.map(item => item.negative_reviews),
-        backgroundColor: 'rgba(239, 68, 68, 0.7)',
-      })
+      datasets.push(...this.createDatasets('Negative', data.map(item => item.negative_reviews), 'rgba(239, 68, 68, 0.7)', chartType))
     }
 
     // Add neutral reviews dataset
     if (this.neutralToggleTarget.checked && data.length > 0 && data[0].neutral_reviews !== undefined) {
-      datasets.push({
-        label: 'Neutral',
-        data: data.map(item => item.neutral_reviews),
-        backgroundColor: 'rgba(156, 163, 175, 0.7)',
-      })
+      datasets.push(...this.createDatasets('Neutral', data.map(item => item.neutral_reviews), 'rgba(156, 163, 175, 0.7)', chartType))
     }
 
     if (this.chart) this.chart.destroy()
     
     this.chart = new Chart(this.canvasTarget, {
-      type: 'bar',
+      type: chartType === 'mixed' ? 'bar' : chartType,
       data: {
         labels: labels,
         datasets: datasets
@@ -330,45 +359,30 @@ export default class extends Controller {
 
   renderSentimentAnalysisChart(data) {
     const labels = data.map(item => item.month)
+    const chartType = this.getSelectedChartType()
     const datasets = []
 
     // Add keyword sentiment datasets based on selected toggles
     if (this.totalKeywordsToggleTarget.checked && data.length > 0 && data[0].total_keywords !== undefined) {
-      datasets.push({
-        label: 'Total Keywords',
-        data: data.map(item => item.total_keywords),
-        backgroundColor: 'rgba(99, 102, 241, 0.7)',
-      })
+      datasets.push(...this.createDatasets('Total Keywords', data.map(item => item.total_keywords), 'rgba(99, 102, 241, 0.7)', chartType))
     }
 
     if (this.positiveKeywordsToggleTarget.checked && data.length > 0 && data[0].positive_keywords !== undefined) {
-      datasets.push({
-        label: 'Positive Keywords',
-        data: data.map(item => item.positive_keywords),
-        backgroundColor: 'rgba(16, 185, 129, 0.7)',
-      })
+      datasets.push(...this.createDatasets('Positive Keywords', data.map(item => item.positive_keywords), 'rgba(16, 185, 129, 0.7)', chartType))
     }
 
     if (this.negativeKeywordsToggleTarget.checked && data.length > 0 && data[0].negative_keywords !== undefined) {
-      datasets.push({
-        label: 'Negative Keywords',
-        data: data.map(item => item.negative_keywords),
-        backgroundColor: 'rgba(239, 68, 68, 0.7)',
-      })
+      datasets.push(...this.createDatasets('Negative Keywords', data.map(item => item.negative_keywords), 'rgba(239, 68, 68, 0.7)', chartType))
     }
 
     if (this.neutralKeywordsToggleTarget.checked && data.length > 0 && data[0].neutral_keywords !== undefined) {
-      datasets.push({
-        label: 'Neutral Keywords',
-        data: data.map(item => item.neutral_keywords),
-        backgroundColor: 'rgba(156, 163, 175, 0.7)',
-      })
+      datasets.push(...this.createDatasets('Neutral Keywords', data.map(item => item.neutral_keywords), 'rgba(156, 163, 175, 0.7)', chartType))
     }
 
     if (this.chart) this.chart.destroy()
     
     this.chart = new Chart(this.canvasTarget, {
-      type: 'bar',
+      type: chartType === 'mixed' ? 'bar' : chartType,
       data: {
         labels: labels,
         datasets: datasets
@@ -390,30 +404,23 @@ export default class extends Controller {
 
   renderSuggestionsChart(data) {
     const labels = data.map(item => item.month)
+    const chartType = this.getSelectedChartType()
     const datasets = []
 
     // Add suggestions dataset
     if (this.suggestionsToggleTarget.checked && data.length > 0 && data[0].suggestions_count !== undefined) {
-      datasets.push({
-        label: 'Suggestions',
-        data: data.map(item => item.suggestions_count),
-        backgroundColor: 'rgba(16, 185, 129, 0.7)',
-      })
+      datasets.push(...this.createDatasets('Suggestions', data.map(item => item.suggestions_count), 'rgba(16, 185, 129, 0.7)', chartType))
     }
 
     // Add complains dataset
     if (this.complainsToggleTarget.checked && data.length > 0 && data[0].complains_count !== undefined) {
-      datasets.push({
-        label: 'Complains',
-        data: data.map(item => item.complains_count),
-        backgroundColor: 'rgba(239, 68, 68, 0.7)',
-      })
+      datasets.push(...this.createDatasets('Complains', data.map(item => item.complains_count), 'rgba(239, 68, 68, 0.7)', chartType))
     }
 
     if (this.chart) this.chart.destroy()
     
     this.chart = new Chart(this.canvasTarget, {
-      type: 'bar',
+      type: chartType === 'mixed' ? 'bar' : chartType,
       data: {
         labels: labels,
         datasets: datasets

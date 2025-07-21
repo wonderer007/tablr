@@ -4,9 +4,9 @@
       <div class="sm:flex-auto">
         <h1 class="text-2xl font-bold tracking-tight text-gray-900">Comparisons</h1>
         <div class="mt-2 flex items-center gap-x-2">
-          <p class="text-sm text-gray-700">Average rating trends across different categories over time.</p>
+          <p class="text-sm text-gray-700">Compare trends across different categories over time.</p>
           <span class="inline-flex items-center rounded-md bg-gray-50 px-2 py-1 text-xs font-medium text-gray-600 ring-1 ring-inset ring-gray-500/10">
-            Rating Analytics
+            Analytics
           </span>
         </div>
       </div>
@@ -16,8 +16,8 @@
       <div class="px-4 py-5 sm:px-6">
         <div class="-ml-4 -mt-4 flex flex-wrap items-center justify-between sm:flex-nowrap">
           <div class="ml-4 mt-4">
-            <h3 class="text-base font-semibold leading-6 text-gray-900">Filter Date Range</h3>
-            <p class="mt-1 text-sm text-gray-500">Select the date range for rating comparison analysis.</p>
+            <h3 class="text-base font-semibold leading-6 text-gray-900">Filter Options</h3>
+            <p class="mt-1 text-sm text-gray-500">Select data type, date range and categories for comparison analysis.</p>
           </div>
           <div class="ml-4 mt-4 flex-shrink-0">
             <div class="flex items-center gap-x-3">
@@ -30,28 +30,202 @@
       </div>
 
       <div class="px-4 py-5 sm:p-6">
-        <div class="grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-4">
-          <div class="sm:col-span-2">
-            <label for="date_range" class="block text-sm font-medium leading-6 text-gray-900">Date Range</label>
-            <div class="mt-2" data-controller="date-range" 
-                 data-date-range-start-date-value="<%= params[:start_date] %>"
-                 data-date-range-end-date-value="<%= params[:end_date] %>">
-              <input type="text" 
-                     id="date_range"
-                     placeholder="Select date range..."
-                     autocomplete="off"
-                     data-date-range-target="input"
-                     class="block w-full rounded-md border-0 px-4 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
-              <input type="hidden" 
-                     name="start_date" 
-                     data-date-range-target="startDate"
-                     data-chart-target="startDate"
-                     value="<%= params[:start_date] || 12.months.ago.to_date.strftime('%Y-%m-%d') %>" />
-              <input type="hidden" 
-                     name="end_date" 
-                     data-date-range-target="endDate"
-                     data-chart-target="endDate"
-                     value="<%= params[:end_date] || Date.current.strftime('%Y-%m-%d') %>" />
+        <div class="space-y-8">
+          <!-- Data Type and Date Range Row -->
+          <div class="grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-4">
+            <div class="sm:col-span-1">
+              <label for="data_type" class="block text-sm font-medium leading-6 text-gray-900">Data Type</label>
+              <div class="mt-2">
+                <select name="data_type" 
+                        id="data_type"
+                        data-chart-target="dataType"
+                        class="block w-full rounded-md border-0 px-4 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                  <option value="ratings" selected>Ratings</option>
+                  <option value="reviews">Reviews</option>
+                  <option value="suggestions_complains">Suggestions & Complains</option>
+                  <option value="sentiment_analysis">Sentiment Analysis</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="sm:col-span-2">
+              <label for="date_range" class="block text-sm font-medium leading-6 text-gray-900">Date Range</label>
+              <div class="mt-2" data-controller="date-range" 
+                   data-date-range-start-date-value="<%= params[:start_date] %>"
+                   data-date-range-end-date-value="<%= params[:end_date] %>">
+                <input type="text" 
+                       id="date_range"
+                       placeholder="Select date range..."
+                       autocomplete="off"
+                       data-date-range-target="input"
+                       class="block w-full rounded-md border-0 px-4 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
+                <input type="hidden" 
+                       name="start_date" 
+                       data-date-range-target="startDate"
+                       data-chart-target="startDate"
+                       value="<%= params[:start_date] || 12.months.ago.to_date.strftime('%Y-%m-%d') %>" />
+                <input type="hidden" 
+                       name="end_date" 
+                       data-date-range-target="endDate"
+                       data-chart-target="endDate"
+                       value="<%= params[:end_date] || Date.current.strftime('%Y-%m-%d') %>" />
+              </div>
+            </div>
+          </div>
+
+          <!-- Categories Row -->
+          <div class="grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-1">
+            <div data-chart-target="filterCategories">
+              <!-- Rating Categories (Default) -->
+              <div data-chart-target="ratingFilters">
+                <label class="block text-sm font-medium leading-6 text-gray-900">Rating Categories</label>
+                <div class="mt-2 flex flex-wrap gap-4">
+                  <label class="inline-flex items-center">
+                    <input type="checkbox" 
+                           id="toggle-star" 
+                           checked 
+                           data-chart-target="starToggle"
+                           class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500">
+                    <span class="ml-2 text-sm font-medium text-gray-700">Star Rating</span>
+                  </label>
+                  <label class="inline-flex items-center">
+                    <input type="checkbox" 
+                           id="toggle-food" 
+                           checked 
+                           data-chart-target="foodToggle"
+                           class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500">
+                    <span class="ml-2 text-sm font-medium text-gray-700">Food Rating</span>
+                  </label>
+                  <label class="inline-flex items-center">
+                    <input type="checkbox" 
+                           id="toggle-service" 
+                           checked 
+                           data-chart-target="serviceToggle"
+                           class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500">
+                    <span class="ml-2 text-sm font-medium text-gray-700">Service Rating</span>
+                  </label>
+                  <label class="inline-flex items-center">
+                    <input type="checkbox" 
+                           id="toggle-atmosphere" 
+                           checked 
+                           data-chart-target="atmosphereToggle"
+                           class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500">
+                    <span class="ml-2 text-sm font-medium text-gray-700">Atmosphere Rating</span>
+                  </label>
+                </div>
+              </div>
+
+              <!-- Review Categories (Hidden by default) -->
+              <div data-chart-target="reviewFilters" class="hidden">
+                <label class="block text-sm font-medium leading-6 text-gray-900">Review Categories</label>
+                <div class="mt-2 flex flex-wrap gap-4">
+                  <label class="inline-flex items-center">
+                    <input type="checkbox" 
+                           checked 
+                           data-chart-target="totalReviewsToggle"
+                           class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500">
+                    <span class="ml-2 text-sm font-medium text-gray-700">Total Reviews</span>
+                  </label>
+                  <label class="inline-flex items-center">
+                    <input type="checkbox" 
+                           checked 
+                           data-chart-target="positiveToggle"
+                           class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500">
+                    <span class="ml-2 text-sm font-medium text-gray-700">Positive</span>
+                  </label>
+                  <label class="inline-flex items-center">
+                    <input type="checkbox" 
+                           checked 
+                           data-chart-target="negativeToggle"
+                           class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500">
+                    <span class="ml-2 text-sm font-medium text-gray-700">Negative</span>
+                  </label>
+                  <label class="inline-flex items-center">
+                    <input type="checkbox" 
+                           checked 
+                           data-chart-target="neutralToggle"
+                           class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500">
+                    <span class="ml-2 text-sm font-medium text-gray-700">Neutral</span>
+                  </label>
+                </div>
+              </div>
+
+              <!-- Sentiment Analysis Categories (Hidden by default) -->
+              <div data-chart-target="sentimentFilters" class="hidden">
+                <label class="block text-sm font-medium leading-6 text-gray-900">Sentiment Analysis</label>
+                <div class="mt-2 space-y-4">
+                  <!-- Category Selection -->
+                  <div>
+                    <label for="category_select" class="block text-sm font-medium leading-6 text-gray-700 mb-2">Select Category</label>
+                    <div class="mt-2">
+                      <select id="category_select"
+                              data-chart-target="categorySelect"
+                              class="block w-full rounded-md border-0 px-4 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                        <option value="">All Categories (Aggregated)</option>
+                        <% Category.all.each do |category| %>
+                          <option value="<%= category.id %>"><%= category.name.titleize %></option>
+                        <% end %>
+                      </select>
+                    </div>
+                  </div>
+
+                  <!-- Keyword Sentiment Toggles -->
+                  <div>
+                    <p class="text-sm font-medium text-gray-700 mb-2">Keyword Sentiment</p>
+                    <div class="flex flex-wrap gap-4">
+                      <label class="inline-flex items-center">
+                        <input type="checkbox" 
+                               checked 
+                               data-chart-target="totalKeywordsToggle"
+                               class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500">
+                        <span class="ml-2 text-sm font-medium text-gray-700">Total Keywords</span>
+                      </label>
+                      <label class="inline-flex items-center">
+                        <input type="checkbox" 
+                               checked 
+                               data-chart-target="positiveKeywordsToggle"
+                               class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500">
+                        <span class="ml-2 text-sm font-medium text-gray-700">Positive Keywords</span>
+                      </label>
+                      <label class="inline-flex items-center">
+                        <input type="checkbox" 
+                               checked 
+                               data-chart-target="negativeKeywordsToggle"
+                               class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500">
+                        <span class="ml-2 text-sm font-medium text-gray-700">Negative Keywords</span>
+                      </label>
+                      <label class="inline-flex items-center">
+                        <input type="checkbox" 
+                               checked 
+                               data-chart-target="neutralKeywordsToggle"
+                               class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500">
+                        <span class="ml-2 text-sm font-medium text-gray-700">Neutral Keywords</span>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Suggestions & Complains Categories (Hidden by default) -->
+              <div data-chart-target="suggestionsFilters" class="hidden">
+                <label class="block text-sm font-medium leading-6 text-gray-900">Categories</label>
+                <div class="mt-2 flex flex-wrap gap-4">
+                  <label class="inline-flex items-center">
+                    <input type="checkbox" 
+                           checked 
+                           data-chart-target="suggestionsToggle"
+                           class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500">
+                    <span class="ml-2 text-sm font-medium text-gray-700">Suggestions</span>
+                  </label>
+                  <label class="inline-flex items-center">
+                    <input type="checkbox" 
+                           checked 
+                           data-chart-target="complainsToggle"
+                           class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500">
+                    <span class="ml-2 text-sm font-medium text-gray-700">Complains</span>
+                  </label>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -62,51 +236,14 @@
       <div class="px-4 py-5 sm:px-6">
         <div class="-ml-4 -mt-4 flex flex-wrap items-center justify-between sm:flex-nowrap">
           <div class="ml-4 mt-4">
-            <h3 class="text-base font-semibold leading-6 text-gray-900">Rating Categories</h3>
-            <p class="mt-1 text-sm text-gray-500">Toggle rating categories to compare on the chart.</p>
+            <h3 class="text-base font-semibold leading-6 text-gray-900" data-chart-target="chartTitle">Rating Comparison Chart</h3>
+            <p class="mt-1 text-sm text-gray-500" data-chart-target="chartDescription">Visual comparison of average ratings over time by category.</p>
           </div>
         </div>
       </div>
 
       <div class="px-4 py-5 sm:p-6">
-        <div class="flex flex-wrap gap-4 mb-6">
-          <label class="inline-flex items-center">
-            <input type="checkbox" 
-                   id="toggle-star" 
-                   checked 
-                   data-chart-target="starToggle"
-                   class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500">
-            <span class="ml-2 text-sm font-medium text-gray-700">Star Rating</span>
-          </label>
-          <label class="inline-flex items-center">
-            <input type="checkbox" 
-                   id="toggle-food" 
-                   checked 
-                   data-chart-target="foodToggle"
-                   class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500">
-            <span class="ml-2 text-sm font-medium text-gray-700">Food Rating</span>
-          </label>
-          <label class="inline-flex items-center">
-            <input type="checkbox" 
-                   id="toggle-service" 
-                   checked 
-                   data-chart-target="serviceToggle"
-                   class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500">
-            <span class="ml-2 text-sm font-medium text-gray-700">Service Rating</span>
-          </label>
-          <label class="inline-flex items-center">
-            <input type="checkbox" 
-                   id="toggle-atmosphere" 
-                   checked 
-                   data-chart-target="atmosphereToggle"
-                   class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500">
-            <span class="ml-2 text-sm font-medium text-gray-700">Atmosphere Rating</span>
-          </label>
-        </div>
-        
-        <div class="mt-6">
-          <canvas id="ratingsChart" data-chart-target="canvas" height="100"></canvas>
-        </div>
+        <canvas id="ratingsChart" data-chart-target="canvas" height="100"></canvas>
       </div>
     </div>
   </div>

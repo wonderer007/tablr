@@ -1,0 +1,263 @@
+<% content_for :title, "My Restaurant - Tablr" %>
+
+<div class="bg-white">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div class="space-y-8">
+      
+      <!-- Page Header -->
+      <div class="mb-8">
+        <div class="flex items-center justify-between">
+          <div class="flex-auto">
+            <h1 class="text-3xl font-bold tracking-tight text-gray-900">
+              <%= @restaurant_data['title'] || @place&.name || 'My Restaurant' %>
+            </h1>
+            <% if @restaurant_data['subTitle'].present? %>
+              <p class="mt-1 text-lg text-gray-600"><%= @restaurant_data['subTitle'] %></p>
+            <% end %>
+            <% if @restaurant_data['address'].present? %>
+              <p class="mt-2 text-sm text-gray-500 flex items-center gap-x-2">
+                <svg class="size-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z" />
+                </svg>
+                <%= @restaurant_data['address'] %>
+              </p>
+            <% end %>
+          </div>
+          <% if @restaurant_data['url'].present? %>
+            <%= link_to @restaurant_data['url'], target: "_blank", rel: "noopener noreferrer", class: "inline-flex items-center gap-x-2 rounded-md bg-indigo-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600" do %>
+              <svg class="size-4" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M4.25 5.5a.75.75 0 0 0-.75.75v8.5c0 .414.336.75.75.75h8.5a.75.75 0 0 0 .75-.75v-4a.75.75 0 0 1 1.5 0v4A2.25 2.25 0 0 1 12.75 17h-8.5A2.25 2.25 0 0 1 2 14.75v-8.5A2.25 2.25 0 0 1 4.25 4h5a.75.75 0 0 1 0 1.5h-5Z" clip-rule="evenodd" />
+                <path fill-rule="evenodd" d="M6.194 12.753a.75.75 0 0 0 1.06.053L16.5 4.44v2.81a.75.75 0 0 0 1.5 0v-4.5a.75.75 0 0 0-.75-.75h-4.5a.75.75 0 0 0 0 1.5h2.553l-9.056 8.194a.75.75 0 0 0-.053 1.06Z" clip-rule="evenodd" />
+              </svg>
+              View on Google Maps
+            <% end %>
+          <% end %>
+        </div>
+      </div>
+
+      <!-- Main Content Grid -->
+      <div class="grid grid-cols-1 gap-8 lg:grid-cols-3">
+        
+        <!-- Left Column - Main Info -->
+        <div class="lg:col-span-2 space-y-8">
+          
+          <!-- Basic Information Card -->
+          <div class="bg-white shadow-sm rounded-lg border border-gray-200">
+            <div class="px-6 py-5 border-b border-gray-200">
+              <h3 class="text-lg leading-6 font-medium text-gray-900">Restaurant Information</h3>
+            </div>
+            <div class="px-6 py-5">
+              <dl class="grid grid-cols-1 gap-x-4 gap-y-6 sm:grid-cols-2">
+                
+                <!-- Rating -->
+                <div class="sm:col-span-1">
+                  <dt class="text-sm font-medium text-gray-500">Overall Rating</dt>
+                  <dd class="mt-1 flex items-center gap-x-2">
+                    <% total_score = @restaurant_data['totalScore'] || @place&.rating || 0 %>
+                    <%= render 'shared/star_rating', rating: total_score, show_number: true %>
+                    <% if @restaurant_data['reviewsCount'].present? %>
+                      <span class="text-sm text-gray-500">(<%= number_with_delimiter(@restaurant_data['reviewsCount']) %> reviews)</span>
+                    <% end %>
+                  </dd>
+                </div>
+
+                <!-- Categories -->
+                <% if @restaurant_data['categories'].present? %>
+                  <div class="sm:col-span-1">
+                    <dt class="text-sm font-medium text-gray-500">Categories</dt>
+                    <dd class="mt-1">
+                      <div class="flex flex-wrap gap-2">
+                        <% @restaurant_data['categories'].each do |category| %>
+                          <span class="inline-flex items-center rounded-md bg-blue-50 px-2 py-1 text-xs font-medium text-blue-700 ring-1 ring-inset ring-blue-700/10">
+                            <%= category %>
+                          </span>
+                        <% end %>
+                      </div>
+                    </dd>
+                  </div>
+                <% end %>
+
+                <!-- Price Range -->
+                <% if @restaurant_data['price'].present? %>
+                  <div class="sm:col-span-1">
+                    <dt class="text-sm font-medium text-gray-500">Price Range</dt>
+                    <dd class="mt-1 text-sm text-gray-900"><%= @restaurant_data['price'] %></dd>
+                  </div>
+                <% end %>
+
+                <!-- Phone -->
+                <% if @restaurant_data['phone'].present? %>
+                  <div class="sm:col-span-1">
+                    <dt class="text-sm font-medium text-gray-500">Phone</dt>
+                    <dd class="mt-1 text-sm text-gray-900">
+                      <a href="tel:<%= @restaurant_data['phone'] %>" class="text-indigo-600 hover:text-indigo-500">
+                        <%= @restaurant_data['phone'] %>
+                      </a>
+                    </dd>
+                  </div>
+                <% end %>
+
+                <!-- Website -->
+                <% if @restaurant_data['website'].present? %>
+                  <div class="sm:col-span-2">
+                    <dt class="text-sm font-medium text-gray-500">Website</dt>
+                    <dd class="mt-1 text-sm">
+                      <a href="<%= @restaurant_data['website'] %>" target="_blank" rel="noopener noreferrer" class="text-indigo-600 hover:text-indigo-500">
+                        <%= @restaurant_data['website'] %>
+                      </a>
+                    </dd>
+                  </div>
+                <% end %>
+
+              </dl>
+            </div>
+          </div>
+
+          <!-- Opening Hours -->
+          <% if @restaurant_data['openingHours'].present? %>
+            <div class="bg-white shadow-sm rounded-lg border border-gray-200">
+              <div class="px-6 py-5 border-b border-gray-200">
+                <h3 class="text-lg leading-6 font-medium text-gray-900">Opening Hours</h3>
+              </div>
+              <div class="px-6 py-5">
+                <dl class="space-y-3">
+                  <% @restaurant_data['openingHours'].each do |hours| %>
+                    <div class="flex justify-between">
+                      <dt class="text-sm font-medium text-gray-500"><%= hours['day'] %></dt>
+                      <dd class="text-sm text-gray-900"><%= hours['hours'] %></dd>
+                    </div>
+                  <% end %>
+                </dl>
+              </div>
+            </div>
+          <% end %>
+
+          <!-- Amenities and Services -->
+          <% if @restaurant_data['additionalInfo'].present? %>
+            <div class="bg-white shadow-sm rounded-lg border border-gray-200">
+              <div class="px-6 py-5 border-b border-gray-200">
+                <h3 class="text-lg leading-6 font-medium text-gray-900">Amenities & Services</h3>
+              </div>
+              <div class="px-6 py-5">
+                <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
+                  <% @restaurant_data['additionalInfo'].each do |category, items| %>
+                    <div>
+                      <h4 class="text-sm font-medium text-gray-900 mb-3"><%= category.humanize %></h4>
+                      <div class="space-y-2">
+                        <% items.each do |item| %>
+                          <% item.each do |feature, available| %>
+                            <div class="flex items-center gap-x-2">
+                              <% if available %>
+                                <svg class="size-4 text-green-500" viewBox="0 0 20 20" fill="currentColor">
+                                  <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143Z" clip-rule="evenodd" />
+                                </svg>
+                                <span class="text-sm text-gray-700"><%= feature.humanize %></span>
+                              <% else %>
+                                <svg class="size-4 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
+                                  <path d="M6.28 5.22a.75.75 0 0 0-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 1 0 1.06 1.06L10 11.06l3.72 3.72a.75.75 0 1 0 1.06-1.06L11.06 10l3.72-3.72a.75.75 0 0 0-1.06-1.06L10 8.94 6.28 5.22Z" />
+                                </svg>
+                                <span class="text-sm text-gray-400"><%= feature.humanize %></span>
+                              <% end %>
+                            </div>
+                          <% end %>
+                        <% end %>
+                      </div>
+                    </div>
+                  <% end %>
+                </div>
+              </div>
+            </div>
+          <% end %>
+
+        </div>
+
+        <!-- Right Column - Sidebar Info -->
+        <div class="space-y-8">
+          
+          <!-- Rating Distribution -->
+          <% if @rating_distribution.present? && @rating_distribution.any? { |_, count| count > 0 } %>
+            <div class="bg-white shadow-sm rounded-lg border border-gray-200">
+              <div class="px-6 py-5 border-b border-gray-200">
+                <h3 class="text-lg leading-6 font-medium text-gray-900">Rating Distribution</h3>
+              </div>
+              <div class="px-6 py-5">
+                <div class="space-y-3">
+                  <% (1..5).reverse_each do |rating| %>
+                    <% count = @rating_distribution[rating] || 0 %>
+                    <% total = @rating_distribution.values.sum %>
+                    <% percentage = total > 0 ? (count.to_f / total * 100).round(1) : 0 %>
+                    <div class="flex items-center gap-x-3">
+                      <span class="text-sm font-medium text-gray-500 w-8"><%= rating %>★</span>
+                      <div class="flex-1 bg-gray-200 rounded-full h-2">
+                        <div class="bg-yellow-400 h-2 rounded-full" style="width: <%= percentage %>%"></div>
+                      </div>
+                      <span class="text-sm text-gray-500 w-12 text-right"><%= count %></span>
+                    </div>
+                  <% end %>
+                </div>
+              </div>
+            </div>
+          <% end %>
+
+          <!-- Popular Tags -->
+          <% if @restaurant_data['reviewsTags'].present? %>
+            <div class="bg-white shadow-sm rounded-lg border border-gray-200">
+              <div class="px-6 py-5 border-b border-gray-200">
+                <h3 class="text-lg leading-6 font-medium text-gray-900">Popular Mentions</h3>
+              </div>
+              <div class="px-6 py-5">
+                <div class="flex flex-wrap gap-2">
+                  <% @restaurant_data['reviewsTags'].first(10).each do |tag| %>
+                    <span class="inline-flex items-center rounded-md bg-gray-50 px-2 py-1 text-xs font-medium text-gray-600 ring-1 ring-inset ring-gray-500/10">
+                      <%= tag['title'] %> (<%= tag['count'] %>)
+                    </span>
+                  <% end %>
+                </div>
+              </div>
+            </div>
+          <% end %>
+
+          <!-- Recent Reviews Summary -->
+          <% if @recent_reviews.any? %>
+            <div class="bg-white shadow-sm rounded-lg border border-gray-200">
+              <div class="px-6 py-5 border-b border-gray-200">
+                <div class="flex items-center justify-between">
+                  <h3 class="text-lg leading-6 font-medium text-gray-900">Recent Reviews</h3>
+                  <%= link_to reviews_path, class: "text-sm font-medium text-indigo-600 hover:text-indigo-500" do %>
+                    View all →
+                  <% end %>
+                </div>
+              </div>
+              <div class="px-6 py-5">
+                <div class="space-y-4">
+                  <% @recent_reviews.first(3).each do |review| %>
+                    <div class="border-b border-gray-100 last:border-0 pb-4 last:pb-0">
+                      <div class="flex items-start gap-x-3">
+                        <img class="size-8 flex-none rounded-full bg-gray-50" 
+                             src="<%= review.image_url %>" 
+                             alt="<%= review.name %>'s profile picture"
+                             onerror="this.onerror=null;this.src='/images/default-profile.png';" />
+                        <div class="min-w-0 flex-1">
+                          <div class="flex items-center justify-between">
+                            <p class="text-sm font-medium text-gray-900"><%= review.name %></p>
+                            <%= render 'shared/star_rating', rating: review.stars, show_number: false %>
+                          </div>
+                          <p class="mt-1 text-sm text-gray-600 line-clamp-2"><%= truncate(review.text, length: 100) %></p>
+                          <p class="mt-1 text-xs text-gray-500">
+                            <%= review.published_at&.strftime('%B %d, %Y') || 'N/A' %>
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  <% end %>
+                </div>
+              </div>
+            </div>
+          <% end %>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div> 

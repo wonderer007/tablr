@@ -10,6 +10,7 @@ Rails.application.routes.draw do
   get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
   get '/dashboard', to: 'home#dashboard', as: :dashboard
   get 'analytics', to: 'analytics#index'
+  get 'restaurant', to: 'home#restaurant', as: :restaurant
   resources :reviews, only: [:index, :show]
   resources :complains, only: [:index]
   resources :suggestions, only: [:index]

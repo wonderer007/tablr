@@ -28,6 +28,32 @@ class HomeController < ApplicationController
     # Calculate percentage changes for reviews
     @review_changes = calculate_review_changes(@current_reviews, @previous_reviews)
   end
+
+  def restaurant
+    # Get the restaurant place data (assuming single restaurant for now)
+    @place = Place.first
+    
+    # Parse the comprehensive JSON data if available
+    @restaurant_data = @place&.data || {}
+    
+    # Calculate recent reviews summary
+    @recent_reviews = @place&.reviews&.order(published_at: :desc)&.limit(10) || []
+    @total_reviews_count = @place&.reviews&.count || 0
+    
+    # Calculate rating distribution if reviews exist
+    if @place&.reviews&.any?
+      total_reviews = @place.reviews.count
+      @rating_distribution = {
+        5 => (@restaurant_data.dig('reviewsDistribution', 'fiveStar') || 0),
+        4 => (@restaurant_data.dig('reviewsDistribution', 'fourStar') || 0),
+        3 => (@restaurant_data.dig('reviewsDistribution', 'threeStar') || 0),
+        2 => (@restaurant_data.dig('reviewsDistribution', 'twoStar') || 0),
+        1 => (@restaurant_data.dig('reviewsDistribution', 'oneStar') || 0)
+      }
+    else
+      @rating_distribution = {}
+    end
+  end
   
   private
   

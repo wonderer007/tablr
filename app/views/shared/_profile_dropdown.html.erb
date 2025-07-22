@@ -22,19 +22,16 @@
     <div class="px-4 py-2 border-b border-gray-100">
       <p class="text-sm font-medium text-gray-900"><%= current_user.full_name %></p>
       <p class="text-xs text-gray-500"><%= current_user.email %></p>
-      <% if current_user.place %>
-        <p class="text-xs text-gray-500"><%= current_user.place.name if current_user.place.respond_to?(:name) %></p>
-      <% end %>
     </div>
     
     <!-- Restaurant Link -->
     <%= link_to restaurant_path, class: "block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50", role: "menuitem", tabindex: "-1" do %>
-      Restaurant
+      My Restaurant
     <% end %>
 
     <!-- Profile link -->
     <%= link_to edit_user_registration_path, class: "block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50", role: "menuitem", tabindex: "-1" do %>
-      profile
+      My Profile
     <% end %>
 
     <!-- Sign out link -->

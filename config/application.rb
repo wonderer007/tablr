@@ -27,7 +27,6 @@ module Tablr
     # Configure Devise to use auth layout for authentication pages
     config.to_prepare do
       Devise::SessionsController.layout "auth"
-      Devise::RegistrationsController.layout "auth"
       Devise::PasswordsController.layout "auth"
     end
   end

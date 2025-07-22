@@ -33,7 +33,7 @@
     <% end %>
     
     <!-- Sign out link -->
-    <%= link_to destroy_user_session_path, method: :delete, class: "block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50", role: "menuitem", tabindex: "-1" do %>
+    <%= link_to destroy_user_session_path, data: { "turbo-method": :delete }, class: "block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50", role: "menuitem", tabindex: "-1" do %>
       Sign out
     <% end %>
   </div>

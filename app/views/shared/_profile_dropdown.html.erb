@@ -5,9 +5,11 @@
   <button type="button" class="relative flex items-center" id="user-menu-button" aria-expanded="false" aria-haspopup="true" data-profile-dropdown-target="button" data-action="click->profile-dropdown#toggle">
     <span class="absolute -inset-1.5"></span>
     <span class="sr-only">Open user menu</span>
-    <img class="size-8 rounded-full bg-gray-50" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="" />
+    <div class="size-8 rounded-full bg-indigo-500 flex items-center justify-center">
+      <span class="text-sm font-medium text-white"><%= current_user.initials %></span>
+    </div>
     <span class="hidden lg:flex lg:items-center">
-      <span class="ml-4 text-sm/6 font-semibold text-gray-900" aria-hidden="true">Tom Cook</span>
+      <span class="ml-4 text-sm/6 font-semibold text-gray-900" aria-hidden="true"><%= current_user.full_name %></span>
       <svg class="ml-2 size-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon">
         <path fill-rule="evenodd" d="M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" />
       </svg>
@@ -15,10 +17,24 @@
   </button>
 
   <!-- Dropdown menu -->
-  <div class="absolute right-0 z-10 mt-2.5 w-32 origin-top-right rounded-md bg-white py-2 shadow-lg ring-1 ring-gray-900/5 focus:outline-hidden hidden" role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" tabindex="-1" data-profile-dropdown-target="menu">
+  <div class="absolute right-0 z-10 mt-2.5 w-48 origin-top-right rounded-md bg-white py-2 shadow-lg ring-1 ring-gray-900/5 focus:outline-hidden hidden" role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" tabindex="-1" data-profile-dropdown-target="menu">
+    <!-- User info -->
+    <div class="px-4 py-2 border-b border-gray-100">
+      <p class="text-sm font-medium text-gray-900"><%= current_user.full_name %></p>
+      <p class="text-xs text-gray-500"><%= current_user.email %></p>
+      <% if current_user.place %>
+        <p class="text-xs text-gray-500"><%= current_user.place.name if current_user.place.respond_to?(:name) %></p>
+      <% end %>
+    </div>
+    
     <!-- Profile link -->
-    <a href="#" class="block px-3 py-1 text-sm/6 text-gray-900" role="menuitem" tabindex="-1" id="user-menu-item-0">Your profile</a>
+    <%= link_to edit_user_registration_path, class: "block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50", role: "menuitem", tabindex: "-1" do %>
+      Your profile
+    <% end %>
+    
     <!-- Sign out link -->
-    <a href="#" class="block px-3 py-1 text-sm/6 text-gray-900" role="menuitem" tabindex="-1" id="user-menu-item-1">Sign out</a>
+    <%= link_to destroy_user_session_path, method: :delete, class: "block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50", role: "menuitem", tabindex: "-1" do %>
+      Sign out
+    <% end %>
   </div>
 </div> 

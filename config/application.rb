@@ -23,5 +23,12 @@ module Tablr
     #
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
+    
+    # Configure Devise to use auth layout for authentication pages
+    config.to_prepare do
+      Devise::SessionsController.layout "auth"
+      Devise::RegistrationsController.layout "auth"
+      Devise::PasswordsController.layout "auth"
+    end
   end
 end

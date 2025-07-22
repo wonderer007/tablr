@@ -4,6 +4,7 @@ class Place < ApplicationRecord
   validates :url, presence: true, uniqueness: true
 
   has_many :reviews
+  has_many :users
 
   enum :status, [:created, :syncing_place, :synced_place, :syncing_reviews, :synced_reviews, :failed]
 

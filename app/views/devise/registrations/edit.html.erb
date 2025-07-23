@@ -19,9 +19,9 @@
           <!-- Personal Information Section -->
           <div>
             <h3 class="text-lg font-medium leading-6 text-gray-900 mb-4">Personal Information</h3>
-            <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            <div class="space-y-6">
               <!-- First Name -->
-              <div>
+              <div class="max-w-md">
                 <%= f.label :first_name, "First Name", class: "block text-sm font-medium leading-6 text-gray-900" %>
                 <div class="mt-2">
                   <%= f.text_field :first_name, required: true, class: "block w-full h-10 rounded-md border-0 px-4 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6", placeholder: "Enter your first name" %>
@@ -29,7 +29,7 @@
               </div>
 
               <!-- Last Name -->
-              <div>
+              <div class="max-w-md">
                 <%= f.label :last_name, "Last Name", class: "block text-sm font-medium leading-6 text-gray-900" %>
                 <div class="mt-2">
                   <%= f.text_field :last_name, required: true, class: "block w-full h-10 rounded-md border-0 px-4 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6", placeholder: "Enter your last name" %>
@@ -37,7 +37,7 @@
               </div>
 
               <!-- Phone Number -->
-              <div>
+              <div class="max-w-md">
                 <%= f.label :phone_number, "Phone Number", class: "block text-sm font-medium leading-6 text-gray-900" %>
                 <div class="mt-2">
                   <%= f.text_field :phone_number, required: true, class: "block w-full h-10 rounded-md border-0 px-4 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6", placeholder: "Enter your phone number" %>
@@ -49,9 +49,9 @@
           <!-- Contact Information Section -->
           <div class="border-t border-gray-200 pt-6">
             <h3 class="text-lg font-medium leading-6 text-gray-900 mb-4">Contact Information</h3>
-            <div class="grid grid-cols-1 gap-6 lg:grid-cols-2">
+            <div class="space-y-6">
               <!-- Email -->
-              <div>
+              <div class="max-w-md">
                 <%= f.label :email, "Email Address", class: "block text-sm font-medium leading-6 text-gray-900" %>
                 <div class="mt-2">
                   <%= f.email_field :email, autofocus: true, autocomplete: "email", required: true, class: "block w-full h-10 rounded-md border-0 px-4 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6", placeholder: "Enter your email" %>
@@ -62,7 +62,7 @@
               </div>
 
               <!-- Current Password -->
-              <div>
+              <div class="max-w-md">
                 <%= f.label :current_password, "Current Password", class: "block text-sm font-medium leading-6 text-gray-900" %>
                 <div class="mt-2">
                   <%= f.password_field :current_password, autocomplete: "current-password", required: true, class: "block w-full h-10 rounded-md border-0 px-4 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6", placeholder: "Enter your current password" %>
@@ -77,9 +77,9 @@
             <h3 class="text-lg font-medium leading-6 text-gray-900 mb-4">Change Password</h3>
             <p class="text-sm text-gray-500 mb-4">Leave password fields blank if you don't want to change your password</p>
             
-            <div class="grid grid-cols-1 gap-6 lg:grid-cols-2">
+            <div class="space-y-6">
               <!-- New Password -->
-              <div>
+              <div class="max-w-md">
                 <%= f.label :password, "New Password", class: "block text-sm font-medium leading-6 text-gray-900" %>
                 <div class="mt-2">
                   <%= f.password_field :password, autocomplete: "new-password", class: "block w-full h-10 rounded-md border-0 px-4 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6", placeholder: "Leave blank to keep current password" %>
@@ -90,7 +90,7 @@
               </div>
 
               <!-- Confirm New Password -->
-              <div>
+              <div class="max-w-md">
                 <%= f.label :password_confirmation, "Confirm New Password", class: "block text-sm font-medium leading-6 text-gray-900" %>
                 <div class="mt-2">
                   <%= f.password_field :password_confirmation, autocomplete: "new-password", class: "block w-full h-10 rounded-md border-0 px-4 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6", placeholder: "Confirm your new password" %>

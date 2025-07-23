@@ -20,5 +20,15 @@ module ApplicationHelper
       # Default sort icon
       '<svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" /></svg>'.html_safe
     end
-  end  
+  end
+
+  # s1920: Image size (width or height)
+  # c: Crop to fit
+  # rp: Rounded photo (often used for profile pics)
+  # mo: Mobile-optimized (used on Maps mobile)
+  # ba4, ba6, etc.: Likely background style variants (undocumented but used for styling)
+  # br100: Border-radius 100% (makes the image fully round)
+  def profile_image_url(url)
+    url.gsub('s1920', 's65')
+  end
 end

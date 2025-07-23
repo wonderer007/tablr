@@ -11,6 +11,8 @@ class Ai::ReviewInference < ApplicationService
   end
 
   def call
+    return if reviews.empty?
+
     inference_response.each_with_index do |inference, index|
       review = reviews[index]
 
@@ -42,7 +44,7 @@ class Ai::ReviewInference < ApplicationService
         end
       end
 
-      review.update(processed: true)
+      review.update(processed: true, sentiment: inference.dig('sentiment'))
     end
   end
 
@@ -62,7 +64,7 @@ class Ai::ReviewInference < ApplicationService
             role: "user",
             content: <<~PROMPT
               ### INSTRUCTIONS:
-              1. For each review, analyze categories: food, service, ambiance, pricing, timing, cleanliness.
+              1. For each review, analyze categories: food, service, ambiance, pricing, timing, cleanliness and review overall sentiment (positive, negative, neutral).
               2. For each category, return: name, sentiment, sentiment_score. Add is_dish: true for dishes.
               3. Extract complains/suggestions with category.
               4. Omit categories not mentioned to save tokens.
@@ -97,6 +99,7 @@ class Ai::ReviewInference < ApplicationService
   def output_sample
     [
       {
+        "sentiment": "positive",
         "complains": {
           "service": ["service was slow"],
           "cleanliness": ["place was not very clean"]
@@ -123,7 +126,7 @@ class Ai::ReviewInference < ApplicationService
           "cleanliness": [
             {
               "name": "general",
-              "sentiment": "negative",
+              "sentiment": "neutral",
               "sentiment_score": 40
             }
           ]

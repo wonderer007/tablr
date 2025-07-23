@@ -235,7 +235,7 @@
                     <div class="border-b border-gray-100 last:border-0 pb-4 last:pb-0">
                       <div class="flex items-start gap-x-3">
                         <img class="size-8 flex-none rounded-full bg-gray-50" 
-                             src="<%= review.image_url %>" 
+                             src="<%= profile_image_url(review.image_url) %>" 
                              alt="<%= review.name %>'s profile picture"
                              onerror="this.onerror=null;this.src='/images/default-profile.png';" />
                         <div class="min-w-0 flex-1">

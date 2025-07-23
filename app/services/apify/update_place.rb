@@ -18,6 +18,7 @@ class Apify::UpdatePlace < ApplicationService
           name: result['title'],
           data: result,
           status: :synced_place,
+          rating: result['totalScore'],
           place_synced_at: Time.zone.now
         )
       end

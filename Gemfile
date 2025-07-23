@@ -31,6 +31,7 @@ gem "tiktoken_ruby"
 gem "ruby-openai"
 gem "ransack"
 gem "kaminari"
+gem "acts_as_tenant"
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem "tzinfo-data", platforms: %i[ windows jruby ]

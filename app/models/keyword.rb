@@ -1,4 +1,6 @@
 class Keyword < ApplicationRecord
+  acts_as_tenant :place
+
   belongs_to :review
   belongs_to :category
 

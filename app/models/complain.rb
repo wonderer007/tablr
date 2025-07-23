@@ -1,4 +1,6 @@
 class Complain < ApplicationRecord
+  acts_as_tenant :place
+
   belongs_to :category
   belongs_to :review
 

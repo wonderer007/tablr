@@ -1,6 +1,4 @@
-class SuggestionsController < ApplicationController
-  layout 'dashboard'
-
+class SuggestionsController < DashboardController
   def index
     @q = Suggestion.includes(:category, review: :place).ransack(params[:q])
     @suggestions = @q.result

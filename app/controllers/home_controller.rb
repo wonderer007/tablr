@@ -1,6 +1,4 @@
-class HomeController < ApplicationController
-  layout 'dashboard'
-  
+class HomeController < DashboardController
   def dashboard
     @start_date = params[:start_date]&.to_date || 90.days.ago.to_date
     @end_date = params[:end_date]&.to_date || Date.current
@@ -31,7 +29,7 @@ class HomeController < ApplicationController
 
   def restaurant
     # Get the restaurant place data (assuming single restaurant for now)
-    @place = Place.first
+    @place = current_place
     
     # Parse the comprehensive JSON data if available
     @restaurant_data = @place&.data || {}

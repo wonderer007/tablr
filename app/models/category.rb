@@ -1,4 +1,6 @@
 class Category < ApplicationRecord
+  acts_as_tenant :place
+
   has_many :keywords
   has_many :suggestions
   has_many :complains

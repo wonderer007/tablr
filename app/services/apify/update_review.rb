@@ -24,7 +24,7 @@ class Apify::UpdateReview < ApplicationService
           name: review['name'],
           image_url: review['reviewerPhotoUrl'],
           likes_count: review['likesCount'],
-          food_rating: review['reviewDetailedRating']['foodRating'],
+          food_rating: review['reviewDetailedRating']['Rating'],
           service_rating: review['reviewDetailedRating']['Service'],
           atmosphere_rating: review['reviewDetailedRating']['Atmosphere'],
           data: review,

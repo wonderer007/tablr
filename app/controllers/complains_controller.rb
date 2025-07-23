@@ -1,6 +1,4 @@
-class ComplainsController < ApplicationController
-  layout 'dashboard'
-
+class ComplainsController < DashboardController
   def index
     @q = Complain.includes(:category, review: :place).ransack(params[:q])
     @complains = @q.result

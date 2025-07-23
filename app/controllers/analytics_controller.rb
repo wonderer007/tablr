@@ -1,6 +1,4 @@
-class AnalyticsController < ApplicationController
-  layout 'dashboard'
-
+class AnalyticsController < DashboardController
   def index
     respond_to do |format|
       format.html do

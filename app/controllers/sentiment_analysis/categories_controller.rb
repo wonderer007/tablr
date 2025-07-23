@@ -1,6 +1,4 @@
-class SentimentAnalysis::CategoriesController < ApplicationController
-  layout 'dashboard'
-
+class SentimentAnalysis::CategoriesController < DashboardController
   def index
     # Initialize Ransack search object
     @q = Keyword.joins(:review).ransack(params[:q])

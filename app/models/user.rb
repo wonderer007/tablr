@@ -4,7 +4,7 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
-  belongs_to :place, optional: true
+  acts_as_tenant :place
 
   validates :first_name, presence: true
   validates :last_name, presence: true

@@ -32,8 +32,8 @@
       <div class="px-4 py-5 sm:p-6">
         <div class="space-y-8">
                     <!-- Data Type, Chart Type and Date Range Row -->
-          <div class="grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-            <div class="sm:col-span-2">
+          <div class="grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-3">
+            <div class="sm:col-span-1">
               <label for="data_type" class="block text-sm font-medium leading-6 text-gray-900">Data Type</label>
               <div class="mt-2">
                 <select name="data_type" 
@@ -62,7 +62,7 @@
               </div>
             </div>
 
-            <div class="sm:col-span-3">
+            <div class="sm:col-span-1">
               <label for="date_range" class="block text-sm font-medium leading-6 text-gray-900">Date Range</label>
               <div class="mt-2" data-controller="date-range" 
                    data-date-range-start-date-value="<%= params[:start_date] %>"

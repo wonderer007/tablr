@@ -24,8 +24,8 @@
             </div>
             <div class="ml-4 mt-4 flex-shrink-0">
               <div class="flex items-center gap-x-3">
-                <%= submit_tag "Apply Filter", class: "rounded-md bg-indigo-600 px-3.5 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600" %>
-                <%= link_to "Clear Filter", sentiment_analysis_categories_path, class: "rounded-md bg-white px-3.5 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50" %>
+                <%= submit_tag "Apply Filters", class: "rounded-md bg-indigo-600 px-3.5 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600" %>
+                <%= link_to "Clear Filters", sentiment_analysis_categories_path, class: "rounded-md bg-white px-3.5 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50" %>
               </div>
             </div>
           </div>
@@ -34,7 +34,7 @@
         <div class="px-4 py-5 sm:p-6">
           <div class="grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-2">
             <div class="sm:col-span-2">
-              <label for="date_range" class="block text-sm font-medium leading-6 text-gray-900">Review Publication Date</label>
+              <label for="date_range" class="block text-sm font-medium leading-6 text-gray-900">Published Date</label>
               <div class="mt-2" data-controller="date-range" 
                    data-date-range-start-date-value="<%= params.dig(:q, :review_published_at_gteq) %>"
                    data-date-range-end-date-value="<%= params.dig(:q, :review_published_at_lteq) %>">

@@ -4,8 +4,8 @@
       <div class="sm:flex-auto">
         <h1 class="text-2xl font-bold tracking-tight text-gray-900">Complains</h1>
         <div class="mt-2 flex items-center gap-x-2">
-          <p class="text-sm text-gray-700">A list of all complains including feedback categories and reviewer context.</p>
-          <span class="inline-flex items-center rounded-md bg-gray-50 px-2 py-1 text-xs font-medium text-gray-600 ring-1 ring-inset ring-gray-500/10">
+          <p class="text-sm text-gray-700">List of all complains and their categories.</p>
+          <span class="inline-flex items-center rounded-md bg-indigo-50 px-2 py-1 text-xs font-medium text-indigo-700 ring-1 ring-inset ring-indigo-700/10">
             <%= pluralize(@complains.total_count, 'complain') %>
           </span>
         </div>
@@ -17,7 +17,7 @@
         <div class="px-4 py-5 sm:px-6">
           <div class="-ml-4 -mt-4 flex flex-wrap items-center justify-between sm:flex-nowrap">
             <div class="ml-4 mt-4">
-              <h3 class="text-base font-semibold leading-6 text-gray-900">Filter Complains</h3>
+              <h3 class="text-base font-semibold leading-6 text-gray-900">Filter</h3>
               <p class="mt-1 text-sm text-gray-500">Use the filters below to narrow down the complains.</p>
             </div>
             <div class="ml-4 mt-4 flex-shrink-0">

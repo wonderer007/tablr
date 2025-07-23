@@ -24,17 +24,17 @@
             </div>
             <div class="ml-4 mt-4 flex-shrink-0">
               <div class="flex items-center gap-x-3">
-                <%= f.submit "Apply Filter", class: "rounded-md bg-indigo-600 px-3.5 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600" %>
-                <%= link_to "Clear Filter", sentiment_analysis_categories_path, class: "rounded-md bg-white px-3.5 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50" %>
+                <%= f.submit "Apply Filters", class: "rounded-md bg-indigo-600 px-3.5 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600" %>
+                <%= link_to "Clear Filters", suggestions_path, class: "rounded-md bg-white px-3.5 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50" %>
               </div>
             </div>
           </div>
         </div>
 
         <div class="px-4 py-5 sm:p-6">
-          <div class="grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-3">
+          <div class="grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
             <div class="sm:col-span-2">
-              <label for="published" class="block text-sm font-medium leading-6 text-gray-900">Review Published Date</label>
+              <label for="published" class="block text-sm font-medium leading-6 text-gray-900">Published</label>
               <div class="mt-2" data-controller="date-range" 
                    data-date-range-start-date-value="<%= params.dig(:q, :review_published_at_gteq) %>"
                    data-date-range-end-date-value="<%= params.dig(:q, :review_published_at_lteq) %>">
@@ -57,47 +57,51 @@
     <% end %>
 
     <!-- Overall Statistics Cards -->
-    <div class="mt-8 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
-      <div class="overflow-hidden rounded-lg bg-white px-4 py-5 shadow border border-gray-200">
-        <dt class="truncate text-sm font-medium text-gray-500">Total Keywords</dt>
-        <dd class="mt-1 text-3xl font-semibold tracking-tight text-gray-900"><%= number_with_delimiter(@total_keywords) %></dd>
-      </div>
+    <div class="mt-8">
+      <h2 class="text-lg font-semibold leading-6 text-gray-900 mb-6">Overall Sentiments</h2>
+      <div class="mt-8 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
       
-      <div class="overflow-hidden rounded-lg bg-green-50 px-4 py-5 shadow border border-green-200">
-        <dt class="truncate text-sm font-medium text-green-700">Positive Sentiment</dt>
-        <dd class="mt-1 flex items-baseline">
-          <span class="text-3xl font-semibold tracking-tight text-green-900"><%= number_with_delimiter(@overall_positive) %></span>
-          <span class="ml-2 text-sm font-medium text-green-600">
-            (<%= @total_keywords > 0 ? number_to_percentage((@overall_positive.to_f / @total_keywords) * 100, precision: 1) : '0%' %>)
-          </span>
-        </dd>
-      </div>
-      
-      <div class="overflow-hidden rounded-lg bg-red-50 px-4 py-5 shadow border border-red-200">
-        <dt class="truncate text-sm font-medium text-red-700">Negative Sentiment</dt>
-        <dd class="mt-1 flex items-baseline">
-          <span class="text-3xl font-semibold tracking-tight text-red-900"><%= number_with_delimiter(@overall_negative) %></span>
-          <span class="ml-2 text-sm font-medium text-red-600">
-            (<%= @total_keywords > 0 ? number_to_percentage((@overall_negative.to_f / @total_keywords) * 100, precision: 1) : '0%' %>)
-          </span>
-        </dd>
-      </div>
-      
-      <div class="overflow-hidden rounded-lg bg-gray-50 px-4 py-5 shadow border border-gray-200">
-        <dt class="truncate text-sm font-medium text-gray-700">Neutral Sentiment</dt>
-        <dd class="mt-1 flex items-baseline">
-          <span class="text-3xl font-semibold tracking-tight text-gray-900"><%= number_with_delimiter(@overall_neutral) %></span>
-          <span class="ml-2 text-sm font-medium text-gray-600">
-            (<%= @total_keywords > 0 ? number_to_percentage((@overall_neutral.to_f / @total_keywords) * 100, precision: 1) : '0%' %>)
-          </span>
-        </dd>
+        <div class="overflow-hidden rounded-lg bg-white px-4 py-5 shadow border border-gray-200">
+          <dt class="truncate text-sm font-medium text-gray-500">Total Keywords</dt>
+          <dd class="mt-1 text-3xl font-semibold tracking-tight text-gray-900"><%= number_with_delimiter(@total_keywords) %></dd>
+        </div>
+        
+        <div class="overflow-hidden rounded-lg bg-green-50 px-4 py-5 shadow border border-green-200">
+          <dt class="truncate text-sm font-medium text-green-700">Positive</dt>
+          <dd class="mt-1 flex items-baseline">
+            <span class="text-3xl font-semibold tracking-tight text-green-900"><%= number_with_delimiter(@overall_positive) %></span>
+            <span class="ml-2 text-sm font-medium text-green-600">
+              (<%= @total_keywords > 0 ? number_to_percentage((@overall_positive.to_f / @total_keywords) * 100, precision: 1) : '0%' %>)
+            </span>
+          </dd>
+        </div>
+        
+        <div class="overflow-hidden rounded-lg bg-red-50 px-4 py-5 shadow border border-red-200">
+          <dt class="truncate text-sm font-medium text-red-700">Negative</dt>
+          <dd class="mt-1 flex items-baseline">
+            <span class="text-3xl font-semibold tracking-tight text-red-900"><%= number_with_delimiter(@overall_negative) %></span>
+            <span class="ml-2 text-sm font-medium text-red-600">
+              (<%= @total_keywords > 0 ? number_to_percentage((@overall_negative.to_f / @total_keywords) * 100, precision: 1) : '0%' %>)
+            </span>
+          </dd>
+        </div>
+        
+        <div class="overflow-hidden rounded-lg bg-gray-50 px-4 py-5 shadow border border-gray-200">
+          <dt class="truncate text-sm font-medium text-gray-700">Neutral</dt>
+          <dd class="mt-1 flex items-baseline">
+            <span class="text-3xl font-semibold tracking-tight text-gray-900"><%= number_with_delimiter(@overall_neutral) %></span>
+            <span class="ml-2 text-sm font-medium text-gray-600">
+              (<%= @total_keywords > 0 ? number_to_percentage((@overall_neutral.to_f / @total_keywords) * 100, precision: 1) : '0%' %>)
+            </span>
+          </dd>
+        </div>
       </div>
     </div>
 
     <!-- Categories Grid -->
     <div class="mt-8">
       <h2 class="text-lg font-semibold leading-6 text-gray-900 mb-6">Categories Breakdown</h2>
-      
+
       <% if @categories_with_stats.any? %>
         <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
           <% @categories_with_stats.each do |category| %>

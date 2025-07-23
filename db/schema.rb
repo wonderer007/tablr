@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_07_21_234728) do
+ActiveRecord::Schema[7.2].define(version: 2025_07_23_193721) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
   enable_extension "plpgsql"
@@ -19,7 +19,9 @@ ActiveRecord::Schema[7.2].define(version: 2025_07_21_234728) do
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "place_id", null: false
     t.index ["name"], name: "index_categories_on_name", unique: true
+    t.index ["place_id"], name: "index_categories_on_place_id"
   end
 
   create_table "complains", force: :cascade do |t|
@@ -28,7 +30,9 @@ ActiveRecord::Schema[7.2].define(version: 2025_07_21_234728) do
     t.bigint "review_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "place_id", null: false
     t.index ["category_id"], name: "index_complains_on_category_id"
+    t.index ["place_id"], name: "index_complains_on_place_id"
     t.index ["review_id"], name: "index_complains_on_review_id"
   end
 
@@ -41,7 +45,9 @@ ActiveRecord::Schema[7.2].define(version: 2025_07_21_234728) do
     t.boolean "is_dish", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "place_id", null: false
     t.index ["category_id"], name: "index_keywords_on_category_id"
+    t.index ["place_id"], name: "index_keywords_on_place_id"
     t.index ["review_id"], name: "index_keywords_on_review_id"
   end
 
@@ -100,7 +106,9 @@ ActiveRecord::Schema[7.2].define(version: 2025_07_21_234728) do
     t.bigint "review_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "place_id", null: false
     t.index ["category_id"], name: "index_suggestions_on_category_id"
+    t.index ["place_id"], name: "index_suggestions_on_place_id"
     t.index ["review_id"], name: "index_suggestions_on_review_id"
   end
 
@@ -121,12 +129,16 @@ ActiveRecord::Schema[7.2].define(version: 2025_07_21_234728) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "categories", "places"
   add_foreign_key "complains", "categories"
+  add_foreign_key "complains", "places"
   add_foreign_key "complains", "reviews"
   add_foreign_key "keywords", "categories"
+  add_foreign_key "keywords", "places"
   add_foreign_key "keywords", "reviews"
   add_foreign_key "reviews", "places"
   add_foreign_key "suggestions", "categories"
+  add_foreign_key "suggestions", "places"
   add_foreign_key "suggestions", "reviews"
   add_foreign_key "users", "places"
 end

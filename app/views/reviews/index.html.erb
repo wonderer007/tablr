@@ -116,6 +116,20 @@
                     data: { date_range_target: "endDate" } %>
               </div>
             </div>
+
+            <div class="sm:col-span-2 content-end">
+              <div class="mt-4">
+                <div class="flex items-center">
+                  <%= f.check_box :text_present, 
+                      { class: "h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600" }, 
+                      '1', 
+                      '0' %>
+                  <label for="q_text_present" class="ml-3 text-sm font-medium leading-6 text-gray-900">
+                    Hide reviews without text
+                  </label>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -193,7 +207,7 @@
                     <td class="py-4 pl-4 pr-3 sm:pl-6">
                       <div class="flex items-center gap-x-4">
                         <img class="size-10 flex-none rounded-full bg-gray-50"
-                              src="<%= profile_image_url(review.image_url) %>"
+                              src="<%= review.image_url %>"
                               alt="<%= review.name %>'s profile picture"
                               width="40"
                               height="40"

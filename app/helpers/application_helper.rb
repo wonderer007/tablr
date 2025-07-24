@@ -29,6 +29,6 @@ module ApplicationHelper
   # ba4, ba6, etc.: Likely background style variants (undocumented but used for styling)
   # br100: Border-radius 100% (makes the image fully round)
   def profile_image_url(url)
-    url.gsub('s1920', 's65')
+    url.gsub('s1920', 's75')
   end
 end

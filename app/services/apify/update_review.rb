@@ -1,7 +1,7 @@
 class Apify::UpdateReview < ApplicationService
   attr_reader :place_id
 
-  def initialize(place_id)
+  def initialize(place_id:)
     @place_id = place_id
   end
 
@@ -34,7 +34,7 @@ class Apify::UpdateReview < ApplicationService
         }
       end
 
-      Review.upsert_all(payload, unique_by: :external_review_id)
+      Review.upsert_all(payload, unique_by: [:place_id, :external_review_id])
       place.update(status: :synced_reviews, review_synced_at: Time.zone.now)
     elsif data.dig('data', 'status').in?(%w[FAILED ABORTED])
       place.update(status: :failed)

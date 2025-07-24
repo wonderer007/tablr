@@ -5,9 +5,17 @@ class Ai::ReviewInference < ApplicationService
 
   BATCH_LIMIT = 100
 
-  def initialize(place_id, review_ids)
+  def initialize(place_id:, review_ids:)
     @place_id = place_id
     @review_ids = review_ids
+  end
+
+  def x
+    @place_id
+  end
+
+  def y
+    @review_ids
   end
 
   def call
@@ -65,7 +73,7 @@ class Ai::ReviewInference < ApplicationService
             content: <<~PROMPT
               ### INSTRUCTIONS:
               1. For each review, analyze categories: food, service, ambiance, pricing, timing, cleanliness and review overall sentiment (positive, negative, neutral).
-              2. For each category, return: name, sentiment, sentiment_score. Add is_dish: true for dishes.
+              2. For each category, return: name, sentiment (positive, negative, neutral), sentiment_score. Add is_dish: true for dishes.
               3. Extract complains/suggestions with category.
               4. Omit categories not mentioned to save tokens.
 

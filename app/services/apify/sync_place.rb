@@ -1,7 +1,7 @@
 class Apify::SyncPlace < ApplicationService
   attr_accessor :place_id
 
-  def initialize(place_id)
+  def initialize(place_id:)
     @place_id = place_id
   end
 

@@ -1,7 +1,7 @@
 class Apify::UpdatePlace < ApplicationService
   attr_reader :place_id
 
-  def initialize(place_id)
+  def initialize(place_id:)
     @place_id = place_id
   end
 

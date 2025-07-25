@@ -40,10 +40,10 @@ class SentimentAnalysis::CategoriesController < DashboardController
     @keywords = @q.result.page(params[:page]).per(20)
     
     # Category statistics
-    @total_keywords = @category.keywords.count
-    @positive_count = @category.keywords.where(sentiment: :positive).count
-    @negative_count = @category.keywords.where(sentiment: :negative).count
-    @neutral_count = @category.keywords.where(sentiment: :neutral).count
-    @avg_sentiment_score = @category.keywords.average(:sentiment_score)&.round(2) || 0
+    @total_keywords =  @q.result.count
+    @positive_count =  @q.result.where(sentiment: :positive).count
+    @negative_count =  @q.result.where(sentiment: :negative).count
+    @neutral_count =  @q.result.where(sentiment: :neutral).count
+    @avg_sentiment_score =  @q.result.average(:sentiment_score)&.round(2) || 0
   end
 end

@@ -1,3 +1,5 @@
+require 'sidekiq/web'
+
 Rails.application.routes.draw do
   devise_for :users, controllers: {
     registrations: 'users/registrations'
@@ -5,7 +7,8 @@ Rails.application.routes.draw do
   
   # Contact/Pre-registration routes
   resources :contact, only: [:new, :create]
-  
+  mount Sidekiq::Web => '/sidekiq'
+
   # Root route - contact page for unauthenticated users, dashboard for authenticated users
   authenticated :user do
     root to: 'home#dashboard', as: :authenticated_root

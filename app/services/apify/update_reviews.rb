@@ -1,4 +1,4 @@
-class Apify::UpdateReview < ApplicationService
+class Apify::UpdateReviews < ApplicationService
   attr_reader :place_id
 
   def initialize(place_id:)
@@ -24,7 +24,7 @@ class Apify::UpdateReview < ApplicationService
           name: review['name'],
           image_url: review['reviewerPhotoUrl'],
           likes_count: review['likesCount'],
-          food_rating: review['reviewDetailedRating']['Rating'],
+          food_rating: review['reviewDetailedRating']['Food'],
           service_rating: review['reviewDetailedRating']['Service'],
           atmosphere_rating: review['reviewDetailedRating']['Atmosphere'],
           data: review,
@@ -36,6 +36,8 @@ class Apify::UpdateReview < ApplicationService
 
       Review.upsert_all(payload, unique_by: [:place_id, :external_review_id])
       place.update(status: :synced_reviews, review_synced_at: Time.zone.now)
+
+      Ai::ReviewInferenceJob.perform_later(place_id: place.id, review_ids: place.reviews.pluck(:id))
     elsif data.dig('data', 'status').in?(%w[FAILED ABORTED])
       place.update(status: :failed)
     end

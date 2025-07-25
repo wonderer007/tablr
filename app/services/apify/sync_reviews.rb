@@ -8,7 +8,6 @@ class Apify::SyncReviews < ApplicationService
   def call    
     return if place.status.to_sym == :syncing_place || place.status.to_sym == :syncing_reviews
 
-
     params = {
       language: 'en',
       reviewsSort: 'newest',
@@ -18,7 +17,7 @@ class Apify::SyncReviews < ApplicationService
 
     data = Apify::Client.start_run(Review::ACTOR_ID, params)
     place.update(status: :syncing_reviews, review_actor_run_id: data.dig('data', 'id'))
-  end 
+  end
 
   def place
     @place ||= Place.find(@place_id)

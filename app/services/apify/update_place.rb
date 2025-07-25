@@ -24,7 +24,7 @@ class Apify::UpdatePlace < ApplicationService
       end
     elsif data.dig('data', 'status').in?(%w[FAILED ABORTED])
       place.update(status: :failed)
-    end    
+    end
   end
 
   def place

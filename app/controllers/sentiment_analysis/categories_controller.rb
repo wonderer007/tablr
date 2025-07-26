@@ -1,4 +1,6 @@
 class SentimentAnalysis::CategoriesController < DashboardController
+  before_action :mark_notifications_as_read, only: [:index]
+
   def index
     # Initialize Ransack search object
     @q = Keyword.joins(:review).ransack(params[:q])
@@ -45,5 +47,11 @@ class SentimentAnalysis::CategoriesController < DashboardController
     @negative_count =  @q.result.where(sentiment: :negative).count
     @neutral_count =  @q.result.where(sentiment: :neutral).count
     @avg_sentiment_score =  @q.result.average(:sentiment_score)&.round(2) || 0
+  end
+
+  private
+
+  def mark_notifications_as_read
+    current_place.notifications.where(read: false, notification_type: :keyword).update_all(read: true)
   end
 end

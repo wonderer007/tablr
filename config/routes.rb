@@ -34,4 +34,9 @@ Rails.application.routes.draw do
   namespace :sentiment_analysis do
     resources :categories, only: [:index, :show]
   end
+  resources :notifications, only: [] do
+    member do
+      patch :mark_read
+    end
+  end
 end

@@ -1,4 +1,6 @@
 class SuggestionsController < DashboardController
+  before_action :mark_notifications_as_read, only: [:index]
+
   def index
     @q = Suggestion.includes(:category, review: :place).ransack(params[:q])
     @suggestions = @q.result
@@ -8,5 +10,11 @@ class SuggestionsController < DashboardController
       @suggestions = @suggestions.joins(:review).order('reviews.published_at DESC')
     end
     @suggestions = @suggestions.page(params[:page]).per(20)
+  end
+
+  private
+
+  def mark_notifications_as_read
+    current_place.notifications.where(read: false, notification_type: :suggestion).update_all(read: true)
   end
 end

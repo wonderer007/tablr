@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_07_24_181338) do
+ActiveRecord::Schema[7.2].define(version: 2025_07_26_113510) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
   enable_extension "plpgsql"
@@ -48,6 +48,16 @@ ActiveRecord::Schema[7.2].define(version: 2025_07_24_181338) do
     t.bigint "place_id", default: 1, null: false
     t.index ["category_id"], name: "index_keywords_on_category_id"
     t.index ["review_id"], name: "index_keywords_on_review_id"
+  end
+
+  create_table "notifications", force: :cascade do |t|
+    t.string "text", null: false
+    t.boolean "read", default: false
+    t.string "notification_type", null: false
+    t.bigint "place_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["place_id"], name: "index_notifications_on_place_id"
   end
 
   create_table "places", force: :cascade do |t|
@@ -135,6 +145,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_07_24_181338) do
   add_foreign_key "keywords", "categories"
   add_foreign_key "keywords", "places"
   add_foreign_key "keywords", "reviews"
+  add_foreign_key "notifications", "places"
   add_foreign_key "reviews", "places"
   add_foreign_key "suggestions", "categories"
   add_foreign_key "suggestions", "places"

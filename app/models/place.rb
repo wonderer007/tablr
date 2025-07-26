@@ -5,6 +5,7 @@ class Place < ApplicationRecord
 
   has_many :reviews
   has_many :users
+  has_many :notifications
 
   enum :status, [:created, :syncing_place, :synced_place, :syncing_reviews, :synced_reviews, :failed]
 

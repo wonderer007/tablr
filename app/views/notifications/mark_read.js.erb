@@ -1,0 +1,10 @@
+// Remove the mark-as-read button for this notification
+const notifButton = document.querySelector('form[action*="<%= @notification.id %>"]');
+if (notifButton) {
+  notifButton.remove();
+}
+// Optionally, update the notification text style
+const notifText = notifButton?.closest('li')?.querySelector('span.flex-1');
+if (notifText) {
+  notifText.classList.remove('font-semibold');
+} 

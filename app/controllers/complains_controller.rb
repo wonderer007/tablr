@@ -1,4 +1,6 @@
 class ComplainsController < DashboardController
+  before_action :mark_notifications_as_read, only: [:index]
+
   def index
     @q = Complain.includes(:category, review: :place).ransack(params[:q])
     @complains = @q.result
@@ -8,5 +10,11 @@ class ComplainsController < DashboardController
       @complains = @complains.joins(:review).order('reviews.published_at DESC')
     end
     @complains = @complains.page(params[:page]).per(20)
+  end
+
+  private
+
+  def mark_notifications_as_read
+    current_place.notifications.where(read: false, notification_type: :complain).update_all(read: true)
   end
 end

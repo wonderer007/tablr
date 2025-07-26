@@ -1,4 +1,6 @@
 class ReviewsController < DashboardController
+  before_action :mark_notifications_as_read, only: [:index]
+
   def index
     @q = current_place.reviews.ransack(params[:q])
     @reviews = @q.result(distinct: true)
@@ -19,5 +21,11 @@ class ReviewsController < DashboardController
 
   def show
     @review = current_place.reviews.includes(suggestions: :category, complains: :category).find(params[:id])
+  end
+
+  private
+
+  def mark_notifications_as_read
+    current_place.notifications.where(read: false, notification_type: :review).update_all(read: true)
   end
 end

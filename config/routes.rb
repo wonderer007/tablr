@@ -28,6 +28,8 @@ Rails.application.routes.draw do
   get '/dashboard', to: 'home#dashboard', as: :dashboard
   get 'analytics', to: 'analytics#index'
   get 'restaurant', to: 'home#restaurant', as: :restaurant
+  get 'settings', to: 'settings#edit', as: :settings
+  patch 'settings/update_email_notification_period', to: 'settings#update_email_notification_period', as: :update_email_notification_period
   resources :reviews, only: [:index, :show]
   resources :complains, only: [:index]
   resources :suggestions, only: [:index]

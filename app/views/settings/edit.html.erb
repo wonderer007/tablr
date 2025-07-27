@@ -1,0 +1,44 @@
+<% content_for :title, "Settings" %>
+
+<div class="bg-white">
+  <div class="px-4 py-5 sm:px-6">
+    <div class="sm:flex sm:items-center sm:justify-between">
+      <div class="sm:flex-auto">
+        <h1 class="text-2xl font-bold tracking-tight text-gray-900">Settings</h1>
+        <p class="mt-2 text-sm text-gray-700">Manage your account preferences and notifications.</p>
+      </div>
+    </div>
+
+    <div class="mt-6 bg-white shadow-sm rounded-lg border border-gray-200">
+      <div class="px-4 py-5 sm:px-6">
+        <div class="-ml-4 -mt-4 flex flex-wrap items-center justify-between sm:flex-nowrap">
+          <div class="ml-4 mt-4">
+            <h3 class="text-base font-semibold leading-6 text-gray-900">Email Notifications</h3>
+            <p class="mt-1 text-sm text-gray-500">Configure how often you receive email reports.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="px-4 py-5 sm:p-6">
+        <%= form_with url: update_email_notification_period_path, method: :patch, local: true do |form| %>
+          <div class="grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-3">
+            <div class="sm:col-span-1">
+              <label for="email_notification_period" class="block text-sm font-medium leading-6 text-gray-900">Email Notification Period</label>
+              <div class="mt-2">
+                <%= form.select :email_notification_period, 
+                    options_for_select([['Weekly', 'weekly'], ['Monthly', 'monthly'], ['Weekly and Monthly (Both)', 'weekly_and_monthly']], current_user.email_notification_period), 
+                    {}, 
+                    { class: "block w-full h-11 rounded-md border-0 px-3 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" } %>
+              </div>
+              <p class="mt-2 text-sm text-gray-600">Choose how frequently you want to receive email reports about your restaurant's reviews and performance.</p>
+            </div>
+          </div>
+
+          <div class="mt-8 flex justify-end">
+            <%= form.submit "Update Settings", class: "rounded-md bg-indigo-600 px-3.5 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600" %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

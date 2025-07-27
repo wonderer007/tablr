@@ -1,78 +1,137 @@
-<!-- Sidebar Content Component - Shared between mobile and desktop sidebars -->
+<!-- Sidebar Content Component - Enhanced for better UX and business value -->
 
-<div class="flex grow flex-col gap-y-5 overflow-y-auto bg-indigo-600 px-6 pb-4">
-  <!-- Logo/Brand -->
-  <div class="flex h-16 shrink-0 items-center">
-    <img class="h-8 w-auto" src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=white" alt="Your Company" />
+<div class="flex grow flex-col gap-y-5 overflow-y-auto bg-gradient-to-b from-indigo-600 to-indigo-700 px-6 pb-4">
+  <!-- Logo/Brand Section -->
+  <div class="flex h-16 shrink-0 items-center justify-between">
+    <div class="flex items-center gap-3">
+      <div class="flex h-8 w-8 items-center justify-center rounded-lg bg-white/10 backdrop-blur">
+        <svg class="h-5 w-5 text-white font-bold" fill="currentColor" viewBox="0 0 24 24">
+          <path d="M3 4h18v2H3V4zm0 4h18v2H3V8zm0 4h18v2H3v-2zm0 4h18v2H3v-2z"/>
+        </svg>
+      </div>
+      <div>
+        <h1 class="text-lg font-bold text-white">Tablr</h1>
+        <p class="text-xs text-indigo-200">Restaurant Analytics</p>
+      </div>
+    </div>
   </div>
   
   <!-- Navigation Menu -->
   <nav class="flex flex-1 flex-col">
-    <ul role="list" class="flex flex-1 flex-col gap-y-7">
-      <!-- Main Navigation Items -->
+    <ul role="list" class="flex flex-1 flex-col gap-y-6">
+      <!-- Core Features -->
       <li>
+        <div class="text-xs font-semibold leading-6 text-indigo-200 uppercase tracking-wide mb-2">
+          Overview
+        </div>
         <ul role="list" class="-mx-2 space-y-1">
           <!-- Dashboard -->
           <li>
-            <a href="<%= dashboard_path %>" class="group flex gap-x-3 rounded-md <%= current_page?(dashboard_path) ? 'bg-indigo-700 text-white' : 'text-indigo-200 hover:bg-indigo-700 hover:text-white' %> p-2 text-sm/6 font-semibold">
-              <svg class="size-6 shrink-0 <%= current_page?(dashboard_path) ? 'text-white' : 'text-indigo-200 group-hover:text-white' %>" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" data-slot="icon">
+            <a href="<%= dashboard_path %>" class="group flex gap-x-3 rounded-lg <%= current_page?(dashboard_path) ? 'bg-white/20 text-white shadow-sm' : 'text-indigo-200 hover:bg-white/10 hover:text-white' %> p-3 text-sm font-medium transition-all duration-200">
+              <svg class="size-5 shrink-0 <%= current_page?(dashboard_path) ? 'text-white' : 'text-indigo-300 group-hover:text-white' %>" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" />
               </svg>
-              Dashboard
+              <span>Dashboard</span>
             </a>
           </li>
           
-          <!-- Reviews -->
-          <li>
-            <a href="<%= reviews_path %>" class="group flex gap-x-3 rounded-md <%= current_page?(reviews_path) ? 'bg-indigo-700 text-white' : 'text-indigo-200 hover:bg-indigo-700 hover:text-white' %> p-2 text-sm/6 font-semibold">
-              <svg class="size-6 shrink-0 <%= current_page?(reviews_path) ? 'text-white' : 'text-indigo-200 group-hover:text-white' %>" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" data-slot="icon">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M7.5 8.25h9m-9 3H12m-9.75 1.51c0 1.6 1.123 2.994 2.707 3.227 1.129.166 2.27.293 3.423.379.35.026.67.21.865.501L12 21l2.755-4.133a1.14 1.14 0 0 1 .865-.501 48.172 48.172 0 0 0 3.423-.379c1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0 0 12 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018Z" />
-              </svg>
-              Reviews
-            </a>
-          </li>
-          
-          <!-- Complaints -->
-          <li>
-            <a href="<%= complains_path %>" class="group flex gap-x-3 rounded-md <%= current_page?(complains_path) ? 'bg-indigo-700 text-white' : 'text-indigo-200 hover:bg-indigo-700 hover:text-white' %> p-2 text-sm/6 font-semibold">
-              <svg class="size-6 shrink-0 <%= current_page?(complains_path) ? 'text-white' : 'text-indigo-200 group-hover:text-white' %>" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" data-slot="icon">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z" />
-              </svg>
-              Complaints
-            </a>
-          </li>
-          
-          <!-- Suggestions -->
-          <li>
-            <a href="<%= suggestions_path %>" class="group flex gap-x-3 rounded-md <%= current_page?(suggestions_path) ? 'bg-indigo-700 text-white' : 'text-indigo-200 hover:bg-indigo-700 hover:text-white' %> p-2 text-sm/6 font-semibold">
-              <svg class="size-6 shrink-0 <%= current_page?(suggestions_path) ? 'text-white' : 'text-indigo-200 group-hover:text-white' %>" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" data-slot="icon">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M12 18v-5.25m0 0a6.01 6.01 0 0 0 1.5-.189m-1.5.189a6.01 6.01 0 0 1-1.5-.189m3.75 7.478a12.06 12.06 0 0 1-4.5 0m3.75 2.383a14.406 14.406 0 0 1-3 0M14.25 18v-.192c0-.983.658-1.823 1.508-2.316a7.5 7.5 0 1 0-7.517 0c.85.493 1.509 1.333 1.509 2.316V18" />
-              </svg>
-              Suggestions
-            </a>
-          </li>
-          
-          <!-- Sentiment Analysis -->
-          <li>
-            <a href="<%= sentiment_analysis_categories_path %>" class="group flex gap-x-3 rounded-md <%= current_page?(sentiment_analysis_categories_path) || controller.controller_path.start_with?('sentiment_analysis') ? 'bg-indigo-700 text-white' : 'text-indigo-200 hover:bg-indigo-700 hover:text-white' %> p-2 text-sm/6 font-semibold">
-              <svg class="size-6 shrink-0 <%= current_page?(sentiment_analysis_categories_path) || controller.controller_path.start_with?('sentiment_analysis') ? 'text-white' : 'text-indigo-200 group-hover:text-white' %>" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" data-slot="icon">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M15.182 15.182a4.5 4.5 0 01-6.364 0M21 12a9 9 0 11-18 0 9 9 0 0118 0zM9.75 9.75c0 .414-.168.75-.375.75S9 10.164 9 9.75 9.168 9 9.375 9s.375.336.375.75zm-.375 0h.008v.015h-.008V9.75zm5.625 0c0 .414-.168.75-.375.75s-.375-.336-.375-.75.168-.75.375-.75.375.336.375.75zm-.375 0h.008v.015h-.008V9.75z" />
-              </svg>
-              Sentiment Analysis
-            </a>
-          </li>
           <!-- Analytics -->
           <li>
-            <a href="<%= analytics_path %>" class="group flex gap-x-3 rounded-md <%= current_page?(analytics_path) ? 'bg-indigo-700 text-white' : 'text-indigo-200 hover:bg-indigo-700 hover:text-white' %> p-2 text-sm/6 font-semibold">
-              <svg class="size-6 shrink-0 <%= current_page?(analytics_path) ? 'text-white' : 'text-indigo-200 group-hover:text-white' %>" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" data-slot="icon">
+            <a href="<%= analytics_path %>" class="group flex gap-x-3 rounded-lg <%= current_page?(analytics_path) ? 'bg-white/20 text-white shadow-sm' : 'text-indigo-200 hover:bg-white/10 hover:text-white' %> p-3 text-sm font-medium transition-all duration-200">
+              <svg class="size-5 shrink-0 <%= current_page?(analytics_path) ? 'text-white' : 'text-indigo-300 group-hover:text-white' %>" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 0 1 3 19.875v-6.75ZM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V8.625ZM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V4.125Z" />
               </svg>
-              Analytics
+              <span>Analytics</span>
             </a>
           </li>
         </ul>
       </li>
 
+      <!-- Customer Feedback -->
+      <li>
+        <div class="text-xs font-semibold leading-6 text-indigo-200 uppercase tracking-wide mb-2">
+          Customer Feedback
+        </div>
+        <ul role="list" class="-mx-2 space-y-1">
+          <!-- Reviews -->
+          <li>
+            <a href="<%= reviews_path %>" class="group flex gap-x-3 rounded-lg <%= current_page?(reviews_path) ? 'bg-white/20 text-white shadow-sm' : 'text-indigo-200 hover:bg-white/10 hover:text-white' %> p-3 text-sm font-medium transition-all duration-200">
+              <svg class="size-5 shrink-0 <%= current_page?(reviews_path) ? 'text-white' : 'text-indigo-300 group-hover:text-white' %>" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M7.5 8.25h9m-9 3H12m-9.75 1.51c0 1.6 1.123 2.994 2.707 3.227 1.129.166 2.27.293 3.423.379.35.026.67.21.865.501L12 21l2.755-4.133a1.14 1.14 0 0 1 .865-.501 48.172 48.172 0 0 0 3.423-.379c1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0 0 12 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018Z" />
+              </svg>
+              <span>Reviews</span>
+              <span class="ml-auto rounded-full bg-emerald-500/20 px-2 py-1 text-xs font-medium text-emerald-200">Live</span>
+            </a>
+          </li>
+          
+          <!-- Complaints -->
+          <li>
+            <a href="<%= complains_path %>" class="group flex gap-x-3 rounded-lg <%= current_page?(complains_path) ? 'bg-white/20 text-white shadow-sm' : 'text-indigo-200 hover:bg-white/10 hover:text-white' %> p-3 text-sm font-medium transition-all duration-200">
+              <svg class="size-5 shrink-0 <%= current_page?(complains_path) ? 'text-white' : 'text-indigo-300 group-hover:text-white' %>" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z" />
+              </svg>
+              <span>Complaints</span>
+            </a>
+          </li>
+          
+          <!-- Suggestions -->
+          <li>
+            <a href="<%= suggestions_path %>" class="group flex gap-x-3 rounded-lg <%= current_page?(suggestions_path) ? 'bg-white/20 text-white shadow-sm' : 'text-indigo-200 hover:bg-white/10 hover:text-white' %> p-3 text-sm font-medium transition-all duration-200">
+              <svg class="size-5 shrink-0 <%= current_page?(suggestions_path) ? 'text-white' : 'text-indigo-300 group-hover:text-white' %>" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 18v-5.25m0 0a6.01 6.01 0 0 0 1.5-.189m-1.5.189a6.01 6.01 0 0 1-1.5-.189m3.75 7.478a12.06 12.06 0 0 1-4.5 0m3.75 2.383a14.406 14.406 0 0 1-3 0M14.25 18v-.192c0-.983.658-1.823 1.508-2.316a7.5 7.5 0 1 0-7.517 0c.85.493 1.509 1.333 1.509 2.316V18" />
+              </svg>
+              <span>Suggestions</span>
+            </a>
+          </li>
+        </ul>
+      </li>
+
+      <!-- AI Insights -->
+      <li>
+        <div class="text-xs font-semibold leading-6 text-indigo-200 uppercase tracking-wide mb-2">
+          AI Insights
+        </div>
+        <ul role="list" class="-mx-2 space-y-1">
+          <!-- Sentiment Analysis -->
+          <li>
+            <a href="<%= sentiment_analysis_categories_path %>" class="group flex gap-x-3 rounded-lg <%= current_page?(sentiment_analysis_categories_path) || controller.controller_path.start_with?('sentiment_analysis') ? 'bg-white/20 text-white shadow-sm' : 'text-indigo-200 hover:bg-white/10 hover:text-white' %> p-3 text-sm font-medium transition-all duration-200">
+              <svg class="size-5 shrink-0 <%= current_page?(sentiment_analysis_categories_path) || controller.controller_path.start_with?('sentiment_analysis') ? 'text-white' : 'text-indigo-300 group-hover:text-white' %>" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15.182 15.182a4.5 4.5 0 01-6.364 0M21 12a9 9 0 11-18 0 9 9 0 0118 0zM9.75 9.75c0 .414-.168.75-.375.75S9 10.164 9 9.75 9.168 9 9.375 9s.375.336.375.75zm-.375 0h.008v.015h-.008V9.75zm5.625 0c0 .414-.168.75-.375.75s-.375-.336-.375-.75.168-.75.375-.75.375.336.375.75zm-.375 0h.008v.015h-.008V9.75z" />
+              </svg>
+              <span>Sentiment Analysis</span>
+              <span class="ml-auto rounded-full bg-purple-500/20 px-2 py-1 text-xs font-medium text-purple-200">AI</span>
+            </a>
+          </li>
+        </ul>
+      </li>
+
+      <!-- Bottom Section -->
+      <li class="mt-auto">
+        <!-- Settings -->
+        <div class="border-t border-white/10 pt-4">
+          <a href="<%= settings_path %>" class="group flex gap-x-3 rounded-lg <%= current_page?(settings_path) ? 'bg-white/20 text-white shadow-sm' : 'text-indigo-200 hover:bg-white/10 hover:text-white' %> p-3 text-sm font-medium transition-all duration-200">
+            <svg class="size-5 shrink-0 <%= current_page?(settings_path) ? 'text-white' : 'text-indigo-300 group-hover:text-white' %>" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.325.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 011.37.49l1.296 2.247a1.125 1.125 0 01-.26 1.431l-1.003.827c-.293.24-.438.613-.431.992a6.759 6.759 0 010 .255c-.007.378.138.75.43.99l1.005.828c.424.35.534.954.26 1.43l-1.298 2.247a1.125 1.125 0 01-1.369.491l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.57 6.57 0 01-.22.128c-.331.183-.581.495-.644.869l-.213 1.28c-.09.543-.56.941-1.11.941h-2.594c-.55 0-1.02-.398-1.11-.94l-.213-1.281c-.062-.374-.312-.686-.644-.87a6.52 6.52 0 01-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 01-1.369-.49l-1.297-2.247a1.125 1.125 0 01.26-1.431l1.004-.827c.292-.24.437-.613.43-.992a6.932 6.932 0 010-.255c.007-.378-.138-.75-.43-.99l-1.004-.828a1.125 1.125 0 01-.26-1.43l1.297-2.247a1.125 1.125 0 011.37-.491l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.087.22-.128.332-.183.582-.495.644-.869l.214-1.281z" />
+              <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+            </svg>
+            <span>Settings</span>
+          </a>
+        </div>
+        
+        <!-- Upgrade Prompt -->
+        <%# <div class="mt-4 rounded-lg bg-gradient-to-r from-emerald-500/20 to-blue-500/20 p-3 border border-emerald-400/30">
+          <div class="flex items-center gap-2">
+            <svg class="h-4 w-4 text-emerald-300" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z" clip-rule="evenodd" />
+            </svg>
+            <span class="text-xs font-medium text-emerald-200">Pro Features</span>
+          </div>
+          <p class="mt-1 text-xs text-white/80">Unlock advanced analytics & reporting</p>
+          <button class="mt-2 w-full rounded-md bg-emerald-500 px-3 py-1.5 text-xs font-medium text-white hover:bg-emerald-400 transition-colors">
+            Upgrade Now
+          </button>
+        </div> %>
+      </li>
     </ul>
   </nav>
 </div> 

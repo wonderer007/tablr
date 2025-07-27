@@ -10,6 +10,8 @@ class User < ApplicationRecord
   validates :last_name, presence: true
   validates :phone_number, presence: true
 
+  enum :email_notification_period, [:weekly, :monthly, :weekly_and_monthly]
+
   def full_name
     "#{first_name} #{last_name}"
   end

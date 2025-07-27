@@ -51,6 +51,7 @@ group :development, :test do
   gem "brakeman", require: false
   gem "dotenv"
   gem "pry"
+  gem "faker"
 
   # Omakase Ruby styling [https://github.com/rails/rubocop-rails-omakase/]
   gem "rubocop-rails-omakase", require: false

@@ -1,6 +1,8 @@
 class Users::RegistrationsController < Devise::RegistrationsController
   layout :resolve_layout
 
+  helper_method :current_place
+
   private
 
   def resolve_layout
@@ -10,5 +12,9 @@ class Users::RegistrationsController < Devise::RegistrationsController
     else
       'auth'
     end
+  end
+
+  def current_place
+    current_user.place
   end
 end 

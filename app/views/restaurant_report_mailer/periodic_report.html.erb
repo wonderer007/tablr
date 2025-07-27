@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= @place.name %> - <%= @report_type.titleize %> Performance Report</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+      line-height: 1.6;
+      color: #333333;
+      background-color: #f8fafc;
+      margin: 0;
+      padding: 20px;
+    }
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      background-color: #ffffff;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    .header {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 30px;
+      text-align: center;
+    }
+    .header h1 {
+      margin: 0;
+      font-size: 28px;
+      font-weight: 700;
+    }
+    .header p {
+      margin: 10px 0 0 0;
+      opacity: 0.9;
+      font-size: 16px;
+    }
+    .content {
+      padding: 30px;
+    }
+    .section {
+      margin-bottom: 40px;
+    }
+    .section h2 {
+      color: #2d3748;
+      font-size: 22px;
+      font-weight: 600;
+      margin: 0 0 20px 0;
+      border-bottom: 2px solid #e2e8f0;
+      padding-bottom: 10px;
+    }
+    .metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+      margin-bottom: 30px;
+    }
+    .metric-card {
+      background: #f7fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 20px;
+      text-align: center;
+    }
+    .metric-value {
+      font-size: 28px;
+      font-weight: 700;
+      color: #2d3748;
+      margin-bottom: 5px;
+    }
+    .metric-label {
+      font-size: 14px;
+      color: #718096;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .sentiment-bar {
+      display: flex;
+      height: 20px;
+      border-radius: 10px;
+      overflow: hidden;
+      background-color: #e2e8f0;
+      margin: 15px 0;
+    }
+    .sentiment-positive {
+      background-color: #38a169;
+      flex: 0 0 <%= @report_data[:sentiment_stats][:positive_percentage] %>%;
+    }
+    .sentiment-neutral {
+      background-color: #ed8936;
+      flex: 0 0 <%= @report_data[:sentiment_stats][:neutral_percentage] %>%;
+    }
+    .sentiment-negative {
+      background-color: #e53e3e;
+      flex: 0 0 <%= @report_data[:sentiment_stats][:negative_percentage] %>%;
+    }
+    .sentiment-legend {
+      display: flex;
+      justify-content: space-between;
+      font-size: 14px;
+      margin-top: 10px;
+    }
+    .rating-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 15px;
+    }
+    .rating-item {
+      background: #f7fafc;
+      padding: 15px;
+      border-radius: 8px;
+      text-align: center;
+      border: 1px solid #e2e8f0;
+    }
+    .rating-score {
+      font-size: 24px;
+      font-weight: 700;
+      color: #2d3748;
+    }
+    .rating-label {
+      font-size: 12px;
+      color: #718096;
+      text-transform: uppercase;
+    }
+    .star-rating {
+      color: #ffd700;
+      font-size: 20px;
+    }
+    .comparison-badge {
+      display: inline-block;
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 12px;
+      font-weight: 600;
+      margin-left: 10px;
+    }
+    .positive-change {
+      background-color: #c6f6d5;
+      color: #22543d;
+    }
+    .negative-change {
+      background-color: #fed7d7;
+      color: #742a2a;
+    }
+    .neutral-change {
+      background-color: #e2e8f0;
+      color: #4a5568;
+    }
+    .list-item {
+      background: #f7fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 6px;
+      padding: 12px 16px;
+      margin-bottom: 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .list-item-text {
+      color: #2d3748;
+    }
+    .list-item-count {
+      background: #667eea;
+      color: white;
+      padding: 4px 8px;
+      border-radius: 12px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+    .category-section {
+      background: #f7fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+    .category-title {
+      font-size: 18px;
+      font-weight: 600;
+      color: #2d3748;
+      margin-bottom: 15px;
+    }
+    .keyword-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .keyword-tag {
+      padding: 6px 12px;
+      border-radius: 16px;
+      font-size: 12px;
+      font-weight: 500;
+    }
+    .positive-tag {
+      background-color: #c6f6d5;
+      color: #22543d;
+    }
+    .negative-tag {
+      background-color: #fed7d7;
+      color: #742a2a;
+    }
+    .footer {
+      background-color: #2d3748;
+      color: #cbd5e0;
+      padding: 30px;
+      text-align: center;
+    }
+    .footer p {
+      margin: 0;
+      font-size: 14px;
+    }
+    .footer a {
+      color: #90cdf4;
+      text-decoration: none;
+    }
+    @media (max-width: 600px) {
+      .metrics-grid {
+        grid-template-columns: 1fr;
+      }
+      .rating-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .sentiment-legend {
+        flex-direction: column;
+        gap: 5px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Header -->
+    <div class="header">
+      <h1><%= @place.name %></h1>
+      <p><%= @report_type.titleize %> Performance Report</p>
+      <p><%= @start_date.strftime('%B %d %Y') %> - <%= @end_date.strftime('%B %d, %Y') %></p>
+    </div>
+
+    <div class="content">
+      <!-- Overview Section -->
+      <div class="section">
+        <h2>📊 Overview</h2>
+        <div class="metrics-grid">
+          <div class="metric-card">
+            <div class="metric-value"><%= @report_data[:total_reviews] %></div>
+            <div class="metric-label">Total Reviews</div>
+            <% if @report_data[:previous_period_comparison][:review_count_change] != 0 %>
+              <span class="comparison-badge <%= @report_data[:previous_period_comparison][:review_count_change] > 0 ? 'positive-change' : 'negative-change' %>">
+                <%= @report_data[:previous_period_comparison][:review_count_change] > 0 ? '+' : '' %><%= @report_data[:previous_period_comparison][:review_count_change] %>
+              </span>
+            <% end %>
+          </div>
+          
+          <div class="metric-card">
+            <div class="metric-value">
+              <%= @report_data[:average_rating] %>
+              <span class="star-rating">★</span>
+            </div>
+            <div class="metric-label">Average Rating</div>
+            <% if @report_data[:previous_period_comparison][:rating_change] != 0 %>
+              <span class="comparison-badge <%= @report_data[:previous_period_comparison][:rating_change] > 0 ? 'positive-change' : 'negative-change' %>">
+                <%= @report_data[:previous_period_comparison][:rating_change] > 0 ? '+' : '' %><%= @report_data[:previous_period_comparison][:rating_change] %>
+              </span>
+            <% end %>
+          </div>
+          
+          <div class="metric-card">
+            <div class="metric-value"><%= @report_data[:complaints_data][:total_count] %></div>
+            <div class="metric-label">Total Complaints</div>
+          </div>
+          
+          <div class="metric-card">
+            <div class="metric-value"><%= @report_data[:suggestions_data][:total_count] %></div>
+            <div class="metric-label">Suggestions</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sentiment Analysis -->
+      <div class="section">
+        <h2>😊 Sentiment Analysis</h2>
+        <div class="sentiment-bar">
+          <div class="sentiment-positive"></div>
+          <div class="sentiment-neutral"></div>
+          <div class="sentiment-negative"></div>
+        </div>
+        <div class="sentiment-legend">
+          <span style="color: #38a169;">
+            ✅ Positive: <%= @report_data[:sentiment_stats][:positive] %> (<%= @report_data[:sentiment_stats][:positive_percentage] %>%)
+          </span>
+          <span style="color: #ed8936;">
+            ⚖️ Neutral: <%= @report_data[:sentiment_stats][:neutral] %> (<%= @report_data[:sentiment_stats][:neutral_percentage] %>%)
+          </span>
+          <span style="color: #e53e3e;">
+            ❌ Negative: <%= @report_data[:sentiment_stats][:negative] %> (<%= @report_data[:sentiment_stats][:negative_percentage] %>%)
+          </span>
+        </div>
+      </div>
+
+      <!-- Rating Breakdown -->
+      <div class="section">
+        <h2>⭐ Detailed Ratings</h2>
+        <div class="rating-grid">
+          <div class="rating-item">
+            <div class="rating-score"><%= @report_data[:rating_stats][:food_rating] %></div>
+            <div class="rating-label">Food Quality</div>
+          </div>
+          <div class="rating-item">
+            <div class="rating-score"><%= @report_data[:rating_stats][:service_rating] %></div>
+            <div class="rating-label">Service</div>
+          </div>
+          <div class="rating-item">
+            <div class="rating-score"><%= @report_data[:rating_stats][:atmosphere_rating] %></div>
+            <div class="rating-label">Atmosphere</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Top Complaints -->
+      <% if @report_data[:complaints_data][:total_count] > 0 %>
+        <div class="section">
+          <h2>⚠️ Top Complaints</h2>
+          <% @report_data[:complaints_data][:top_complaints].each do |complaint| %>
+            <div class="list-item">
+              <span class="list-item-text"><%= complaint[:text] %></span>
+              <span class="list-item-count"><%= complaint[:count] %></span>
+            </div>
+          <% end %>
+        </div>
+      <% end %>
+
+      <!-- Top Suggestions -->
+      <% if @report_data[:suggestions_data][:total_count] > 0 %>
+        <div class="section">
+          <h2>💡 Top Suggestions</h2>
+          <% @report_data[:suggestions_data][:top_suggestions].each do |suggestion| %>
+            <div class="list-item">
+              <span class="list-item-text"><%= suggestion[:text] %></span>
+              <span class="list-item-count"><%= suggestion[:count] %></span>
+            </div>
+          <% end %>
+        </div>
+      <% end %>
+
+      <!-- Keywords by Category -->
+      <div class="section">
+        <h2>🏷️ Top Keywords</h2>
+        <% @report_data[:keywords_by_category].each do |category| %>
+          <div class="category-section">
+            <div class="category-title">
+              <%= category[:name].titleize %> 
+              <span style="color: #718096; font-size: 14px;">(<%= category[:total_keywords] %> keywords)</span>
+            </div>
+            
+            <% if category[:top_positive].any? %>
+              <div style="margin-bottom: 15px;">
+                <strong style="color: #22543d;">Top Positive:</strong>
+                <div class="keyword-tags">
+                  <% category[:top_positive].each do |keyword| %>
+                    <span class="keyword-tag positive-tag">
+                      <%= keyword[:name] %> (<%= keyword[:count] %>)
+                    </span>
+                  <% end %>
+                </div>
+              </div>
+            <% end %>
+            
+            <% if category[:top_negative].any? %>
+              <div>
+                <strong style="color: #742a2a;">Areas for Improvement:</strong>
+                <div class="keyword-tags">
+                  <% category[:top_negative].each do |keyword| %>
+                    <span class="keyword-tag negative-tag">
+                      <%= keyword[:name] %> (<%= keyword[:count] %>)
+                    </span>
+                  <% end %>
+                </div>
+              </div>
+            <% end %>
+          </div>
+        <% end %>
+      </div>
+
+      <!-- Call to Action -->
+      <div class="section" style="background: #f7fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 25px; text-align: center;">
+        <h2 style="margin-top: 0;">📈 Ready to Improve?</h2>
+        <p style="margin-bottom: 20px; color: #4a5568;">
+          Use these insights to enhance your restaurant's performance and customer satisfaction.
+        </p>
+        <a href="#" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 12px 24px; border-radius: 6px; text-decoration: none; font-weight: 600; display: inline-block;">
+          View Full Dashboard
+        </a>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+      <p>
+        This report was generated by <strong>Tablr</strong> - Your Restaurant Intelligence Platform<br>
+        <a href="<%= dashboard_url %>" target="_blank">Visit Dashboard</a> | <a href="#">Contact Support</a> | <a href="#">Unsubscribe</a>
+      </p>
+    </div>
+  </div>
+</body>
+</html> 

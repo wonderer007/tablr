@@ -33,6 +33,7 @@ gem "ransack"
 gem "kaminari"
 gem "acts_as_tenant"
 gem "sidekiq"
+gem "groupdate"
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem "tzinfo-data", platforms: %i[ windows jruby ]
@@ -52,6 +53,8 @@ group :development, :test do
   gem "dotenv"
   gem "pry"
   gem "faker"
+  gem "rspec-rails"
+  gem "factory_bot_rails"
 
   # Omakase Ruby styling [https://github.com/rails/rubocop-rails-omakase/]
   gem "rubocop-rails-omakase", require: false

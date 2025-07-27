@@ -49,7 +49,7 @@
                 <%= f.search_field :name_cont, 
                     placeholder: "Search keywords...", 
                     autocomplete: "off",
-                    class: "block w-full rounded-md border-0 px-4 py-2 text-gray-900 shadow-sm ring-1 ring-inset #{params.dig(:q, :name_cont).present? ? 'ring-indigo-600 bg-indigo-50/50' : 'ring-gray-300'} placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" %>
+                    class: "block w-full h-11 rounded-md border-0 px-4 py-2 text-gray-900 shadow-sm ring-1 ring-inset #{params.dig(:q, :name_cont).present? ? 'ring-indigo-600 bg-indigo-50/50' : 'ring-gray-300'} placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" %>
                 <% if params.dig(:q, :name_cont).present? %>
                   <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
                     <svg class="size-4 text-indigo-600" viewBox="0 0 20 20" fill="currentColor">
@@ -66,7 +66,7 @@
                 <%= f.select :sentiment_eq, 
                     options_for_select([['Any', ''], ['Positive', 0], ['Negative', 1], ['Neutral', 2]], params.dig(:q, :sentiment_eq)), 
                     {}, 
-                    class: "block w-full h-10 rounded-md border-0 px-3 py-2 text-gray-900 shadow-sm ring-1 ring-inset #{params.dig(:q, :sentiment_eq).present? ? 'ring-indigo-600 bg-indigo-50/50 font-medium' : 'ring-gray-300'} focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" %>
+                    class: "block w-full h-11 rounded-md border-0 px-3 py-2 text-gray-900 shadow-sm ring-1 ring-inset #{params.dig(:q, :sentiment_eq).present? ? 'ring-indigo-600 bg-indigo-50/50 font-medium' : 'ring-gray-300'} focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" %>
               </div>
             </div>
 
@@ -82,7 +82,7 @@
                     data: { 
                       date_range_target: "input startDate"
                     },
-                    class: "block w-full rounded-md border-0 px-3 py-2 text-gray-900 shadow-sm ring-1 ring-inset #{params.dig(:q, :review_published_at_gteq).present? ? 'ring-indigo-600 bg-indigo-50/50' : 'ring-gray-300'} placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" %>
+                    class: "block w-full h-11 rounded-md border-0 px-3 py-2 text-gray-900 shadow-sm ring-1 ring-inset #{params.dig(:q, :review_published_at_gteq).present? ? 'ring-indigo-600 bg-indigo-50/50' : 'ring-gray-300'} placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" %>
                 <%= f.hidden_field :review_published_at_lteq, 
                     value: params.dig(:q, :review_published_at_lteq),
                     data: { date_range_target: "endDate" } %>

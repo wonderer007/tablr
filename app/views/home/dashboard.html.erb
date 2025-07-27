@@ -11,7 +11,7 @@
     <div class="min-w-0 flex-1">
       <div class="flex items-center space-x-3">
         <h1 class="text-2xl sm:text-3xl font-semibold text-gray-900" id="dashboard-title">
-          Rating Analytics Dashboard
+          Dashboard
         </h1>
         <div class="relative group">
           <svg class="h-5 w-5 text-gray-400 hover:text-gray-600 cursor-help" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
@@ -27,7 +27,7 @@
           </div>
         </div>
       </div>
-      <p class="mt-2 text-sm text-gray-700">Monitor your ratings performance and trends over time.</p>
+      <p class="mt-2 text-sm text-gray-700">Monitor your ratings and reviews performance and trends over time.</p>
     </div>
     
     <!-- Date Range Filter -->
@@ -41,7 +41,7 @@
           <input type="text" 
                  data-date-range-target="input"
                  placeholder="Select date range"
-                 class="block w-72 rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                 class="block w-72 h-11 rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                  readonly>
           
           <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
@@ -54,11 +54,11 @@
           <%= form.hidden_field :end_date, data: { "date-range-target": "endDate" } %>
         </div>
         
-        <%= form.submit "Filter", class: "inline-flex items-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600" %>
+        <%= form.submit "Filter", class: "inline-flex h-11 items-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600" %>
 
         <a href="<%= dashboard_path %>" 
                 data-action="click->date-range#clear"
-                class="inline-flex items-center rounded-md bg-gray-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-gray-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-600">
+                class="inline-flex items-center h-11 rounded-md bg-gray-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-gray-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-600">
           Clear
         </a>
         
@@ -71,7 +71,7 @@
       <!-- Rating Analytics Section -->
       <div class="bg-white rounded-2xl shadow-xl border border-gray-100 p-8">
         <div class="mb-8">
-          <h3 class="text-xl font-bold text-gray-900 mb-2">Rating Performance</h3>
+          <h3 class="text-xl font-bold text-gray-900 mb-2">Ratings</h3>
           <p class="text-gray-600">Last <%= @duration_days %> days overview</p>
         </div>
 
@@ -249,7 +249,7 @@
        <!-- Review Analytics Section -->
        <div class="bg-white rounded-2xl shadow-xl border border-gray-100 p-8">
          <div class="mb-8">
-           <h3 class="text-xl font-bold text-gray-900 mb-2">Review Analytics</h3>
+           <h3 class="text-xl font-bold text-gray-900 mb-2">Reviews</h3>
            <p class="text-gray-600">Sentiment breakdown for the last <%= @duration_days %> days</p>
          </div>
 

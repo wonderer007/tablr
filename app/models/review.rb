@@ -2,7 +2,7 @@ class Review < ApplicationRecord
   acts_as_tenant :place
 
   ACTOR_ID = 'Xb8osYTtOjlsgI6k9'
-  MAX_REVIEW_COUNT = 50
+  MAX_REVIEW_COUNT = 500
 
 
   belongs_to :place

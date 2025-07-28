@@ -9,12 +9,8 @@ Rails.application.routes.draw do
   resources :contact, only: [:new, :create]
   mount Sidekiq::Web => '/sidekiq'
 
-  # Root route - contact page for unauthenticated users, dashboard for authenticated users
-  authenticated :user do
-    root to: 'home#dashboard', as: :authenticated_root
-  end
-  
-  root to: 'contact#new'
+  # Root route - always shows landing page
+  root to: 'website#index'
   
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 

@@ -1,4 +1,10 @@
 class HomeController < DashboardController
+  skip_before_action :authenticate_user!, only: [:landing]
+  
+  def landing
+    # Landing page for unauthenticated users
+  end
+
   def dashboard
     @start_date = params[:start_date]&.to_date || 90.days.ago.to_date
     @end_date = params[:end_date]&.to_date || Date.current

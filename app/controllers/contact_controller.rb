@@ -1,5 +1,4 @@
 class ContactController < ApplicationController
-  skip_before_action :authenticate_user!
   layout 'auth'
 
   def new

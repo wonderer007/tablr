@@ -13,7 +13,7 @@ class Apify::SyncReviews < ApplicationService
       reviewsSort: 'newest',
       placeIds: [place.data['placeId']],
       maxReviews: Review::MAX_REVIEW_COUNT,
-    }
+    }.merge(reviews_since)
 
     data = Apify::Client.start_run(Review::ACTOR_ID, params)
     place.update(status: :syncing_reviews, review_actor_run_id: data.dig('data', 'id'))
@@ -21,5 +21,13 @@ class Apify::SyncReviews < ApplicationService
 
   def place
     @place ||= Place.find(@place_id)
+  end
+
+  def reviews_since
+    return {} if place.reviews.empty?
+
+    {
+      reviewsStartDate: place.reviews.order(published_at: :desc).first.published_at&.utc&.iso8601
+    }
   end
 end

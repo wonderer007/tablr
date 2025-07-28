@@ -117,6 +117,8 @@ GEM
     drb (2.2.3)
     erb (5.0.1)
     erubi (1.13.1)
+    et-orbi (1.2.11)
+      tzinfo
     event_stream_parser (1.0.0)
     factory_bot (6.5.4)
       activesupport (>= 6.1.0)
@@ -133,6 +135,9 @@ GEM
       multipart-post (~> 2.0)
     faraday-net_http (3.4.1)
       net-http (>= 0.5.0)
+    fugit (1.11.1)
+      et-orbi (~> 1, >= 1.2.11)
+      raabro (~> 1.4)
     globalid (1.2.1)
       activesupport (>= 6.1)
     groupdate (6.7.0)
@@ -229,6 +234,7 @@ GEM
     public_suffix (6.0.2)
     puma (6.6.0)
       nio4r (~> 2.0)
+    raabro (1.4.0)
     racc (1.8.1)
     rack (3.1.16)
     rack-session (2.1.1)
@@ -336,6 +342,8 @@ GEM
       faraday-multipart (>= 1)
     ruby-progressbar (1.13.0)
     rubyzip (2.4.1)
+    rufus-scheduler (3.9.2)
+      fugit (~> 1.1, >= 1.11.1)
     securerandom (0.4.1)
     selenium-webdriver (4.34.0)
       base64 (~> 0.2)
@@ -349,6 +357,9 @@ GEM
       logger (>= 1.6.2)
       rack (>= 3.1.0)
       redis-client (>= 0.23.2)
+    sidekiq-scheduler (6.0.1)
+      rufus-scheduler (~> 3.2)
+      sidekiq (>= 7.3, < 9)
     sprockets (4.2.2)
       concurrent-ruby (~> 1.0)
       logger
@@ -431,6 +442,7 @@ DEPENDENCIES
   ruby-openai
   selenium-webdriver
   sidekiq
+  sidekiq-scheduler
   sprockets-rails
   stimulus-rails
   tiktoken_ruby

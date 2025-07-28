@@ -1,7 +1,7 @@
 SET_TENANT_PROC = lambda do
   if defined?(Rails::Console)
     puts "> ActsAsTenant.current_tenant = Place.first"
-    ActsAsTenant.current_tenant = Place.first
+    ActsAsTenant.current_tenant = Place.last
   end
 end
 

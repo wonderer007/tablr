@@ -7,7 +7,6 @@ class User < ApplicationRecord
   acts_as_tenant :place
 
   validates :first_name, presence: true
-  validates :last_name, presence: true
   validates :phone_number, presence: true
 
   enum :email_notification_period, [:weekly, :monthly, :weekly_and_monthly]

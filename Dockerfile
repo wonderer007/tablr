@@ -34,10 +34,10 @@ RUN apt-get update -qq && \
 ARG NODE_VERSION=20.17.0
 ARG YARN_VERSION=4
 ENV PATH=/usr/local/node/bin:$PATH
-RUN curl -sL https://github.com/nodenv/node-build/archive/master.tar.gz | tar xz -C /tmp/ && \
-    /tmp/node-build-master/bin/node-build "${NODE_VERSION}" /usr/local/node && \
-    npm install -g yarn@$YARN_VERSION && \
-    rm -rf /tmp/node-build-master
+RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - && \
+    apt-get install -y nodejs && \
+    corepack enable && \
+    corepack prepare yarn@stable --activate
 
 # Install application gems
 COPY Gemfile Gemfile.lock ./

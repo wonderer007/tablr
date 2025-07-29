@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= content_for?(:title) ? yield(:title) : "Tablr - Turn Restaurant Reviews into Actionable Insights" %></title>
+    <meta name="description" content="<%= content_for?(:description) ? yield(:description) : "Tablr helps restaurant owners analyze reviews, spot trends, and make data-driven decisions with AI-powered insights from customer feedback." %>">
+    
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'display': ['Inter', 'system-ui', 'sans-serif'],
+                    },
+                    spacing: {
+                        '144': '36rem',
+                        '304': '76rem',
+                    },
+                    borderRadius: {
+                        '4xl': '2rem',
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- Custom Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <%= yield(:head) %>
+</head>
+
+<body class="font-sans">
+    <%= yield %>
+</body>
+</html>

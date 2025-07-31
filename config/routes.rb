@@ -21,9 +21,11 @@ Rails.application.routes.draw do
   get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
   get '/dashboard', to: 'home#dashboard', as: :dashboard
   get '/payment/processing', to: 'payment#processing', as: :payment_processing
+  post '/webhooks/lemonsqueezy', to: 'payment#lemonsqueezy_webhook', as: :lemonsqueezy_webhook
   get 'analytics', to: 'analytics#index'
   get 'restaurant', to: 'home#restaurant', as: :restaurant
   get 'settings', to: 'settings#edit', as: :settings
+  get 'support', to: 'support#index', as: :support
   patch 'settings/update_email_notification_period', to: 'settings#update_email_notification_period', as: :update_email_notification_period
   resources :reviews, only: [:index, :show]
   resources :complains, only: [:index]

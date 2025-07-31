@@ -1,0 +1,74 @@
+<!-- Thank You Page -->
+<div class="min-h-screen py-16 px-4 sm:px-6 lg:px-8">
+  <div class="max-w-2xl mx-auto">
+    <div class="text-center">
+      <!-- Success Icon -->
+      <div class="mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-green-100 mb-8">
+        <svg class="h-8 w-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+        </svg>
+      </div>
+
+      <h1 class="text-4xl font-bold text-gray-900 mb-4">Thank You!</h1>
+      <p class="text-xl text-gray-600 mb-8">
+        Your demo request has been submitted successfully. We're excited to show you how <%= link_to "Tablr", root_path, class: "text-indigo-600 hover:text-indigo-500 transition duration-200 font-medium" %> can transform your restaurant's review analysis.
+      </p>
+    </div>
+
+    <div class="bg-white rounded-lg shadow-lg p-8 mb-8">
+      <div class="text-center">
+        <h2 class="text-2xl font-semibold text-gray-900 mb-4">Schedule Your Demo</h2>
+        <p class="text-gray-600 mb-6">
+          Ready to see Tablr in action? Schedule a personalized demo with our team to explore how our AI-powered insights can help your restaurant.
+        </p>
+        
+        <a href="https://calendly.com/alihaider907/15min" 
+           target="_blank" 
+           rel="noopener noreferrer"
+           class="inline-flex items-center justify-center px-8 py-4 border border-transparent text-lg font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition duration-200 ease-in-out shadow-lg hover:shadow-xl">
+          <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+          </svg>
+          Schedule Demo Now
+        </a>
+      </div>
+    </div>
+
+    <div class="bg-gray-50 rounded-lg p-6">
+      <h3 class="text-lg font-semibold text-gray-900 mb-4">What to Expect in Your Demo</h3>
+      <ul class="space-y-3 text-gray-600">
+        <li class="flex items-start">
+          <svg class="w-5 h-5 text-indigo-600 mr-3 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+          </svg>
+          Live walkthrough of your restaurant's review analytics
+        </li>
+        <li class="flex items-start">
+          <svg class="w-5 h-5 text-indigo-600 mr-3 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+          </svg>
+          AI-powered sentiment analysis and trend identification
+        </li>
+        <li class="flex items-start">
+          <svg class="w-5 h-5 text-indigo-600 mr-3 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+          </svg>
+          Actionable insights to improve customer satisfaction
+        </li>
+        <li class="flex items-start">
+          <svg class="w-5 h-5 text-indigo-600 mr-3 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+          </svg>
+          Q&A session tailored to your restaurant's needs
+        </li>
+      </ul>
+    </div>
+
+    <div class="text-center mt-8">
+      <p class="text-gray-500 text-sm mb-4">
+        Questions before your demo? We're here to help.
+      </p>
+      <%= link_to "Return to Homepage", root_path, class: "text-indigo-600 hover:text-indigo-500 transition duration-200 font-medium" %>
+    </div>
+  </div>
+</div>

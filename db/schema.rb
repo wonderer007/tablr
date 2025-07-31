@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_07_27_091858) do
+ActiveRecord::Schema[7.2].define(version: 2025_07_31_093400) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
   enable_extension "plpgsql"
@@ -34,6 +34,16 @@ ActiveRecord::Schema[7.2].define(version: 2025_07_27_091858) do
     t.index ["category_id"], name: "index_complains_on_category_id"
     t.index ["place_id"], name: "index_complains_on_place_id"
     t.index ["review_id"], name: "index_complains_on_review_id"
+  end
+
+  create_table "demo_requests", force: :cascade do |t|
+    t.string "first_name"
+    t.string "last_name"
+    t.string "email"
+    t.string "restaurant_name"
+    t.string "google_map_url"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "keywords", force: :cascade do |t|

@@ -5,8 +5,6 @@ Rails.application.routes.draw do
     registrations: 'users/registrations'
   }
   
-  # Contact/Pre-registration routes
-  resources :contact, only: [:new, :create]
   mount Sidekiq::Web => '/sidekiq'
 
   # Root route - always shows landing page
@@ -35,6 +33,12 @@ Rails.application.routes.draw do
   resources :notifications, only: [] do
     member do
       patch :mark_read
+    end
+  end
+  
+  resources :demo_requests, only: [:new, :create] do
+    collection do
+      get :thank_you
     end
   end
 end

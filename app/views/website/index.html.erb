@@ -30,7 +30,7 @@
                     <%= link_to "Analytics", analytics_path, class: "bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-md text-sm font-medium transition duration-150 ease-in-out" %>
                 <% else %>
                     <%= link_to "Sign In", new_user_session_path, class: "text-indigo-100 hover:text-white px-3 py-2 text-sm font-medium" %>
-                    <%= link_to "Get Started", new_contact_path, class: "bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-md text-sm font-medium transition duration-150 ease-in-out" %>
+                    <%= link_to "Get Started", new_user_registration_path, class: "bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-md text-sm font-medium transition duration-150 ease-in-out" %>
                 <% end %>
     </div>
   </nav>
@@ -44,14 +44,12 @@
                 Tablr transforms your restaurant reviews into actionable insights using advanced AI to help you improve customer satisfaction.
         </p>
             <div class="mt-12 flex flex-col gap-x-6 gap-y-4 sm:flex-row">
-          <% if user_signed_in? %>
+                          <% if user_signed_in? %>
                     <%= link_to "Go to Dashboard", dashboard_path, class: "inline-flex items-center justify-center px-8 py-4 border border-transparent text-lg font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 transition duration-150 ease-in-out shadow-lg hover:shadow-xl" %>
                     <%= link_to "View Analytics", analytics_path, class: "inline-flex items-center justify-center px-8 py-4 border border-indigo-300 text-lg font-medium rounded-md text-indigo-100 bg-indigo-800/50 hover:bg-indigo-800/70 transition duration-150 ease-in-out shadow-md hover:shadow-lg" %>
           <% else %>
-                    <%= link_to "Get Started", new_contact_path, class: "inline-flex items-center justify-center px-8 py-4 border border-transparent text-lg font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 transition duration-150 ease-in-out shadow-lg hover:shadow-xl" %>
-                    <a href="#features" class="inline-flex items-center justify-center px-8 py-4 border border-indigo-300 text-lg font-medium rounded-md text-indigo-100 bg-indigo-800/50 hover:bg-indigo-800/70 transition duration-150 ease-in-out shadow-md hover:shadow-lg">
-                        See Features
-                    </a>
+                    <%= link_to "Get Started", new_user_registration_path, class: "inline-flex items-center justify-center px-8 py-4 border border-transparent text-lg font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 transition duration-150 ease-in-out shadow-lg hover:shadow-xl" %>
+                    <%= link_to "Request Demo", new_demo_request_path, class: "inline-flex items-center justify-center px-8 py-4 border border-indigo-300 text-lg font-medium rounded-md text-indigo-100 bg-indigo-800/50 hover:bg-indigo-800/70 transition duration-150 ease-in-out shadow-md hover:shadow-lg" %>
           <% end %>
         </div>
       </div>
@@ -448,7 +446,7 @@
          <% if user_signed_in? %>
                 <%= link_to "Go to Dashboard", dashboard_path, class: "inline-flex items-center justify-center px-8 py-4 border border-transparent text-lg font-medium rounded-md text-indigo-600 bg-white hover:bg-gray-50 transition duration-150 ease-in-out shadow-lg hover:shadow-xl" %>
          <% else %>
-                <%= link_to "Get Early Access", new_contact_path, class: "inline-flex items-center justify-center px-8 py-4 border border-transparent text-lg font-medium rounded-md text-indigo-600 bg-white hover:bg-gray-50 transition duration-150 ease-in-out shadow-lg hover:shadow-xl" %>
+                <%= link_to "Get Early Access", new_user_registration_path, class: "inline-flex items-center justify-center px-8 py-4 border border-transparent text-lg font-medium rounded-md text-indigo-600 bg-white hover:bg-gray-50 transition duration-150 ease-in-out shadow-lg hover:shadow-xl" %>
          <% end %>
        </div>
       
@@ -500,7 +498,7 @@
                 <h4 class="text-lg font-semibold mb-4">Support</h4>
                 <ul class="space-y-2">
                     <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Help Center</a></li>
-                    <li><%= link_to "Contact Us", new_contact_path, class: "text-gray-400 hover:text-white transition-colors" %></li>
+                    <li><%= link_to "Request Demo", new_demo_request_path, class: "text-gray-400 hover:text-white transition-colors" %></li>
                     <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Privacy Policy</a></li>
                     <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Terms of Service</a></li>
                 </ul>

@@ -7,7 +7,12 @@ class ApplicationController < ActionController::Base
   protected
 
   def after_sign_in_path_for(resource)
-    dashboard_path
+    # Check if payment is approved, if not redirect to payment processing
+    if resource.is_a?(User) && !resource.payment_approved?
+      payment_processing_path
+    else
+      dashboard_path
+    end
   end
 
   def configure_permitted_parameters

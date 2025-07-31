@@ -20,6 +20,7 @@ Rails.application.routes.draw do
   get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
   get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
   get '/dashboard', to: 'home#dashboard', as: :dashboard
+  get '/payment/processing', to: 'payment#processing', as: :payment_processing
   get 'analytics', to: 'analytics#index'
   get 'restaurant', to: 'home#restaurant', as: :restaurant
   get 'settings', to: 'settings#edit', as: :settings

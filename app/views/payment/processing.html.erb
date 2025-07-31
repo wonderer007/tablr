@@ -1,0 +1,61 @@
+<div class="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+  <div class="sm:mx-auto sm:w-full sm:max-w-md">
+    <div class="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
+      <div class="text-center">
+        <!-- Payment Processing Icon -->
+        <div class="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-yellow-100 mb-4">
+          <svg class="h-6 w-6 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"></path>
+          </svg>
+        </div>
+        
+        <h2 class="text-2xl font-extrabold text-gray-900 mb-2">
+          Complete Your Payment
+        </h2>
+        
+        <p class="text-sm text-gray-600 mb-6">
+          To access your dashboard, please complete your payment by clicking the link below.
+        </p>
+
+        <!-- Payment Button -->
+        <div class="mb-4">
+          <a href="<%= @payment_url %>" 
+             id="payment-link"
+             class="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition duration-150 ease-in-out">
+            Complete Payment Now
+          </a>
+        </div>
+
+        <!-- Info Text -->
+        <p class="text-xs text-gray-500 text-center">
+          You will be automatically redirected if you don't click the link above.
+          <div class="text-xl font-bold text-gray-900" id="countdown">10</div>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    let timeLeft = 10;
+    const countdownElement = document.getElementById('countdown');
+    const paymentUrl = '<%= @payment_url %>';
+    
+    const countdown = setInterval(function() {
+      timeLeft--;
+      countdownElement.textContent = timeLeft;
+      
+      if (timeLeft <= 0) {
+        clearInterval(countdown);
+        // Redirect to payment URL
+        window.location.href = paymentUrl;
+      }
+    }, 1000);
+    
+    // If user clicks the payment link, stop the countdown
+    document.getElementById('payment-link').addEventListener('click', function() {
+      clearInterval(countdown);
+    });
+  });
+</script>

@@ -2,6 +2,7 @@ class DashboardController < ApplicationController
   layout 'dashboard'
 
   before_action :authenticate_user!
+  before_action :check_payment_approved
   set_current_tenant_through_filter
   before_action :set_current_tenant_by_user
   helper_method :current_place
@@ -12,5 +13,11 @@ class DashboardController < ApplicationController
 
   def current_place
     current_user.place
+  end
+
+  def check_payment_approved
+    unless current_user.payment_approved?
+      redirect_to payment_processing_path
+    end
   end
 end

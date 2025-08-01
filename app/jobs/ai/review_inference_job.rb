@@ -4,7 +4,13 @@ class Ai::ReviewInferenceJob < ApplicationJob
   def perform(place_id:, review_ids:)
     place = Place.find(place_id)
 
+    return unless place.payment_approved?
+
+
     ActsAsTenant.with_tenant(place) do
+      reviews_start_date = place.reviews.where(id: review_ids, processed: false).order(published_at: :asc).first&.published_at&.to_date
+      reviews_end_date = place.reviews.where(id: review_ids, processed: false).order(published_at: :desc).first&.published_at&.to_date
+
       review_ids.each_slice(Ai::ReviewInference::BATCH_LIMIT) do |batch|
         Ai::ReviewInference.call(place_id: place.id, review_ids: batch)
       end
@@ -20,6 +26,10 @@ class Ai::ReviewInferenceJob < ApplicationJob
       Notification.create!(notification_type: :complain, place: place, text: "#{complain_count} new complains") if complain_count > 0
       Notification.create!(notification_type: :suggestion, place: place, text: "#{suggestion_count} new suggestions") if suggestion_count > 0
       Notification.create!(notification_type: :keyword, place: place, text: "#{keyword_count} new keywords") if keyword_count > 0
+
+      if reviews_start_date && reviews_end_date
+        RestaurantReportMailer.periodic_report(place.users.first, place, reviews_start_date, reviews_end_date).deliver_later
+      end
     end
   end
 end

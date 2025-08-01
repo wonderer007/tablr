@@ -4,6 +4,8 @@ class Apify::SyncPlaceJob < ApplicationJob
   def perform(place_id:)
     place = Place.find(place_id)
 
+    return unless place.payment_approved?
+
     ActsAsTenant.with_tenant(place) do
       Apify::SyncPlace.call(place_id: place.id)
     end

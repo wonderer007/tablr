@@ -5,7 +5,7 @@ class Apify::PlaceSyncProcessorJob < ApplicationJob
     places = Place.where(status: [:syncing_place, :synced_place, :syncing_reviews])
 
     places.each do |place|
-      run_sync_service(place)
+      run_sync_service(place) if place.payment_approved?
     end
   end
 

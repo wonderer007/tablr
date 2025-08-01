@@ -6,6 +6,7 @@ class Apify::SyncReviews < ApplicationService
   end
 
   def call    
+    return unless place.payment_approved?
     return if place.status.to_sym == :syncing_place || place.status.to_sym == :syncing_reviews
 
     params = {

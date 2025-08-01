@@ -51,7 +51,7 @@ class PaymentController < ApplicationController
       end
 
       user.update!(payment_approved: true)
-      
+
       Rails.logger.info "Lemon Squeezy webhook: Payment approved for user #{user.email}"
       render json: { message: 'Payment status updated successfully' }, status: :ok
 

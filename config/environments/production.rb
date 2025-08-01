@@ -16,6 +16,17 @@ Rails.application.configure do
   config.consider_all_requests_local = false
   config.action_controller.perform_caching = true
 
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.smtp_settings = {
+    address: ENV['RESEND_HOST'],
+    port: 587,
+    domain: ENV['RESEND_DOMAIN'],
+    user_name: ENV['RESEND_USERNAME'],
+    password: ENV['RESEND_PASSWORD'],
+    authentication: 'plain',
+    enable_starttls_auto: true
+  }
+
   # Ensures that a master key has been made available in ENV["RAILS_MASTER_KEY"], config/master.key, or an environment
   # key such as config/credentials/production.key. This key is used to decrypt credentials (and other encrypted files).
   # config.require_master_key = true

@@ -10,16 +10,9 @@ class Ai::ReviewInference < ApplicationService
     @review_ids = review_ids
   end
 
-  def x
-    @place_id
-  end
-
-  def y
-    @review_ids
-  end
-
   def call
     return if reviews.empty?
+    return unless place.payment_approved?
 
     inference_response.each_with_index do |inference, index|
       review = reviews[index]
@@ -66,7 +59,7 @@ class Ai::ReviewInference < ApplicationService
         messages: [
           {
             role: "system",
-            content: "You are an AI expert and restaurant review analysis assistant. Your task is to analyze a batch of customer reviews and return structured JSON output for each review, in the same order..."
+            content: "You are an AI expert and restaurant review analysis assistant. Your task is to analyze a batch of customer reviews and return structured JSON output for each review, in the same order and same number of reviews as the input #{reviews.size}"
           },
           {
             role: "user",

@@ -9,6 +9,10 @@ class Place < ApplicationRecord
 
   enum :status, [:created, :syncing_place, :synced_place, :syncing_reviews, :synced_reviews, :failed]
 
+  def payment_approved?
+    users&.first&.payment_approved?
+  end
+
   def food_rating
     reviews = reviews.where.not(food_rating: nil)
     return 0 if reviews.empty?

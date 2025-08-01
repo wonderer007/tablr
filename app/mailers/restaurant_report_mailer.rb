@@ -52,7 +52,15 @@ class RestaurantReportMailer < ApplicationMailer
 
   def calculate_sentiment_stats(reviews)
     total = reviews.count
-    return { positive: 0, negative: 0, neutral: 0, total: 0 } if total.zero?
+    return { 
+      positive: 0, 
+      negative: 0, 
+      neutral: 0, 
+      total: 0,
+      positive_percentage: 0.0,
+      negative_percentage: 0.0,
+      neutral_percentage: 0.0
+    } if total.zero?
 
     positive_count = reviews.where(sentiment: :positive).count
     negative_count = reviews.where(sentiment: :negative).count

@@ -18,13 +18,15 @@ Rails.application.configure do
 
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
-    address: ENV['RESEND_HOST'],
+    address: ENV['RESEND_HOST'] || 'smtp.resend.com',
     port: 587,
     domain: ENV['RESEND_DOMAIN'],
-    user_name: ENV['RESEND_USERNAME'],
+    user_name: ENV['RESEND_USERNAME'] || 'resend',
     password: ENV['RESEND_PASSWORD'],
     authentication: 'plain',
-    enable_starttls_auto: true
+    enable_starttls_auto: true,
+    open_timeout: 10,
+    read_timeout: 10
   }
   config.action_mailer.default_url_options = { host: ENV['RESEND_DOMAIN'], protocol: 'https' }
 
@@ -90,9 +92,8 @@ Rails.application.configure do
   # caching is enabled.
   config.action_mailer.perform_caching = false
 
-  # Ignore bad email addresses and do not raise email delivery errors.
-  # Set this to true and configure the email server for immediate delivery to raise delivery errors.
-  # config.action_mailer.raise_delivery_errors = false
+  # Enable raising email delivery errors for better debugging in production
+  config.action_mailer.raise_delivery_errors = true
 
   # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
   # the I18n.default_locale when a translation cannot be found).

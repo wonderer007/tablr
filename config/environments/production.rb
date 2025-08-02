@@ -18,15 +18,11 @@ Rails.application.configure do
 
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
-    address: ENV['RESEND_HOST'] || 'smtp.resend.com',
-    port: 587,
-    domain: ENV['RESEND_DOMAIN'],
-    user_name: ENV['RESEND_USERNAME'] || 'resend',
-    password: ENV['RESEND_PASSWORD'],
-    authentication: 'plain',
-    enable_starttls_auto: true,
-    open_timeout: 10,
-    read_timeout: 10
+    :address   => 'smtp.resend.com',
+    :port      => 465,
+    :user_name => 'resend',
+    :password  => ENV['RESEND_PASSWORD'],
+    :tls => true
   }
   config.action_mailer.default_url_options = { host: ENV['RESEND_DOMAIN'], protocol: 'https' }
 

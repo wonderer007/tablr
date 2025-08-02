@@ -1,4 +1,4 @@
 class ApplicationMailer < ActionMailer::Base
-  default from: "reports@tablr.com"
+  default from: "noreply@tablr.com"
   layout "mailer"
 end

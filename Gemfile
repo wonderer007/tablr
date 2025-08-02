@@ -35,6 +35,7 @@ gem "acts_as_tenant"
 gem "sidekiq"
 gem "sidekiq-scheduler"
 gem "groupdate"
+gem "resend"
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem "tzinfo-data", platforms: %i[ windows jruby ]

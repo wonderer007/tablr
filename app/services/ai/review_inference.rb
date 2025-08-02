@@ -69,6 +69,7 @@ class Ai::ReviewInference < ApplicationService
               2. For each category, return: name, sentiment (positive, negative, neutral), sentiment_score. Add is_dish: true for dishes.
               3. Extract complains/suggestions with category.
               4. Omit categories not mentioned to save tokens.
+              5. Sentiment should be positive, negative or neutral.
 
               ### INPUT:
               #{reviews.pluck(:text)}

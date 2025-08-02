@@ -50,7 +50,7 @@ class PaymentController < ApplicationController
         return render json: { error: 'User not found' }, status: :not_found
       end
 
-      user.update!(payment_approved: true)
+      user.update!(payment_approved: true)      
 
       Rails.logger.info "Lemon Squeezy webhook: Payment approved for user #{user.email}"
       render json: { message: 'Payment status updated successfully' }, status: :ok

@@ -33,6 +33,7 @@ gem "ransack"
 gem "kaminari"
 gem "acts_as_tenant"
 gem "sidekiq"
+gem "sidekiq-scheduler"
 gem "groupdate"
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
@@ -55,7 +56,6 @@ group :development, :test do
   gem "faker"
   gem "rspec-rails"
   gem "factory_bot_rails"
-  gem "sidekiq-scheduler"
 
   # Omakase Ruby styling [https://github.com/rails/rubocop-rails-omakase/]
   gem "rubocop-rails-omakase", require: false

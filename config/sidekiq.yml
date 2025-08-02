@@ -4,5 +4,5 @@
 :scheduler:
   :schedule:
     apify_place_sync_processor:
-      every: ["20s"]
+      every: "20s"
       class: Apify::PlaceSyncProcessorJob

@@ -21,6 +21,7 @@ Rails.application.routes.draw do
   get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
   get '/dashboard', to: 'home#dashboard', as: :dashboard
   get '/payment/processing', to: 'payment#processing', as: :payment_processing
+  get '/data/processing', to: 'home#data_processing', as: :data_processing
   post '/webhooks/lemonsqueezy', to: 'payment#lemonsqueezy_webhook', as: :lemonsqueezy_webhook
   get 'analytics', to: 'analytics#index'
   get 'restaurant', to: 'home#restaurant', as: :restaurant

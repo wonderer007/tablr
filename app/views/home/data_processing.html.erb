@@ -1,0 +1,155 @@
+<div class="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+  <div class="sm:mx-auto sm:w-full sm:max-w-md">
+    <div class="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
+      <div class="text-center">
+        <!-- Processing Icon with Animation -->
+        <div class="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-blue-100 mb-4">
+          <svg class="animate-spin h-6 w-6 text-blue-600" fill="none" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+          </svg>
+        </div>
+        
+        <h2 class="text-2xl font-extrabold text-gray-900 mb-2">
+          Setting Up Your Dashboard
+        </h2>
+        
+        <!-- Dynamic Status Message -->
+        <div id="status-message">
+          <% case @place.status.to_sym %>
+          <% when :created, :syncing_place %>
+            <p class="text-sm text-gray-600 mb-2">
+              We're fetching your restaurant information...
+            </p>
+            <div class="w-full bg-gray-200 rounded-full h-2 mb-4">
+              <div class="bg-blue-600 h-2 rounded-full transition-all duration-300" style="width: 25%"></div>
+            </div>
+          <% when :synced_place, :syncing_reviews %>
+            <p class="text-sm text-gray-600 mb-2">
+              Restaurant information gathered! Now reading your reviews...
+            </p>
+            <div class="w-full bg-gray-200 rounded-full h-2 mb-4">
+              <div class="bg-blue-600 h-2 rounded-full transition-all duration-300" style="width: 50%"></div>
+            </div>
+          <% when :synced_reviews %>
+            <p class="text-sm text-gray-600 mb-2">
+              Reviews collected! Our AI is now analyzing them to generate insights...
+            </p>
+            <div class="w-full bg-gray-200 rounded-full h-2 mb-4">
+              <div class="bg-blue-600 h-2 rounded-full transition-all duration-300" style="width: 75%"></div>
+            </div>
+          <% when :failed %>
+            <p class="text-sm text-red-600 mb-2">
+              Oops! Something went wrong during processing.
+            </p>
+            <div class="w-full bg-gray-200 rounded-full h-2 mb-4">
+              <div class="bg-red-600 h-2 rounded-full transition-all duration-300" style="width: 100%"></div>
+            </div>
+          <% else %>
+            <p class="text-sm text-gray-600 mb-2">
+              Processing your data...
+            </p>
+            <div class="w-full bg-gray-200 rounded-full h-2 mb-4">
+              <div class="bg-blue-600 h-2 rounded-full transition-all duration-300" style="width: 10%"></div>
+            </div>
+          <% end %>
+        </div>
+
+        <% unless @place.status.to_sym == :failed %>
+          <!-- Processing Details -->
+          <div class="text-xs text-gray-500 mb-6">
+            <p class="mb-2">This usually takes 2-5 minutes depending on the number of reviews.</p>
+            <p>Please don't close this window. You'll be redirected automatically when ready.</p>
+            <div class="text-sm font-bold text-blue-600 mt-2" id="refresh-countdown">
+              Checking status in <span id="countdown">15</span> seconds...
+            </div>
+          </div>
+
+          <!-- What's Happening Behind the Scenes -->
+          <div class="text-left bg-gray-50 p-4 rounded-lg mb-4">
+            <h3 class="text-sm font-medium text-gray-900 mb-2">What we're doing:</h3>
+            <ul class="text-xs text-gray-600 space-y-1">
+              <li class="flex items-center">
+                <span class="w-2 h-2 bg-<%= @place.status.in?(['created', 'syncing_place']) ? 'blue' : 'green' %>-400 rounded-full mr-2"></span>
+                Gathering restaurant information
+              </li>
+              <li class="flex items-center">
+                <span class="w-2 h-2 bg-<%= @place.status.in?(['synced_place', 'syncing_reviews']) ? 'blue' : (@place.status.in?(['synced_reviews']) ? 'green' : 'gray') %>-400 rounded-full mr-2"></span>
+                Collecting customer reviews
+              </li>
+              <li class="flex items-center">
+                <span class="w-2 h-2 bg-<%= @place.status == 'synced_reviews' ? 'blue' : 'gray' %>-400 rounded-full mr-2"></span>
+                AI analysis for insights & recommendations
+              </li>
+            </ul>
+          </div>
+        <% else %>
+          <!-- Error State -->
+          <div class="text-center mb-4">
+            <p class="text-sm text-gray-600 mb-4">
+              Please contact our support team or try refreshing the page.
+            </p>
+            <button onclick="window.location.reload()" 
+                    class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition duration-150 ease-in-out">
+              Refresh Page
+            </button>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<% unless @place.status.to_sym == :failed %>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    let timeLeft = 15;
+    const countdownElement = document.getElementById('countdown');
+    const refreshCountdownElement = document.getElementById('refresh-countdown');
+    
+    function checkProcessingStatus() {
+      fetch('<%= data_processing_path %>', {
+        method: 'GET',
+        headers: {
+          'Accept': 'application/json',
+          'X-Requested-With': 'XMLHttpRequest'
+        }
+      })
+      .then(response => {
+        if (response.redirected) {
+          // If the server responds with a redirect, follow it
+          window.location.href = response.url;
+        } else {
+          // Reset countdown and check again
+          timeLeft = 15;
+          startCountdown();
+        }
+      })
+      .catch(error => {
+        console.log('Status check error:', error);
+        // Continue countdown on error
+        timeLeft = 15;
+        startCountdown();
+      });
+    }
+    
+    function startCountdown() {
+      const countdown = setInterval(function() {
+        timeLeft--;
+        countdownElement.textContent = timeLeft;
+        
+        if (timeLeft <= 0) {
+          clearInterval(countdown);
+          refreshCountdownElement.innerHTML = 'Checking status...';
+          
+          // Check if processing is complete
+          checkProcessingStatus();
+        }
+      }, 1000);
+    }
+    
+    // Start the countdown
+    startCountdown();
+  });
+</script>
+<% end %>

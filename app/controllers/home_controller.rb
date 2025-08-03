@@ -1,5 +1,6 @@
 class HomeController < DashboardController
   skip_before_action :authenticate_user!, only: [:landing]
+  skip_before_action :check_data_processing_complete, only: [:data_processing]
   
   def landing
     # Landing page for unauthenticated users
@@ -57,6 +58,18 @@ class HomeController < DashboardController
     else
       @rating_distribution = {}
     end
+  end
+
+  def data_processing
+    @place = current_place
+    
+    # If processing is complete, redirect to dashboard
+    if @place.first_inference_completed?
+      redirect_to dashboard_path and return
+    end
+    
+    # Set layout to auth for cleaner processing page
+    render layout: 'auth'
   end
   
   private

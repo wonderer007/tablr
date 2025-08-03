@@ -30,6 +30,8 @@ class Ai::ReviewInferenceJob < ApplicationJob
       if reviews_start_date && reviews_end_date
         RestaurantReportMailer.periodic_report(place.users.first, place, reviews_start_date, reviews_end_date).deliver_later
       end
+
+      place.update(first_inference_completed: true)
     end
   end
 end

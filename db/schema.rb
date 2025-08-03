@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_07_31_094943) do
+ActiveRecord::Schema[7.2].define(version: 2025_08_02_123337) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
   enable_extension "plpgsql"
@@ -82,6 +82,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_07_31_094943) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.float "rating"
+    t.boolean "first_inference_completed", default: false
     t.index ["url"], name: "index_places_on_url", unique: true
   end
 

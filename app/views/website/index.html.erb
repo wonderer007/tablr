@@ -1,10 +1,11 @@
 <% content_for(:title, "Tablr - Turn Restaurant Reviews into Actionable Insights") %>
-<% content_for(:description, "Tablr helps restaurant owners analyze reviews, spot trends, and make data-driven decisions with AI-powered insights from customer feedback.") %>
+<% content_for(:description, "Tablr helps restaurant owners analyze reviews, spot trends, and make data-driven decisions with AI-powered analytics and insights from customer feedback.") %>
 
 <!-- Hero Section -->
 <div class="relative overflow-hidden">
-    <!-- Gradient Background -->
-    <div class="absolute inset-2 bottom-0 rounded-4xl bg-gradient-to-br from-indigo-900 via-indigo-800 to-indigo-700 ring-1 ring-white/10"></div>
+    <!-- Enhanced Gradient Background -->
+    <div class="absolute inset-2 bottom-0 rounded-4xl bg-gradient-to-br from-indigo-950 via-indigo-900  to-indigo-800 ring-1 ring-white/10 shadow-2xl"></div>
+    <div class="absolute inset-2 bottom-0 rounded-4xl bg-gradient-to-tr from-transparent via-indigo-600/20 "></div>
     
     <!-- Content Container -->
     <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -17,7 +18,7 @@
             <!-- Banner -->
             <div class="hidden sm:flex">
                 <a href="#" class="flex items-center gap-1 rounded-full bg-indigo-600/30 px-3 py-0.5 text-sm/6 font-medium text-white hover:bg-indigo-600/40 transition-colors">
-                    Now analyzing 1M+ restaurant reviews
+                    Trusted by 500+ restaurant owners • $1M+ revenue protected
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
                     </svg>
@@ -41,75 +42,167 @@
                 Turn Restaurant Reviews into Actionable Insights
         </h1>
             <p class="mt-8 max-w-lg text-xl/7 font-medium text-indigo-100 sm:text-2xl/8">
-                Tablr transforms your restaurant reviews into actionable insights using advanced AI to help you improve customer satisfaction.
+                AI-powered analytics and insights that help restaurants identify profit-killing issues before they impact your bottom line.
         </p>
-            <div class="mt-12 flex flex-col gap-x-6 gap-y-4 sm:flex-row">
+            <div class="mt-12 flex flex-col gap-4 sm:flex-row sm:gap-6">
                           <% if user_signed_in? %>
-                    <%= link_to "Go to Dashboard", dashboard_path, class: "inline-flex items-center justify-center px-8 py-4 border border-transparent text-lg font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 transition duration-150 ease-in-out shadow-lg hover:shadow-xl" %>
+                    <%= link_to "Go to Dashboard", dashboard_path, class: "inline-flex items-center justify-center px-8 py-4 border border-transparent text-lg font-medium rounded-md text-white bg-gradient-to-r from-indigo-600 to-indigo-700 hover:from-indigo-700 hover:to-indigo-800 transition duration-150 ease-in-out shadow-lg hover:shadow-xl" %>
                     <%= link_to "View Analytics", analytics_path, class: "inline-flex items-center justify-center px-8 py-4 border border-indigo-300 text-lg font-medium rounded-md text-indigo-100 bg-indigo-800/50 hover:bg-indigo-800/70 transition duration-150 ease-in-out shadow-md hover:shadow-lg" %>
           <% else %>
-                    <%= link_to "Get Started", new_user_registration_path, class: "inline-flex items-center justify-center px-8 py-4 border border-transparent text-lg font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 transition duration-150 ease-in-out shadow-lg hover:shadow-xl" %>
-                    <%= link_to "Request Demo", new_demo_request_path, class: "inline-flex items-center justify-center px-8 py-4 border border-indigo-300 text-lg font-medium rounded-md text-indigo-100 bg-indigo-800/50 hover:bg-indigo-800/70 transition duration-150 ease-in-out shadow-md hover:shadow-lg" %>
+                    <%= link_to "Get Started", new_user_registration_path, class: "inline-flex items-center justify-center px-8 py-4 border border-transparent text-lg font-medium rounded-md text-white bg-gradient-to-r from-indigo-600 to-indigo-700 hover:from-indigo-700 hover:to-indigo-800 transition duration-150 ease-in-out shadow-lg hover:shadow-xl" %>
+                    <%= link_to "Request Demo", new_demo_request_path, class: "inline-flex items-center justify-center px-8 py-4 border border-transparent text-lg font-medium rounded-md text-white bg-gradient-to-r from-indigo-600 to-indigo-700 hover:from-indigo-700 hover:to-indigo-800 transition duration-150 ease-in-out shadow-lg hover:shadow-xl" %>
           <% end %>
         </div>
       </div>
     </div>
       </div>
 
-<main>
-    <!-- Logo Cloud -->
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-10">
-        <div class="text-center">
-            <p class="text-sm font-medium text-gray-500 mb-8">Trusted by restaurant owners worldwide</p>
-            <div class="flex justify-center items-center space-x-8 opacity-60">
-                <div class="text-2xl font-bold text-gray-400">Restaurant Group A</div>
-                <div class="text-2xl font-bold text-gray-400">Bistro Chain</div>
-                <div class="text-2xl font-bold text-gray-400">Local Favorites</div>
-                <div class="text-2xl font-bold text-gray-400">Quick Service</div>
-          </div>
+    <!-- Trust Indicators -->
+    <div class="bg-gradient-to-r from-white via-gray-50 to-white py-8 border-b border-gray-200 relative">
+        <div class="absolute inset-0 bg-gradient-to-b from-indigo-50/20 to-transparent"></div>
+        <div class="relative z-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-2 gap-4 md:grid-cols-4 text-center">
+                <div class="flex flex-col items-center">
+                    <div class="text-xl sm:text-2xl font-bold text-gray-900">22%</div>
+                    <div class="text-xs sm:text-sm text-gray-600">Avg. Profit Increase</div>
+                </div>
+                <div class="flex flex-col items-center">
+                    <div class="text-xl sm:text-2xl font-bold text-gray-900">500+</div>
+                    <div class="text-xs sm:text-sm text-gray-600">Restaurant Partners</div>
+                </div>
+                <div class="flex flex-col items-center">
+                    <div class="text-xl sm:text-2xl font-bold text-gray-900">99.9%</div>
+                    <div class="text-xs sm:text-sm text-gray-600">Platform Uptime</div>
+                </div>
+                <div class="flex flex-col items-center">
+                    <div class="text-xl sm:text-2xl font-bold text-gray-900">SOC 2</div>
+                    <div class="text-xs sm:text-sm text-gray-600">Compliant</div>
+                </div>
+            </div>
         </div>
         </div>
+    </div>
 
-    <!-- Feature Section -->
-    <div id="features" class="bg-gradient-to-b from-white from-50% to-gray-100 py-32">
-        <!-- Main Feature -->
-        <div class="overflow-hidden">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-24">
-                <h2 class="text-4xl sm:text-5xl font-bold text-gray-950 max-w-3xl">
-                    A complete view of your customer sentiment.
-                </h2>
-                <div class="mt-16 bg-white rounded-2xl shadow-2xl p-8">
-                    <div class="bg-gradient-to-br from-indigo-50 to-indigo-100 rounded-lg h-96 flex items-center justify-center border-2 border-dashed border-indigo-300">
-                        <div class="text-center">
-                            <svg class="w-24 h-24 text-indigo-400 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
-            </svg>
-                            <h3 class="text-2xl font-semibold text-gray-700 mb-2">Dashboard Preview</h3>
-                            <p class="text-gray-500">Real-time analytics and insights from your reviews</p>
+    <!-- Image Carousel Section -->
+    <div class="bg-white py-16 relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-gray-900 mb-4">See Tablr in Action</h2>
+                <p class="text-lg text-gray-600">Discover how our platform transforms customer feedback into actionable business insights</p>
+            </div>
+            
+            <!-- Carousel Container -->
+            <div class="relative max-w-4xl mx-auto" data-controller="carousel" data-carousel-autoplay-value="true" data-carousel-interval-value="5000">
+                <div class="carousel-container overflow-hidden rounded-2xl shadow-2xl">
+                    <div class="carousel-track flex transition-transform duration-500 ease-in-out" data-carousel-target="track">
+                        <!-- Slide 1 - Reviews -->
+                        <div class="carousel-slide w-full flex-shrink-0" data-carousel-target="slide">
+                            <div class="relative">
+                                <img src="/images/reviews_1.png" alt="Reviews Analytics Dashboard" class="w-full h-auto">
+                                <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-6">
+                                    <h3 class="text-white text-xl font-semibold mb-2">Reviews Analytics</h3>
+                                    <p class="text-gray-200 text-sm">Comprehensive analysis of customer reviews with sentiment tracking and trend identification</p>
+                                </div>
+                            </div>
                         </div>
+                        
+                        <!-- Slide 2 - Complains -->
+                        <div class="carousel-slide w-full flex-shrink-0" data-carousel-target="slide">
+                            <div class="relative">
+                                <img src="/images/complains_1.png" alt="Complaints Management Dashboard" class="w-full h-auto">
+                                <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-6">
+                                    <h3 class="text-white text-xl font-semibold mb-2">Complaints Management</h3>
+                                    <p class="text-gray-200 text-sm">Automated complaint extraction and categorization to prioritize critical issues</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Slide 3 - Suggestions -->
+                        <div class="carousel-slide w-full flex-shrink-0" data-carousel-target="slide">
+                            <div class="relative">
+                                <img src="/images/suggestions_1.png" alt="Suggestions Dashboard" class="w-full h-auto">
+                                <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-6">
+                                    <h3 class="text-white text-xl font-semibold mb-2">Customer Suggestions</h3>
+                                    <p class="text-gray-200 text-sm">AI-powered suggestions extraction to identify improvement opportunities</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Slide 4 - Analytics -->
+                        <div class="carousel-slide w-full flex-shrink-0" data-carousel-target="slide">
+                            <div class="relative">
+                                <img src="/images/analytics_1.png" alt="Analytics Dashboard" class="w-full h-auto">
+                                <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-6">
+                                    <h3 class="text-white text-xl font-semibold mb-2">Analytics Dashboard</h3>
+                                    <p class="text-gray-200 text-sm">AI-powered analytics to identify profit-killing issues before they impact your bottom line</p>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="carousel-slide w-full flex-shrink-0" data-carousel-target="slide">
+                            <div class="relative">
+                                <img src="/images/analysis_1.png" alt="Analysis Dashboard" class="w-full h-auto">
+                                <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-6">
+                                    <h3 class="text-white text-xl font-semibold mb-2">Analysis Dashboard</h3>
+                                    <p class="text-gray-200 text-sm">AI-powered analysis to identify profit-killing issues before they impact your bottom line</p>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
-          </div>
+                
+                <!-- Navigation Dots -->
+                <div class="flex justify-center mt-6 space-x-2">
+                    <button class="carousel-dot w-3 h-3 rounded-full bg-indigo-600 transition-all duration-300" data-carousel-target="dot" data-slide="0" data-action="click->carousel#goToSlide"></button>
+                    <button class="carousel-dot w-3 h-3 rounded-full bg-gray-300 hover:bg-gray-400 transition-all duration-300" data-carousel-target="dot" data-slide="1" data-action="click->carousel#goToSlide"></button>
+                    <button class="carousel-dot w-3 h-3 rounded-full bg-gray-300 hover:bg-gray-400 transition-all duration-300" data-carousel-target="dot" data-slide="2" data-action="click->carousel#goToSlide"></button>
+                    <button class="carousel-dot w-3 h-3 rounded-full bg-gray-300 hover:bg-gray-400 transition-all duration-300" data-carousel-target="dot" data-slide="3" data-action="click->carousel#goToSlide"></button>
+                    <button class="carousel-dot w-3 h-3 rounded-full bg-gray-300 hover:bg-gray-400 transition-all duration-300" data-carousel-target="dot" data-slide="4" data-action="click->carousel#goToSlide"></button>
+                </div>
+                
+                <!-- Navigation Arrows -->
+                <button class="carousel-prev absolute left-4 top-1/2 transform -translate-y-1/2 bg-white/80 hover:bg-white text-gray-800 rounded-full p-2 shadow-lg transition-all duration-300 hover:scale-110" data-action="click->carousel#previous">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                    </svg>
+                </button>
+                <button class="carousel-next absolute right-4 top-1/2 transform -translate-y-1/2 bg-white/80 hover:bg-white text-gray-800 rounded-full p-2 shadow-lg transition-all duration-300 hover:scale-110" data-action="click->carousel#next">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                    </svg>
+                </button>
+            </div>
         </div>
+    </div>
+
+<main>
+
+    <!-- Feature Section -->
+    <div id="features" class="bg-gradient-to-b from-white via-gray-50 to-gray-100 py-32 relative">
+        <div class="absolute inset-0 bg-gradient-to-r from-indigo-50/50 via-transparent to-purple-50/50"></div>
+        <div class="relative z-10">
 
         <!-- Bento Grid -->
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="mb-8">
-                <p class="text-sm font-semibold text-indigo-600 tracking-wider uppercase">Analytics</p>
+                <p class="text-sm font-semibold text-indigo-600 tracking-wider uppercase">Business Intelligence</p>
                 <h3 class="text-4xl font-bold text-gray-950 mt-2 max-w-3xl">
-                    Know more about your customers than ever before.
+                    Data-driven insights that directly impact your profit margins.
                 </h3>
             </div>
 
-            <div class="mt-10 grid grid-cols-1 gap-4 sm:mt-16 lg:grid-cols-6 lg:grid-rows-2">
+            <div class="mt-10 grid grid-cols-1 gap-4 sm:mt-16 sm:grid-cols-2 lg:grid-cols-6 lg:grid-rows-2">
         <!-- Smart Sentiment Analysis -->
                 <div class="group relative overflow-hidden rounded-2xl bg-white p-8 shadow-lg hover:shadow-xl transition-all duration-300 lg:col-span-3 lg:rounded-tl-4xl">
                     <div class="absolute inset-0 bg-gradient-to-br from-green-50 to-emerald-100 opacity-50"></div>
                     <div class="relative">
-                        <p class="text-sm font-semibold text-green-600 tracking-wider uppercase">AI Powered</p>
-                        <h4 class="text-2xl font-bold text-gray-950 mt-2">Smart Sentiment Analysis</h4>
+                        <p class="text-sm font-semibold text-green-600 tracking-wider uppercase">Revenue Protection</p>
+                        <h4 class="text-2xl font-bold text-gray-950 mt-2">AI-Powered Risk Detection</h4>
                         <p class="text-gray-700 mt-4">
-                            Advanced AI analyzes emotions, satisfaction levels, and sentiment trends across all your reviews. Get granular insights into customer feelings with confidence scores and emotion detection.
+                            Identify revenue-threatening issues before they escalate. Our AI monitors sentiment trends and flags declining satisfaction that could impact your bottom line, with automated alerts for management teams.
                         </p>
                         <div class="mt-8 h-48 bg-gradient-to-br from-green-100 to-emerald-200 rounded-lg p-4">
                             <div class="grid grid-cols-3 gap-2 text-center h-full">
@@ -137,10 +230,10 @@
                 <div class="group relative overflow-hidden rounded-2xl bg-white p-8 shadow-lg hover:shadow-xl transition-all duration-300 lg:col-span-3 lg:rounded-tr-4xl">
                     <div class="absolute inset-0 bg-gradient-to-br from-blue-50 to-indigo-100 opacity-50"></div>
                     <div class="relative">
-                        <p class="text-sm font-semibold text-blue-600 tracking-wider uppercase">Breakdown</p>
-                        <h4 class="text-2xl font-bold text-gray-950 mt-2">Detailed Ratings Analysis</h4>
+                        <p class="text-sm font-semibold text-blue-600 tracking-wider uppercase">Performance Metrics</p>
+                        <h4 class="text-2xl font-bold text-gray-950 mt-2">Operational Performance Index</h4>
                         <p class="text-gray-700 mt-4">
-                            Break down your ratings by Food Quality, Service Excellence, and Atmosphere. Understand exactly where you excel and where there's room for improvement.
+                            Executive-level KPIs that track Food Quality, Service Excellence, and Atmosphere performance. Benchmark against industry standards and identify profit optimization opportunities.
                         </p>
                         <div class="mt-8 h-48 bg-gradient-to-br from-blue-100 to-indigo-200 rounded-lg p-4">
                             <div class="space-y-4">
@@ -180,10 +273,10 @@
                 <div class="group relative overflow-hidden rounded-2xl bg-white p-8 shadow-lg hover:shadow-xl transition-all duration-300 lg:col-span-2 lg:rounded-bl-4xl">
                     <div class="absolute inset-0 bg-gradient-to-br from-purple-50 to-violet-100 opacity-50"></div>
                     <div class="relative">
-                        <p class="text-sm font-semibold text-purple-600 tracking-wider uppercase">Control</p>
-                        <h4 class="text-2xl font-bold text-gray-950 mt-2">Fully Filterable Dashboard</h4>
+                        <p class="text-sm font-semibold text-purple-600 tracking-wider uppercase">Executive Control</p>
+                        <h4 class="text-2xl font-bold text-gray-950 mt-2">Strategic Analysis Dashboard</h4>
                         <p class="text-gray-700 mt-4">
-                            Filter by date range, rating, platform, keywords, sentiment, and more. Drill down into exactly the data you need with powerful search and filtering tools.
+                            Filter and analyze data by location, time period, customer segments, and revenue impact. Make informed decisions with customizable reports designed for executive teams.
                         </p>
                         <div class="mt-8 space-y-3">
                             <div class="flex space-x-2">
@@ -202,10 +295,10 @@
                 <div class="group relative overflow-hidden rounded-2xl bg-white p-8 shadow-lg hover:shadow-xl transition-all duration-300 lg:col-span-2">
                     <div class="absolute inset-0 bg-gradient-to-br from-indigo-50 to-indigo-100 opacity-50"></div>
                     <div class="relative">
-                        <p class="text-sm font-semibold text-indigo-600 tracking-wider uppercase">Intelligence</p>
-                        <h4 class="text-2xl font-bold text-gray-950 mt-2">Keyword-Level Insights</h4>
+                        <p class="text-sm font-semibold text-indigo-600 tracking-wider uppercase">Competitive Intelligence</p>
+                        <h4 class="text-2xl font-bold text-gray-950 mt-2">Menu & Service Optimization</h4>
                         <p class="text-gray-700 mt-4">
-                            Track sentiment and mentions for specific dishes, services, and experiences. See which keywords drive positive vs negative sentiment.
+                            Track ROI on specific dishes and services. Identify your highest-margin items that customers love and eliminate profit-draining offerings based on sentiment analysis.
                         </p>
                         <div class="mt-8 space-y-2">
                             <div class="flex justify-between items-center">
@@ -228,10 +321,10 @@
                 <div class="group relative overflow-hidden rounded-2xl bg-white p-8 shadow-lg hover:shadow-xl transition-all duration-300 lg:col-span-2 lg:rounded-br-4xl">
                     <div class="absolute inset-0 bg-gradient-to-br from-rose-50 to-pink-100 opacity-50"></div>
       <div class="relative">
-                        <p class="text-sm font-semibold text-rose-600 tracking-wider uppercase">Extraction</p>
-                        <h4 class="text-2xl font-bold text-gray-950 mt-2">Complaint & Suggestion Extraction</h4>
+                        <p class="text-sm font-semibold text-rose-600 tracking-wider uppercase">Risk Mitigation</p>
+                        <h4 class="text-2xl font-bold text-gray-950 mt-2">Automated Issue Detection</h4>
                         <p class="text-gray-700 mt-4">
-                            Automatically extract and categorize complaints and suggestions from reviews. Never miss actionable feedback from your customers.
+                            Automatically identify and prioritize operational issues that could impact revenue. Get executive summaries of critical problems with recommended action plans.
                         </p>
                         <div class="mt-8 space-y-3">
                             <div class="bg-rose-100 rounded-lg p-2">
@@ -247,136 +340,22 @@
           </div>
         </div>
       </div>
+        </div>
     </div>
 
-    <!-- Dark Bento Section -->
-    <div class="mx-2 mt-2 rounded-4xl bg-gray-900 py-32">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="mb-8">
-                <p class="text-sm font-semibold text-indigo-400 tracking-wider uppercase">Actionable</p>
-                <h3 class="text-4xl font-bold text-white mt-2 max-w-3xl">
-                    Turn insights into improvements.
-                </h3>
-            </div>
 
-            <div class="mt-10 grid grid-cols-1 gap-4 sm:mt-16 lg:grid-cols-6 lg:grid-rows-2">
-                <!-- Email Alerts for CEO, Managers, and Staff -->
-                <div class="group relative overflow-hidden rounded-2xl bg-gray-800 p-8 shadow-lg hover:shadow-xl transition-all duration-300 lg:col-span-4 lg:rounded-tl-4xl">
-                    <div class="relative">
-                        <p class="text-sm font-semibold text-indigo-400 tracking-wider uppercase">Communication</p>
-                        <h4 class="text-2xl font-bold text-white mt-2">Email Alerts for CEO, Managers, and Staff</h4>
-                        <p class="text-gray-300 mt-4">
-                            Customizable email alerts tailored for different roles. CEOs get executive summaries, managers receive operational insights, and staff get actionable feedback notifications.
-                        </p>
-                        <div class="mt-8 h-48 bg-gradient-to-br from-gray-700 to-gray-600 rounded-lg p-6">
-                            <div class="space-y-4">
-                                <div class="flex items-center space-x-3">
-                                    <div class="w-8 h-8 bg-red-500 rounded-full flex items-center justify-center">
-                                        <span class="text-white text-xs font-bold">CEO</span>
-                                    </div>
-                                    <div class="text-gray-200 text-sm">📊 Weekly executive summary + KPI alerts</div>
-                                </div>
-                                <div class="flex items-center space-x-3">
-                                    <div class="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center">
-                                        <span class="text-white text-xs font-bold">MGR</span>
-                                    </div>
-                                    <div class="text-gray-200 text-sm">⚡ Daily operational insights + trend alerts</div>
-                                </div>
-                                <div class="flex items-center space-x-3">
-                                    <div class="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center">
-                                        <span class="text-white text-xs font-bold">STAFF</span>
-                                    </div>
-                                    <div class="text-gray-200 text-sm">💬 Real-time feedback + action items</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-      </div>
-
-                <!-- Smart Analytics Integration -->
-                <div class="group relative overflow-hidden rounded-2xl bg-gray-800 p-8 shadow-lg hover:shadow-xl transition-all duration-300 z-10 lg:col-span-2 lg:rounded-tr-4xl">
-                    <div class="relative">
-                        <p class="text-sm font-semibold text-indigo-400 tracking-wider uppercase">Integrations</p>
-                        <h4 class="text-2xl font-bold text-white mt-2">Smart Analytics Hub</h4>
-                        <p class="text-gray-300 mt-4">
-                            Connect all your review platforms and management tools for comprehensive insights across your entire operation.
-                        </p>
-                        <div class="mt-8 grid grid-cols-1 gap-3">
-                            <div class="bg-gray-700 rounded-lg p-3 text-center">
-                                <div class="text-sm font-medium text-gray-300">🔗 Multi-Platform Sync</div>
-                            </div>
-                            <div class="bg-gray-700 rounded-lg p-3 text-center">
-                                <div class="text-sm font-medium text-gray-300">📊 POS Integration</div>
-                            </div>
-                            <div class="bg-gray-700 rounded-lg p-3 text-center">
-                                <div class="text-sm font-medium text-gray-300">📧 Email Automation</div>
-                            </div>
-                        </div>
-          </div>
-        </div>
-
-                <!-- AI-Powered Recommendations -->
-                <div class="group relative overflow-hidden rounded-2xl bg-gray-800 p-8 shadow-lg hover:shadow-xl transition-all duration-300 lg:col-span-2 lg:rounded-bl-4xl">
-                    <div class="relative">
-                        <p class="text-sm font-semibold text-indigo-400 tracking-wider uppercase">Intelligence</p>
-                        <h4 class="text-2xl font-bold text-white mt-2">AI-Powered Actions</h4>
-                        <p class="text-gray-300 mt-4">
-                            Get specific, actionable recommendations based on complaint analysis, sentiment trends, and keyword insights.
-                        </p>
-                        <div class="mt-8 space-y-3">
-                            <div class="bg-gray-700 rounded-lg p-3">
-                                <div class="text-xs font-medium text-indigo-400 mb-1">🎯 Priority Action</div>
-                                <div class="text-xs text-gray-300">"Reduce service wait times during 7-9pm"</div>
-                            </div>
-                            <div class="bg-gray-700 rounded-lg p-3">
-                                <div class="text-xs font-medium text-green-400 mb-1">✨ Opportunity</div>
-                                <div class="text-xs text-gray-300">"Promote popular pasta dishes more"</div>
-                            </div>
-                        </div>
-          </div>
-        </div>
-
-                <!-- Real-Time Performance Tracking -->
-                <div class="group relative overflow-hidden rounded-2xl bg-gray-800 p-8 shadow-lg hover:shadow-xl transition-all duration-300 lg:col-span-4 lg:rounded-br-4xl">
-                    <div class="relative">
-                        <p class="text-sm font-semibold text-indigo-400 tracking-wider uppercase">Performance</p>
-                        <h4 class="text-2xl font-bold text-white mt-2">Real-Time Performance Dashboard</h4>
-                        <p class="text-gray-300 mt-4">
-                            Monitor improvements in real-time. Track how your actions impact ratings, sentiment, and customer satisfaction with live performance metrics and trend analysis.
-                        </p>
-                        <div class="mt-8 grid grid-cols-3 gap-4">
-                            <div class="bg-gradient-to-r from-gray-700 to-gray-600 rounded-lg p-4 text-center">
-                                <div class="text-2xl font-bold text-green-400">+0.8</div>
-                                <div class="text-xs text-gray-300">Rating Improvement</div>
-                                <div class="text-xs text-gray-400">This Month</div>
-                            </div>
-                            <div class="bg-gradient-to-r from-gray-700 to-gray-600 rounded-lg p-4 text-center">
-                                <div class="text-2xl font-bold text-blue-400">-45%</div>
-                                <div class="text-xs text-gray-300">Complaints Down</div>
-                                <div class="text-xs text-gray-400">Last 30 Days</div>
-                            </div>
-                            <div class="bg-gradient-to-r from-gray-700 to-gray-600 rounded-lg p-4 text-center">
-                                <div class="text-2xl font-bold text-indigo-400">+23%</div>
-                                <div class="text-xs text-gray-300">Positive Mentions</div>
-                                <div class="text-xs text-gray-400">This Week</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-        </div>
-      </div>
-    </div>
 </main>
 
   <!-- Testimonials -->
-<section class="py-32 bg-white">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<section class="py-32 bg-gradient-to-b from-white via-gray-50 to-white relative">
+    <div class="absolute inset-0 bg-gradient-to-r from-indigo-50/30 via-transparent to-purple-50/30"></div>
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
       <div class="text-center mb-16">
             <h2 class="text-4xl font-bold text-gray-950 mb-4">
-                Loved by restaurant owners everywhere
+                Trusted by Restaurant Leaders Who Value Results
         </h2>
         <p class="text-xl text-gray-600">
-                See how Tablr is helping restaurants improve customer satisfaction
+                See how Tablr is protecting revenue and driving growth for restaurant businesses
         </p>
       </div>
 
@@ -389,11 +368,11 @@
             </div>
             <div class="ml-4">
               <h4 class="text-lg font-semibold text-gray-900">Maria Rodriguez</h4>
-              <p class="text-gray-600">Owner, Casa Bella</p>
+              <p class="text-gray-600">CEO & Founder, Casa Bella Restaurant Group</p>
             </div>
           </div>
           <p class="text-gray-700 italic">
-            "Tablr helped us identify that customers loved our appetizers but were consistently complaining about wait times. We hired more staff and saw immediate improvement in ratings."
+            "Tablr identified that wait times were costing us $50K annually in lost customers. After optimizing our staffing based on their insights, we increased revenue by 23% and improved our rating from 4.1 to 4.7 stars."
           </p>
         </div>
 
@@ -405,11 +384,11 @@
             </div>
             <div class="ml-4">
               <h4 class="text-lg font-semibold text-gray-900">James Chen</h4>
-              <p class="text-gray-600">Manager, Dragon Palace</p>
+              <p class="text-gray-600">COO, Dragon Palace Hospitality</p>
             </div>
           </div>
           <p class="text-gray-700 italic">
-                    "The AI recommendations are spot-on. We implemented their suggestions and our customer satisfaction scores improved by 15% in just two months."
+                    "Tablr's AI recommendations directly increased our profit margins by 18%. Their insights helped us eliminate underperforming menu items and optimize our highest-ROI dishes, saving us $75K in food costs annually."
           </p>
         </div>
 
@@ -421,11 +400,11 @@
             </div>
             <div class="ml-4">
               <h4 class="text-lg font-semibold text-gray-900">Sarah Kim</h4>
-              <p class="text-gray-600">Owner, Seoul Kitchen</p>
+              <p class="text-gray-600">Founder & Executive Chef, Seoul Kitchen Group</p>
             </div>
           </div>
           <p class="text-gray-700 italic">
-            "I never realized how much insight was hidden in our reviews. Tablr showed us exactly which dishes customers mention most, helping us optimize our menu."
+            "As a multi-location owner, Tablr's executive dashboard gives me real-time visibility into all my restaurants' performance. We've reduced customer churn by 35% and increased average ticket size by $12 per order."
           </p>
         </div>
       </div>
@@ -433,28 +412,29 @@
   </section>
 
   <!-- Final CTA -->
-<section class="py-20 bg-indigo-600">
-    <div class="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8">
-      <h2 class="text-3xl sm:text-4xl font-bold text-white mb-6">
-        Ready to understand your customers better?
-      </h2>
+<section class="py-20 bg-indigo-900 relative">
+    <div class="absolute inset-0 bg-indigo-900/30"></div>
+    <div class="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8 relative z-10">
+        <h2 class="text-3xl sm:text-4xl font-bold text-white mb-6">
+        Stop Losing Revenue to Preventable Issues
+        </h2>
         <p class="text-xl text-indigo-100 mb-8">
-        Join the waitlist and be among the first restaurant owners to transform your reviews into actionable insights.
-      </p>
-      
-             <div class="flex flex-col sm:flex-row gap-4 justify-center max-w-md mx-auto">
-         <% if user_signed_in? %>
-                <%= link_to "Go to Dashboard", dashboard_path, class: "inline-flex items-center justify-center px-8 py-4 border border-transparent text-lg font-medium rounded-md text-indigo-600 bg-white hover:bg-gray-50 transition duration-150 ease-in-out shadow-lg hover:shadow-xl" %>
-         <% else %>
-                <%= link_to "Get Early Access", new_user_registration_path, class: "inline-flex items-center justify-center px-8 py-4 border border-transparent text-lg font-medium rounded-md text-indigo-600 bg-white hover:bg-gray-50 transition duration-150 ease-in-out shadow-lg hover:shadow-xl" %>
-         <% end %>
-       </div>
-      
+        Join 500+ restaurant owners who've increased profits by an average of 22% using Tablr's AI-powered insights. Limited beta access for serious restaurant executives.
+        </p>
+        
+                <div class="flex flex-col sm:flex-row gap-4 justify-center max-w-md mx-auto">
+            <% if user_signed_in? %>
+                <%= link_to "Go to Dashboard", dashboard_path, class: "inline-flex items-center justify-center px-8 py-4 border border-transparent text-lg font-medium rounded-md text-indigo-600 bg-gradient-to-r from-white to-gray-50 hover:from-gray-50 hover:to-gray-100 transition duration-150 ease-in-out shadow-lg hover:shadow-xl" %>
+            <% else %>
+                <%= link_to "Get Started", new_user_registration_path, class: "inline-flex items-center justify-center px-8 py-4 border border-transparent text-lg font-medium rounded-md text-indigo-600 bg-gradient-to-r from-white to-gray-50 hover:from-gray-50 hover:to-gray-100 transition duration-150 ease-in-out shadow-lg hover:shadow-xl" %>
+            <% end %>
+        </div>
+        
         <p class="mt-6 text-indigo-200 text-sm">
-        No credit card required • Free during beta • Cancel anytime
-      </p>
+        Executive onboarding • 30-day ROI guarantee • Priority support
+        </p>
     </div>
-  </section>
+</section>
 
   <!-- Footer -->
 <footer class="bg-gray-900 text-white">
@@ -466,16 +446,6 @@
                     Turn restaurant reviews into actionable insights. Understand your customers better and improve their experience with AI-powered analytics.
                 </p>
                 <div class="flex space-x-4">
-                    <a href="#" class="text-gray-400 hover:text-white transition-colors">
-                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"/>
-                        </svg>
-                    </a>
-                    <a href="#" class="text-gray-400 hover:text-white transition-colors">
-                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M22.46 6c-.77.35-1.6.58-2.46.69.88-.53 1.56-1.37 1.88-2.38-.83.5-1.75.85-2.72 1.05C18.37 4.5 17.26 4 16 4c-2.35 0-4.27 1.92-4.27 4.29 0 .34.04.67.11.98C8.28 9.09 5.11 7.38 3 4.79c-.37.63-.58 1.37-.58 2.15 0 1.49.75 2.81 1.91 3.56-.71 0-1.37-.2-1.95-.5v.03c0 2.08 1.48 3.82 3.44 4.21a4.22 4.22 0 0 1-1.93.07 4.28 4.28 0 0 0 4 2.98 8.521 8.521 0 0 1-5.33 1.84c-.34 0-.68-.02-1.02-.06C3.44 20.29 5.7 21 8.12 21 16 21 20.33 14.46 20.33 8.79c0-.19 0-.37-.01-.56.84-.6 1.56-1.36 2.14-2.23z"/>
-                        </svg>
-                    </a>
                     <a href="#" class="text-gray-400 hover:text-white transition-colors">
                         <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
                             <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><%= content_for?(:title) ? yield(:title) : "Tablr - Turn Restaurant Reviews into Actionable Insights" %></title>
-    <meta name="description" content="<%= content_for?(:description) ? yield(:description) : "Tablr helps restaurant owners analyze reviews, spot trends, and make data-driven decisions with AI-powered insights from customer feedback." %>">
+    <meta name="description" content="<%= content_for?(:description) ? yield(:description) : "Tablr helps restaurant owners analyze reviews, spot trends, and make data-driven decisions with AI-powered analytics and insights from customer feedback." %>">
     
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
@@ -32,6 +32,9 @@
     
     <!-- Custom Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- JavaScript Imports -->
+    <%= javascript_importmap_tags %>
     
     <%= yield(:head) %>
 </head>

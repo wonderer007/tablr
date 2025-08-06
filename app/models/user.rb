@@ -9,6 +9,8 @@ class User < ApplicationRecord
   validates :first_name, presence: true
   validates :last_name, presence: true
 
+  belongs_to :place
+
   attr_accessor :google_maps_url
 
   enum :email_notification_period, [:weekly, :monthly, :weekly_and_monthly]

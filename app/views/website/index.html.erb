@@ -28,7 +28,6 @@
         <div class="flex items-center space-x-4">
                 <% if user_signed_in? %>
                     <%= link_to "Dashboard", dashboard_path, class: "text-indigo-100 hover:text-white px-3 py-2 text-sm font-medium" %>
-                    <%= link_to "Analytics", analytics_path, class: "bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-md text-sm font-medium transition duration-150 ease-in-out" %>
                 <% else %>
                     <%= link_to "Sign In", new_user_session_path, class: "text-indigo-100 hover:text-white px-3 py-2 text-sm font-medium" %>
                     <%= link_to "Get Started", new_user_registration_path, class: "bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-md text-sm font-medium transition duration-150 ease-in-out" %>
@@ -47,7 +46,6 @@
             <div class="mt-12 flex flex-col gap-4 sm:flex-row sm:gap-6">
                           <% if user_signed_in? %>
                     <%= link_to "Go to Dashboard", dashboard_path, class: "inline-flex items-center justify-center px-8 py-4 border border-transparent text-lg font-medium rounded-md text-white bg-gradient-to-r from-indigo-600 to-indigo-700 hover:from-indigo-700 hover:to-indigo-800 transition duration-150 ease-in-out shadow-lg hover:shadow-xl" %>
-                    <%= link_to "View Analytics", analytics_path, class: "inline-flex items-center justify-center px-8 py-4 border border-indigo-300 text-lg font-medium rounded-md text-indigo-100 bg-indigo-800/50 hover:bg-indigo-800/70 transition duration-150 ease-in-out shadow-md hover:shadow-lg" %>
           <% else %>
                     <%= link_to "Get Started", new_user_registration_path, class: "inline-flex items-center justify-center px-8 py-4 border border-transparent text-lg font-medium rounded-md text-white bg-gradient-to-r from-indigo-600 to-indigo-700 hover:from-indigo-700 hover:to-indigo-800 transition duration-150 ease-in-out shadow-lg hover:shadow-xl" %>
                     <%= link_to "Request Demo", new_demo_request_path, class: "inline-flex items-center justify-center px-8 py-4 border border-transparent text-lg font-medium rounded-md text-white bg-gradient-to-r from-indigo-600 to-indigo-700 hover:from-indigo-700 hover:to-indigo-800 transition duration-150 ease-in-out shadow-lg hover:shadow-xl" %>
@@ -347,63 +345,63 @@
 </main>
 
   <!-- Testimonials -->
-<section class="py-32 bg-gradient-to-b from-white via-gray-50 to-white relative">
-    <div class="absolute inset-0 bg-gradient-to-r from-indigo-50/30 via-transparent to-purple-50/30"></div>
+<section class="py-32 bg-gradient-to-b from-gray-900 via-gray-800 to-gray-900 relative">
+    <div class="absolute inset-0 bg-gradient-to-r from-indigo-900/20 via-transparent to-purple-900/20"></div>
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
       <div class="text-center mb-16">
-            <h2 class="text-4xl font-bold text-gray-950 mb-4">
+            <h2 class="text-4xl font-bold text-white mb-4">
                 Trusted by Restaurant Leaders Who Value Results
         </h2>
-        <p class="text-xl text-gray-600">
+        <p class="text-xl text-gray-300">
                 See how Tablr is protecting revenue and driving growth for restaurant businesses
         </p>
       </div>
 
       <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
         <!-- Testimonial 1 -->
-            <div class="bg-white rounded-2xl shadow-lg p-8 border border-gray-100">
+            <div class="bg-gradient-to-br from-indigo-600 to-purple-700 rounded-3xl shadow-2xl p-8 border border-indigo-500/20 hover:scale-105 transition-transform duration-300">
                 <div class="flex items-center mb-6">
-                    <div class="w-12 h-12 bg-indigo-100 rounded-full flex items-center justify-center">
-                        <span class="text-indigo-600 font-semibold text-lg">MR</span>
+                    <div class="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm">
+                        <span class="text-white font-semibold text-lg">MR</span>
             </div>
             <div class="ml-4">
-              <h4 class="text-lg font-semibold text-gray-900">Maria Rodriguez</h4>
-              <p class="text-gray-600">CEO & Founder, Casa Bella Restaurant Group</p>
+              <h4 class="text-lg font-semibold text-white">Maria Rodriguez</h4>
+              <p class="text-indigo-200">CEO & Founder, Casa Bella Restaurant Group</p>
             </div>
           </div>
-          <p class="text-gray-700 italic">
-            "Tablr identified that wait times were costing us $50K annually in lost customers. After optimizing our staffing based on their insights, we increased revenue by 23% and improved our rating from 4.1 to 4.7 stars."
+          <p class="text-indigo-100 italic">
+            "Tablr identified that wait times were costing us $ in lost customers. After optimizing our staffing based on their insights, we increased revenue by 23% and improved our rating from 4.1 to 4.7 stars."
           </p>
         </div>
 
         <!-- Testimonial 2 -->
-            <div class="bg-white rounded-2xl shadow-lg p-8 border border-gray-100">
+            <div class="bg-gradient-to-br from-emerald-600 to-teal-700 rounded-3xl shadow-2xl p-8 border border-emerald-500/20 hover:scale-105 transition-transform duration-300">
                 <div class="flex items-center mb-6">
-              <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
-                <span class="text-green-600 font-semibold text-lg">JC</span>
+              <div class="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm">
+                <span class="text-white font-semibold text-lg">JC</span>
             </div>
             <div class="ml-4">
-              <h4 class="text-lg font-semibold text-gray-900">James Chen</h4>
-              <p class="text-gray-600">COO, Dragon Palace Hospitality</p>
+              <h4 class="text-lg font-semibold text-white">James Chen</h4>
+              <p class="text-emerald-200">COO, Dragon Palace Hospitality</p>
             </div>
           </div>
-          <p class="text-gray-700 italic">
+          <p class="text-emerald-100 italic">
                     "Tablr's AI recommendations directly increased our profit margins by 18%. Their insights helped us eliminate underperforming menu items and optimize our highest-ROI dishes, saving us $75K in food costs annually."
           </p>
         </div>
 
         <!-- Testimonial 3 -->
-            <div class="bg-white rounded-2xl shadow-lg p-8 border border-gray-100">
+            <div class="bg-gradient-to-br from-rose-600 to-pink-700 rounded-3xl shadow-2xl p-8 border border-rose-500/20 hover:scale-105 transition-transform duration-300">
                 <div class="flex items-center mb-6">
-              <div class="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center">
-                <span class="text-purple-600 font-semibold text-lg">SK</span>
+              <div class="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm">
+                <span class="text-white font-semibold text-lg">SK</span>
             </div>
             <div class="ml-4">
-              <h4 class="text-lg font-semibold text-gray-900">Sarah Kim</h4>
-              <p class="text-gray-600">Founder & Executive Chef, Seoul Kitchen Group</p>
+              <h4 class="text-lg font-semibold text-white">Sarah Kim</h4>
+              <p class="text-rose-200">Founder & Executive Chef, Seoul Kitchen Group</p>
             </div>
           </div>
-          <p class="text-gray-700 italic">
+          <p class="text-rose-100 italic">
             "As a multi-location owner, Tablr's executive dashboard gives me real-time visibility into all my restaurants' performance. We've reduced customer churn by 35% and increased average ticket size by $12 per order."
           </p>
         </div>
@@ -411,28 +409,154 @@
     </div>
   </section>
 
-  <!-- Final CTA -->
-<section class="py-20 bg-indigo-900 relative">
-    <div class="absolute inset-0 bg-indigo-900/30"></div>
-    <div class="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8 relative z-10">
-        <h2 class="text-3xl sm:text-4xl font-bold text-white mb-6">
-        Stop Losing Revenue to Preventable Issues
-        </h2>
-        <p class="text-xl text-indigo-100 mb-8">
-        Join 500+ restaurant owners who've increased profits by an average of 22% using Tablr's AI-powered insights. Limited beta access for serious restaurant executives.
-        </p>
-        
-                <div class="flex flex-col sm:flex-row gap-4 justify-center max-w-md mx-auto">
-            <% if user_signed_in? %>
-                <%= link_to "Go to Dashboard", dashboard_path, class: "inline-flex items-center justify-center px-8 py-4 border border-transparent text-lg font-medium rounded-md text-indigo-600 bg-gradient-to-r from-white to-gray-50 hover:from-gray-50 hover:to-gray-100 transition duration-150 ease-in-out shadow-lg hover:shadow-xl" %>
-            <% else %>
-                <%= link_to "Get Started", new_user_registration_path, class: "inline-flex items-center justify-center px-8 py-4 border border-transparent text-lg font-medium rounded-md text-indigo-600 bg-gradient-to-r from-white to-gray-50 hover:from-gray-50 hover:to-gray-100 transition duration-150 ease-in-out shadow-lg hover:shadow-xl" %>
-            <% end %>
+  <!-- Pricing Section -->
+<section id="pricing" class="py-32 bg-gradient-to-b from-slate-50 via-blue-50 to-indigo-50 relative">
+    <div class="absolute inset-0 bg-gradient-to-r from-blue-100/20 via-transparent to-indigo-100/20"></div>
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div class="text-center mb-16">
+            <h2 class="text-4xl font-bold text-slate-900 mb-4">
+                Simple, Transparent Pricing
+            </h2>
+            <p class="text-xl text-slate-600">
+                Everything you need to turn reviews into revenue. No hidden fees, no surprises.
+            </p>
         </div>
-        
-        <p class="mt-6 text-indigo-200 text-sm">
-        Executive onboarding • 30-day ROI guarantee • Priority support
-        </p>
+
+        <div class="max-w-4xl mx-auto">
+            <!-- Main Pricing Card -->
+            <div class="bg-white/80 backdrop-blur-sm rounded-3xl shadow-2xl border border-blue-200/50 overflow-hidden relative">
+                <!-- Popular Badge -->
+                <div class="absolute top-0 right-0 bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-6 py-2 rounded-bl-2xl text-sm font-semibold shadow-lg">
+                    Most Popular
+                </div>
+                
+                <div class="p-8 md:p-12">
+                    <div class="text-center mb-8">
+                        <h3 class="text-3xl font-bold text-slate-900 mb-4">Restaurant Analytics Pro</h3>
+                        <div class="flex items-baseline justify-center mb-6">
+                            <span class="text-6xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">$9</span>
+                            <span class="text-xl text-slate-600 ml-2">/month</span>
+                        </div>
+                        <p class="text-slate-600 text-lg">Perfect for restaurants serious about growth</p>
+                    </div>
+
+                    <!-- Features List -->
+                    <div class="grid md:grid-cols-2 gap-8 mb-8">
+                        <div class="space-y-4">
+                            <h4 class="text-lg font-semibold text-slate-900 mb-4">What's Included:</h4>
+                            <div class="space-y-3">
+                                <div class="flex items-start">
+                                    <div class="w-5 h-5 bg-gradient-to-r from-green-400 to-emerald-500 rounded-full flex items-center justify-center mr-3 mt-0.5">
+                                        <svg class="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                        </svg>
+                                    </div>
+                                    <span class="text-slate-700">6 months of historic data</span>
+                                </div>
+                                <div class="flex items-start">
+                                    <div class="w-5 h-5 bg-gradient-to-r from-green-400 to-emerald-500 rounded-full flex items-center justify-center mr-3 mt-0.5">
+                                        <svg class="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                        </svg>
+                                    </div>
+                                    <span class="text-slate-700">Up to 2,000 reviews</span>
+                                </div>
+                                <div class="flex items-start">
+                                    <div class="w-5 h-5 bg-gradient-to-r from-green-400 to-emerald-500 rounded-full flex items-center justify-center mr-3 mt-0.5">
+                                        <svg class="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                        </svg>
+                                    </div>
+                                    <span class="text-slate-700">AI-powered sentiment analysis</span>
+                                </div>
+                                <div class="flex items-start">
+                                    <div class="w-5 h-5 bg-gradient-to-r from-green-400 to-emerald-500 rounded-full flex items-center justify-center mr-3 mt-0.5">
+                                        <svg class="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                        </svg>
+                                    </div>
+                                    <span class="text-slate-700">Complaint & suggestion extraction</span>
+                                </div>
+                                <div class="flex items-start">
+                                    <div class="w-5 h-5 bg-gradient-to-r from-green-400 to-emerald-500 rounded-full flex items-center justify-center mr-3 mt-0.5">
+                                        <svg class="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                        </svg>
+                                    </div>
+                                    <span class="text-slate-700">Executive dashboard & reports</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="space-y-4">
+                            <h4 class="text-lg font-semibold text-slate-900 mb-4">Additional Benefits:</h4>
+                            <div class="space-y-3">
+                                <div class="flex items-start">
+                                    <div class="w-5 h-5 bg-gradient-to-r from-green-400 to-emerald-500 rounded-full flex items-center justify-center mr-3 mt-0.5">
+                                        <svg class="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                        </svg>
+                                    </div>
+                                    <span class="text-slate-700">Real-time alerts & notifications</span>
+                                </div>
+                                <div class="flex items-start">
+                                    <div class="w-5 h-5 bg-gradient-to-r from-green-400 to-emerald-500 rounded-full flex items-center justify-center mr-3 mt-0.5">
+                                        <svg class="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                        </svg>
+                                    </div>
+                                    <span class="text-slate-700">Priority customer support</span>
+                                </div>
+                                <div class="flex items-start">
+                                    <div class="w-5 h-5 bg-gradient-to-r from-green-400 to-emerald-500 rounded-full flex items-center justify-center mr-3 mt-0.5">
+                                        <svg class="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                        </svg>
+                                    </div>
+                                    <span class="text-slate-700">30-day money-back guarantee</span>
+                                </div>
+                                <div class="flex items-start">
+                                    <div class="w-5 h-5 bg-gradient-to-r from-green-400 to-emerald-500 rounded-full flex items-center justify-center mr-3 mt-0.5">
+                                        <svg class="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                        </svg>
+                                    </div>
+                                    <span class="text-slate-700">No setup fees or hidden costs</span>
+                                </div>
+                                <div class="flex items-start">
+                                    <div class="w-5 h-5 bg-gradient-to-r from-green-400 to-emerald-500 rounded-full flex items-center justify-center mr-3 mt-0.5">
+                                        <svg class="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                        </svg>
+                                    </div>
+                                    <span class="text-slate-700">Cancel anytime</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- CTA Buttons -->
+                    <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                        <% if user_signed_in? %>
+                            <%= link_to "Go to Dashboard", dashboard_path, class: "inline-flex items-center justify-center px-8 py-4 border border-transparent text-lg font-medium rounded-md text-white bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 transition duration-150 ease-in-out shadow-lg hover:shadow-xl" %>
+                        <% else %>
+                            <%= link_to "Start Free Trial", new_user_registration_path, class: "inline-flex items-center justify-center px-8 py-4 border border-transparent text-lg font-medium rounded-md text-white bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 transition duration-150 ease-in-out shadow-lg hover:shadow-xl" %>
+                            <%= link_to "Request Demo", new_demo_request_path, class: "inline-flex items-center justify-center px-8 py-4 border border-blue-300 text-lg font-medium rounded-md text-blue-600 bg-white hover:bg-blue-50 transition duration-150 ease-in-out shadow-md hover:shadow-lg" %>
+                        <% end %>
+                    </div>
+
+                    <!-- Additional Info -->
+                    <div class="mt-8 text-center">
+                        <p class="text-slate-600 mb-4">
+                            <strong>Need more historic data?</strong> We offer custom pricing for restaurants requiring extended data access.
+                        </p>
+                        <p class="text-sm text-slate-500">
+                            Still unsure? Book a demo and we'll make you feel at home. No pressure, just insights.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </section>
 
@@ -458,7 +582,7 @@
                 <h4 class="text-lg font-semibold mb-4">Product</h4>
                 <ul class="space-y-2">
                     <li><a href="#features" class="text-gray-400 hover:text-white transition-colors">Features</a></li>
-                    <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Pricing</a></li>
+                    <li><a href="#pricing" class="text-gray-400 hover:text-white transition-colors">Pricing</a></li>
                     <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Integrations</a></li>
                     <li><a href="#" class="text-gray-400 hover:text-white transition-colors">API</a></li>
                 </ul>

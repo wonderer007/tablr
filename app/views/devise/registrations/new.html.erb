@@ -67,8 +67,25 @@
           </div>
         </div>
 
+        <!-- Terms and Conditions Section -->
+        <div class="pt-6 border-t border-gray-100">
+          <div class="flex items-start">
+            <div class="flex items-center h-5">
+              <input id="terms_accepted" name="terms_accepted" type="checkbox" required class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded">
+            </div>
+            <div class="ml-3 text-sm">
+              <label for="terms_accepted" class="text-gray-700">
+                I agree to the 
+                <button type="button" onclick="openTermsModal()" class="text-indigo-600 hover:text-indigo-500 underline font-medium">
+                  Terms and Conditions
+                </button>
+              </label>
+            </div>
+          </div>
+        </div>
+
         <div class="pt-8">
-          <%= f.submit "Create Account", class: "w-full flex justify-center py-3 px-6 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition duration-200 ease-in-out" %>
+          <%= f.submit "Create Account", id: "create-account-btn", class: "w-full flex justify-center py-3 px-6 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition duration-200 ease-in-out" %>
         </div>
       <% end %>
 
@@ -82,3 +99,114 @@
     </div>
   </div>
 </div>
+
+<!-- Include Terms and Conditions Modal -->
+<%= render 'shared/terms_and_conditions_modal' %>
+
+<script>
+  function openTermsModal() {
+    if (window.termsModalController) {
+      window.termsModalController.open()
+    } else {
+      // Fallback if controller not ready
+      const modal = document.querySelector('[data-modal-target="modal"]')
+      if (modal) {
+        modal.classList.remove('hidden')
+        document.body.style.overflow = 'hidden'
+      }
+    }
+  }
+
+  function closeTermsModal() {
+    if (window.termsModalController) {
+      window.termsModalController.close()
+    } else {
+      // Fallback if controller not ready
+      const modal = document.querySelector('[data-modal-target="modal"]')
+      if (modal) {
+        modal.classList.add('hidden')
+        document.body.style.overflow = ''
+      }
+    }
+  }
+
+  function acceptTermsAndClose() {
+    // Check the checkbox
+    const checkbox = document.getElementById('terms_accepted')
+    if (checkbox) {
+      checkbox.checked = true
+      
+      // Remove any error styling
+      checkbox.classList.remove('border-red-300', 'focus:ring-red-500')
+      
+      // Remove error message if it exists
+      const errorMessage = document.getElementById('terms-error-message')
+      if (errorMessage) {
+        errorMessage.remove()
+      }
+    }
+    
+    // Close the modal
+    closeTermsModal()
+  }
+
+  // Form validation
+  document.addEventListener('DOMContentLoaded', function() {
+    const form = document.querySelector('form')
+    if (form) {
+      form.addEventListener('submit', function(event) {
+        const checkbox = document.getElementById('terms_accepted')
+        
+        if (!checkbox || !checkbox.checked) {
+          event.preventDefault()
+          showValidationError('You must accept the Terms and Conditions to create an account.')
+          return false
+        }
+      })
+    }
+  })
+
+  function showValidationError(message) {
+    // Remove any existing error messages
+    const existingError = document.getElementById('terms-error-message')
+    if (existingError) {
+      existingError.remove()
+    }
+
+    // Create and insert error message
+    const checkbox = document.getElementById('terms_accepted')
+    if (checkbox) {
+      const errorDiv = document.createElement('div')
+      errorDiv.id = 'terms-error-message'
+      errorDiv.className = 'mt-2 text-sm text-red-600'
+      errorDiv.textContent = message
+      
+      // Insert after the checkbox container
+      const checkboxContainer = checkbox.closest('.flex.items-start')
+      if (checkboxContainer) {
+        checkboxContainer.parentNode.insertBefore(errorDiv, checkboxContainer.nextSibling)
+      }
+
+      // Add red border to checkbox
+      checkbox.classList.add('border-red-300', 'focus:ring-red-500')
+      
+      // Remove error styling when checkbox is checked
+      checkbox.addEventListener('change', function() {
+        if (checkbox.checked) {
+          errorDiv.remove()
+          checkbox.classList.remove('border-red-300', 'focus:ring-red-500')
+        }
+      }, { once: true })
+    }
+  }
+
+  // Handle escape key
+  document.addEventListener('keydown', function(event) {
+    if (event.key === 'Escape') {
+      const modal = document.querySelector('[data-modal-target="modal"]')
+      if (modal && !modal.classList.contains('hidden')) {
+        closeTermsModal()
+      }
+    }
+  })
+</script>

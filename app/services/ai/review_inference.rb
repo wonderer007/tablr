@@ -66,7 +66,7 @@ class Ai::ReviewInference < ApplicationService
             content: <<~PROMPT
               ### INSTRUCTIONS:
               1. For each review, analyze categories: food, service, ambiance, pricing, timing, cleanliness and review overall sentiment (positive, negative, neutral).
-              2. For each category, return: name, sentiment (positive, negative, neutral), sentiment_score. Add is_dish: true for dishes.
+              2. For each category, return: name (use category name if there is no name), sentiment (positive, negative, neutral), sentiment_score. Add is_dish: true for dishes.
               3. Extract complains/suggestions with category.
               4. Omit categories not mentioned to save tokens.
               5. Sentiment should be positive, negative or neutral.
@@ -127,7 +127,7 @@ class Ai::ReviewInference < ApplicationService
           ],
           "cleanliness": [
             {
-              "name": "general",
+              "name": "cleanliness",
               "sentiment": "neutral",
               "sentiment_score": 40
             }

@@ -41,6 +41,8 @@ class Outreach::Email < ApplicationRecord
       end
     end
 
+    PromotionalEmailJob.perform_later
+
     { created: created_count, updated: updated_count, errors: error_count }
   end
 end

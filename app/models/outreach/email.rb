@@ -2,6 +2,8 @@ require "csv"
 
 class Outreach::Email < ApplicationRecord
   validates :email, presence: true, uniqueness: true
+  validates :company, presence: true
+  validates :first_name, presence: true
 
   def self.ransackable_attributes(auth_object = nil)
     %w[company created_at email email_sent_at first_name id last_name updated_at]

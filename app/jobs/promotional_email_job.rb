@@ -16,6 +16,6 @@ class PromotionalEmailJob < ApplicationJob
   end
 
   def get_random_delay
-    rand(1..10)
+    rand(5..10)
   end
 end

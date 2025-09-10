@@ -6,7 +6,6 @@ ActiveAdmin.register DemoRequest do
     column :last_name
     column :email
     column :restaurant_name
-    column :google_map_url
     column :created_at
     actions
   end

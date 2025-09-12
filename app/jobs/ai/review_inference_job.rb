@@ -11,11 +11,10 @@ class Ai::ReviewInferenceJob < ApplicationJob
       reviews_start_date = place.reviews.where(id: review_ids, processed: false).order(published_at: :asc).first&.published_at&.to_date
       reviews_end_date = place.reviews.where(id: review_ids, processed: false).order(published_at: :desc).first&.published_at&.to_date
 
-      review_ids.each_slice(Ai::ReviewInference::BATCH_LIMIT) do |batch|
+      place.reviews.where(id: review_ids, processed: false).pluck(:id).each_slice(Ai::ReviewInference::BATCH_LIMIT) do |batch|
         Ai::ReviewInference.call(place_id: place.id, review_ids: batch)
+        place.reviews.where(id: batch).update_all(processed: true)
       end
-
-      place.reviews.where(id: review_ids).update_all(processed: true)
 
       keyword_count = Keyword.where(review_id: review_ids).count
       suggestion_count = Suggestion.where(review_id: review_ids).count

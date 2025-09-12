@@ -3,7 +3,7 @@ require 'openai'
 class Ai::ReviewInference < ApplicationService
   attr_reader :place_id, :review_ids
 
-  BATCH_LIMIT = 100
+  BATCH_LIMIT = 50
 
   def initialize(place_id:, review_ids:)
     @place_id = place_id

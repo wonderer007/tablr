@@ -3,7 +3,7 @@ require 'openai'
 class Ai::ReviewInference < ApplicationService
   attr_reader :place_id, :review_ids
 
-  BATCH_LIMIT = 50
+  BATCH_LIMIT = 30
 
   def initialize(place_id:, review_ids:)
     @place_id = place_id
@@ -92,6 +92,7 @@ class Ai::ReviewInference < ApplicationService
                               .where.not(text: nil)
                               .limit(BATCH_LIMIT)
                               .select(:id, :text, :processed, :place_id)
+                              .reject { |review| review.text.split.size > 800 }
   end
 
   def place

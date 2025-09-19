@@ -48,7 +48,7 @@
                     <%= link_to "Go to Dashboard", dashboard_path, class: "inline-flex items-center justify-center px-8 py-4 border border-transparent text-lg font-medium rounded-md text-white bg-gradient-to-r from-indigo-600 to-indigo-700 hover:from-indigo-700 hover:to-indigo-800 transition duration-150 ease-in-out shadow-lg hover:shadow-xl" %>
           <% else %>
                     <%= link_to "Get Started", new_user_registration_path, class: "inline-flex items-center justify-center px-8 py-4 border border-transparent text-lg font-medium rounded-md text-white bg-gradient-to-r from-indigo-600 to-indigo-700 hover:from-indigo-700 hover:to-indigo-800 transition duration-150 ease-in-out shadow-lg hover:shadow-xl" %>
-                    <%= link_to "Request Demo", new_demo_request_path, class: "inline-flex items-center justify-center px-8 py-4 border border-transparent text-lg font-medium rounded-md text-white bg-gradient-to-r from-indigo-600 to-indigo-700 hover:from-indigo-700 hover:to-indigo-800 transition duration-150 ease-in-out shadow-lg hover:shadow-xl" %>
+                    <%= link_to "Watch Demo", "#", onclick: "openDemoVideoModal(); return false;", class: "inline-flex items-center justify-center px-8 py-4 border border-transparent text-lg font-medium rounded-md text-white bg-gradient-to-r from-indigo-600 to-indigo-700 hover:from-indigo-700 hover:to-indigo-800 transition duration-150 ease-in-out shadow-lg hover:shadow-xl" %>
           <% end %>
         </div>
       </div>
@@ -541,7 +541,6 @@
                             <%= link_to "Go to Dashboard", dashboard_path, class: "inline-flex items-center justify-center px-8 py-4 border border-transparent text-lg font-medium rounded-md text-white bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 transition duration-150 ease-in-out shadow-lg hover:shadow-xl" %>
                         <% else %>
                             <%= link_to "Start Free Trial", new_user_registration_path, class: "inline-flex items-center justify-center px-8 py-4 border border-transparent text-lg font-medium rounded-md text-white bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 transition duration-150 ease-in-out shadow-lg hover:shadow-xl" %>
-                            <%= link_to "Request Demo", new_demo_request_path, class: "inline-flex items-center justify-center px-8 py-4 border border-blue-300 text-lg font-medium rounded-md text-blue-600 bg-white hover:bg-blue-50 transition duration-150 ease-in-out shadow-md hover:shadow-lg" %>
                         <% end %>
                     </div>
 

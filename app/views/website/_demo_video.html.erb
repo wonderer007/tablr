@@ -1,0 +1,68 @@
+<!-- Demo Video Modal (global) -->
+<div id="demo-video-modal" class="fixed inset-0 z-50 hidden" aria-labelledby="demo-video-title" role="dialog" aria-modal="true">
+  <!-- Backdrop -->
+  <div onclick="closeDemoVideoModal()" class="fixed inset-0 bg-black/75 transition-opacity"></div>
+
+  <!-- Modal container -->
+  <div class="fixed inset-0 z-10 overflow-y-auto">
+    <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+      <!-- Modal panel -->
+      <div onclick="event.stopPropagation()" class="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 w-full max-w-4xl">
+        <!-- Header -->
+        <div class="bg-white px-6 py-4 border-b border-gray-200 flex items-center justify-between">
+          <h3 class="text-lg font-semibold text-gray-900" id="demo-video-title">
+            Watch Tablr Demo
+          </h3>
+          <button type="button" onclick="closeDemoVideoModal()" class="rounded-md bg-white text-gray-400 hover:text-gray-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+            <span class="sr-only">Close</span>
+            <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+
+        <!-- Content -->
+        <div class="bg-black">
+          <div class="relative w-full" style="padding-top: 56.25%;">
+            <iframe id="demo-video-iframe" class="absolute top-0 left-0 w-full h-full" src="" title="Tablr Demo" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+          </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="bg-gray-50 px-6 py-4 flex justify-end">
+          <button type="button" onclick="closeDemoVideoModal()" class="inline-flex justify-center items-center rounded-md bg-indigo-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+            Close
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  function openDemoVideoModal() {
+    const modal = document.getElementById('demo-video-modal');
+    const iframe = document.getElementById('demo-video-iframe');
+    // Set src on open to ensure autoplay works across browsers
+    iframe.src = 'https://www.youtube.com/embed/nuoUFFBGCi0?autoplay=1&rel=0';
+    modal.classList.remove('hidden');
+    document.body.style.overflow = 'hidden';
+    modal.focus();
+  }
+
+  function closeDemoVideoModal() {
+    const modal = document.getElementById('demo-video-modal');
+    const iframe = document.getElementById('demo-video-iframe');
+    modal.classList.add('hidden');
+    document.body.style.overflow = '';
+    // Clear src to stop the video when closing
+    if (iframe) { iframe.src = ''; }
+  }
+
+  // Close demo modal with Escape
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+      closeDemoVideoModal();
+    }
+  });
+</script>

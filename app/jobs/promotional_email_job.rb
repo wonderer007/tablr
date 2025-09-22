@@ -5,7 +5,7 @@ class PromotionalEmailJob < ApplicationJob
   def perform(email_ids = nil)
     scope = Outreach::Email.where(email_sent_at: nil)
     scope = scope.where(id: email_ids) if email_ids.present?
-    scope.limit(90).each_with_index do |email, index|
+    scope.limit(95).each_with_index do |email, index|
       send_email(email, index)
       sleep get_random_delay.seconds
     end

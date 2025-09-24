@@ -6,9 +6,9 @@
     apify_place_sync_processor:
       every: "20s"
       class: Apify::PlaceSyncProcessorJob
-    promotional_email_job:
-      cron: "0 14 * * 1-5"
-      class: PromotionalEmailJob
-      queue: default
-      description: "Send promotional emails to first 90 unsent"
-      tz: "America/New_York"
+    # promotional_email_job:
+    #   cron: "0 14 * * 1-5"
+    #   class: PromotionalEmailJob
+    #   queue: default
+    #   description: "Send promotional emails to first 90 unsent"
+    #   tz: "America/New_York"

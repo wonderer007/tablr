@@ -3,7 +3,7 @@ class PromotionalEmailJob < ApplicationJob
 
   # If no email_ids are provided, process the first 90 unsent emails.
   def perform(email_ids = nil)
-    scope = Outreach::Email.where(email_sent_at: nil)
+    scope = Marketing::Contact.where(email_sent_at: nil)
     scope = scope.where(id: email_ids) if email_ids.present?
     scope.limit(95).each_with_index do |email, index|
       send_email(email, index)

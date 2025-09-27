@@ -1,15 +1,16 @@
 require "csv"
 
-class Outreach::Email < ApplicationRecord
+class Marketing::Contact < ApplicationRecord
+  self.table_name = "marketing_contacts"
   validates :email, presence: true, uniqueness: true
   validates :company, presence: true
   validates :first_name, presence: true
 
   def self.ransackable_attributes(auth_object = nil)
-    %w[company created_at email email_sent_at first_name id last_name updated_at]
+    %w[company created_at email email_sent_at first_name id last_name secondary_email updated_at]
   end
 
-  # Import Outreach::Email records from a CSV file.
+  # Import Marketing::Contact records from a CSV file.
   # Expected headers: first_name,last_name,email,company
   # Returns a hash with counts: { created:, updated:, errors: }
   def self.import_csv(file)

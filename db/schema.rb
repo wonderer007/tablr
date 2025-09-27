@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_09_27_181240) do
+ActiveRecord::Schema[7.2].define(version: 2025_09_27_211214) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
   enable_extension "plpgsql"
@@ -72,17 +72,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_09_27_181240) do
     t.index ["review_id"], name: "index_keywords_on_review_id"
   end
 
-  create_table "notifications", force: :cascade do |t|
-    t.string "text", null: false
-    t.boolean "read", default: false
-    t.string "notification_type", null: false
-    t.bigint "place_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["place_id"], name: "index_notifications_on_place_id"
-  end
-
-  create_table "outreach_emails", force: :cascade do |t|
+  create_table "marketing_contacts", force: :cascade do |t|
     t.string "first_name"
     t.string "last_name"
     t.string "email", null: false
@@ -107,8 +97,18 @@ ActiveRecord::Schema[7.2].define(version: 2025_09_27_181240) do
     t.string "company_country"
     t.string "company_phone"
     t.float "annual_revenue"
-    t.index ["email"], name: "index_outreach_emails_on_email", unique: true
-    t.index ["secondary_email"], name: "index_outreach_emails_on_secondary_email"
+    t.index ["email"], name: "index_marketing_contacts_on_email", unique: true
+    t.index ["secondary_email"], name: "index_marketing_contacts_on_secondary_email"
+  end
+
+  create_table "notifications", force: :cascade do |t|
+    t.string "text", null: false
+    t.boolean "read", default: false
+    t.string "notification_type", null: false
+    t.bigint "place_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["place_id"], name: "index_notifications_on_place_id"
   end
 
   create_table "places", force: :cascade do |t|

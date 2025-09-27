@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_09_27_211214) do
+ActiveRecord::Schema[7.2].define(version: 2025_09_27_214327) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
   enable_extension "plpgsql"
@@ -97,6 +97,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_09_27_211214) do
     t.string "company_country"
     t.string "company_phone"
     t.float "annual_revenue"
+    t.string "google_map_url"
     t.index ["email"], name: "index_marketing_contacts_on_email", unique: true
     t.index ["secondary_email"], name: "index_marketing_contacts_on_secondary_email"
   end

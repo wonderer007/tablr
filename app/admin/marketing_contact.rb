@@ -75,6 +75,7 @@ ActiveAdmin.register Marketing::Contact do
       row :company_phone
       row :annual_revenue
       row :secondary_email
+      row :google_map_url
       row :created_at
       row :updated_at
     end
@@ -104,6 +105,7 @@ ActiveAdmin.register Marketing::Contact do
       f.input :company_phone
       f.input :annual_revenue
       f.input :secondary_email
+      f.input :google_map_url
     end
     f.actions
   end

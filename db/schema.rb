@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_09_07_133319) do
+ActiveRecord::Schema[7.2].define(version: 2025_09_27_181240) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
   enable_extension "plpgsql"
@@ -90,7 +90,25 @@ ActiveRecord::Schema[7.2].define(version: 2025_09_07_133319) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.datetime "email_sent_at"
+    t.float "email_confidence"
+    t.string "secondary_email"
+    t.datetime "primary_email_last_verified_at"
+    t.integer "no_of_employees"
+    t.string "industry"
+    t.string "linkedin_url"
+    t.string "company_linkedin_url"
+    t.string "website"
+    t.string "twitter_url"
+    t.string "city"
+    t.string "country"
+    t.string "company_address"
+    t.string "company_city"
+    t.string "company_state"
+    t.string "company_country"
+    t.string "company_phone"
+    t.float "annual_revenue"
     t.index ["email"], name: "index_outreach_emails_on_email", unique: true
+    t.index ["secondary_email"], name: "index_outreach_emails_on_secondary_email"
   end
 
   create_table "places", force: :cascade do |t|

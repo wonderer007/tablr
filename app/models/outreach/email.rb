@@ -22,7 +22,24 @@ class Outreach::Email < ApplicationRecord
         first_name: row["First Name"]&.to_s&.strip,
         last_name: row["Last Name"]&.to_s&.strip,
         email: row["Email"]&.to_s&.strip&.downcase,
-        company: row["Company"]&.to_s&.strip
+        company: row["Company Name"]&.to_s&.strip,
+        email_confidence: row["Email Confidence"]&.to_s&.strip,
+        secondary_email: row["Secondary Email"]&.to_s&.strip,
+        primary_email_last_verified_at: row["Primary Email Last Verified At"]&.to_s&.strip,
+        no_of_employees: row["# Employees"]&.to_s&.strip,
+        industry: row["Industry"]&.to_s&.strip,
+        linkedin_url: row["Person Linkedin Url"]&.to_s&.strip,
+        company_linkedin_url: row["Company Linkedin Url"]&.to_s&.strip,
+        website: row["Website"]&.to_s&.strip,
+        twitter_url: row["Twitter Url"]&.to_s&.strip,
+        city: row["City"]&.to_s&.strip,
+        country: row["Country"]&.to_s&.strip,
+        company_address: row["Company Address"]&.to_s&.strip,
+        company_city: row["Company City"]&.to_s&.strip,
+        company_state: row["Company State"]&.to_s&.strip,
+        company_country: row["Company Country"]&.to_s&.strip,
+        company_phone: row["Company Phone"]&.to_s&.strip,
+        annual_revenue: row["Annual Revenue"]&.to_s&.strip
       }
 
       # Skip rows without an email

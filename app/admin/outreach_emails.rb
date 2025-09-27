@@ -56,6 +56,23 @@ ActiveAdmin.register Outreach::Email do
       row :email
       row :company
       row :email_sent_at
+      row :email_confidence
+      row :primary_email_last_verified_at
+      row :no_of_employees
+      row :industry
+      row :linkedin_url
+      row :company_linkedin_url
+      row :website
+      row :twitter_url
+      row :city
+      row :country
+      row :company_address
+      row :company_city
+      row :company_state
+      row :company_country
+      row :company_phone
+      row :annual_revenue
+      row :secondary_email
       row :created_at
       row :updated_at
     end
@@ -68,6 +85,23 @@ ActiveAdmin.register Outreach::Email do
       f.input :email
       f.input :company
       f.input :email_sent_at
+      f.input :email_confidence
+      f.input :primary_email_last_verified_at
+      f.input :no_of_employees
+      f.input :industry
+      f.input :linkedin_url
+      f.input :company_linkedin_url
+      f.input :website
+      f.input :twitter_url
+      f.input :city
+      f.input :country
+      f.input :company_address
+      f.input :company_city
+      f.input :company_state
+      f.input :company_country
+      f.input :company_phone
+      f.input :annual_revenue
+      f.input :secondary_email
     end
     f.actions
   end

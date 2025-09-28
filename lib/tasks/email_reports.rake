@@ -6,7 +6,7 @@ namespace :email_reports do
     end_date = Date.current
     start_date = end_date - 1.week
     
-    Place.includes(:users).find_each do |place|
+    Place.where(test: false).includes(:users).find_each do |place|
       next if place.users.empty?
       
       place.users.each do |user|
@@ -36,7 +36,7 @@ namespace :email_reports do
     end_date = Date.current
     start_date = end_date - 2.weeks
     
-    Place.includes(:users).find_each do |place|
+    Place.where(test: false).includes(:users).find_each do |place|
       next if place.users.empty?
       
       place.users.each do |user|
@@ -66,7 +66,7 @@ namespace :email_reports do
     end_date = Date.current
     start_date = end_date - 1.month
     
-    Place.includes(:users).find_each do |place|
+    Place.where(test: false).includes(:users).find_each do |place|
       next if place.users.empty?
       
       place.users.each do |user|

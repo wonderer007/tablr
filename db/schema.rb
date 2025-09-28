@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_09_27_214327) do
+ActiveRecord::Schema[7.2].define(version: 2025_09_28_065441) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
   enable_extension "plpgsql"
@@ -125,7 +125,9 @@ ActiveRecord::Schema[7.2].define(version: 2025_09_27_214327) do
     t.datetime "updated_at", null: false
     t.float "rating"
     t.boolean "first_inference_completed", default: false
-    t.index ["url"], name: "index_places_on_url", unique: true
+    t.boolean "test", default: false
+    t.index ["url", "test"], name: "index_places_on_url_and_test", unique: true
+    t.index ["url"], name: "index_places_on_url"
   end
 
   create_table "reviews", force: :cascade do |t|

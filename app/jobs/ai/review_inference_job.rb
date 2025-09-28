@@ -26,7 +26,7 @@ class Ai::ReviewInferenceJob < ApplicationJob
       Notification.create!(notification_type: :suggestion, place: place, text: "#{suggestion_count} new suggestions") if suggestion_count > 0
       Notification.create!(notification_type: :keyword, place: place, text: "#{keyword_count} new keywords") if keyword_count > 0
 
-      if reviews_start_date && reviews_end_date
+      if !place.test && reviews_start_date && reviews_end_date
         RestaurantReportMailer.periodic_report(place.users.first, place, reviews_start_date, reviews_end_date).deliver_later
       end
 

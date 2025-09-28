@@ -3,6 +3,7 @@ class Review < ApplicationRecord
 
   ACTOR_ID = 'Xb8osYTtOjlsgI6k9'
   MAX_REVIEW_COUNT = ENV.fetch('REVIEW_COUNT', 200).to_i
+  REVIEW_COUNT_FOR_TEST = ENV.fetch('TEST_REVIEW_COUNT', 10).to_i
 
   belongs_to :place
   has_many :keywords

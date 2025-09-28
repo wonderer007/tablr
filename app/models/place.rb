@@ -1,7 +1,7 @@
 class Place < ApplicationRecord
   ACTOR_ID = '2Mdma1N6Fd0y3QEjR'
 
-  validates :url, presence: true, uniqueness: true
+  validates :url, presence: true, uniqueness: { scope: :test }
 
   has_many :reviews
   has_many :users

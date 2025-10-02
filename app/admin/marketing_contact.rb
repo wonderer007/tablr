@@ -45,6 +45,8 @@ ActiveAdmin.register Marketing::Contact do
     column :email
     column :secondary_email
     column :company
+    column :website
+    column :country
     column :email_sent_at
     column :created_at
     actions

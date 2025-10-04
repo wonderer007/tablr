@@ -30,4 +30,8 @@ class Place < ApplicationRecord
     return 0 if reviews.empty?
     reviews.average(:atmosphere_rating).round(1)
   end
+
+  def address
+    data&.dig('address')
+  end
 end

@@ -21,6 +21,7 @@ Rails.application.routes.draw do
   # Render dynamic PWA files from app/views/pwa/*
   get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
   get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
+  get '/place/:id/report', to: 'places#report', as: :report
   get '/dashboard', to: 'home#dashboard', as: :dashboard
   get '/payment/processing', to: 'payment#processing', as: :payment_processing
   get '/data/processing', to: 'home#data_processing', as: :data_processing

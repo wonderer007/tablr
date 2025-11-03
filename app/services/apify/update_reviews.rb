@@ -37,7 +37,7 @@ class Apify::UpdateReviews < ApplicationService
       Review.upsert_all(payload, unique_by: [:place_id, :external_review_id])
       place.update(status: :synced_reviews, review_synced_at: Time.zone.now)
 
-      Ai::ReviewInferenceJob.perform_later(place_id: place.id, review_ids: place.reviews.pluck(:id))
+      Ai::InferenceJob.perform_later(place_id: place.id, review_ids: place.reviews.where(processed: false).pluck(:id))
     elsif data.dig('data', 'status').in?(%w[FAILED ABORTED])
       place.update(status: :failed)
     end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_09_28_065441) do
+ActiveRecord::Schema[7.2].define(version: 2025_11_13_225153) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
   enable_extension "plpgsql"
@@ -98,8 +98,22 @@ ActiveRecord::Schema[7.2].define(version: 2025_09_28_065441) do
     t.string "company_phone"
     t.float "annual_revenue"
     t.string "google_map_url"
+    t.bigint "place_id"
     t.index ["email"], name: "index_marketing_contacts_on_email", unique: true
+    t.index ["place_id"], name: "index_marketing_contacts_on_place_id"
     t.index ["secondary_email"], name: "index_marketing_contacts_on_secondary_email"
+  end
+
+  create_table "marketing_emails", force: :cascade do |t|
+    t.integer "marketing_contact_id"
+    t.integer "place_id"
+    t.string "subject"
+    t.text "body"
+    t.datetime "sent_at"
+    t.string "status"
+    t.text "error_message"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "notifications", force: :cascade do |t|

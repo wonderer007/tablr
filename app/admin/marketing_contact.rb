@@ -30,6 +30,36 @@ ActiveAdmin.register Marketing::Contact do
     end
   end
 
+  member_action :create_place, method: :post do
+    contact = resource
+
+    if contact.google_map_url.blank?
+      redirect_to resource_path(contact), alert: "No Google Map URL present for this contact."
+      return
+    end
+
+    place = Place.find_or_initialize_by(url: contact.google_map_url)
+    place.status = :created
+    place.test = true
+
+    if place.save
+      contact.update(place: place)
+      random_password = SecureRandom.hex(10)
+      place.users.create!(
+        email: "testuser#{contact.id}@tablr.io",
+        first_name: contact.first_name,
+        last_name: contact.last_name,
+        password: random_password,
+        password_confirmation: random_password,
+        payment_approved: true
+      )
+      Apify::SyncPlaceJob.perform_later(place_id: place.id)
+      redirect_to resource_path(contact), notice: "Place created and linked to contact."
+    else
+      redirect_to resource_path(contact), alert: "Failed to create place: #{place.errors.full_messages.to_sentence}"
+    end
+  end
+
   filter :first_name
   filter :last_name
   filter :email
@@ -47,6 +77,7 @@ ActiveAdmin.register Marketing::Contact do
     column :company
     column :website
     column :country
+    column :place
     column :email_sent_at
     column :created_at
     actions
@@ -59,6 +90,12 @@ ActiveAdmin.register Marketing::Contact do
       row :last_name
       row :email
       row :company
+      row :place
+      if resource.google_map_url.present? && resource.place.blank?
+        row("Create Place") do |contact|
+          button_to "Create Place", create_place_admin_marketing_contact_path(contact), method: :post
+        end
+      end
       row :email_sent_at
       row :email_confidence
       row :primary_email_last_verified_at

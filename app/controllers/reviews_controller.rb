@@ -2,7 +2,7 @@ class ReviewsController < DashboardController
   before_action :mark_notifications_as_read, only: [:index]
 
   def index
-    @q = current_place.reviews.where.not(sentiment: nil).ransack(params[:q])
+    @q = current_place.reviews.ransack(params[:q])
     @reviews = @q.result(distinct: true)
 
     # Calculate average ratings for filtered results

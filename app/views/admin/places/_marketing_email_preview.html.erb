@@ -1,0 +1,34 @@
+<%# Render the cold email outreach as it would appear in the email %>
+<%
+  preview_contact =
+    Marketing::Contact.where(place_id: place.id).first ||
+    Marketing::Contact.new(
+      first_name: 'there',
+      last_name: '',
+      email: 'owner@example.com',
+      company: place.name.presence || 'Your Restaurant',
+      place: place
+    )
+
+  email = PromotionalMailer.cold_email_outreach(preview_contact)
+  html_body = email.html_part ? email.html_part.body.to_s : email.body.to_s
+%>
+
+<p>Total Emails Sent: <%= place.marketing_emails.count %></p>
+<% if place.marketing_emails.count == 0 %>
+  <%= button_to "Send Email", send_marketing_email_admin_place_path(place), method: :post%>
+<% end %>
+<br/>
+
+<div style="border: 1px solid #e5e7eb; border-radius: 8px; overflow: hidden;">
+  <div style="padding: 12px; background: #f9fafb; border-bottom: 1px solid #e5e7eb;">
+    <strong>Subject:</strong>
+    How <%= preview_contact.company %> can stop losing customers to bad reviews
+  </div>
+<br/>
+
+  <div style="padding: 0;">
+    <%= raw html_body %>
+  </div>
+</div>
+

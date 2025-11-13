@@ -1,0 +1,151 @@
+<% user_start_date = (params[:analytics_start_date].presence && Date.parse(params[:analytics_start_date])) rescue nil %>
+<% user_end_date = (params[:analytics_end_date].presence && Date.parse(params[:analytics_end_date])) rescue nil %>
+<% end_date = user_end_date || Time.zone.today %>
+<% start_date = user_start_date || (end_date - 365) %>
+<% if start_date > end_date %>
+  <% start_date, end_date = end_date, start_date %>
+<% end %>
+
+<% report_data = ReviewAnalyticsService.new(place: place, start_date: start_date, end_date: end_date).call %>
+
+<%= form_with url: admin_place_path(place), method: :get, local: true, class: 'review-analytics-range-form' do |form| %>
+  <fieldset>
+    <legend>Select date range</legend>
+    <div>
+      <p>
+        <%= form.label :analytics_start_date, 'Start date' %><br>
+        <%= form.date_field :analytics_start_date, value: start_date.to_date %>
+      </p>
+      <p>
+        <%= form.label :analytics_end_date, 'End date' %><br>
+        <%= form.date_field :analytics_end_date, value: end_date.to_date %>
+      </p>
+    </div>
+    <div>
+      <%= form.submit 'Apply' %>
+      <% if params[:analytics_start_date].present? || params[:analytics_end_date].present? %>
+        <%= link_to 'Reset', admin_place_path(place) %>
+      <% end %>
+    </div>
+  </fieldset>
+<% end %>
+
+<div>
+  <p>
+    Showing analytics for
+    <strong><%= start_date.strftime('%b %d, %Y') %></strong>
+    to
+    <strong><%= end_date.strftime('%b %d, %Y') %></strong>
+    (<%= (end_date - start_date).to_i + 1 %> days)
+  </p>
+
+  <% comparison = report_data[:previous_period_comparison] %>
+
+  <section>
+    <h3>Overview</h3>
+    <ul>
+      <li>
+        Total reviews: <strong><%= report_data[:total_reviews] %></strong>
+        <% if comparison[:review_count_change] != 0 %>
+          (<%= comparison[:review_count_change].positive? ? '+' : '' %><%= comparison[:review_count_change] %> vs previous period)
+        <% end %>
+      </li>
+      <li>
+        Average rating: <strong><%= number_with_precision(report_data[:average_rating], precision: 2, strip_insignificant_zeros: true) %> ★</strong>
+        <% if comparison[:rating_change] != 0 %>
+          (<%= comparison[:rating_change].positive? ? '+' : '' %><%= number_with_precision(comparison[:rating_change], precision: 2, strip_insignificant_zeros: true) %> change)
+        <% end %>
+      </li>
+      <li>Total complaints: <strong><%= report_data[:complaints_data][:total_count] %></strong></li>
+      <li>Total suggestions: <strong><%= report_data[:suggestions_data][:total_count] %></strong></li>
+    </ul>
+  </section>
+
+  <section>
+    <h3>Sentiment Analysis</h3>
+    <% sentiment = report_data[:sentiment_stats] %>
+    <% if sentiment[:total].positive? %>
+      <ul>
+        <li>Positive: <strong><%= sentiment[:positive] %></strong> (<%= number_with_precision(sentiment[:positive_percentage], precision: 1) %>%)</li>
+        <li>Neutral: <strong><%= sentiment[:neutral] %></strong> (<%= number_with_precision(sentiment[:neutral_percentage], precision: 1) %>%)</li>
+        <li>Negative: <strong><%= sentiment[:negative] %></strong> (<%= number_with_precision(sentiment[:negative_percentage], precision: 1) %>%)</li>
+      </ul>
+    <% else %>
+      <p>No processed reviews found for this period.</p>
+    <% end %>
+  </section>
+
+  <section>
+    <h3>Detailed Ratings</h3>
+    <ul>
+      <li>Food quality: <strong><%= number_with_precision(report_data[:rating_stats][:food_rating], precision: 2, strip_insignificant_zeros: true) %></strong></li>
+      <li>Service: <strong><%= number_with_precision(report_data[:rating_stats][:service_rating], precision: 2, strip_insignificant_zeros: true) %></strong></li>
+      <li>Atmosphere: <strong><%= number_with_precision(report_data[:rating_stats][:atmosphere_rating], precision: 2, strip_insignificant_zeros: true) %></strong></li>
+    </ul>
+  </section>
+
+  <% complaints = report_data[:complaints_data] %>
+  <% if complaints[:total_count].positive? %>
+    <section>
+      <h3>Top Complaints</h3>
+      <% complaints[:top_complaints].each do |entry| %>
+        <p>
+          <strong><%= entry[:text] %></strong>
+          — <%= entry[:count] %> mention<%= entry[:count] == 1 ? '' : 's' %>
+        </p>
+      <% end %>
+    </section>
+  <% end %>
+
+  <% suggestions = report_data[:suggestions_data] %>
+  <% if suggestions[:total_count].positive? %>
+    <section>
+      <h3>Top Suggestions</h3>
+      <% suggestions[:top_suggestions].each do |entry| %>
+        <p>
+          <strong><%= entry[:text] %></strong>
+          — <%= entry[:count] %> mention<%= entry[:count] == 1 ? '' : 's' %>
+        </p>
+      <% end %>
+    </section>
+  <% end %>
+
+  <section>
+    <h3>Top Keywords</h3>
+    <% categories = report_data[:keywords_by_category] %>
+    <% if categories.present? %>
+      <% categories.each do |category| %>
+        <article>
+          <h4><%= category[:name].titleize %> (<%= category[:total_keywords] %> keywords)</h4>
+          <% if category[:top_positive].any? %>
+            <p><strong>Highlights:</strong></p>
+            <ul>
+              <% category[:top_positive].each do |keyword| %>
+                <li><%= keyword[:name] %> (<%= keyword[:count] %>)</li>
+              <% end %>
+            </ul>
+          <% end %>
+          <% if category[:top_negative].any? %>
+            <p><strong>Needs attention:</strong></p>
+            <ul>
+              <% category[:top_negative].each do |keyword| %>
+                <li><%= keyword[:name] %> (<%= keyword[:count] %>)</li>
+              <% end %>
+            </ul>
+          <% end %>
+        </article>
+      <% end %>
+    <% else %>
+      <p>No keyword highlights for this period.</p>
+    <% end %>
+  </section>
+
+  <section>
+    <h3>What to Do Next</h3>
+    <p>
+      Review these insights with the team and adjust operations to reinforce positives
+      and address recurring issues.
+    </p>
+  </section>
+</div>
+

@@ -5,21 +5,21 @@ class PromotionalEmailJob < ApplicationJob
   def perform(email_ids = nil)
     scope = Marketing::Contact.where(email_sent_at: nil)
     scope = scope.where(id: email_ids) if email_ids.present?
-    scope.limit(95).each_with_index do |email, index|
-      send_email(email, index)
+    scope.limit(95).each_with_index do |contact, index|
+      send_email(contact, index)
       sleep get_random_delay.seconds
     end
   end
 
   private
 
-  def send_email(email, index)
+  def send_email(contact, index)
     if index % 2 == 0
-      PromotionalMailer.hidden_patterns_in_reviews(email.email, email.first_name, email.company).deliver_now
+      PromotionalMailer.hidden_patterns_in_reviews(contact.email).deliver_now
     else
-      PromotionalMailer.analyzing_reviews_pattern(email.email, email.first_name, email.company).deliver_now
+      PromotionalMailer.analyzing_reviews_pattern(contact.email).deliver_now
     end
-    email.update(email_sent_at: Time.current)
+    contact.update(email_sent_at: Time.current)
   end
 
   def get_random_delay

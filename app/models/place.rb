@@ -6,8 +6,18 @@ class Place < ApplicationRecord
   has_many :reviews
   has_many :users
   has_many :notifications
+  has_many :marketing_emails, class_name: "Marketing::Email"
+  has_many :marketing_contacts, class_name: "Marketing::Contact"
 
   enum :status, [:created, :syncing_place, :synced_place, :syncing_reviews, :synced_reviews, :failed]
+
+  def self.ransackable_attributes(auth_object = nil)
+    %w[name place_actor_run_id review_actor_run_id status url rating id first_inference_completed test]
+  end
+
+  def self.ransackable_associations(auth_object = nil)
+    []
+  end
 
   def payment_approved?
     users&.first&.payment_approved?

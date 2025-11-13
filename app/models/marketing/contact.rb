@@ -6,6 +6,9 @@ class Marketing::Contact < ApplicationRecord
   validates :company, presence: true
   validates :first_name, presence: true
 
+  belongs_to :place, optional: true
+  has_many :marketing_emails, dependent: :destroy
+
   def self.ransackable_attributes(auth_object = nil)
     %w[company created_at email email_sent_at first_name id last_name secondary_email updated_at]
   end

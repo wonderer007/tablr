@@ -9,7 +9,7 @@ Hey <%= @recipient_name %>,
 <ul>
   <li><%= @positive_reviews_count %> positive, <%= @negative_reviews_count %> negative and <%= @neutral_reviews_count %> neutral reviews</li>
   <% if @positive_keywords.present?%>
-    <li>Guests love <%= @positive_keywords.first(2).map { |keyword| keyword[:name].to_s.titleize }.reject(&:blank?).to_sentence(two_words_connector: ' and ', last_word_connector: ', and ') %> the most</li>
+    <li><%= @positive_theme_sentence %></li>
   <% end %>
   <% if @complaint_topics.present?%>
     <li>

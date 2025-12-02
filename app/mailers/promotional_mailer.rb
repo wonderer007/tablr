@@ -37,6 +37,13 @@ class PromotionalMailer < ApplicationMailer
     @positive_keywords = Array(top_positive_keywords)
     @negative_keywords = Array(top_negative_keywords)
 
+    @positive_theme_words = @positive_keywords.first(3).map { |keyword| keyword[:name].to_s.titleize }.reject(&:blank?)
+    @positive_theme_sentence =
+      if @positive_theme_words.any?
+        "Guests mention #{@positive_theme_words.to_sentence(two_words_connector: ' and ', last_word_connector: ', and ')} most often"
+      else
+        "Guests frequently call out the warm hospitality and overall vibe."
+      end
 
     mail(
       to: contact.email,

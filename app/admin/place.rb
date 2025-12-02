@@ -19,6 +19,9 @@ ActiveAdmin.register Place do
     column :rating
     column :first_inference_completed
     column :test
+    column 'Emails' do |place|
+      place.marketing_emails.count
+    end
     column :created_at
     column :updated_at
     actions

@@ -5,7 +5,7 @@ class PromotionalMailer < ApplicationMailer
 
   def cold_email_outreach(contact)
     @recipient_name = contact.first_name
-    @company_name = contact.company
+    @company_name = contact.company.downcase.split.map(&:titleize).join(" ")
     @recipient_email = contact.email
     @place = contact.place
 
@@ -40,7 +40,7 @@ class PromotionalMailer < ApplicationMailer
 
     mail(
       to: contact.email,
-      subject: "How #{contact.company} can stop losing customers to bad reviews"
+      subject: "How #{contact.company.downcase.split.map(&:titleize).join(" ")} can stop losing customers to bad reviews"
     )
   end
 

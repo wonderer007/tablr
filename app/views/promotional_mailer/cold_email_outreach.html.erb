@@ -8,8 +8,20 @@ Hey <%= @recipient_name %>,
 
 <ul>
   <li><%= @positive_reviews_count %> positive, <%= @negative_reviews_count %> negative and <%= @neutral_reviews_count %> neutral reviews</li>
-  <li>Guests love <%= @positive_keywords.first(2).map { |keyword| keyword[:name].to_s.titleize }.reject(&:blank?).to_sentence(two_words_connector: ' and ', last_word_connector: ', and ') %> the most</li>
-  <li>While some comlains about <%= @complaint_topics.first(2).map { |topic| topic[:text].to_s.titleize }.reject(&:blank?).to_sentence(two_words_connector: ' and ', last_word_connector: ', and ') %></li>
+  <% if @positive_keywords.present?%>
+    <li>Guests love <%= @positive_keywords.first(2).map { |keyword| keyword[:name].to_s.titleize }.reject(&:blank?).to_sentence(two_words_connector: ' and ', last_word_connector: ', and ') %> the most</li>
+  <% end %>
+  <% if @complaint_topics.present?%>
+    <li>
+      Most frequent complain are
+      <ul>
+        <% @complaint_topics.first(2).each do |topic| %>
+        <li><%= topic[:text].to_s.titleize %></li>
+      <% end %>
+      </ul>
+    </li>
+  <%end%>
+
   <%if @suggestion_topics.present?%>
     <li>Suggestions coming from customers are
      <ul>

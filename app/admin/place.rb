@@ -84,7 +84,7 @@ ActiveAdmin.register Place do
     email = Marketing::Email.create(
       place: place,
       marketing_contact: contact, 
-      subject: "How #{contact.company} can stop losing customers to bad reviews", 
+      subject: "How #{contact.company.downcase.split.map(&:titleize).join(" ")} can stop losing customers to bad reviews", 
       body: PromotionalMailer.cold_email_outreach(contact).body.to_s, 
       sent_at: Time.current, 
       status: "sent",

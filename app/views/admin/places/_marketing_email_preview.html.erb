@@ -23,7 +23,7 @@
 <div style="border: 1px solid #e5e7eb; border-radius: 8px; overflow: hidden;">
   <div style="padding: 12px; background: #f9fafb; border-bottom: 1px solid #e5e7eb;">
     <strong>Subject:</strong>
-    How <%= preview_contact.company %> can stop losing customers to bad reviews
+    How <%= preview_contact.company.downcase.split.map(&:titleize).join(" ") %> can stop losing customers to bad reviews
   </div>
 <br/>
 

@@ -1,17 +1,17 @@
 Hey <%= @recipient_name %>,
 
-<p>Hope this email finds you well. My name is Haider Ali and I'm the founder of <a href="https://tablr.io" target="_blank">Tablr</a> - we help businesses like <%= @company_name %> turn customer reviews into actionable insights.</p>
+<p>Hope this email finds you well. My name is Haider Ali, and I'm the founder of <a href="https://tablr.io" target="_blank">Tablr</a>. We help businesses like <%= @company_name %> turn customer reviews into actionable insights.</p>
 
-<p>We have analyzed <%= @reviews_count %> latest reviews for <%= @company_name %> and found key analytics that you might not have noticed:</p>
+<p>We have analyzed <%= @reviews_count %> of the latest reviews for <%= @company_name %> and found key analytics that you might not have noticed:</p>
 
 <ul>
-  <li><%= @positive_reviews_count %> positive, <%= @negative_reviews_count %> negative and <%= @neutral_reviews_count %> neutral reviews</li>
+  <li><%= @positive_reviews_count %> positive, <%= @negative_reviews_count %> negative, and <%= @neutral_reviews_count %> neutral reviews</li>
   <% if @positive_keywords.present?%>
     <li><%= @positive_theme_sentence %></li>
   <% end %>
   <% if @complaint_topics.present?%>
     <li>
-      Most frequent complain are
+      Most frequent complaints are
       <ul>
         <% @complaint_topics.first(2).each do |topic| %>
         <li><%= topic[:text].to_s.titleize %></li>
@@ -31,7 +31,7 @@ Hey <%= @recipient_name %>,
   <%end%>
 </ul>
 
-<p>We have already helped restaurants increase their revenue by an average of 22% by identifying these hidden profit killers. Please visit <%= link_to 'Full Report',  Rails.application.routes.url_helpers.report_path(@place.place_actor_run_id), { target: '_blank' } %> to view complete analysis of customer reviews.</p>
+<p>We have already helped restaurants increase their revenue by an average of 22% by identifying these hidden profit killers. Please visit the <%= link_to 'Full Report',  Rails.application.routes.url_helpers.report_path(@place.place_actor_run_id), { target: '_blank' } %> to view the complete analysis of customer reviews.</p>
 
 <p>Would you be open to a quick 15-minute <a href="https://tablr.io/demo_requests/new" target="_blank">demo</a>? I'd love to show you how Tablr works with your actual reviews and give you a personalized analysis of <%= @company_name %>'s feedback.</p>
 

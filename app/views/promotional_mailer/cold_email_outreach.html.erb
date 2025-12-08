@@ -2,7 +2,7 @@
 
 <p>I recently analyzed <%= @reviews_count %> of the latest reviews for <%= @company_name %> and noticed a few trends that might be impacting your return rate.</p>
 
-<p>While customers love the <strong><%= @positive_theme_words.first&.downcase || "service" %></strong>, there is a recurring theme around <strong><%= @top_complaint&.downcase || "wait times" %></strong> that keeps coming up.</p>
+<p>While customers love the <%= @positive_theme_words.first&.downcase || "service" %>, there is a recurring theme around <strong><%= @top_complaint&.downcase || "wait times" %></strong> that keeps coming up.</p>
 
 <p>We’ve compiled a full analysis of your positive and negative feedback trends here:</p>
 

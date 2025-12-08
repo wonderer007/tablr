@@ -1,44 +1,19 @@
-Hey <%= @recipient_name %>,
+<p>Hi <%= @recipient_name %>,</p>
 
-<p>Hope this email finds you well. My name is Haider Ali, and I'm the founder of <a href="https://tablr.io" target="_blank">Tablr</a>. We help businesses like <%= @company_name %> turn customer reviews into actionable insights.</p>
+<p>I recently analyzed <%= @reviews_count %> of the latest reviews for <%= @company_name %> and noticed a few trends that might be impacting your return rate.</p>
 
-<p>We have analyzed <%= @reviews_count %> of the latest reviews for <%= @company_name %> and found key analytics that you might not have noticed:</p>
+<p>While customers love the <strong><%= @positive_theme_words.first&.downcase || "service" %></strong>, there is a recurring theme around <strong><%= @top_complaint&.downcase || "wait times" %></strong> that keeps coming up.</p>
 
-<ul>
-  <li><%= @positive_reviews_count %> positive, <%= @negative_reviews_count %> negative, and <%= @neutral_reviews_count %> neutral reviews</li>
-  <% if @positive_keywords.present?%>
-    <li><%= @positive_theme_sentence %></li>
-  <% end %>
-  <% if @complaint_topics.present?%>
-    <li>
-      Most frequent complaints are
-      <ul>
-        <% @complaint_topics.first(2).each do |topic| %>
-        <li><%= topic[:text].to_s.titleize %></li>
-      <% end %>
-      </ul>
-    </li>
-  <%end%>
+<p>We’ve compiled a full analysis of your positive and negative feedback trends here:</p>
 
-  <%if @suggestion_topics.present?%>
-    <li>Suggestions coming from customers are
-     <ul>
-      <% @suggestion_topics.first(2).each do |topic| %>
-      <li><%= topic[:text].to_s.titleize %></li>
-     <% end %>
-     </ul>
-    </li>
-  <%end%>
-</ul>
+<p><%= link_to "View Full Report for #{@company_name}", report_url(@place.place_actor_run_id), target: '_blank' %></p>
 
-<p>We have already helped restaurants increase their revenue by an average of 22% by identifying these hidden profit killers. Please visit the <%= link_to 'Full Report',  Rails.application.routes.url_helpers.report_path(@place.place_actor_run_id), { target: '_blank' } %> to view the complete analysis of customer reviews.</p>
+<p>At Tablr, we help restaurants turn these insights into revenue—our partners see an average 22% increase by addressing these hidden profit killers.</p>
 
-<p>Would you be open to a quick 15-minute <a href="https://tablr.io/demo_requests/new" target="_blank">demo</a>? I'd love to show you how Tablr works with your actual reviews and give you a personalized analysis of <%= @company_name %>'s feedback.</p>
+<p>Would you be open to a 15-minute chat to walk through the report?</p>
 
-<p>Looking forward to hearing from you,</p>
+<p>Best,</p>
 
-<span>Best Regards</span><br/>
---
 <p>
 Haider Ali<br/>
 Founder, Tablr

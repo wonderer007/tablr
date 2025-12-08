@@ -45,9 +45,11 @@ class PromotionalMailer < ApplicationMailer
         "Guests frequently call out the warm hospitality and overall vibe."
       end
 
+    @top_complaint = @complaint_topics.first&.dig(:text)&.to_s&.titleize
+
     mail(
       to: contact.email,
-      subject: "How #{contact.company.downcase.split.map(&:titleize).join(" ")} can stop losing customers to bad reviews"
+      subject: "Feedback analysis for #{contact.company.downcase.split.map(&:titleize).join(" ")}"
     )
   end
 

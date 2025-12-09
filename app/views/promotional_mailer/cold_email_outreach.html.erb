@@ -4,9 +4,7 @@
 
 <p>While customers love the <%= @positive_theme_words.first&.downcase || "service" %>, there is a recurring theme around <strong><%= @top_complaint&.downcase || "wait times" %></strong> that keeps coming up.</p>
 
-<p>We’ve compiled a full analysis of your positive and negative feedback trends here:</p>
-
-<p><%= link_to "View Full Report for #{@company_name}", report_url(@place.place_actor_run_id), target: '_blank' %></p>
+<p>We've compiled a full analysis of your positive and negative feedback trends here: <%= link_to "View Full Report for #{@company_name}", report_url(@place.place_actor_run_id), target: '_blank' %></p>
 
 <p>At Tablr, we help restaurants turn these insights into revenue—our partners see an average 22% increase by addressing these hidden profit killers.</p>
 

@@ -1,6 +1,6 @@
 <p>Hi <%= @recipient_name %>,</p>
 
-<p>I recently analyzed <%= @reviews_count %> of the latest reviews for <%= @company_name %> and noticed a few trends that might be impacting your return rate.</p>
+<p>I recently analyzed 100 of the latest reviews for <%= @company_name %> and noticed a few trends that might be impacting your return rate.</p>
 
 <p>While customers love the <%= @positive_theme_words.first&.downcase || "service" %>, there is a recurring theme around <strong><%= @top_complaint&.downcase || "wait times" %></strong> that keeps coming up.</p>
 

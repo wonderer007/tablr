@@ -68,6 +68,18 @@ ActiveAdmin.register Place do
       end
     end
 
+    place "M"
+    panel "Marketing Contacts" do
+      table_for place.marketing_contacts do
+        column :id
+        column :name do |contact|
+          "#{contact.first_name} #{contact.last_name}"
+        end
+        column :email
+        column :company
+        column :created_at
+      end
+    end
     panel "Review Analytics" do
       render 'review_analytics', place: place
     end

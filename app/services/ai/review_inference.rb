@@ -54,7 +54,7 @@ class Ai::ReviewInference < ApplicationService
   def response
     @response ||= client.chat(
       parameters: {
-        model: "gpt-4o",
+        model: 'gpt-4o-mini',
         temperature: 0.2,
         messages: [
           {

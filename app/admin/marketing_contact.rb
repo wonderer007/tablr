@@ -1,7 +1,7 @@
 ActiveAdmin.register Marketing::Contact do
   menu label: "Marketing Contacts"
 
-  permit_params :first_name, :last_name, :email, :company, :secondary_email, :google_map_url
+  permit_params :first_name, :last_name, :email, :company, :secondary_email, :google_map_url, :place_id
 
   # CSV Import UI in the index sidebar
   sidebar "Import Marketing Contacts", only: :index do
@@ -10,6 +10,7 @@ ActiveAdmin.register Marketing::Contact do
       form action: import_admin_marketing_contacts_path, method: :post, enctype: "multipart/form-data" do |f|
         input type: "hidden", name: request_forgery_protection_token.to_s, value: form_authenticity_token
         input type: "file", name: "file", accept: ".csv"
+        br
         br
         input type: "submit", value: "Import CSV"
       end
@@ -70,16 +71,16 @@ ActiveAdmin.register Marketing::Contact do
   index do
     selectable_column
     id_column
-    column :first_name
-    column :last_name
+    column :name do |contact|
+      "#{contact.first_name} #{contact.last_name}"
+    end
     column :email
-    column :secondary_email
     column :company
-    column :website
-    column :country
+    column :website do |contact|
+      link_to contact.website, contact.website, target: "_blank" if contact.website.present?
+    end
     column :place
     column :email_sent_at
-    column :created_at
     actions
   end
 
@@ -145,6 +146,7 @@ ActiveAdmin.register Marketing::Contact do
       f.input :annual_revenue
       f.input :secondary_email
       f.input :google_map_url
+      f.input :place_id
     end
     f.actions
   end

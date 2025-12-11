@@ -10,22 +10,50 @@
       place: place
     )
 
-  email = PromotionalMailer.cold_email_outreach(preview_contact)
-  html_body = email.html_part ? email.html_part.body.to_s : email.body.to_s
+  # Check if there's an existing draft email
+  draft_email = place.marketing_emails.where(status: 'draft').first
+
+  # Use draft content if exists, otherwise generate default
+  if draft_email.present?
+    html_body = draft_email.body
+    email_subject = draft_email.subject
+  else
+    email = PromotionalMailer.cold_email_outreach(preview_contact)
+    html_body = email.html_part ? email.html_part.body.to_s : email.body.to_s
+    email_subject = "How #{preview_contact.company.downcase.split.map(&:titleize).join(" ")} can stop losing customers to bad reviews"
+  end
 %>
 
-<p>Total Emails Sent: <%= place.marketing_emails.count %></p>
-<% if place.marketing_emails.count == 0 %>
-  <%= button_to "Send Email", send_marketing_email_admin_place_path(place), method: :post%>
-<% end %>
-<br/>
+<p>Total Emails Sent: <%= place.marketing_emails.where(status: 'sent').count %></p>
+<% if place.marketing_contacts.any? %>
+  <%= form_with url: save_draft_admin_place_path(place), method: :post, local: true do |f| %>
+    <div style="margin-bottom: 20px;">
+      <label for="email_subject" style="display: block; font-weight: bold; margin-bottom: 5px;">Subject:</label>
+      <%= text_field_tag :subject, email_subject, style: "width: 100%; padding: 8px; border: 1px solid #e5e7eb; border-radius: 4px;", required: true %>
+    </div>
 
-<div style="border: 1px solid #e5e7eb; border-radius: 8px; overflow: hidden;">
+    <div style="margin-bottom: 20px;">
+      <label for="email_body" style="display: block; font-weight: bold; margin-bottom: 5px;">Email Content:</label>
+      <%= text_area_tag :body, html_body, style: "width: 100%; height: 300px; padding: 8px; border: 1px solid #e5e7eb; border-radius: 4px; font-family: monospace;", required: true %>
+
+    </div>
+
+    <div style="margin-bottom: 20px;">
+      <%= f.submit "Save Draft", style: "background: #3b82f6; color: white; padding: 8px 16px; border: none; border-radius: 4px; cursor: pointer;" %>
+      <%= button_to "Send Email", send_marketing_email_admin_place_path(place), method: :post, style: "background: #10b981; color: white; padding: 8px 16px; border: none; border-radius: 4px; cursor: pointer; margin-left: 10px;"%>
+    </div>
+  <% end %>
+
+  <%= button_to "Reset to Default", reset_draft_admin_place_path(place), method: :post, style: "background: #f59e0b; color: white; padding: 8px 16px; border: none; border-radius: 4px; cursor: pointer; margin-top: 10px;", data: { confirm: "Are you sure you want to reset to default content? This will delete your draft." } %>
+<% else %>
+  <p style="color: #ef4444;">No marketing contacts found for this place. Please add a marketing contact first.</p>
+<% end %>
+
+<div style="border: 1px solid #e5e7eb; border-radius: 8px; overflow: hidden; margin-top: 20px;">
   <div style="padding: 12px; background: #f9fafb; border-bottom: 1px solid #e5e7eb;">
-    <strong>Subject:</strong>
-    How <%= preview_contact.company.downcase.split.map(&:titleize).join(" ") %> can stop losing customers to bad reviews
+    <strong>Preview:</strong>
   </div>
-<br/>
+  <br/>
 
   <div style="padding: 0;">
     <%= raw html_body %>

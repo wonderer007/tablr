@@ -3,7 +3,7 @@ class PromotionalMailer < ApplicationMailer
   include AnalyticsHelper
   include Rails.application.routes.url_helpers
 
-  def cold_email_outreach(contact)
+  def cold_email_outreach(contact, custom_body: nil, custom_subject: nil)
     @recipient_name = contact.first_name
     @company_name = contact.company.downcase.split.map(&:titleize).join(" ")
     @recipient_email = contact.email
@@ -47,10 +47,20 @@ class PromotionalMailer < ApplicationMailer
 
     @top_complaint = @complaint_topics.first&.dig(:text)&.to_s&.titleize
 
+    # Use custom subject and body if provided
+    subject = custom_subject || "Feedback analysis for #{contact.company.downcase.split.map(&:titleize).join(" ")}"
+    @custom_body = custom_body
+
     mail(
       to: contact.email,
-      subject: "Feedback analysis for #{contact.company.downcase.split.map(&:titleize).join(" ")}"
-    )
+      subject: subject
+    ) do |format|
+      if custom_body.present?
+        format.html { render html: custom_body.html_safe }
+      else
+        format.html
+      end
+    end
   end
 
   def hidden_patterns_in_reviews(contact)

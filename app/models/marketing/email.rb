@@ -5,6 +5,5 @@ class Marketing::Email < ApplicationRecord
 
   validates :subject, presence: true
   validates :body, presence: true
-  validates :sent_at, presence: true
   validates :status, presence: true
 end

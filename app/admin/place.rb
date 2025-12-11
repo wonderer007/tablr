@@ -20,7 +20,9 @@ ActiveAdmin.register Place do
     column :first_inference_completed
     column :test
     column 'Emails' do |place|
-      place.marketing_emails.count
+      sent_count = place.marketing_emails.where(status: 'sent').count
+      draft_count = place.marketing_emails.where(status: 'draft').count
+      "#{sent_count} sent, #{draft_count} draft"
     end
     column :created_at
     column :updated_at
@@ -95,16 +97,60 @@ ActiveAdmin.register Place do
       return
     end
 
-    PromotionalMailer.cold_email_outreach(contact).deliver_later
-    email = Marketing::Email.create(
-      place: place,
-      marketing_contact: contact, 
-      subject: "How #{contact.company.downcase.split.map(&:titleize).join(" ")} can stop losing customers to bad reviews", 
-      body: PromotionalMailer.cold_email_outreach(contact).body.to_s, 
-      sent_at: Time.current, 
-      status: "sent",
-      error_message: nil
-    )
+    # Check if there's a draft email to use
+    draft_email = place.marketing_emails.where(status: 'draft').first
+
+    if draft_email.present?
+      # Send the draft email
+      PromotionalMailer.cold_email_outreach(contact, custom_body: draft_email.body, custom_subject: draft_email.subject).deliver_later
+      draft_email.update(sent_at: Time.current, status: "sent")
+    else
+      # Send default email
+      PromotionalMailer.cold_email_outreach(contact).deliver_later
+      email = Marketing::Email.create(
+        place: place,
+        marketing_contact: contact,
+        subject: "How #{contact.company.downcase.split.map(&:titleize).join(" ")} can stop losing customers to bad reviews",
+        body: PromotionalMailer.cold_email_outreach(contact).body.to_s,
+        sent_at: Time.current,
+        status: "sent",
+        error_message: nil
+      )
+    end
     redirect_to admin_place_path(place), notice: "Email sent successfully"
+  end
+
+  member_action :save_draft, method: :post do
+    place = resource
+
+    contact = place.marketing_contacts.first
+
+    if contact.blank?
+      redirect_to admin_place_path(place), alert: "No marketing contact found for this place."
+      return
+    end
+
+    # Find existing draft or create new one
+    draft_email = place.marketing_emails.where(status: 'draft').first_or_initialize
+    draft_email.marketing_contact = contact
+    draft_email.subject = params[:subject]
+    draft_email.body = params[:body]
+    draft_email.status = "draft"
+    draft_email.error_message = nil
+
+    if draft_email.save
+      redirect_to admin_place_path(place), notice: "Draft saved successfully"
+    else
+      redirect_to admin_place_path(place), alert: "Failed to save draft: #{draft_email.errors.full_messages.join(', ')}"
+    end
+  end
+
+  member_action :reset_draft, method: :post do
+    place = resource
+
+    draft_email = place.marketing_emails.where(status: 'draft').first
+    draft_email&.destroy
+
+    redirect_to admin_place_path(place), notice: "Email content reset to default"
   end
 end

@@ -15,7 +15,6 @@ class ReviewAnalyticsService
         complaints_data: complaints_data,
         suggestions_data: suggestions_data,
         keywords_by_category: keywords_by_category,
-        daily_review_counts: daily_review_counts,
         previous_period_comparison: previous_period_comparison
       }
     end
@@ -200,14 +199,6 @@ class ReviewAnalyticsService
        .sort_by { |cat| cat[:total_keywords] }
        .reverse
        .take(3)
-  end
-
-  def daily_review_counts
-    return [] if reviews.none?
-
-    reviews.group_by_day(:published_at, range: start_date..end_date)
-           .count
-           .map { |date, count| { date: date, count: count } }
   end
 
   def previous_period_comparison

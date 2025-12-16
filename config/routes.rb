@@ -48,4 +48,6 @@ Rails.application.routes.draw do
       get :thank_you
     end
   end
+
+  get '/unsubscribe', to: 'website#unsubscribe', as: :unsubscribe
 end

@@ -18,7 +18,7 @@
     html_body = draft_email.body
     email_subject = draft_email.subject
   else
-    email = PromotionalMailer.cold_email_outreach(preview_contact)
+    email = PromotionalMailer.cold_email_outreach(preview_contact, preview: true)
     html_body = email.html_part ? email.html_part.body.to_s : email.body.to_s
     email_subject = "How #{preview_contact.company.downcase.split.map(&:titleize).join(" ")} can stop losing customers to bad reviews"
   end
@@ -40,18 +40,21 @@
 
     <div style="margin-bottom: 20px;">
       <%= f.submit "Save Draft", style: "background: #3b82f6; color: white; padding: 8px 16px; border: none; border-radius: 4px; cursor: pointer;" %>
-      <%= button_to "Send Email", send_marketing_email_admin_place_path(place), method: :post, style: "background: #10b981; color: white; padding: 8px 16px; border: none; border-radius: 4px; cursor: pointer; margin-left: 10px;"%>
     </div>
   <% end %>
 
-  <%= button_to "Reset to Default", reset_draft_admin_place_path(place), method: :post, style: "background: #f59e0b; color: white; padding: 8px 16px; border: none; border-radius: 4px; cursor: pointer; margin-top: 10px;", data: { confirm: "Are you sure you want to reset to default content? This will delete your draft." } %>
+  <div style="margin-bottom: 20px;">
+    <%= button_to "Send Email", send_marketing_email_admin_place_path(place), method: :post, style: "background: #10b981; color: white; padding: 8px 16px; border: none; border-radius: 4px; cursor: pointer;"%>
+    <br/>
+    <%= button_to "Reset to Default", reset_draft_admin_place_path(place), method: :post, style: "background: #f59e0b; color: white; padding: 8px 16px; border: none; border-radius: 4px; cursor: pointer; margin-left: 10px;", data: { confirm: "Are you sure you want to reset to default content? This will delete your draft." } %>
+  </div>
 <% else %>
   <p style="color: #ef4444;">No marketing contacts found for this place. Please add a marketing contact first.</p>
 <% end %>
 
 <div style="border: 1px solid #e5e7eb; border-radius: 8px; overflow: hidden; margin-top: 20px;">
   <div style="padding: 12px; background: #f9fafb; border-bottom: 1px solid #e5e7eb;">
-    <strong>Preview:</strong>
+    <strong>Subject: <%= email_subject %></strong>
   </div>
   <br/>
 

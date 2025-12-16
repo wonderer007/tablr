@@ -79,7 +79,7 @@ ActiveAdmin.register Place do
         end
         column :email
         column :company
-        column :created_at
+        column :unsubscribed
       end
     end
     panel "Review Analytics" do
@@ -89,34 +89,43 @@ ActiveAdmin.register Place do
 
   member_action :send_marketing_email, method: :post do
     place = resource
-
-    contact = place.marketing_contacts.first
-
-    if contact.blank?
-      redirect_to admin_place_path(place), alert: "No marketing contact found for this place."
-      return
-    end
-
-    # Check if there's a draft email to use
     draft_email = place.marketing_emails.where(status: 'draft').first
 
-    if draft_email.present?
-      # Send the draft email
-      PromotionalMailer.cold_email_outreach(contact, custom_body: draft_email.body, custom_subject: draft_email.subject).deliver_later
-      draft_email.update(sent_at: Time.current, status: "sent")
-    else
-      # Send default email
-      PromotionalMailer.cold_email_outreach(contact).deliver_later
-      email = Marketing::Email.create(
-        place: place,
-        marketing_contact: contact,
-        subject: "How #{contact.company.downcase.split.map(&:titleize).join(" ")} can stop losing customers to bad reviews",
-        body: PromotionalMailer.cold_email_outreach(contact).body.to_s,
-        sent_at: Time.current,
-        status: "sent",
-        error_message: nil
-      )
+    place.marketing_contacts.where(unsubscribed: false).each do |contact|
+      if draft_email.present?
+
+        if draft_email.marketing_contact.id == contact.id
+          draft_email.update(sent_at: Time.current, status: "sent")
+          PromotionalMailer.cold_email_outreach(contact, custom_body: draft_email.body, custom_subject: draft_email.subject).deliver_later
+        else
+          email = PromotionalMailer.cold_email_outreach(contact)
+
+          email = Marketing::Email.create(
+            place: place,
+            marketing_contact: contact,
+            subject: email.subject,
+            body: email.body,
+            sent_at: Time.current,
+            status: "sent",
+            error_message: nil
+          )
+          PromotionalMailer.cold_email_outreach(contact, custom_body: email.body, custom_subject: email.subject).deliver_later
+        end
+
+      else
+        email = Marketing::Email.create(
+          place: place,
+          marketing_contact: contact,
+          subject: "How #{contact.company.downcase.split.map(&:titleize).join(" ")} can stop losing customers to bad reviews",
+          body: PromotionalMailer.cold_email_outreach(contact).body.to_s,
+          sent_at: Time.current,
+          status: "sent",
+          error_message: nil
+        )
+        PromotionalMailer.cold_email_outreach(contact).deliver_later
+      end
     end
+
     redirect_to admin_place_path(place), notice: "Email sent successfully"
   end
 

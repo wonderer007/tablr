@@ -1,18 +1,28 @@
-<p>Hi <%= @recipient_name %>,</p>
+<% unless @preview %>
+  <p>Hi <%= @recipient_name %>,</p>
+<% end %>
 
-<p>I recently analyzed 100 of the latest reviews for <%= @company_name %> and noticed a few trends that might be impacting your return rate.</p>
+<% if @custom_body.present? %>
+  <%= @custom_body.html_safe %>
+<% else %>
+  <p>I recently analyzed 100 of the latest reviews for <%= @company_name %> and noticed a few trends that might be impacting your return rate.</p>
 
-<p>While customers love the <%= @positive_theme_words.first&.downcase || "service" %>, there is a recurring theme around <strong><%= @top_complaint&.downcase || "wait times" %></strong> that keeps coming up.</p>
+  <p>While customers love the <%= @positive_theme_words.first&.downcase || "service" %>, there is a recurring theme around <strong><%= @top_complaint&.downcase || "wait times" %></strong> that keeps coming up.</p>
 
-<p>We've compiled a full analysis of your positive and negative feedback trends here: <%= link_to "View Full Report for #{@company_name}", report_url(@place.place_actor_run_id), target: '_blank' %></p>
+  <p>We've compiled a full analysis of your positive and negative feedback trends here: <%= link_to "View Full Report for #{@company_name}", report_url(@place.place_actor_run_id), target: '_blank' %></p>
 
-<p>At Tablr, we help restaurants turn these insights into revenue—our partners see an average 22% increase by addressing these hidden profit killers.</p>
+  <p>At Tablr, we help restaurants turn these insights into revenue—our partners see an average 22% increase by addressing these hidden profit killers.</p>
 
-<p>Would you be open to a 15-minute chat to walk through the report?</p>
+  <p>Would you be open to a 15-minute chat to walk through the report?</p>
 
-<p>Best,</p>
+  <p>Best,</p>
 
-<p>
-Haider Ali<br/>
-Founder, Tablr
-</p>
+  <p>
+  Haider Ali<br/>
+  Founder, Tablr
+  </p>
+
+  <p style="font-size: 12px; color: #666; margin-top: 20px;">
+    Don't want to receive these emails? <%= link_to "Unsubscribe", unsubscribe_url(email: @email), style: "color: #666;" %>
+  </p>
+<% end %>

@@ -3,11 +3,13 @@ class PromotionalMailer < ApplicationMailer
   include AnalyticsHelper
   include Rails.application.routes.url_helpers
 
-  def cold_email_outreach(contact, custom_body: nil, custom_subject: nil)
+  def cold_email_outreach(contact, custom_body: nil, custom_subject: nil, preview: false)
     @recipient_name = contact.first_name
     @company_name = contact.company.downcase.split.map(&:titleize).join(" ")
     @recipient_email = contact.email
     @place = contact.place
+    @preview = preview
+    @email = contact.email
 
     @reviews_count = @place.reviews.where.not(sentiment: nil).count
     @positive_reviews_count = @place.reviews.where(sentiment: :positive).count
@@ -55,11 +57,7 @@ class PromotionalMailer < ApplicationMailer
       to: contact.email,
       subject: subject
     ) do |format|
-      if custom_body.present?
-        format.html { render html: custom_body.html_safe }
-      else
         format.html
-      end
     end
   end
 

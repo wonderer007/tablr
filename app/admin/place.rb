@@ -103,8 +103,8 @@ ActiveAdmin.register Place do
           email = Marketing::Email.create(
             place: place,
             marketing_contact: contact,
-            subject: email.subject,
-            body: email.body,
+            subject: draft_email.subject,
+            body: draft_email.body,
             sent_at: Time.current,
             status: "sent",
             error_message: nil

@@ -80,6 +80,9 @@ ActiveAdmin.register Place do
         column :email
         column :company
         column :unsubscribed
+        column :email_sent_at do |contact|
+          contact.marketing_emails.where(status: 'sent').order(sent_at: :desc).first&.sent_at
+        end
       end
     end
     panel "Review Analytics" do

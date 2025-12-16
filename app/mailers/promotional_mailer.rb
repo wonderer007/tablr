@@ -55,7 +55,10 @@ class PromotionalMailer < ApplicationMailer
 
     mail(
       to: contact.email,
-      subject: subject
+      subject: subject,
+      headers: {
+        'List-Unsubscribe' => "<#{unsubscribe_url(email: contact.email)}>"
+      }
     ) do |format|
         format.html
     end
@@ -68,7 +71,10 @@ class PromotionalMailer < ApplicationMailer
 
     mail(
       to: contact.email,
-      subject: "Hidden patterns in #{contact.company} online reviews"
+      subject: "Hidden patterns in #{contact.company} online reviews",
+      headers: {
+        'List-Unsubscribe' => "<#{unsubscribe_url(email: contact.email)}>"
+      }
     )
   end
 
@@ -79,7 +85,10 @@ class PromotionalMailer < ApplicationMailer
 
     mail(
       to: contact.email,
-      subject: "Analyzing reviews pattern in #{contact.company} online reviews"
+      subject: "Analyzing reviews pattern in #{contact.company} online reviews",
+      headers: {
+        'List-Unsubscribe' => "<#{unsubscribe_url(email: contact.email)}>"
+      }
     )
   end
 end

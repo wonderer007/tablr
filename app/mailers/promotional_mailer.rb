@@ -3,8 +3,22 @@ class PromotionalMailer < ApplicationMailer
   include AnalyticsHelper
   include Rails.application.routes.url_helpers
 
+  private
+
+  def recipient_name(contact)
+    if contact.first_name.present? && contact.first_name.length > 1
+      contact.first_name
+    elsif contact.last_name.present? && contact.last_name.length > 1
+      contact.last_name
+    else
+      "Valued Customer"
+    end
+  end
+
+  public
+
   def cold_email_outreach(contact, custom_body: nil, custom_subject: nil, preview: false)
-    @recipient_name = contact.first_name
+    @recipient_name = recipient_name(contact)
     @company_name = contact.company.downcase.split.map(&:titleize).join(" ")
     @recipient_email = contact.email
     @place = contact.place
@@ -65,7 +79,7 @@ class PromotionalMailer < ApplicationMailer
   end
 
   def hidden_patterns_in_reviews(contact)
-    @recipient_name = contact.first_name
+    @recipient_name = recipient_name(contact)
     @company_name = contact.company
     @recipient_email = contact.email
 
@@ -79,7 +93,7 @@ class PromotionalMailer < ApplicationMailer
   end
 
   def analyzing_reviews_pattern(contact)
-    @recipient_name = contact.first_name
+    @recipient_name = recipient_name(contact)
     @company_name = contact.company
     @recipient_email = contact.email
 

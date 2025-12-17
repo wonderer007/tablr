@@ -165,4 +165,48 @@ ActiveAdmin.register Place do
 
     redirect_to admin_place_path(place), notice: "Email content reset to default"
   end
+
+  batch_action :send_marketing_emails do |ids|
+    places = Place.where(id: ids)
+    sent_count = 0
+
+    places.each do |place|
+      draft_email = place.marketing_emails.where(status: 'draft').first
+
+      place.marketing_contacts.where(unsubscribed: false).each do |contact|
+        if draft_email.present?
+          if draft_email.marketing_contact.id == contact.id
+            draft_email.update(sent_at: Time.current, status: "sent")
+            PromotionalMailer.cold_email_outreach(contact, custom_body: draft_email.body, custom_subject: draft_email.subject).deliver_later
+          else
+            email = Marketing::Email.create(
+              place: place,
+              marketing_contact: contact,
+              subject: draft_email.subject,
+              body: draft_email.body,
+              sent_at: Time.current,
+              status: "sent",
+              error_message: nil
+            )
+            PromotionalMailer.cold_email_outreach(contact, custom_body: email.body, custom_subject: email.subject).deliver_later
+          end
+        else
+          email = Marketing::Email.create(
+            place: place,
+            marketing_contact: contact,
+            subject: "Unlock 22% Revenue Growth from #{contact.company.downcase.split.map(&:titleize).join(" ")} Reviews - Free Report Inside",
+            body: PromotionalMailer.cold_email_outreach(contact).body.to_s,
+            sent_at: Time.current,
+            status: "sent",
+            error_message: nil
+          )
+          PromotionalMailer.cold_email_outreach(contact).deliver_later
+        end
+      end
+
+      sent_count += 1
+    end
+
+    redirect_to admin_places_path, notice: "Marketing emails sent successfully for #{sent_count} place#{sent_count == 1 ? '' : 's'}"
+  end
 end

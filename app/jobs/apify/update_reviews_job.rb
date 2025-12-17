@@ -3,7 +3,6 @@ class Apify::UpdateReviewsJob < ApplicationJob
 
   def perform(place_id:)
     place = Place.find(place_id)
-
     ActsAsTenant.with_tenant(place) do
       Apify::UpdateReviews.call(place_id: place.id)
     end

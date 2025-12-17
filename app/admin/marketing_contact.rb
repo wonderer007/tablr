@@ -87,6 +87,9 @@ ActiveAdmin.register Marketing::Contact do
       row :primary_email_last_verified_at
       row :no_of_employees
       row :industry
+      row "Last Email Sent At" do |contact|
+        contact.marketing_emails.where(status: 'sent').last&.sent_at&.strftime("%B %d, %Y %I:%M %p")
+      end      
       row :linkedin_url
       row :annual_revenue
       row :secondary_email

@@ -61,6 +61,22 @@ ActiveAdmin.register Marketing::Contact do
     end
   end
 
+  # Batch action to bulk update place_id
+  batch_action :update_place_id, form: {
+    place_id: :text
+  } do |ids, inputs|
+    contacts = Marketing::Contact.where(id: ids)
+    updated_count = 0
+
+    contacts.each do |contact|
+      if contact.update(place_id: inputs[:place_id])
+        updated_count += 1
+      end
+    end
+
+    redirect_to collection_path, notice: "#{updated_count} of #{ids.count} marketing contacts updated with place_id: #{inputs[:place_id]}"
+  end
+
   filter :first_name
   filter :last_name
   filter :email

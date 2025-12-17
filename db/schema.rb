@@ -107,6 +107,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_12_17_000003) do
     t.float "annual_revenue"
     t.boolean "unsubscribed", default: false
     t.bigint "company_id"
+    t.string "company_name"
     t.index ["company_id"], name: "index_marketing_contacts_on_company_id"
     t.index ["email"], name: "index_marketing_contacts_on_email", unique: true
     t.index ["secondary_email"], name: "index_marketing_contacts_on_secondary_email"

@@ -1,6 +1,6 @@
 class RemoveCompanyColumnsFromMarketingContacts < ActiveRecord::Migration[7.2]
   def change
-    remove_column :marketing_contacts, :company, :string
+    rename_column :marketing_contacts, :company, :company_name
     remove_column :marketing_contacts, :company_linkedin_url, :string
     remove_column :marketing_contacts, :company_address, :string
     remove_column :marketing_contacts, :company_city, :string

@@ -51,6 +51,7 @@ ActiveAdmin.register Marketing::Contact do
   filter :first_name
   filter :last_name
   filter :email
+  filter :company_name
   filter :company_id
   filter :secondary_email
   filter :created_at
@@ -62,7 +63,7 @@ ActiveAdmin.register Marketing::Contact do
       "#{contact.first_name} #{contact.last_name}"
     end
     column :email
-    column :company
+    column :company_name
     column :website do |contact|
       link_to contact.website, contact.website, target: "_blank" if contact.website.present?
     end
@@ -75,6 +76,7 @@ ActiveAdmin.register Marketing::Contact do
       row :first_name
       row :last_name
       row :email
+      row :company_name
       row :company do |contact|
         if contact.company
           link_to contact.company.name, admin_marketing_company_path(contact.company)

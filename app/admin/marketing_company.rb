@@ -84,8 +84,8 @@ ActiveAdmin.register Marketing::Company do
     # Find existing draft or create new one
     draft_email = company.marketing_emails.where(status: 'draft').first_or_initialize
     draft_email.marketing_contact = contact
-    draft_email.subject = params[:subject]
-    draft_email.body = params[:body]
+    draft_email.subject = params[:subject] if params[:subject].present?
+    draft_email.body = params[:body] if params[:body].present?
     draft_email.status = "draft"
     draft_email.error_message = nil
 
@@ -158,7 +158,7 @@ ActiveAdmin.register Marketing::Company do
     end
 
     panel "Marketing Email Preview" do
-      render 'marketing_email_preview', company: resource if resource.place.present?
+      render 'marketing_email_preview', company: resource if resource.place.present? && resource.place.first_inference_completed?
     end
 
     panel "Contacts" do

@@ -20,8 +20,8 @@ ActiveAdmin.register Marketing::Company do
       random_password = SecureRandom.hex(10)
       place.users.create!(
         email: "testuser#{place.id}@tablr.io",
-        first_name: Faker::Name.first_name,
-        last_name: Faker::Name.last_name,
+        first_name: "Test",
+        last_name: "User",
         password: random_password,
         password_confirmation: random_password,
         payment_approved: true

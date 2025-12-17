@@ -167,7 +167,9 @@ ActiveAdmin.register Marketing::Company do
           "#{contact.first_name} #{contact.last_name}"
         end
         column :email
-        column :created_at
+        column "Last Email Sent At" do |contact|
+          contact.marketing_emails.where(status: 'sent').last&.sent_at&.strftime("%B %d, %Y %I:%M %p")
+        end
       end
     end
   end

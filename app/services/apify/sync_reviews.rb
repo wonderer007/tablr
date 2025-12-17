@@ -21,6 +21,8 @@ class Apify::SyncReviews < ApplicationService
     }.merge(reviews_since)
 
     data = Apify::Client.start_run(Review::ACTOR_ID, params)
+    return if data.blank?
+
     place.update(status: :syncing_reviews, review_actor_run_id: data.dig('data', 'id'))
   end
 

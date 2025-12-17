@@ -1,7 +1,7 @@
 ActiveAdmin.register Marketing::Contact do
   menu label: "Marketing Contacts"
 
-  permit_params :first_name, :last_name, :email, :company_id, :secondary_email, :place_id
+  permit_params :first_name, :last_name, :email, :company_name, :company_id, :secondary_email, :place_id
 
   # CSV Import UI in the index sidebar
   sidebar "Import Marketing Contacts", only: :index do

@@ -9,7 +9,7 @@ class Marketing::Contact < ApplicationRecord
   has_many :marketing_emails, class_name: "Marketing::Email", foreign_key: "marketing_contact_id", dependent: :destroy
 
   def self.ransackable_attributes(auth_object = nil)
-    %w[created_at email email_sent_at first_name id last_name secondary_email unsubscribed updated_at company_id]
+    %w[created_at email email_sent_at first_name id last_name secondary_email unsubscribed updated_at company_id company_name]
   end
 
   def self.ransackable_associations(auth_object = nil)

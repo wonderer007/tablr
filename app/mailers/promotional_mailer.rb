@@ -64,7 +64,7 @@ class PromotionalMailer < ApplicationMailer
     @top_complaint = @complaint_topics.first&.dig(:text)&.to_s&.titleize
 
     # Use custom subject and body if provided
-    subject = custom_subject || "Feedback analysis for #{contact.company.downcase.split.map(&:titleize).join(" ")}"
+    subject = custom_subject || "Unlock 22% Revenue Growth from #{contact.company.downcase.split.map(&:titleize).join(" ")} Reviews - Free Report Inside"
     @custom_body = custom_body
 
     mail(

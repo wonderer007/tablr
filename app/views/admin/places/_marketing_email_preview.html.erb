@@ -20,7 +20,7 @@
   else
     email = PromotionalMailer.cold_email_outreach(preview_contact, preview: true)
     html_body = email.html_part ? email.html_part.body.to_s : email.body.to_s
-    email_subject = "How #{preview_contact.company.downcase.split.map(&:titleize).join(" ")} can stop losing customers to bad reviews"
+    email_subject = "Unlock 22% Revenue Growth from #{preview_contact.company.downcase.split.map(&:titleize).join(" ")} Reviews - Free Report Inside"
   end
 %>
 

@@ -9,7 +9,7 @@
 
   <p>While customers love the <%= @positive_theme_words.first&.downcase || "service" %>, there is a recurring theme around <strong><%= @top_complaint&.downcase || "wait times" %></strong> that keeps coming up.</p>
 
-  <p>Check our free report on trends here: <%= link_to "View Full Report for #{@company_name}", report_url(@place.place_actor_run_id), target: '_blank' %>.</p>
+  <p>Check our free report on trends here: <%= link_to "View Full Report for #{@company_name}", report_url(@company.place&.place_actor_run_id || @company.place_id), target: '_blank' %>.</p>
 
   <p>Tablr converts these into wins—partners average 22% more revenue by addressing them.</p>
 

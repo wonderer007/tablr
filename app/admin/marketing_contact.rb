@@ -51,7 +51,7 @@ ActiveAdmin.register Marketing::Contact do
   filter :first_name
   filter :last_name
   filter :email
-  filter :company, as: :select, collection: proc { Marketing::Company.all.pluck(:name, :id) }
+  filter :company_id
   filter :secondary_email
   filter :created_at
 
@@ -62,9 +62,7 @@ ActiveAdmin.register Marketing::Contact do
       "#{contact.first_name} #{contact.last_name}"
     end
     column :email
-    column :company do |contact|
-      contact.company&.name
-    end
+    column :company
     column :website do |contact|
       link_to contact.website, contact.website, target: "_blank" if contact.website.present?
     end

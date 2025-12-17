@@ -17,6 +17,16 @@ ActiveAdmin.register Marketing::Company do
 
     if place.save
       company.update(place: place)
+      random_password = SecureRandom.hex(10)
+      place.users.create!(
+        email: "testuser#{place.id}@tablr.io",
+        first_name: Faker::Name.first_name,
+        last_name: Faker::Name.last_name,
+        password: random_password,
+        password_confirmation: random_password,
+        payment_approved: true
+      )
+      Apify::SyncPlaceJob.perform_later(place_id: place.id)
       redirect_to resource_path(company), notice: "Place created and linked to company."
     else
       redirect_to resource_path(company), alert: "Failed to create place: #{place.errors.full_messages.to_sentence}"
@@ -100,7 +110,7 @@ ActiveAdmin.register Marketing::Company do
   filter :city
   filter :state
   filter :country
-  filter :place
+  filter :place_id
   filter :created_at
 
   index do
@@ -147,6 +157,10 @@ ActiveAdmin.register Marketing::Company do
       row :updated_at
     end
 
+    panel "Marketing Email Preview" do
+      render 'marketing_email_preview', company: resource if resource.place.present?
+    end
+
     panel "Contacts" do
       table_for resource.marketing_contacts do
         column :name do |contact|
@@ -155,10 +169,6 @@ ActiveAdmin.register Marketing::Company do
         column :email
         column :created_at
       end
-    end
-
-    panel "Marketing Email Preview" do
-      render 'marketing_email_preview', company: resource if resource.marketing_contacts.any?
     end
   end
 

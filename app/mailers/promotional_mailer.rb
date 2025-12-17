@@ -64,6 +64,25 @@ class PromotionalMailer < ApplicationMailer
 
     @top_complaint = @complaint_topics.first&.dig(:text)&.to_s&.titleize
 
+    # Generate AI-powered email content if not using custom body
+    if custom_body.blank?
+      # Check if company already has AI-generated content
+      if @company.ai_generated_content.blank?
+        # Generate and save AI content to the company
+        ai_content = Ai::EmailComposer.call(
+          place_id: @place.id,
+          company_id: @company.id,
+          positive_keywords: @positive_keywords,
+          negative_keywords: @negative_keywords,
+          complaint_summary: complaint_summary,
+          suggestion_summary: suggestion_summary,
+          company_name: @company_name
+        )
+        @company.update(ai_generated_content: ai_content)
+      end
+      @ai_generated_content = @company.ai_generated_content
+    end
+
     # Use custom subject and body if provided
     subject = custom_subject || "Unlock 22% Revenue Growth from #{contact.company.name.downcase.split.map(&:titleize).join(" ")} Reviews - Free Report Inside"
     @custom_body = custom_body

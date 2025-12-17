@@ -158,7 +158,7 @@ ActiveAdmin.register Marketing::Company do
     end
 
     panel "Marketing Email Preview" do
-      render 'marketing_email_preview', company: resource if resource.place.present?
+      render 'marketing_email_preview', company: resource if resource.place.present? && resource.place.test == true && resource.place.first_inference_completed
     end
 
     panel "Contacts" do

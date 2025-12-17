@@ -5,9 +5,13 @@
 <% if @custom_body.present? %>
   <%= @custom_body.html_safe %>
 <% else %>
-  <p>I recently analyzed 100 of the latest reviews for <%= @company_name %> and noticed a few trends that might be impacting your return rate.</p>
+  <% if @ai_generated_content.present? %>
+    <%= @ai_generated_content.html_safe %>
+  <% else %>
+    <p>I recently analyzed 100 of the latest reviews for <%= @company_name %> and noticed a few trends that might be impacting your return rate.</p>
 
-  <p>While customers love the <%= @positive_theme_words.first&.downcase || "service" %>, there is a recurring theme around <strong><%= @top_complaint&.downcase || "wait times" %></strong> that keeps coming up.</p>
+    <p>While customers love the <%= @positive_theme_words.first&.downcase || "service" %>, there is a recurring theme around <strong><%= @top_complaint&.downcase || "wait times" %></strong> that keeps coming up.</p>
+  <% end %>
 
   <p>Check our free report on trends here: <%= link_to "View Full Report for #{@company_name}", report_url(@company.place&.place_actor_run_id || @company.place_id), target: '_blank' %>.</p>
 

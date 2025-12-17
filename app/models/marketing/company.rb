@@ -8,7 +8,7 @@ class Marketing::Company < ApplicationRecord
   has_many :marketing_emails, through: :marketing_contacts
 
   def self.ransackable_attributes(auth_object = nil)
-    %w[name linkedin_url address city state country phone google_map_url place_id created_at updated_at]
+    %w[name linkedin_url address city state country phone google_map_url place_id ai_generated_content created_at updated_at]
   end
 
   def self.ransackable_associations(auth_object = nil)

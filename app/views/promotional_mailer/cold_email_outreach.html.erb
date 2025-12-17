@@ -5,15 +5,15 @@
 <% if @custom_body.present? %>
   <%= @custom_body.html_safe %>
 <% else %>
-  <p>I recently analyzed 100 of the latest reviews for <%= @company_name %> and noticed a few trends that might be impacting your return rate.</p>
+  <p>I analyzed recent reviews for <%= @company_name %> and found customers love the <%= @positive_theme_words.first(2).map(&:downcase).to_sentence(two_words_connector: ' and ', last_word_connector: ', and ') %>—solid wins to build on.</p>
 
-  <p>While customers love the <%= @positive_theme_words.first&.downcase || "service" %>, there is a recurring theme around <strong><%= @top_complaint&.downcase || "wait times" %></strong> that keeps coming up.</p>
+  <p>However, feedback on <%= [@complaint_topics.first(2).map { |c| c[:text]&.downcase }, @negative_keywords.first(2).map { |n| n[:name]&.downcase }, @suggestion_topics.first(2).map { |s| s[:text]&.downcase }].flatten.compact.first(2).to_sentence(two_words_connector: ' and ', last_word_connector: ', and ') %> appeared, potentially impacting repeats.</p>
 
-  <p>Check our free report on trends here: <%= link_to "View Full Report for #{@company_name}", report_url(@company.place&.place_actor_run_id || @company.place_id), target: '_blank' %>.</p>
+  <p>Check out our free report on trends here: <%= link_to "View Full Report for #{@company_name}", report_url(@company.place&.place_actor_run_id || @company.place_id), target: '_blank' %>.</p>
 
-  <p>Tablr converts these into wins—partners average 22% more revenue by addressing them.</p>
+  <p>Tablr converts these into wins—our partners average 22% more revenue by addressing them.</p>
 
-  <p>Open to a 15-min call to dive in?</p>
+  <p>Open to a 15-minute call to dive in?</p>
 
   <p>Best,<br/>
   Haider Ali<br/>

@@ -19,9 +19,10 @@ class PromotionalMailer < ApplicationMailer
 
   def cold_email_outreach(contact, custom_body: nil, custom_subject: nil, preview: false)
     @recipient_name = recipient_name(contact)
-    @company_name = contact.company.downcase.split.map(&:titleize).join(" ")
+    @company_name = contact.company.name.downcase.split.map(&:titleize).join(" ")
     @recipient_email = contact.email
-    @place = contact.place
+    @place = contact.company.place
+    @company = contact.company
     @preview = preview
     @email = contact.email
 
@@ -64,7 +65,7 @@ class PromotionalMailer < ApplicationMailer
     @top_complaint = @complaint_topics.first&.dig(:text)&.to_s&.titleize
 
     # Use custom subject and body if provided
-    subject = custom_subject || "Unlock 22% Revenue Growth from #{contact.company.downcase.split.map(&:titleize).join(" ")} Reviews - Free Report Inside"
+    subject = custom_subject || "Unlock 22% Revenue Growth from #{contact.company.name.downcase.split.map(&:titleize).join(" ")} Reviews - Free Report Inside"
     @custom_body = custom_body
 
     mail(

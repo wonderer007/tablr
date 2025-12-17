@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_12_16_120000) do
+ActiveRecord::Schema[7.2].define(version: 2025_12_17_000003) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
   enable_extension "plpgsql"
@@ -72,11 +72,25 @@ ActiveRecord::Schema[7.2].define(version: 2025_12_16_120000) do
     t.index ["review_id"], name: "index_keywords_on_review_id"
   end
 
+  create_table "marketing_companies", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "linkedin_url"
+    t.string "address"
+    t.string "city"
+    t.string "state"
+    t.string "country"
+    t.string "phone"
+    t.string "google_map_url"
+    t.bigint "place_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["place_id"], name: "index_marketing_companies_on_place_id"
+  end
+
   create_table "marketing_contacts", force: :cascade do |t|
     t.string "first_name"
     t.string "last_name"
     t.string "email", null: false
-    t.string "company"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.datetime "email_sent_at"
@@ -86,22 +100,15 @@ ActiveRecord::Schema[7.2].define(version: 2025_12_16_120000) do
     t.integer "no_of_employees"
     t.string "industry"
     t.string "linkedin_url"
-    t.string "company_linkedin_url"
     t.string "website"
     t.string "twitter_url"
     t.string "city"
     t.string "country"
-    t.string "company_address"
-    t.string "company_city"
-    t.string "company_state"
-    t.string "company_country"
-    t.string "company_phone"
     t.float "annual_revenue"
-    t.string "google_map_url"
-    t.bigint "place_id"
     t.boolean "unsubscribed", default: false
+    t.bigint "company_id"
+    t.index ["company_id"], name: "index_marketing_contacts_on_company_id"
     t.index ["email"], name: "index_marketing_contacts_on_email", unique: true
-    t.index ["place_id"], name: "index_marketing_contacts_on_place_id"
     t.index ["secondary_email"], name: "index_marketing_contacts_on_secondary_email"
   end
 
@@ -217,6 +224,8 @@ ActiveRecord::Schema[7.2].define(version: 2025_12_16_120000) do
   add_foreign_key "keywords", "categories"
   add_foreign_key "keywords", "places"
   add_foreign_key "keywords", "reviews"
+  add_foreign_key "marketing_companies", "places"
+  add_foreign_key "marketing_contacts", "marketing_companies", column: "company_id"
   add_foreign_key "notifications", "places"
   add_foreign_key "reviews", "places"
   add_foreign_key "suggestions", "categories"

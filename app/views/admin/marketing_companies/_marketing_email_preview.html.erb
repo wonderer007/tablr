@@ -1,18 +1,16 @@
 <%# Render the cold email outreach as it would appear in the email %>
 <%
   preview_contact =
-    Marketing::Contact.where(company_id: company.id).first ||
+    company.marketing_contacts.first ||
     Marketing::Contact.new(
       first_name: 'there',
       last_name: '',
       email: 'owner@example.com',
-      company: place.name.presence || 'Your Restaurant',
       company: company
     )
 
   # Check if there's an existing draft email
-  draft_email = place.marketing_emails.where(status: 'draft').first
-
+  draft_email = company.marketing_emails.where(status: 'draft').first
   # Use draft content if exists, otherwise generate default
   if draft_email.present?
     html_body = draft_email.body
@@ -20,13 +18,13 @@
   else
     email = PromotionalMailer.cold_email_outreach(preview_contact, preview: true)
     html_body = email.html_part ? email.html_part.body.to_s : email.body.to_s
-    email_subject = "Unlock 22% Revenue Growth from #{preview_contact.company.downcase.split.map(&:titleize).join(" ")} Reviews - Free Report Inside"
+    email_subject = "Unlock 22% Revenue Growth from #{company.name&.downcase&.split&.map(&:titleize)&.join(" ")} Reviews - Free Report Inside"
   end
 %>
 
-<p>Total Emails Sent: <%= place.marketing_emails.where(status: 'sent').count %></p>
-<% if place.marketing_contacts.any? %>
-  <%= form_with url: save_draft_admin_place_path(place), method: :post, local: true do |f| %>
+<p>Total Emails Sent: <%= company.marketing_emails.where(status: 'sent').count %></p>
+<% if company.marketing_contacts.any? %>
+  <%= form_with url: save_draft_admin_marketing_company_path(company), method: :post, local: true do |f| %>
     <div style="margin-bottom: 20px;">
       <label for="email_subject" style="display: block; font-weight: bold; margin-bottom: 5px;">Subject:</label>
       <%= text_field_tag :subject, email_subject, style: "width: 100%; padding: 8px; border: 1px solid #e5e7eb; border-radius: 4px;", required: true %>
@@ -44,12 +42,12 @@
   <% end %>
 
   <div style="margin-bottom: 20px;">
-    <%= button_to "Send Email", send_marketing_email_admin_place_path(place), method: :post, style: "background: #10b981; color: white; padding: 8px 16px; border: none; border-radius: 4px; cursor: pointer;"%>
+    <%= button_to "Send Email", send_marketing_email_admin_marketing_company_path(company), method: :post, style: "background: #10b981; color: white; padding: 8px 16px; border: none; border-radius: 4px; cursor: pointer;"%>
     <br/>
-    <%= button_to "Reset to Default", reset_draft_admin_place_path(place), method: :post, style: "background: #f59e0b; color: white; padding: 8px 16px; border: none; border-radius: 4px; cursor: pointer; margin-left: 10px;", data: { confirm: "Are you sure you want to reset to default content? This will delete your draft." } %>
+    <%= button_to "Reset to Default", reset_draft_admin_marketing_company_path(company), method: :post, style: "background: #f59e0b; color: white; padding: 8px 16px; border: none; border-radius: 4px; cursor: pointer; margin-left: 10px;", data: { confirm: "Are you sure you want to reset to default content? This will delete your draft." } %>
   </div>
 <% else %>
-  <p style="color: #ef4444;">No marketing contacts found for this place. Please add a marketing contact first.</p>
+  <p style="color: #ef4444;">No marketing contacts found for this company. Please add a marketing contact first.</p>
 <% end %>
 
 <div style="border: 1px solid #e5e7eb; border-radius: 8px; overflow: hidden; margin-top: 20px;">
@@ -62,4 +60,3 @@
     <%= raw html_body %>
   </div>
 </div>
-

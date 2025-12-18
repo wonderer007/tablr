@@ -117,8 +117,8 @@ ActiveAdmin.register Marketing::Company do
     selectable_column
     id_column
     column :name
-    column :linkedin_url do |company|
-      link_to company.linkedin_url, company.linkedin_url, target: "_blank" if company.linkedin_url.present?
+    column "Contacts" do |company|
+      company.marketing_contacts.count
     end
     column :city
     column :country

@@ -111,7 +111,7 @@ ActiveAdmin.register Marketing::Company do
   filter :state
   filter :country
   filter :place_id
-  filter :created_at
+  filter :updated_at
 
   index do
     selectable_column
@@ -128,7 +128,7 @@ ActiveAdmin.register Marketing::Company do
       "#{sent_count} sent, #{draft_count} draft"
     end
     column :place
-    column :created_at
+    column :updated_at
     actions
   end
 

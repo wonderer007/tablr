@@ -117,16 +117,15 @@ ActiveAdmin.register Marketing::Company do
     selectable_column
     id_column
     column :name
-    column "Contacts" do |company|
+    column "Contacts", sortable: "(SELECT COUNT(*) FROM marketing_contacts WHERE marketing_contacts.company_id = marketing_companies.id)" do |company|
       company.marketing_contacts.count
     end
+    column 'Emails', sortable: "(SELECT COUNT(*) FROM marketing_emails INNER JOIN marketing_contacts ON marketing_emails.marketing_contact_id = marketing_contacts.id WHERE marketing_contacts.company_id = marketing_companies.id AND marketing_emails.status = 'sent')" do |company|
+      company.marketing_emails.where(status: 'sent').count
+    end    
     column :city
     column :country
-    column 'Emails' do |company|
-      sent_count = company.marketing_emails.where(status: 'sent').count
-      draft_count = company.marketing_emails.where(status: 'draft').count
-      "#{sent_count} sent, #{draft_count} draft"
-    end
+
     column :place
     column :updated_at
     actions

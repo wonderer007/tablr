@@ -113,12 +113,21 @@ ActiveAdmin.register Marketing::Company do
   filter :place_id
   filter :updated_at
 
+  controller do
+    def scoped_collection
+      super
+        .left_joins(:marketing_contacts)
+        .select("marketing_companies.*, COUNT(marketing_contacts.id) AS contacts_count")
+        .group("marketing_companies.id")
+    end
+  end
+
   index do
     selectable_column
     id_column
     column :name
-    column "Contacts" do |company|
-      company.marketing_contacts.count
+    column "Contacts", sortable: "contacts_count" do |company|
+      company.respond_to?(:contacts_count) ? company.contacts_count : company.marketing_contacts.count
     end
     column 'Emails' do |company|
       company.marketing_emails.where(status: 'sent').count

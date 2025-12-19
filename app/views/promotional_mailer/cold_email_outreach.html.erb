@@ -7,7 +7,7 @@
 <% else %>
   <p>I analyzed recent reviews for <%= @company_name %> and found customers love the <%= @positive_theme_words.first(2).map(&:downcase).to_sentence(two_words_connector: ' and ', last_word_connector: ', and ') %>—solid wins to build on.</p>
 
-  <p>However, feedback on <%= [@complaint_topics.first(2).map { |c| c[:text]&.downcase }, @negative_keywords.first(2).map { |n| n[:name]&.downcase }, @suggestion_topics.first(2).map { |s| s[:text]&.downcase }].flatten.compact.first(2).to_sentence(two_words_connector: ' and ', last_word_connector: ', and ') %> appeared, potentially impacting repeats.</p>
+  <p>However, feedback on <%= [@complaint_topics.first(2).map { |c| c[:text]&.downcase }, @negative_keywords.first(2).map { |n| n[:name]&.downcase }, @suggestion_topics.first(2).map { |s| s[:text]&.downcase }].flatten.compact.first(2).to_sentence(two_words_connector: ' and ', last_word_connector: ', and ') %> needs your attention, potentially impacting repeats.</p>
 
   <p>Check out our free report on trends here: <%= link_to "View Full Report for #{@company_name}", report_url(@company.place&.place_actor_run_id || @company.place_id), target: '_blank' %>.</p>
 

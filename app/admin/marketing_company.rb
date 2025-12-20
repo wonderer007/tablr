@@ -166,7 +166,7 @@ ActiveAdmin.register Marketing::Company do
         row("Create Place") do |company|
           button_to "Create Place", create_place_admin_marketing_company_path(company), method: :post
         end
-      else
+      elsif resource.google_map_url.blank?
         row("Find Google Map Place") do |company|
           button_to "Find Google Map Place", find_google_map_place_admin_marketing_company_path(company), method: :post
         end

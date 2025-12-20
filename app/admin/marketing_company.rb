@@ -107,9 +107,8 @@ ActiveAdmin.register Marketing::Company do
 
   member_action :find_google_map_place, method: :post do
     company = resource
-    google_map_url = FindGoogleMapPlace.new(company_id: company.id).call
-    company.update(google_map_url: google_map_url)
-    redirect_to admin_marketing_company_path(company), notice: "Google Map Place found successfully"
+    FindGoogleMapJob.perform_later(company.id)
+    redirect_to admin_marketing_company_path(company), notice: "Google Map Place finding job started"
   end
 
   filter :name
@@ -206,6 +205,14 @@ ActiveAdmin.register Marketing::Company do
       f.input :place_id
     end
     f.actions
+  end
+
+  batch_action :find_google_map_place do |ids|
+    companies = Marketing::Company.where(id: ids)
+    companies.each do |company|
+      FindGoogleMapJob.perform_later(company.id)
+    end
+    redirect_to admin_marketing_companies_path, notice: "Google Map Place finding jobs started for #{companies.count} companies"
   end
 
   batch_action :send_marketing_emails do |ids|

@@ -10,6 +10,8 @@ class FindGoogleMapPlace
   end
 
   def call
+    return nil if company.google_map_url.present?
+
     uri = URI(URL)
     uri.query = URI.encode_www_form(
       input: input,

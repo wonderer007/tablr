@@ -212,7 +212,7 @@ ActiveAdmin.register Marketing::Company do
     companies.each do |company|
       FindGoogleMapJob.perform_later(company.id)
     end
-    redirect_to admin_marketing_companies_path, notice: "Google Map Place finding jobs started for #{companies.count} companies"
+    redirect_back(fallback_location: request.referer, notice: "Google Map Place finding jobs started for #{companies.count} companies")
   end
 
   batch_action :send_marketing_emails do |ids|

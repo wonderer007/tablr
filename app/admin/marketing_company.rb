@@ -171,6 +171,14 @@ ActiveAdmin.register Marketing::Company do
         end
       end
       row :place
+      row :number_of_reviews do |company|
+        company&.place&.reviews&.count
+      end
+      row :rating do |company|
+        company&.place&.rating&.round(1)
+      end
+      row :test
+      row :first_inference_completed
       row :created_at
       row :updated_at
     end

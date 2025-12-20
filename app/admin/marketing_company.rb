@@ -105,6 +105,13 @@ ActiveAdmin.register Marketing::Company do
     redirect_to admin_marketing_company_path(company), notice: "Email content reset to default"
   end
 
+  member_action :find_google_map_place, method: :post do
+    company = resource
+    google_map_url = FindGoogleMapPlace.new(company_id: company.id).call
+    company.update(google_map_url: google_map_url)
+    redirect_to admin_marketing_company_path(company), notice: "Google Map Place found successfully"
+  end
+
   filter :name
   filter :linkedin_url
   filter :city
@@ -158,6 +165,10 @@ ActiveAdmin.register Marketing::Company do
       if resource.google_map_url.present? && resource.place.blank?
         row("Create Place") do |company|
           button_to "Create Place", create_place_admin_marketing_company_path(company), method: :post
+        end
+      else
+        row("Find Google Map Place") do |company|
+          button_to "Find Google Map Place", find_google_map_place_admin_marketing_company_path(company), method: :post
         end
       end
       row :place

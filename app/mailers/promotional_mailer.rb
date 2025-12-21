@@ -64,7 +64,7 @@ class PromotionalMailer < ApplicationMailer
       customer_suggestions = []
     end
 
-    @feedback = [customer_suggestions.sample, customer_complains.sample, negative_categories.first(2)].flatten
+    @feedback = [customer_suggestions.sample(2), customer_complains.sample(2), negative_categories.first(2)].flatten.compact.uniq
 
     subject = custom_subject || "Unlock 22% Revenue Growth from #{@company_name} Reviews - Free Report Inside"
     @custom_body = custom_body

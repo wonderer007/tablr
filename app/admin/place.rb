@@ -44,6 +44,9 @@ ActiveAdmin.register Place do
       row "Reviews Count" do |place|
         place.reviews.count
       end
+      row "Total Reviews" do |place|
+        place&.data&.dig('reviewsCount') || 0
+      end
       row "Users Count" do |place|
         place.users.count
       end

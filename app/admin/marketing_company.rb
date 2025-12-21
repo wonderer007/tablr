@@ -171,14 +171,21 @@ ActiveAdmin.register Marketing::Company do
         end
       end
       row :place
-      row :number_of_reviews do |company|
+      row :reviews_count do |company|
         company&.place&.reviews&.count
+      end
+      row :total_reviews do |company|
+        company&.place&.data&.dig('reviewsCount') || 0
       end
       row :rating do |company|
         company&.place&.rating&.round(1)
       end
-      row :test
-      row :first_inference_completed
+      row :test do |company|
+        company&.place&.test?
+      end
+      row :first_inference_completed do |company|
+        company&.place&.first_inference_completed?
+      end
       row :created_at
       row :updated_at
     end

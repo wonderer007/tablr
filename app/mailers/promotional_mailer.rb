@@ -26,46 +26,47 @@ class PromotionalMailer < ApplicationMailer
     @preview = preview
     @email = contact.email
 
-    @reviews_count = @place.reviews.where.not(sentiment: nil).count
-    @positive_reviews_count = @place.reviews.where(sentiment: :positive).count
-    @negative_reviews_count = @place.reviews.where(sentiment: :negative).count
-    @neutral_reviews_count = @place.reviews.where(sentiment: :neutral).count
-    @positive_reviews_percentage = (@positive_reviews_count.to_f / @reviews_count.to_f * 100).round(2)
-    @negative_reviews_percentage = (@negative_reviews_count.to_f / @reviews_count.to_f * 100).round(2)
-    @neutral_reviews_percentage = (@neutral_reviews_count.to_f / @reviews_count.to_f * 100).round(2)
+    ActsAsTenant.current_tenant = @place
 
-    reviews = @place.reviews.where(processed: true)
-                              .includes(:keywords, :complains, :suggestions)
+    positive = Hash.new(0)
+    negative = Hash.new(0)
 
-    complaints_scope = Complain.where(review_id: reviews.select(:id))
-    suggestions_scope = Suggestion.where(review_id: reviews.select(:id))
-    keyword_scope = Keyword.where(review_id: reviews.select(:id))
+    Keyword.positive.each { |keyword| positive[keyword.category_id] += 1 }
+    Keyword.negative.each { |keyword| negative[keyword.category_id] += 1 }
 
-    top_positive_keywords = top_keywords(keyword_scope.where(sentiment: :positive))
-    top_negative_keywords = top_keywords(keyword_scope.where(sentiment: :negative))
+    positive = positive.sort_by { |category_id, count| -1 * count }
+    negative = negative.sort_by { |category_id, count| -1 * count }
 
-    complaint_summary = build_feedback_summary(complaints_scope)
-    suggestion_summary = build_feedback_summary(suggestions_scope)
+    if positive.any?
+      @positive_categories = Category.where(id: positive.map(&:first)).pluck(:name)
+    else
+      @positive_categories = ['Food', 'Service']
+    end
 
-    @complaint_categories = Array(complaint_summary[:categories]).first(4)
-    @suggestion_categories = Array(suggestion_summary[:categories]).first(4)
-    @complaint_topics = Array(complaint_summary[:top]).first(4)
-    @suggestion_topics = Array(suggestion_summary[:top]).first(4)
-    @positive_keywords = Array(top_positive_keywords)
-    @negative_keywords = Array(top_negative_keywords)
+    if negative.any?
+      negative_categories = Category.where(id: negative.map(&:first)).pluck(:name)
+    else
+      negative_categories = ['Price', 'Timing']
+    end
 
-    @positive_theme_words = @positive_keywords.first(3).map { |keyword| keyword[:name].to_s.titleize }.reject(&:blank?)
-    @positive_theme_sentence =
-      if @positive_theme_words.any?
-        "Guests mention #{@positive_theme_words.to_sentence(two_words_connector: ' and ', last_word_connector: ', and ')} most often"
-      else
-        "Guests frequently call out the warm hospitality and overall vibe."
-      end
+    complains = Complain.group(:category_id).count.sort_by { |category_id, count| -count }
 
-    @top_complaint = @complaint_topics.first&.dig(:text)&.to_s&.titleize
+    if complains.any?
+      customer_complains = Complain.where(category_id: complains.first.first).limit(2).pluck(:text)
+    else
+      customer_complains = []
+    end
 
-    # Use custom subject and body if provided
-    subject = custom_subject || "Unlock 22% Revenue Growth from #{contact.company.name.downcase.split.map(&:titleize).join(" ")} Reviews - Free Report Inside"
+    suggestions = Suggestion.group(:category_id).count.sort_by { |category_id, count| -count }
+    if suggestions.any?
+      customer_suggestions = Suggestion.where(category_id: suggestions.first.first).limit(2).pluck(:text)
+    else
+      customer_suggestions = []
+    end
+
+    @feedback = [customer_suggestions.sample, customer_complains.sample, negative_categories.first(2)].flatten
+
+    subject = custom_subject || "Unlock 22% Revenue Growth from #{@company_name} Reviews - Free Report Inside"
     @custom_body = custom_body
 
     mail(
@@ -77,33 +78,5 @@ class PromotionalMailer < ApplicationMailer
     ) do |format|
         format.html
     end
-  end
-
-  def hidden_patterns_in_reviews(contact)
-    @recipient_name = recipient_name(contact)
-    @company_name = contact.company
-    @recipient_email = contact.email
-
-    mail(
-      to: contact.email,
-      subject: "Hidden patterns in #{contact.company} online reviews",
-      headers: {
-        'List-Unsubscribe' => "<#{unsubscribe_url(email: contact.email)}>"
-      }
-    )
-  end
-
-  def analyzing_reviews_pattern(contact)
-    @recipient_name = recipient_name(contact)
-    @company_name = contact.company
-    @recipient_email = contact.email
-
-    mail(
-      to: contact.email,
-      subject: "Analyzing reviews pattern in #{contact.company} online reviews",
-      headers: {
-        'List-Unsubscribe' => "<#{unsubscribe_url(email: contact.email)}>"
-      }
-    )
   end
 end

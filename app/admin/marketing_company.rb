@@ -94,33 +94,9 @@ ActiveAdmin.register Marketing::Company do
     private
 
     def default_intro_sentences_for(company)
-      positive = Hash.new(0)
-      negative = Hash.new(0)
-
-      Keyword.positive.each { |keyword| positive[keyword.category_id] += 1 }
-      Keyword.negative.each { |keyword| negative[keyword.category_id] += 1 }
-
-      positive_categories =
-        if positive.any?
-          Category.where(id: positive.map(&:first)).pluck(:name)
-        else
-          ['Food', 'Service']
-        end
-
-      negative_categories =
-        if negative.any?
-          Category.where(id: negative.map(&:first)).pluck(:name)
-        else
-          ['Price', 'Timing']
-        end
-
-      complains = Complain.group(:category_id).count.sort_by { |category_id, count| -count }
-      customer_complains = complains.any? ? Complain.where(category_id: complains.first.first).limit(2).pluck(:text) : []
-
-      suggestions = Suggestion.group(:category_id).count.sort_by { |category_id, count| -count }
-      customer_suggestions = suggestions.any? ? Suggestion.where(category_id: suggestions.first.first).limit(2).pluck(:text) : []
-
-      feedback = [customer_suggestions.sample(2), customer_complains.sample(2), negative_categories.first(2)].flatten.compact.uniq
+      insights = Marketing::ReviewInsights.for_place(company.place)
+      positive_categories = insights[:positive_categories]
+      feedback = insights[:feedback]
 
       company_name = company.name.to_s.downcase.split.map(&:titleize).join(" ")
 

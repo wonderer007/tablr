@@ -17,14 +17,14 @@ class PromotionalMailer < ApplicationMailer
 
   public
 
-  def cold_email_outreach(contact, custom_body: nil, custom_subject: nil, preview: false)
+  def cold_email_outreach(contact, ai_generated_intro: nil)
     @recipient_name = recipient_name(contact)
     @company_name = contact.company.name.downcase.split.map(&:titleize).join(" ")
     @recipient_email = contact.email
     @place = contact.company.place
     @company = contact.company
-    @preview = preview
     @email = contact.email
+    @ai_generated_intro = ai_generated_intro
 
     ActsAsTenant.current_tenant = @place
 
@@ -66,12 +66,9 @@ class PromotionalMailer < ApplicationMailer
 
     @feedback = [customer_suggestions.sample(2), customer_complains.sample(2), negative_categories.first(2)].flatten.compact.uniq
 
-    subject = custom_subject || "Unlock 22% Revenue Growth from #{@company_name} Reviews - Free Report Inside"
-    @custom_body = custom_body
-
     mail(
       to: contact.email,
-      subject: subject,
+      subject: "Unlock 22% Revenue Growth from #{@company_name} Reviews - Free Report Inside",
       headers: {
         'List-Unsubscribe' => "<#{unsubscribe_url(email: contact.email)}>"
       }

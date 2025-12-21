@@ -35,45 +35,13 @@ ActiveAdmin.register Marketing::Company do
 
   member_action :send_marketing_email, method: :post do
     company = resource
-    draft_email = company.marketing_emails.where(status: 'draft').first
-
-    company.marketing_contacts.where(unsubscribed: false).each do |contact|
-      if draft_email.present?
-
-        if draft_email.marketing_contact.id == contact.id
-          draft_email.update(sent_at: Time.current, status: "sent")
-          PromotionalMailer.cold_email_outreach(contact, custom_body: draft_email.body, custom_subject: draft_email.subject).deliver_later
-        else
-          email = Marketing::Email.create(
-            marketing_contact: contact,
-            subject: draft_email.subject,
-            body: draft_email.body,
-            sent_at: Time.current,
-            status: "sent",
-            error_message: nil
-          )
-          PromotionalMailer.cold_email_outreach(contact, custom_body: email.body, custom_subject: email.subject).deliver_later
-        end
-
-      else
-        email = Marketing::Email.create(
-          marketing_contact: contact,
-          subject: "Unlock 22% Revenue Growth from #{company.name&.downcase&.split&.map(&:titleize)&.join(" ")} Reviews - Free Report Inside",
-          body: PromotionalMailer.cold_email_outreach(contact).body.to_s,
-          sent_at: Time.current,
-          status: "sent",
-          error_message: nil
-        )
-        PromotionalMailer.cold_email_outreach(contact).deliver_later
-      end
-    end
+    Marketing::EmailSender.send_for_company(company)
 
     redirect_to admin_marketing_company_path(company), notice: "Email sent successfully"
   end
 
-  member_action :save_draft, method: :post do
+  member_action :generate_ai_email, method: :post do
     company = resource
-
     contact = company.marketing_contacts.first
 
     if contact.blank?
@@ -81,28 +49,24 @@ ActiveAdmin.register Marketing::Company do
       return
     end
 
-    # Find existing draft or create new one
+    intro_sentences = default_intro_sentences_for(company)
+    ai_generated_intro = RephraseSentences.new(sentences: intro_sentences).call
+
+    if ai_generated_intro.blank?
+      redirect_to admin_marketing_company_path(company), alert: "Failed to generate AI content."
+      return
+    end
+
     draft_email = company.marketing_emails.where(status: 'draft').first_or_initialize
-    draft_email.marketing_contact = contact
-    draft_email.subject = params[:subject] if params[:subject].present?
-    draft_email.body = params[:body] if params[:body].present?
-    draft_email.status = "draft"
-    draft_email.error_message = nil
+    draft_email.ai_generated_intro = ai_generated_intro
 
     if draft_email.save
-      redirect_to admin_marketing_company_path(company), notice: "Draft saved successfully"
+      redirect_to admin_marketing_company_path(company), notice: "AI generated introduction added to draft."
     else
-      redirect_to admin_marketing_company_path(company), alert: "Failed to save draft: #{draft_email.errors.full_messages.join(', ')}"
+      redirect_to admin_marketing_company_path(company), alert: "Failed to generate AI content: #{draft_email.errors.full_messages.join(', ')}"
     end
-  end
-
-  member_action :reset_draft, method: :post do
-    company = resource
-
-    draft_email = company.marketing_emails.where(status: 'draft').first
-    draft_email&.destroy
-
-    redirect_to admin_marketing_company_path(company), notice: "Email content reset to default"
+  rescue StandardError => e
+    redirect_to admin_marketing_company_path(company), alert: "Failed to generate AI content: #{e.message}"
   end
 
   member_action :find_google_map_place, method: :post do
@@ -125,6 +89,45 @@ ActiveAdmin.register Marketing::Company do
         .left_joins(:marketing_contacts)
         .select("marketing_companies.*, COUNT(marketing_contacts.id) AS contacts_count")
         .group("marketing_companies.id")
+    end
+
+    private
+
+    def default_intro_sentences_for(company)
+      positive = Hash.new(0)
+      negative = Hash.new(0)
+
+      Keyword.positive.each { |keyword| positive[keyword.category_id] += 1 }
+      Keyword.negative.each { |keyword| negative[keyword.category_id] += 1 }
+
+      positive_categories =
+        if positive.any?
+          Category.where(id: positive.map(&:first)).pluck(:name)
+        else
+          ['Food', 'Service']
+        end
+
+      negative_categories =
+        if negative.any?
+          Category.where(id: negative.map(&:first)).pluck(:name)
+        else
+          ['Price', 'Timing']
+        end
+
+      complains = Complain.group(:category_id).count.sort_by { |category_id, count| -count }
+      customer_complains = complains.any? ? Complain.where(category_id: complains.first.first).limit(2).pluck(:text) : []
+
+      suggestions = Suggestion.group(:category_id).count.sort_by { |category_id, count| -count }
+      customer_suggestions = suggestions.any? ? Suggestion.where(category_id: suggestions.first.first).limit(2).pluck(:text) : []
+
+      feedback = [customer_suggestions.sample(2), customer_complains.sample(2), negative_categories.first(2)].flatten.compact.uniq
+
+      company_name = company.name.to_s.downcase.split.map(&:titleize).join(" ")
+
+      [
+        "I analyzed recent reviews for #{company_name} and found customers love the #{positive_categories.first(2).map(&:downcase).to_sentence(two_words_connector: ' and ', last_word_connector: ', and ')}—solid wins to build on.",
+        "However, feedback on #{feedback.first(2).to_sentence(two_words_connector: ' and ', last_word_connector: ', and ')} needs your attention, potentially impacting repeats."
+      ]
     end
   end
 
@@ -191,7 +194,7 @@ ActiveAdmin.register Marketing::Company do
     end
 
     panel "Marketing Email Preview" do
-      render 'marketing_email_preview', company: resource if resource.place.present? && resource.place.first_inference_completed?
+      render 'marketing_email_preview', company: resource if resource&.place&.first_inference_completed? && resource&.marketing_contacts&.any?
     end
 
     panel "Contacts" do
@@ -235,37 +238,7 @@ ActiveAdmin.register Marketing::Company do
     sent_count = 0
 
     companies.each do |company|
-      draft_email = company.marketing_emails.where(status: 'draft').first
-
-      company.marketing_contacts.where(unsubscribed: false).each do |contact|
-        if draft_email.present?
-          if draft_email.marketing_contact.id == contact.id
-            draft_email.update(sent_at: Time.current, status: "sent")
-            PromotionalMailer.cold_email_outreach(contact, custom_body: draft_email.body, custom_subject: draft_email.subject).deliver_later
-          else
-            email = Marketing::Email.create(
-              marketing_contact: contact,
-              subject: draft_email.subject,
-              body: draft_email.body,
-              sent_at: Time.current,
-              status: "sent",
-              error_message: nil
-            )
-            PromotionalMailer.cold_email_outreach(contact, custom_body: email.body, custom_subject: email.subject).deliver_later
-          end
-        else
-          email = Marketing::Email.create(
-            marketing_contact: contact,
-            subject: "Unlock 22% Revenue Growth from #{company.name&.downcase&.split&.map(&:titleize)&.join(" ")} Reviews - Free Report Inside",
-            body: PromotionalMailer.cold_email_outreach(contact).body.to_s,
-            sent_at: Time.current,
-            status: "sent",
-            error_message: nil
-          )
-          PromotionalMailer.cold_email_outreach(contact).deliver_later
-        end
-      end
-
+      Marketing::EmailSender.send_for_company(company)
       sent_count += 1
     end
 

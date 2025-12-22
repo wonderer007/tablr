@@ -16,6 +16,8 @@ module Marketing
       private
 
       def send_to_contact(company:, contact:, draft_email:)
+        return if contact.marketing_emails.where(sent_at: 30.days.ago..).any?
+
         ai_generated_intro = draft_email&.ai_generated_intro
         email_content = PromotionalMailer.cold_email_outreach(contact, ai_generated_intro: ai_generated_intro).deliver_later
 

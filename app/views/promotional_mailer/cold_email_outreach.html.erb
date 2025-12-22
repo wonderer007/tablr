@@ -2,7 +2,12 @@
 
 <% if @ai_generated_intro.present? %>
   <% ai_lines = @ai_generated_intro.to_s.split(/(?<=[.!])/).map(&:strip).reject(&:blank?) %>
-  <%= safe_join(ai_lines.map { |line| content_tag(:p, line) }) if ai_lines.any? %>
+  <% if ai_lines.length == 3 %>
+    <% merged_lines = [ai_lines[0], ai_lines[1..2].join(' ')] %>
+    <%= safe_join(merged_lines.map { |line| content_tag(:p, line) }) if merged_lines.any? %>
+  <% else %>
+    <%= safe_join(ai_lines.map { |line| content_tag(:p, line) }) if ai_lines.any? %>
+  <% end %>
 <% else %>
   <p>I analyzed recent reviews for <%= @company_name %> and found customers love the <%= @positive_categories.first(2).map(&:downcase).to_sentence(two_words_connector: ' and ', last_word_connector: ', and ') %>—solid wins to build on.</p>
 

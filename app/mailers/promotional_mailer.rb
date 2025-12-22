@@ -19,7 +19,7 @@ class PromotionalMailer < ApplicationMailer
 
   def cold_email_outreach(contact, ai_generated_intro: nil)
     @recipient_name = recipient_name(contact)
-    @company_name = contact.company.name.downcase.split.map(&:titleize).join(" ")
+    @company_name = contact.company.name.downcase.split.map(&:titleize).join(" ").gsub(".", "")
     @recipient_email = contact.email
     @place = contact.company.place
     @company = contact.company

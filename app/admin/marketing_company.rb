@@ -98,7 +98,7 @@ ActiveAdmin.register Marketing::Company do
       positive_categories = insights[:positive_categories]
       feedback = insights[:feedback]
 
-      company_name = company.name.to_s.downcase.split.map(&:titleize).join(" ")
+      company_name = company.name.to_s.downcase.split.map(&:titleize).join(" ").gsub(".", "")
 
       [
         "I analyzed recent reviews for #{company_name} and found customers love the #{positive_categories.first(2).map(&:downcase).to_sentence(two_words_connector: ' and ', last_word_connector: ', and ')}—solid wins to build on.",

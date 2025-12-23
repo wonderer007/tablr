@@ -47,6 +47,8 @@ class Ai::ReviewInference < ApplicationService
 
       review.update(processed: true, sentiment: inference.dig('sentiment'))
     end
+
+    place.inference_responses.create(response: response)
   end
 
   private
@@ -67,9 +69,10 @@ class Ai::ReviewInference < ApplicationService
               ### INSTRUCTIONS:
               1. For each review, analyze categories: food, service, ambiance, pricing, timing, cleanliness and review overall sentiment (positive, negative, neutral).
               2. For each category, return: name (use category name if there is no name), sentiment (positive, negative, neutral), sentiment_score. Add is_dish: true for dishes.
-              3. Extract complains/suggestions with category.
-              4. Omit categories not mentioned to save tokens.
-              5. Sentiment should be positive, negative or neutral.
+              3. Extract complains/suggestions with category. Complains and suggestions MUST be arrays of plain strings (human-readable text) for each category key—do NOT return objects with name/sentiment/sentiment_score/is_dish inside these arrays.
+              4. Do not mix analysis items into complains or suggestions; only include free-text complaints/suggestions there.
+              5. Omit categories not mentioned to save tokens.
+              6. Sentiment should be positive, negative or neutral.
 
               ### INPUT:
               #{reviews.pluck(:text)}

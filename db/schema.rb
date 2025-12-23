@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_12_21_000000) do
+ActiveRecord::Schema[7.2].define(version: 2025_12_23_173519) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
   enable_extension "plpgsql"
@@ -56,6 +56,14 @@ ActiveRecord::Schema[7.2].define(version: 2025_12_21_000000) do
     t.string "google_map_url"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "inference_responses", force: :cascade do |t|
+    t.bigint "place_id", null: false
+    t.jsonb "response"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["place_id"], name: "index_inference_responses_on_place_id"
   end
 
   create_table "keywords", force: :cascade do |t|
@@ -223,6 +231,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_12_21_000000) do
   add_foreign_key "complains", "categories"
   add_foreign_key "complains", "places"
   add_foreign_key "complains", "reviews"
+  add_foreign_key "inference_responses", "places"
   add_foreign_key "keywords", "categories"
   add_foreign_key "keywords", "places"
   add_foreign_key "keywords", "reviews"

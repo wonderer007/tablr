@@ -31,10 +31,10 @@ module Marketing
         end
 
       complains = Complain.group(:category_id).count.sort_by { |category_id, count| -count }
-      customer_complains = complains.any? ? Complain.where(category_id: complains.first.first).limit(2).pluck(:text) : []
+      customer_complains = complains.any? ? Complain.where(category_id: complains.first.first).where.not("text LIKE '%=>%'").limit(20).shuffle.take(2).pluck(:text) : []
 
       suggestions = Suggestion.group(:category_id).count.sort_by { |category_id, count| -count }
-      customer_suggestions = suggestions.any? ? Suggestion.where(category_id: suggestions.first.first).limit(2).pluck(:text) : []
+      customer_suggestions = suggestions.any? ? Suggestion.where(category_id: suggestions.first.first).where.not("text LIKE '%=>%'").limit(20).shuffle.take(2).pluck(:text) : []
 
       feedback = [customer_suggestions.sample(2), customer_complains.sample(2), negative_categories.first(2)].flatten.compact.uniq
 

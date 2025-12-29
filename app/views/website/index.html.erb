@@ -6,7 +6,7 @@
     <div class="max-w-7xl mx-auto px-6 lg:px-8">
         <div class="flex justify-between items-center h-16">
             <div class="flex items-center gap-2">
-                <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-emerald-500 to-cyan-500 flex items-center justify-center">
+                <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-indigo-600 to-violet-500 flex items-center justify-center">
                     <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
                     </svg>
@@ -14,16 +14,16 @@
                 <span class="font-display font-semibold text-xl text-slate-900">Tablr</span>
             </div>
             <div class="hidden md:flex items-center gap-8">
-                <a href="#features" class="text-sm font-medium text-slate-600 hover:text-emerald-600 transition-colors">Features</a>
-                <a href="#integrations" class="text-sm font-medium text-slate-600 hover:text-emerald-600 transition-colors">Integrations</a>
-                <a href="#pricing" class="text-sm font-medium text-slate-600 hover:text-emerald-600 transition-colors">Pricing</a>
+                <a href="#features" class="text-sm font-medium text-slate-600 hover:text-indigo-600 transition-colors">Features</a>
+                <a href="#integrations" class="text-sm font-medium text-slate-600 hover:text-indigo-600 transition-colors">Integrations</a>
+                <a href="#pricing" class="text-sm font-medium text-slate-600 hover:text-indigo-600 transition-colors">Pricing</a>
         </div>
             <div class="flex items-center gap-3">
                 <% if user_signed_in? %>
-                    <%= link_to "Dashboard", dashboard_path, class: "px-4 py-2 text-sm font-medium text-white bg-gradient-to-r from-emerald-500 to-cyan-500 rounded-lg hover:shadow-lg hover:shadow-emerald-500/25 transition-all duration-300" %>
+                    <%= link_to "Dashboard", dashboard_path, class: "px-4 py-2 text-sm font-medium text-white bg-gradient-to-r from-indigo-600 to-violet-500 rounded-lg hover:shadow-lg hover:shadow-indigo-500/25 transition-all duration-300" %>
                 <% else %>
                     <%= link_to "Sign In", new_user_session_path, class: "px-4 py-2 text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors" %>
-                    <%= link_to "Get Started", new_user_registration_path, class: "px-4 py-2 text-sm font-medium text-white bg-gradient-to-r from-emerald-500 to-cyan-500 rounded-lg hover:shadow-lg hover:shadow-emerald-500/25 transition-all duration-300" %>
+                    <%= link_to "Get Started", new_user_registration_path, class: "px-4 py-2 text-sm font-medium text-white bg-gradient-to-r from-indigo-600 to-violet-500 rounded-lg hover:shadow-lg hover:shadow-indigo-500/25 transition-all duration-300" %>
           <% end %>
         </div>
       </div>
@@ -32,16 +32,16 @@
 
 <!-- Hero Section -->
 <section class="relative min-h-screen pt-32 pb-20 overflow-hidden mesh-gradient">
-    <div class="absolute top-40 left-10 w-72 h-72 bg-emerald-400/20 rounded-full blur-3xl animate-pulse-slow"></div>
-    <div class="absolute bottom-20 right-10 w-96 h-96 bg-cyan-400/20 rounded-full blur-3xl animate-pulse-slow" style="animation-delay: 2s;"></div>
-    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-blue-400/10 rounded-full blur-3xl"></div>
+    <div class="absolute top-40 left-10 w-72 h-72 bg-indigo-400/20 rounded-full blur-3xl animate-pulse-slow"></div>
+    <div class="absolute bottom-20 right-10 w-96 h-96 bg-violet-400/20 rounded-full blur-3xl animate-pulse-slow" style="animation-delay: 2s;"></div>
+    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-purple-400/10 rounded-full blur-3xl"></div>
     
     <div class="relative max-w-7xl mx-auto px-6 lg:px-8">
         <div class="grid lg:grid-cols-2 gap-16 items-center">
             <div class="space-y-8">
-                <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-emerald-50 border border-emerald-200 animate-fade-up opacity-0" style="animation-delay: 0.1s; animation-fill-mode: forwards;">
-                    <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-                    <span class="text-sm font-medium text-emerald-700">AI-Powered Review Intelligence</span>
+                <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-indigo-50 border border-indigo-200 animate-fade-up opacity-0" style="animation-delay: 0.1s; animation-fill-mode: forwards;">
+                    <span class="w-2 h-2 rounded-full bg-indigo-600 animate-pulse"></span>
+                    <span class="text-sm font-medium text-indigo-700">AI-Powered Review Intelligence</span>
                 </div>
                 
                 <h1 class="font-display text-5xl lg:text-6xl xl:text-7xl font-bold leading-tight tracking-tight animate-fade-up opacity-0" style="animation-delay: 0.2s; animation-fill-mode: forwards;">
@@ -55,20 +55,20 @@
                 
                 <div class="flex flex-col sm:flex-row gap-4 animate-fade-up opacity-0" style="animation-delay: 0.4s; animation-fill-mode: forwards;">
                     <% if user_signed_in? %>
-                        <%= link_to dashboard_path, class: "group inline-flex items-center justify-center gap-2 px-8 py-4 text-lg font-semibold text-white bg-gradient-to-r from-emerald-500 to-cyan-500 rounded-xl hover:shadow-xl hover:shadow-emerald-500/30 transition-all duration-300 hover:-translate-y-1" do %>
+                        <%= link_to dashboard_path, class: "group inline-flex items-center justify-center gap-2 px-8 py-4 text-lg font-semibold text-white bg-gradient-to-r from-indigo-600 to-violet-500 rounded-xl hover:shadow-xl hover:shadow-indigo-500/30 transition-all duration-300 hover:-translate-y-1" do %>
                             Go to Dashboard
                             <svg class="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
                             </svg>
                         <% end %>
                     <% else %>
-                        <%= link_to new_user_registration_path, class: "group inline-flex items-center justify-center gap-2 px-8 py-4 text-lg font-semibold text-white bg-gradient-to-r from-emerald-500 to-cyan-500 rounded-xl hover:shadow-xl hover:shadow-emerald-500/30 transition-all duration-300 hover:-translate-y-1" do %>
+                        <%= link_to new_user_registration_path, class: "group inline-flex items-center justify-center gap-2 px-8 py-4 text-lg font-semibold text-white bg-gradient-to-r from-indigo-600 to-violet-500 rounded-xl hover:shadow-xl hover:shadow-indigo-500/30 transition-all duration-300 hover:-translate-y-1" do %>
                             Start Free Trial
                             <svg class="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
                             </svg>
                         <% end %>
-                        <a href="#features" class="inline-flex items-center justify-center gap-2 px-8 py-4 text-lg font-semibold text-slate-700 bg-white border-2 border-slate-200 rounded-xl hover:border-emerald-300 hover:bg-emerald-50/50 transition-all duration-300">
+                        <a href="#features" class="inline-flex items-center justify-center gap-2 px-8 py-4 text-lg font-semibold text-slate-700 bg-white border-2 border-slate-200 rounded-xl hover:border-indigo-300 hover:bg-indigo-50/50 transition-all duration-300">
                             See How It Works
                         </a>
                     <% end %>
@@ -77,7 +77,7 @@
                 <div class="flex items-center gap-6 pt-4 animate-fade-up opacity-0" style="animation-delay: 0.5s; animation-fill-mode: forwards;">
                     <div class="flex -space-x-3">
                         <div class="w-10 h-10 rounded-full bg-gradient-to-br from-rose-400 to-rose-600 border-2 border-white flex items-center justify-center text-white text-sm font-semibold">JC</div>
-                        <div class="w-10 h-10 rounded-full bg-gradient-to-br from-emerald-400 to-emerald-600 border-2 border-white flex items-center justify-center text-white text-sm font-semibold">MR</div>
+                        <div class="w-10 h-10 rounded-full bg-gradient-to-br from-indigo-400 to-indigo-600 border-2 border-white flex items-center justify-center text-white text-sm font-semibold">MR</div>
                         <div class="w-10 h-10 rounded-full bg-gradient-to-br from-blue-400 to-blue-600 border-2 border-white flex items-center justify-center text-white text-sm font-semibold">SK</div>
                         <div class="w-10 h-10 rounded-full bg-gradient-to-br from-purple-400 to-purple-600 border-2 border-white flex items-center justify-center text-white text-sm font-semibold">+</div>
                     </div>
@@ -110,7 +110,7 @@
                                     <p class="text-sm text-slate-500">from Google Maps</p>
                                 </div>
                             </div>
-                            <span class="px-3 py-1 rounded-full bg-emerald-100 text-emerald-700 text-sm font-medium">Live</span>
+                            <span class="px-3 py-1 rounded-full bg-indigo-100 text-indigo-700 text-sm font-medium">Live</span>
                         </div>
                         
                         <div class="bg-slate-50 rounded-xl p-4 border border-slate-200">
@@ -124,7 +124,7 @@
                                 </div>
                                 <span class="text-xs text-slate-500">2 hours ago</span>
                             </div>
-                            <p class="text-sm text-slate-700">"Great pasta and ambiance! <span class="bg-rose-100 text-rose-700 px-1 rounded">The wait was too long though</span>. <span class="bg-cyan-100 text-cyan-700 px-1 rounded">Would love to see more vegan options</span>."</p>
+                            <p class="text-sm text-slate-700">"Great pasta and ambiance! <span class="bg-rose-100 text-rose-700 px-1 rounded">The wait was too long though</span>. <span class="bg-violet-100 text-violet-700 px-1 rounded">Would love to see more vegan options</span>."</p>
                         </div>
                         
                         <div class="grid grid-cols-2 gap-3">
@@ -137,14 +137,14 @@
                                 </div>
                                 <p class="text-sm text-rose-800 font-medium">Long wait times</p>
                             </div>
-                            <div class="bg-cyan-50 rounded-xl p-4 border border-cyan-200">
+                            <div class="bg-violet-50 rounded-xl p-4 border border-violet-200">
                                 <div class="flex items-center gap-2 mb-2">
-                                    <svg class="w-5 h-5 text-cyan-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <svg class="w-5 h-5 text-violet-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
                                     </svg>
-                                    <span class="text-xs font-semibold text-cyan-700 uppercase">Suggestion</span>
+                                    <span class="text-xs font-semibold text-violet-700 uppercase">Suggestion</span>
                                 </div>
-                                <p class="text-sm text-cyan-800 font-medium">Add vegan menu options</p>
+                                <p class="text-sm text-violet-800 font-medium">Add vegan menu options</p>
                             </div>
                         </div>
                                 </div>
@@ -152,7 +152,7 @@
                 
                 <div class="absolute -top-4 -right-4 bg-white rounded-2xl p-4 shadow-xl border border-slate-100 animate-bounce-subtle">
                     <div class="flex items-center gap-3">
-                        <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-emerald-400 to-emerald-600 flex items-center justify-center">
+                        <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-indigo-500 to-indigo-700 flex items-center justify-center">
                             <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                             </svg>
@@ -188,7 +188,7 @@
     </div>
 
     <div class="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
-        <a href="#features" class="flex flex-col items-center gap-2 text-slate-400 hover:text-emerald-500 transition-colors">
+        <a href="#features" class="flex flex-col items-center gap-2 text-slate-400 hover:text-indigo-500 transition-colors">
             <span class="text-sm font-medium">Discover More</span>
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
@@ -203,7 +203,7 @@
     
     <div class="relative max-w-7xl mx-auto px-6 lg:px-8">
         <div class="text-center max-w-3xl mx-auto mb-20">
-            <span class="inline-block px-4 py-2 rounded-full bg-emerald-50 text-emerald-700 text-sm font-semibold mb-6 animate-on-scroll animate-fade-up">
+            <span class="inline-block px-4 py-2 rounded-full bg-indigo-50 text-indigo-700 text-sm font-semibold mb-6 animate-on-scroll animate-fade-up">
                 Core Features
             </span>
             <h2 class="font-display text-4xl lg:text-5xl font-bold text-slate-900 mb-6 animate-on-scroll animate-fade-up stagger-1">
@@ -231,24 +231,24 @@
                 </p>
                 <ul class="space-y-4">
                     <li class="flex items-start gap-3">
-                        <div class="w-6 h-6 rounded-full bg-emerald-100 flex items-center justify-center flex-shrink-0 mt-0.5">
-                            <svg class="w-4 h-4 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <div class="w-6 h-6 rounded-full bg-indigo-100 flex items-center justify-center flex-shrink-0 mt-0.5">
+                            <svg class="w-4 h-4 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
                             </svg>
                         </div>
                         <span class="text-slate-700">Automatic categorization (service, food, ambiance, pricing)</span>
                     </li>
                     <li class="flex items-start gap-3">
-                        <div class="w-6 h-6 rounded-full bg-emerald-100 flex items-center justify-center flex-shrink-0 mt-0.5">
-                            <svg class="w-4 h-4 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <div class="w-6 h-6 rounded-full bg-indigo-100 flex items-center justify-center flex-shrink-0 mt-0.5">
+                            <svg class="w-4 h-4 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
                             </svg>
                         </div>
                         <span class="text-slate-700">Trend analysis to spot emerging issues early</span>
                     </li>
                     <li class="flex items-start gap-3">
-                        <div class="w-6 h-6 rounded-full bg-emerald-100 flex items-center justify-center flex-shrink-0 mt-0.5">
-                            <svg class="w-4 h-4 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <div class="w-6 h-6 rounded-full bg-indigo-100 flex items-center justify-center flex-shrink-0 mt-0.5">
+                            <svg class="w-4 h-4 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
                             </svg>
                         </div>
@@ -301,16 +301,16 @@
         <div class="grid lg:grid-cols-2 gap-16 items-center mb-32">
             <div class="animate-on-scroll animate-slide-in-left">
                     <div class="relative">
-                    <div class="bg-gradient-to-br from-cyan-50 to-cyan-100 rounded-3xl p-8 border border-cyan-200">
+                    <div class="bg-gradient-to-br from-violet-50 to-violet-100 rounded-3xl p-8 border border-violet-200">
                             <div class="space-y-4">
                             <div class="flex items-center justify-between mb-6">
                                 <h4 class="font-semibold text-slate-900">Customer Suggestions</h4>
                                 <span class="text-sm text-slate-500">15 this month</span>
                             </div>
-                            <div class="bg-white rounded-xl p-4 border border-cyan-200 hover:shadow-md transition-shadow">
+                            <div class="bg-white rounded-xl p-4 border border-violet-200 hover:shadow-md transition-shadow">
                                 <div class="flex items-start gap-3">
-                                    <div class="w-8 h-8 rounded-lg bg-cyan-100 flex items-center justify-center flex-shrink-0">
-                                        <svg class="w-4 h-4 text-cyan-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <div class="w-8 h-8 rounded-lg bg-violet-100 flex items-center justify-center flex-shrink-0">
+                                        <svg class="w-4 h-4 text-violet-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
                                         </svg>
                                         </div>
@@ -320,10 +320,10 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="bg-white rounded-xl p-4 border border-cyan-200 hover:shadow-md transition-shadow">
+                            <div class="bg-white rounded-xl p-4 border border-violet-200 hover:shadow-md transition-shadow">
                                 <div class="flex items-start gap-3">
-                                    <div class="w-8 h-8 rounded-lg bg-cyan-100 flex items-center justify-center flex-shrink-0">
-                                        <svg class="w-4 h-4 text-cyan-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <div class="w-8 h-8 rounded-lg bg-violet-100 flex items-center justify-center flex-shrink-0">
+                                        <svg class="w-4 h-4 text-violet-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
                                         </svg>
                                         </div>
@@ -333,10 +333,10 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="bg-white rounded-xl p-4 border border-cyan-200 hover:shadow-md transition-shadow">
+                            <div class="bg-white rounded-xl p-4 border border-violet-200 hover:shadow-md transition-shadow">
                                 <div class="flex items-start gap-3">
-                                    <div class="w-8 h-8 rounded-lg bg-cyan-100 flex items-center justify-center flex-shrink-0">
-                                        <svg class="w-4 h-4 text-cyan-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <div class="w-8 h-8 rounded-lg bg-violet-100 flex items-center justify-center flex-shrink-0">
+                                        <svg class="w-4 h-4 text-violet-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
                                         </svg>
                                         </div>
@@ -351,7 +351,7 @@
         </div>
             </div>
             <div class="animate-on-scroll animate-slide-in-right">
-                <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-cyan-100 text-cyan-700 text-sm font-semibold mb-6">
+                <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-violet-100 text-violet-700 text-sm font-semibold mb-6">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
                     </svg>
@@ -365,24 +365,24 @@
                 </p>
                 <ul class="space-y-4">
                     <li class="flex items-start gap-3">
-                        <div class="w-6 h-6 rounded-full bg-emerald-100 flex items-center justify-center flex-shrink-0 mt-0.5">
-                            <svg class="w-4 h-4 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <div class="w-6 h-6 rounded-full bg-indigo-100 flex items-center justify-center flex-shrink-0 mt-0.5">
+                            <svg class="w-4 h-4 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
                             </svg>
                             </div>
                         <span class="text-slate-700">Extract implicit and explicit suggestions</span>
                     </li>
                     <li class="flex items-start gap-3">
-                        <div class="w-6 h-6 rounded-full bg-emerald-100 flex items-center justify-center flex-shrink-0 mt-0.5">
-                            <svg class="w-4 h-4 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <div class="w-6 h-6 rounded-full bg-indigo-100 flex items-center justify-center flex-shrink-0 mt-0.5">
+                            <svg class="w-4 h-4 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
                             </svg>
                             </div>
                         <span class="text-slate-700">Group similar ideas to identify popular requests</span>
                     </li>
                     <li class="flex items-start gap-3">
-                        <div class="w-6 h-6 rounded-full bg-emerald-100 flex items-center justify-center flex-shrink-0 mt-0.5">
-                            <svg class="w-4 h-4 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <div class="w-6 h-6 rounded-full bg-indigo-100 flex items-center justify-center flex-shrink-0 mt-0.5">
+                            <svg class="w-4 h-4 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
                             </svg>
                         </div>
@@ -395,7 +395,7 @@
         <!-- Feature 3: Automated Reports -->
         <div class="grid lg:grid-cols-2 gap-16 items-center">
             <div class="order-2 lg:order-1 animate-on-scroll animate-slide-in-left">
-                <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-100 text-emerald-700 text-sm font-semibold mb-6">
+                <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-indigo-100 text-indigo-700 text-sm font-semibold mb-6">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                     </svg>
@@ -409,24 +409,24 @@
                 </p>
                 <ul class="space-y-4">
                     <li class="flex items-start gap-3">
-                        <div class="w-6 h-6 rounded-full bg-emerald-100 flex items-center justify-center flex-shrink-0 mt-0.5">
-                            <svg class="w-4 h-4 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <div class="w-6 h-6 rounded-full bg-indigo-100 flex items-center justify-center flex-shrink-0 mt-0.5">
+                            <svg class="w-4 h-4 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
                             </svg>
                         </div>
                         <span class="text-slate-700">Choose weekly or monthly delivery</span>
                     </li>
                     <li class="flex items-start gap-3">
-                        <div class="w-6 h-6 rounded-full bg-emerald-100 flex items-center justify-center flex-shrink-0 mt-0.5">
-                            <svg class="w-4 h-4 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <div class="w-6 h-6 rounded-full bg-indigo-100 flex items-center justify-center flex-shrink-0 mt-0.5">
+                            <svg class="w-4 h-4 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
                             </svg>
                         </div>
                         <span class="text-slate-700">Executive summary with key metrics</span>
                     </li>
                     <li class="flex items-start gap-3">
-                        <div class="w-6 h-6 rounded-full bg-emerald-100 flex items-center justify-center flex-shrink-0 mt-0.5">
-                            <svg class="w-4 h-4 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <div class="w-6 h-6 rounded-full bg-indigo-100 flex items-center justify-center flex-shrink-0 mt-0.5">
+                            <svg class="w-4 h-4 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
                             </svg>
                         </div>
@@ -437,7 +437,7 @@
             <div class="order-1 lg:order-2 animate-on-scroll animate-slide-in-right">
                     <div class="relative">
                     <div class="bg-white rounded-3xl shadow-2xl shadow-slate-900/10 overflow-hidden border border-slate-200">
-                        <div class="bg-gradient-to-r from-emerald-500 to-cyan-500 px-6 py-4">
+                        <div class="bg-gradient-to-r from-indigo-600 to-violet-500 px-6 py-4">
                             <div class="flex items-center gap-3">
                                 <div class="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center backdrop-blur-sm">
                                     <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -456,8 +456,8 @@
                                     <p class="text-2xl font-bold text-slate-900">47</p>
                                     <p class="text-xs text-slate-500">New Reviews</p>
           </div>
-                                <div class="text-center p-3 bg-emerald-50 rounded-xl">
-                                    <p class="text-2xl font-bold text-emerald-600">4.3</p>
+                                <div class="text-center p-3 bg-indigo-50 rounded-xl">
+                                    <p class="text-2xl font-bold text-indigo-600">4.3</p>
                                     <p class="text-xs text-slate-500">Avg Rating</p>
         </div>
                                 <div class="text-center p-3 bg-rose-50 rounded-xl">
@@ -474,15 +474,15 @@
                             </div>
                             <div class="space-y-3">
                                 <p class="text-sm font-semibold text-slate-900">Trending Suggestion</p>
-                                <div class="flex items-center gap-3 p-3 bg-cyan-50 rounded-xl">
-                                    <div class="w-2 h-2 rounded-full bg-cyan-500"></div>
+                                <div class="flex items-center gap-3 p-3 bg-violet-50 rounded-xl">
+                                    <div class="w-2 h-2 rounded-full bg-violet-500"></div>
                                     <p class="text-sm text-slate-700">"Add gluten-free pizza options"</p>
                                 </div>
                             </div>
                         </div>
             </div>
-                    <div class="absolute -top-4 -right-4 w-24 h-24 bg-gradient-to-br from-emerald-400 to-cyan-400 rounded-full blur-2xl opacity-30"></div>
-                    <div class="absolute -bottom-4 -left-4 w-32 h-32 bg-gradient-to-br from-blue-400 to-purple-400 rounded-full blur-2xl opacity-20"></div>
+                    <div class="absolute -top-4 -right-4 w-24 h-24 bg-gradient-to-br from-indigo-400 to-violet-400 rounded-full blur-2xl opacity-30"></div>
+                    <div class="absolute -bottom-4 -left-4 w-32 h-32 bg-gradient-to-br from-violet-400 to-purple-400 rounded-full blur-2xl opacity-20"></div>
         </div>
       </div>
         </div>
@@ -492,13 +492,13 @@
 <!-- Integrations Section -->
 <section id="integrations" class="py-24 bg-slate-900 relative overflow-hidden">
     <div class="absolute inset-0">
-        <div class="absolute top-0 left-1/4 w-96 h-96 bg-emerald-500/10 rounded-full blur-3xl"></div>
-        <div class="absolute bottom-0 right-1/4 w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl"></div>
+        <div class="absolute top-0 left-1/4 w-96 h-96 bg-indigo-500/10 rounded-full blur-3xl"></div>
+        <div class="absolute bottom-0 right-1/4 w-96 h-96 bg-violet-500/10 rounded-full blur-3xl"></div>
     </div>
     
     <div class="relative max-w-7xl mx-auto px-6 lg:px-8">
         <div class="text-center max-w-3xl mx-auto mb-16">
-            <span class="inline-block px-4 py-2 rounded-full bg-white/10 text-emerald-400 text-sm font-semibold mb-6 animate-on-scroll animate-fade-up">
+            <span class="inline-block px-4 py-2 rounded-full bg-white/10 text-indigo-400 text-sm font-semibold mb-6 animate-on-scroll animate-fade-up">
                 Platform Integrations
             </span>
             <h2 class="font-display text-4xl lg:text-5xl font-bold text-white mb-6 animate-on-scroll animate-fade-up stagger-1">
@@ -510,7 +510,7 @@
       </div>
 
         <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            <div class="group bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-6 hover:bg-white/10 hover:border-emerald-500/50 transition-all duration-300 animate-on-scroll animate-fade-up stagger-1">
+            <div class="group bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-6 hover:bg-white/10 hover:border-indigo-500/50 transition-all duration-300 animate-on-scroll animate-fade-up stagger-1">
                 <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-[#4285F4] to-[#34A853] flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
                     <svg class="w-8 h-8 text-white" viewBox="0 0 24 24" fill="currentColor">
                         <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
@@ -520,7 +520,7 @@
                 <p class="text-slate-400 text-sm">Pull reviews from your Google Business Profile automatically</p>
             </div>
             
-            <div class="group bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-6 hover:bg-white/10 hover:border-emerald-500/50 transition-all duration-300 animate-on-scroll animate-fade-up stagger-2">
+            <div class="group bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-6 hover:bg-white/10 hover:border-indigo-500/50 transition-all duration-300 animate-on-scroll animate-fade-up stagger-2">
                 <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-[#FF1A1A] to-[#c41200] flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
                     <svg class="w-8 h-8 text-white" viewBox="0 0 24 24" fill="currentColor">
                         <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
@@ -530,7 +530,7 @@
                 <p class="text-slate-400 text-sm">Import and analyze all your Yelp reviews in real-time</p>
             </div>
             
-            <div class="group bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-6 hover:bg-white/10 hover:border-emerald-500/50 transition-all duration-300 animate-on-scroll animate-fade-up stagger-3">
+            <div class="group bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-6 hover:bg-white/10 hover:border-indigo-500/50 transition-all duration-300 animate-on-scroll animate-fade-up stagger-3">
                 <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-[#00b67a] to-[#00857c] flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
                     <svg class="w-8 h-8 text-white" viewBox="0 0 24 24" fill="currentColor">
                         <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
@@ -540,7 +540,7 @@
                 <p class="text-slate-400 text-sm">Connect your TrustPilot profile for comprehensive insights</p>
         </div>
 
-            <div class="group bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-6 hover:bg-white/10 hover:border-emerald-500/50 transition-all duration-300 animate-on-scroll animate-fade-up stagger-4">
+            <div class="group bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-6 hover:bg-white/10 hover:border-indigo-500/50 transition-all duration-300 animate-on-scroll animate-fade-up stagger-4">
                 <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-[#DA3743] to-[#b02d37] flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
                     <svg class="w-8 h-8 text-white" viewBox="0 0 24 24" fill="currentColor">
                         <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
@@ -574,7 +574,7 @@
     
     <div class="relative max-w-4xl mx-auto px-6 lg:px-8">
         <div class="text-center mb-16">
-            <span class="inline-block px-4 py-2 rounded-full bg-emerald-50 text-emerald-700 text-sm font-semibold mb-6 animate-on-scroll animate-fade-up">
+            <span class="inline-block px-4 py-2 rounded-full bg-indigo-50 text-indigo-700 text-sm font-semibold mb-6 animate-on-scroll animate-fade-up">
                 Simple Pricing
             </span>
             <h2 class="font-display text-4xl lg:text-5xl font-bold text-slate-900 mb-6 animate-on-scroll animate-fade-up stagger-1">
@@ -586,10 +586,10 @@
         </div>
 
         <div class="relative animate-on-scroll animate-fade-up stagger-3">
-            <div class="absolute inset-0 bg-gradient-to-r from-emerald-500 to-cyan-500 rounded-3xl blur-xl opacity-20"></div>
+            <div class="absolute inset-0 bg-gradient-to-r from-indigo-600 to-violet-500 rounded-3xl blur-xl opacity-20"></div>
             <div class="relative bg-white rounded-3xl shadow-2xl shadow-slate-900/10 overflow-hidden border border-slate-200">
                 <div class="absolute top-6 right-6">
-                    <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-gradient-to-r from-emerald-500 to-cyan-500 text-white text-sm font-semibold">
+                    <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-gradient-to-r from-indigo-600 to-violet-500 text-white text-sm font-semibold">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
                         </svg>
@@ -612,7 +612,7 @@
                     <div class="grid md:grid-cols-2 gap-6 mb-10">
                         <div class="space-y-4">
                             <div class="flex items-center gap-3">
-                                <div class="w-5 h-5 rounded-full bg-gradient-to-r from-emerald-400 to-cyan-400 flex items-center justify-center">
+                                <div class="w-5 h-5 rounded-full bg-gradient-to-r from-indigo-500 to-violet-500 flex items-center justify-center">
                                     <svg class="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" />
                                         </svg>
@@ -620,7 +620,7 @@
                                 <span class="text-slate-700">AI complaint extraction</span>
                             </div>
                             <div class="flex items-center gap-3">
-                                <div class="w-5 h-5 rounded-full bg-gradient-to-r from-emerald-400 to-cyan-400 flex items-center justify-center">
+                                <div class="w-5 h-5 rounded-full bg-gradient-to-r from-indigo-500 to-violet-500 flex items-center justify-center">
                                     <svg class="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" />
                                         </svg>
@@ -628,7 +628,7 @@
                                 <span class="text-slate-700">Suggestion mining</span>
                             </div>
                             <div class="flex items-center gap-3">
-                                <div class="w-5 h-5 rounded-full bg-gradient-to-r from-emerald-400 to-cyan-400 flex items-center justify-center">
+                                <div class="w-5 h-5 rounded-full bg-gradient-to-r from-indigo-500 to-violet-500 flex items-center justify-center">
                                     <svg class="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" />
                                         </svg>
@@ -636,7 +636,7 @@
                                 <span class="text-slate-700">Weekly/monthly email reports</span>
                                     </div>
                             <div class="flex items-center gap-3">
-                                <div class="w-5 h-5 rounded-full bg-gradient-to-r from-emerald-400 to-cyan-400 flex items-center justify-center">
+                                <div class="w-5 h-5 rounded-full bg-gradient-to-r from-indigo-500 to-violet-500 flex items-center justify-center">
                                     <svg class="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" />
                                         </svg>
@@ -646,7 +646,7 @@
                         </div>
                         <div class="space-y-4">
                             <div class="flex items-center gap-3">
-                                <div class="w-5 h-5 rounded-full bg-gradient-to-r from-emerald-400 to-cyan-400 flex items-center justify-center">
+                                <div class="w-5 h-5 rounded-full bg-gradient-to-r from-indigo-500 to-violet-500 flex items-center justify-center">
                                     <svg class="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" />
                                         </svg>
@@ -654,7 +654,7 @@
                                 <span class="text-slate-700">All 4 platform integrations</span>
                             </div>
                             <div class="flex items-center gap-3">
-                                <div class="w-5 h-5 rounded-full bg-gradient-to-r from-emerald-400 to-cyan-400 flex items-center justify-center">
+                                <div class="w-5 h-5 rounded-full bg-gradient-to-r from-indigo-500 to-violet-500 flex items-center justify-center">
                                     <svg class="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" />
                                         </svg>
@@ -662,7 +662,7 @@
                                 <span class="text-slate-700">Up to 2,000 reviews</span>
                             </div>
                             <div class="flex items-center gap-3">
-                                <div class="w-5 h-5 rounded-full bg-gradient-to-r from-emerald-400 to-cyan-400 flex items-center justify-center">
+                                <div class="w-5 h-5 rounded-full bg-gradient-to-r from-indigo-500 to-violet-500 flex items-center justify-center">
                                     <svg class="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" />
                                         </svg>
@@ -670,7 +670,7 @@
                                 <span class="text-slate-700">Priority support</span>
                             </div>
                             <div class="flex items-center gap-3">
-                                <div class="w-5 h-5 rounded-full bg-gradient-to-r from-emerald-400 to-cyan-400 flex items-center justify-center">
+                                <div class="w-5 h-5 rounded-full bg-gradient-to-r from-indigo-500 to-violet-500 flex items-center justify-center">
                                     <svg class="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" />
                                         </svg>
@@ -682,9 +682,9 @@
 
                     <div class="flex flex-col sm:flex-row gap-4">
                         <% if user_signed_in? %>
-                            <%= link_to "Go to Dashboard", dashboard_path, class: "flex-1 inline-flex items-center justify-center gap-2 px-8 py-4 text-lg font-semibold text-white bg-gradient-to-r from-emerald-500 to-cyan-500 rounded-xl hover:shadow-xl hover:shadow-emerald-500/30 transition-all duration-300" %>
+                            <%= link_to "Go to Dashboard", dashboard_path, class: "flex-1 inline-flex items-center justify-center gap-2 px-8 py-4 text-lg font-semibold text-white bg-gradient-to-r from-indigo-600 to-violet-500 rounded-xl hover:shadow-xl hover:shadow-indigo-500/30 transition-all duration-300" %>
                         <% else %>
-                            <%= link_to new_user_registration_path, class: "flex-1 inline-flex items-center justify-center gap-2 px-8 py-4 text-lg font-semibold text-white bg-gradient-to-r from-emerald-500 to-cyan-500 rounded-xl hover:shadow-xl hover:shadow-emerald-500/30 transition-all duration-300" do %>
+                            <%= link_to new_user_registration_path, class: "flex-1 inline-flex items-center justify-center gap-2 px-8 py-4 text-lg font-semibold text-white bg-gradient-to-r from-indigo-600 to-violet-500 rounded-xl hover:shadow-xl hover:shadow-indigo-500/30 transition-all duration-300" do %>
                                 Start Free Trial
                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
@@ -704,7 +704,7 @@
 </section>
 
 <!-- CTA Section -->
-<section class="py-24 bg-gradient-to-br from-emerald-600 via-emerald-500 to-cyan-500 relative overflow-hidden">
+<section class="py-24 bg-gradient-to-br from-indigo-700 via-indigo-600 to-violet-500 relative overflow-hidden">
     <div class="absolute inset-0">
         <div class="absolute top-0 right-0 w-96 h-96 bg-white/10 rounded-full blur-3xl"></div>
         <div class="absolute bottom-0 left-0 w-96 h-96 bg-white/10 rounded-full blur-3xl"></div>
@@ -719,9 +719,9 @@
         </p>
         <div class="flex flex-col sm:flex-row gap-4 justify-center animate-on-scroll animate-fade-up stagger-2">
             <% if user_signed_in? %>
-                <%= link_to "Go to Dashboard", dashboard_path, class: "inline-flex items-center justify-center gap-2 px-8 py-4 text-lg font-semibold text-emerald-600 bg-white rounded-xl hover:shadow-2xl hover:shadow-white/20 transition-all duration-300 hover:-translate-y-1" %>
+                <%= link_to "Go to Dashboard", dashboard_path, class: "inline-flex items-center justify-center gap-2 px-8 py-4 text-lg font-semibold text-indigo-600 bg-white rounded-xl hover:shadow-2xl hover:shadow-white/20 transition-all duration-300 hover:-translate-y-1" %>
             <% else %>
-                <%= link_to new_user_registration_path, class: "inline-flex items-center justify-center gap-2 px-8 py-4 text-lg font-semibold text-emerald-600 bg-white rounded-xl hover:shadow-2xl hover:shadow-white/20 transition-all duration-300 hover:-translate-y-1" do %>
+                <%= link_to new_user_registration_path, class: "inline-flex items-center justify-center gap-2 px-8 py-4 text-lg font-semibold text-indigo-600 bg-white rounded-xl hover:shadow-2xl hover:shadow-white/20 transition-all duration-300 hover:-translate-y-1" do %>
                     Start Your Free Trial
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
@@ -738,7 +738,7 @@
         <div class="grid md:grid-cols-4 gap-12 mb-12">
             <div class="md:col-span-2">
                 <div class="flex items-center gap-2 mb-4">
-                    <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-emerald-500 to-cyan-500 flex items-center justify-center">
+                    <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-indigo-600 to-violet-500 flex items-center justify-center">
                         <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
                         </svg>

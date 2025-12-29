@@ -1,687 +1,786 @@
-<% content_for(:title, "Tablr - Turn Restaurant Reviews into Actionable Insights") %>
-<% content_for(:description, "Tablr helps restaurant owners analyze reviews, spot trends, and make data-driven decisions with AI-powered analytics and insights from customer feedback.") %>
+<% content_for(:title, "Tablr - Review Intelligence for Restaurants") %>
+<% content_for(:description, "Transform customer reviews into actionable insights. AI-powered complaint extraction, suggestion mining, and automated weekly reports from Google Maps, Yelp, TrustPilot & OpenTable.") %>
 
-<!-- Hero Section -->
-<div class="relative overflow-hidden">
-    <!-- Enhanced Gradient Background -->
-    <div class="absolute inset-2 bottom-0 rounded-4xl bg-gradient-to-br from-indigo-950 via-indigo-900  to-indigo-800 ring-1 ring-white/10 shadow-2xl"></div>
-    <div class="absolute inset-2 bottom-0 rounded-4xl bg-gradient-to-tr from-transparent via-indigo-600/20 "></div>
-    
-    <!-- Content Container -->
-    <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
   <!-- Navigation -->
-        <nav class="flex justify-between items-center h-16 pt-8">
-        <div class="flex items-center">
-                <h1 class="text-2xl font-bold text-white">Tablr</h1>
-          </div>
-            
-            <!-- Banner -->
-            <div class="hidden sm:flex">
-                <a href="#" class="flex items-center gap-1 rounded-full bg-indigo-600/30 px-3 py-0.5 text-sm/6 font-medium text-white hover:bg-indigo-600/40 transition-colors">
-                    Trusted by 500+ restaurant owners • $1M+ revenue protected
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+<nav class="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-lg border-b border-slate-200/50">
+    <div class="max-w-7xl mx-auto px-6 lg:px-8">
+        <div class="flex justify-between items-center h-16">
+            <div class="flex items-center gap-2">
+                <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-emerald-500 to-cyan-500 flex items-center justify-center">
+                    <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
                     </svg>
-                </a>
+                </div>
+                <span class="font-display font-semibold text-xl text-slate-900">Tablr</span>
+            </div>
+            <div class="hidden md:flex items-center gap-8">
+                <a href="#features" class="text-sm font-medium text-slate-600 hover:text-emerald-600 transition-colors">Features</a>
+                <a href="#integrations" class="text-sm font-medium text-slate-600 hover:text-emerald-600 transition-colors">Integrations</a>
+                <a href="#pricing" class="text-sm font-medium text-slate-600 hover:text-emerald-600 transition-colors">Pricing</a>
         </div>
-            
-        <div class="flex items-center space-x-4">
+            <div class="flex items-center gap-3">
                 <% if user_signed_in? %>
-                    <%= link_to "Dashboard", dashboard_path, class: "text-indigo-100 hover:text-white px-3 py-2 text-sm font-medium" %>
+                    <%= link_to "Dashboard", dashboard_path, class: "px-4 py-2 text-sm font-medium text-white bg-gradient-to-r from-emerald-500 to-cyan-500 rounded-lg hover:shadow-lg hover:shadow-emerald-500/25 transition-all duration-300" %>
                 <% else %>
-                    <%= link_to "Sign In", new_user_session_path, class: "text-indigo-100 hover:text-white px-3 py-2 text-sm font-medium" %>
-                    <%= link_to "Get Started", new_user_registration_path, class: "bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-md text-sm font-medium transition duration-150 ease-in-out" %>
-                <% end %>
-    </div>
-  </nav>
-
-        <!-- Hero Content -->
-        <div class="pt-16 pb-24 sm:pt-24 sm:pb-32 md:pt-32 md:pb-48">
-            <h1 class="font-display text-4xl/[0.9] font-medium tracking-tight text-balance text-white sm:text-6xl/[0.8] md:text-8xl/[0.8]">
-                Turn Restaurant Reviews into Actionable Insights
-        </h1>
-            <p class="mt-8 max-w-lg text-xl/7 font-medium text-indigo-100 sm:text-2xl/8">
-                AI-powered analytics and insights that help restaurants identify profit-killing issues before they impact your bottom line.
-        </p>
-            <div class="mt-12 flex flex-col gap-4 sm:flex-row sm:gap-6">
-                          <% if user_signed_in? %>
-                    <%= link_to "Go to Dashboard", dashboard_path, class: "inline-flex items-center justify-center px-8 py-4 border border-transparent text-lg font-medium rounded-md text-white bg-gradient-to-r from-indigo-600 to-indigo-700 hover:from-indigo-700 hover:to-indigo-800 transition duration-150 ease-in-out shadow-lg hover:shadow-xl" %>
-          <% else %>
-                    <%= link_to "Get Started", new_user_registration_path, class: "inline-flex items-center justify-center px-8 py-4 border border-transparent text-lg font-medium rounded-md text-white bg-gradient-to-r from-indigo-600 to-indigo-700 hover:from-indigo-700 hover:to-indigo-800 transition duration-150 ease-in-out shadow-lg hover:shadow-xl" %>
-                    <%= link_to "Watch Demo", "#", onclick: "openDemoVideoModal(); return false;", class: "inline-flex items-center justify-center px-8 py-4 border border-transparent text-lg font-medium rounded-md text-white bg-gradient-to-r from-indigo-600 to-indigo-700 hover:from-indigo-700 hover:to-indigo-800 transition duration-150 ease-in-out shadow-lg hover:shadow-xl" %>
+                    <%= link_to "Sign In", new_user_session_path, class: "px-4 py-2 text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors" %>
+                    <%= link_to "Get Started", new_user_registration_path, class: "px-4 py-2 text-sm font-medium text-white bg-gradient-to-r from-emerald-500 to-cyan-500 rounded-lg hover:shadow-lg hover:shadow-emerald-500/25 transition-all duration-300" %>
           <% end %>
         </div>
       </div>
     </div>
-      </div>
+</nav>
 
-    <!-- Trust Indicators -->
-    <div class="bg-gradient-to-r from-white via-gray-50 to-white py-8 border-b border-gray-200 relative">
-        <div class="absolute inset-0 bg-gradient-to-b from-indigo-50/20 to-transparent"></div>
-        <div class="relative z-10">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid grid-cols-2 gap-4 md:grid-cols-4 text-center">
-                <div class="flex flex-col items-center">
-                    <div class="text-xl sm:text-2xl font-bold text-gray-900">22%</div>
-                    <div class="text-xs sm:text-sm text-gray-600">Avg. Profit Increase</div>
+<!-- Hero Section -->
+<section class="relative min-h-screen pt-32 pb-20 overflow-hidden mesh-gradient">
+    <div class="absolute top-40 left-10 w-72 h-72 bg-emerald-400/20 rounded-full blur-3xl animate-pulse-slow"></div>
+    <div class="absolute bottom-20 right-10 w-96 h-96 bg-cyan-400/20 rounded-full blur-3xl animate-pulse-slow" style="animation-delay: 2s;"></div>
+    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-blue-400/10 rounded-full blur-3xl"></div>
+    
+    <div class="relative max-w-7xl mx-auto px-6 lg:px-8">
+        <div class="grid lg:grid-cols-2 gap-16 items-center">
+            <div class="space-y-8">
+                <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-emerald-50 border border-emerald-200 animate-fade-up opacity-0" style="animation-delay: 0.1s; animation-fill-mode: forwards;">
+                    <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                    <span class="text-sm font-medium text-emerald-700">AI-Powered Review Intelligence</span>
                 </div>
-                <div class="flex flex-col items-center">
-                    <div class="text-xl sm:text-2xl font-bold text-gray-900">500+</div>
-                    <div class="text-xs sm:text-sm text-gray-600">Restaurant Partners</div>
+                
+                <h1 class="font-display text-5xl lg:text-6xl xl:text-7xl font-bold leading-tight tracking-tight animate-fade-up opacity-0" style="animation-delay: 0.2s; animation-fill-mode: forwards;">
+                    Turn Reviews Into
+                    <span class="gradient-text">Actionable Insights</span>
+                </h1>
+                
+                <p class="text-xl text-slate-600 leading-relaxed max-w-xl animate-fade-up opacity-0" style="animation-delay: 0.3s; animation-fill-mode: forwards;">
+                    Automatically extract complaints, uncover suggestions, and receive weekly intelligence reports from all your review platforms. Make data-driven decisions that delight customers.
+                </p>
+                
+                <div class="flex flex-col sm:flex-row gap-4 animate-fade-up opacity-0" style="animation-delay: 0.4s; animation-fill-mode: forwards;">
+                    <% if user_signed_in? %>
+                        <%= link_to dashboard_path, class: "group inline-flex items-center justify-center gap-2 px-8 py-4 text-lg font-semibold text-white bg-gradient-to-r from-emerald-500 to-cyan-500 rounded-xl hover:shadow-xl hover:shadow-emerald-500/30 transition-all duration-300 hover:-translate-y-1" do %>
+                            Go to Dashboard
+                            <svg class="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                            </svg>
+                        <% end %>
+                    <% else %>
+                        <%= link_to new_user_registration_path, class: "group inline-flex items-center justify-center gap-2 px-8 py-4 text-lg font-semibold text-white bg-gradient-to-r from-emerald-500 to-cyan-500 rounded-xl hover:shadow-xl hover:shadow-emerald-500/30 transition-all duration-300 hover:-translate-y-1" do %>
+                            Start Free Trial
+                            <svg class="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                            </svg>
+                        <% end %>
+                        <a href="#features" class="inline-flex items-center justify-center gap-2 px-8 py-4 text-lg font-semibold text-slate-700 bg-white border-2 border-slate-200 rounded-xl hover:border-emerald-300 hover:bg-emerald-50/50 transition-all duration-300">
+                            See How It Works
+                        </a>
+                    <% end %>
                 </div>
-                <div class="flex flex-col items-center">
-                    <div class="text-xl sm:text-2xl font-bold text-gray-900">99.9%</div>
-                    <div class="text-xs sm:text-sm text-gray-600">Platform Uptime</div>
+                
+                <div class="flex items-center gap-6 pt-4 animate-fade-up opacity-0" style="animation-delay: 0.5s; animation-fill-mode: forwards;">
+                    <div class="flex -space-x-3">
+                        <div class="w-10 h-10 rounded-full bg-gradient-to-br from-rose-400 to-rose-600 border-2 border-white flex items-center justify-center text-white text-sm font-semibold">JC</div>
+                        <div class="w-10 h-10 rounded-full bg-gradient-to-br from-emerald-400 to-emerald-600 border-2 border-white flex items-center justify-center text-white text-sm font-semibold">MR</div>
+                        <div class="w-10 h-10 rounded-full bg-gradient-to-br from-blue-400 to-blue-600 border-2 border-white flex items-center justify-center text-white text-sm font-semibold">SK</div>
+                        <div class="w-10 h-10 rounded-full bg-gradient-to-br from-purple-400 to-purple-600 border-2 border-white flex items-center justify-center text-white text-sm font-semibold">+</div>
+                    </div>
+                    <div>
+                        <div class="flex items-center gap-1 text-amber-500">
+                            <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                            <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                            <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                            <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                            <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                        </div>
+                        <p class="text-sm text-slate-600">Loved by <span class="font-semibold text-slate-900">500+</span> restaurant owners</p>
                 </div>
-                <div class="flex flex-col items-center">
-                    <div class="text-xl sm:text-2xl font-bold text-gray-900">SOC 2</div>
-                    <div class="text-xs sm:text-sm text-gray-600">Compliant</div>
                 </div>
-            </div>
-        </div>
-        </div>
-    </div>
-
-    <!-- Image Carousel Section -->
-    <div class="bg-white py-16 relative">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-12">
-                <h2 class="text-3xl font-bold text-gray-900 mb-4">See Tablr in Action</h2>
-                <p class="text-lg text-gray-600">Discover how our platform transforms customer feedback into actionable business insights</p>
             </div>
             
-            <!-- Carousel Container -->
-            <div class="relative max-w-4xl mx-auto" data-controller="carousel" data-carousel-autoplay-value="true" data-carousel-interval-value="5000">
-                <div class="carousel-container overflow-hidden rounded-2xl shadow-2xl">
-                    <div class="carousel-track flex transition-transform duration-500 ease-in-out" data-carousel-target="track">
-                        <!-- Slide 1 - Reviews -->
-                        <div class="carousel-slide w-full flex-shrink-0" data-carousel-target="slide">
-                            <div class="relative">
-                                <img src="/images/reviews_1.png" alt="Reviews Analytics Dashboard" class="w-full h-auto">
-                                <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-6">
-                                    <h3 class="text-white text-xl font-semibold mb-2">Reviews Analytics</h3>
-                                    <p class="text-gray-200 text-sm">Comprehensive analysis of customer reviews with sentiment tracking and trend identification</p>
+            <!-- Right Column - Visual -->
+            <div class="relative animate-fade-up opacity-0" style="animation-delay: 0.4s; animation-fill-mode: forwards;">
+                <div class="relative glass-card rounded-3xl p-8 shadow-2xl shadow-slate-900/10 animate-float">
+                    <div class="space-y-6">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 rounded-full bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center">
+                                    <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24">
+                                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <p class="font-semibold text-slate-900">Review Analyzed</p>
+                                    <p class="text-sm text-slate-500">from Google Maps</p>
                                 </div>
                             </div>
+                            <span class="px-3 py-1 rounded-full bg-emerald-100 text-emerald-700 text-sm font-medium">Live</span>
                         </div>
                         
-                        <!-- Slide 2 - Complains -->
-                        <div class="carousel-slide w-full flex-shrink-0" data-carousel-target="slide">
-                            <div class="relative">
-                                <img src="/images/complains_1.png" alt="Complaints Management Dashboard" class="w-full h-auto">
-                                <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-6">
-                                    <h3 class="text-white text-xl font-semibold mb-2">Complaints Management</h3>
-                                    <p class="text-gray-200 text-sm">Automated complaint extraction and categorization to prioritize critical issues</p>
+                        <div class="bg-slate-50 rounded-xl p-4 border border-slate-200">
+                            <div class="flex items-center gap-2 mb-2">
+                                <div class="flex text-amber-400">
+                                    <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                                    <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                                    <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                                    <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                                    <svg class="w-4 h-4 text-slate-300 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
                                 </div>
+                                <span class="text-xs text-slate-500">2 hours ago</span>
                             </div>
+                            <p class="text-sm text-slate-700">"Great pasta and ambiance! <span class="bg-rose-100 text-rose-700 px-1 rounded">The wait was too long though</span>. <span class="bg-cyan-100 text-cyan-700 px-1 rounded">Would love to see more vegan options</span>."</p>
                         </div>
                         
-                        <!-- Slide 3 - Suggestions -->
-                        <div class="carousel-slide w-full flex-shrink-0" data-carousel-target="slide">
-                            <div class="relative">
-                                <img src="/images/suggestions_1.png" alt="Suggestions Dashboard" class="w-full h-auto">
-                                <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-6">
-                                    <h3 class="text-white text-xl font-semibold mb-2">Customer Suggestions</h3>
-                                    <p class="text-gray-200 text-sm">AI-powered suggestions extraction to identify improvement opportunities</p>
+                        <div class="grid grid-cols-2 gap-3">
+                            <div class="bg-rose-50 rounded-xl p-4 border border-rose-200">
+                                <div class="flex items-center gap-2 mb-2">
+                                    <svg class="w-5 h-5 text-rose-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                                    </svg>
+                                    <span class="text-xs font-semibold text-rose-700 uppercase">Complaint</span>
                                 </div>
+                                <p class="text-sm text-rose-800 font-medium">Long wait times</p>
+                            </div>
+                            <div class="bg-cyan-50 rounded-xl p-4 border border-cyan-200">
+                                <div class="flex items-center gap-2 mb-2">
+                                    <svg class="w-5 h-5 text-cyan-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                                    </svg>
+                                    <span class="text-xs font-semibold text-cyan-700 uppercase">Suggestion</span>
+                                </div>
+                                <p class="text-sm text-cyan-800 font-medium">Add vegan menu options</p>
                             </div>
                         </div>
-
-                        <!-- Slide 4 - Analytics -->
-                        <div class="carousel-slide w-full flex-shrink-0" data-carousel-target="slide">
-                            <div class="relative">
-                                <img src="/images/analytics_1.png" alt="Analytics Dashboard" class="w-full h-auto">
-                                <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-6">
-                                    <h3 class="text-white text-xl font-semibold mb-2">Analytics Dashboard</h3>
-                                    <p class="text-gray-200 text-sm">AI-powered analytics to identify profit-killing issues before they impact your bottom line</p>
                                 </div>
                             </div>
+                
+                <div class="absolute -top-4 -right-4 bg-white rounded-2xl p-4 shadow-xl border border-slate-100 animate-bounce-subtle">
+                    <div class="flex items-center gap-3">
+                        <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-emerald-400 to-emerald-600 flex items-center justify-center">
+                            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                            </svg>
                         </div>
-
-
-                        <div class="carousel-slide w-full flex-shrink-0" data-carousel-target="slide">
-                            <div class="relative">
-                                <img src="/images/analysis_1.png" alt="Analysis Dashboard" class="w-full h-auto">
-                                <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-6">
-                                    <h3 class="text-white text-xl font-semibold mb-2">Analysis Dashboard</h3>
-                                    <p class="text-gray-200 text-sm">AI-powered analysis to identify profit-killing issues before they impact your bottom line</p>
-                                </div>
-                            </div>
+                        <div>
+                            <p class="text-sm font-semibold text-slate-900">Weekly Report</p>
+                            <p class="text-xs text-slate-500">Sent every Monday</p>
                         </div>
-
                     </div>
                 </div>
                 
-                <!-- Navigation Dots -->
-                <div class="flex justify-center mt-6 space-x-2">
-                    <button class="carousel-dot w-3 h-3 rounded-full bg-indigo-600 transition-all duration-300" data-carousel-target="dot" data-slide="0" data-action="click->carousel#goToSlide"></button>
-                    <button class="carousel-dot w-3 h-3 rounded-full bg-gray-300 hover:bg-gray-400 transition-all duration-300" data-carousel-target="dot" data-slide="1" data-action="click->carousel#goToSlide"></button>
-                    <button class="carousel-dot w-3 h-3 rounded-full bg-gray-300 hover:bg-gray-400 transition-all duration-300" data-carousel-target="dot" data-slide="2" data-action="click->carousel#goToSlide"></button>
-                    <button class="carousel-dot w-3 h-3 rounded-full bg-gray-300 hover:bg-gray-400 transition-all duration-300" data-carousel-target="dot" data-slide="3" data-action="click->carousel#goToSlide"></button>
-                    <button class="carousel-dot w-3 h-3 rounded-full bg-gray-300 hover:bg-gray-400 transition-all duration-300" data-carousel-target="dot" data-slide="4" data-action="click->carousel#goToSlide"></button>
+                <div class="absolute -bottom-6 -left-6 bg-white rounded-2xl p-4 shadow-xl border border-slate-100 animate-bounce-subtle" style="animation-delay: 0.5s;">
+                    <div class="flex items-center gap-3">
+                        <div class="flex -space-x-2">
+                            <div class="w-8 h-8 rounded-lg bg-[#4285F4] flex items-center justify-center">
+                                <span class="text-white text-xs font-bold">G</span>
+                            </div>
+                            <div class="w-8 h-8 rounded-lg bg-[#c41200] flex items-center justify-center">
+                                <span class="text-white text-xs font-bold">Y</span>
+                            </div>
+                            <div class="w-8 h-8 rounded-lg bg-[#00b67a] flex items-center justify-center">
+                                <span class="text-white text-xs font-bold">T</span>
+                            </div>
+                        </div>
+                        <div>
+                            <p class="text-sm font-semibold text-slate-900">4 Platforms</p>
+                            <p class="text-xs text-slate-500">Connected</p>
+                        </div>
+                    </div>
                 </div>
-                
-                <!-- Navigation Arrows -->
-                <button class="carousel-prev absolute left-4 top-1/2 transform -translate-y-1/2 bg-white/80 hover:bg-white text-gray-800 rounded-full p-2 shadow-lg transition-all duration-300 hover:scale-110" data-action="click->carousel#previous">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
-                    </svg>
-                </button>
-                <button class="carousel-next absolute right-4 top-1/2 transform -translate-y-1/2 bg-white/80 hover:bg-white text-gray-800 rounded-full p-2 shadow-lg transition-all duration-300 hover:scale-110" data-action="click->carousel#next">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-                    </svg>
-                </button>
             </div>
         </div>
     </div>
 
-<main>
+    <div class="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
+        <a href="#features" class="flex flex-col items-center gap-2 text-slate-400 hover:text-emerald-500 transition-colors">
+            <span class="text-sm font-medium">Discover More</span>
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+            </svg>
+        </a>
+    </div>
+</section>
 
-    <!-- Feature Section -->
-    <div id="features" class="bg-gradient-to-b from-white via-gray-50 to-gray-100 py-32 relative">
-        <div class="absolute inset-0 bg-gradient-to-r from-indigo-50/50 via-transparent to-purple-50/50"></div>
-        <div class="relative z-10">
-
-        <!-- Bento Grid -->
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="mb-8">
-                <p class="text-sm font-semibold text-indigo-600 tracking-wider uppercase">Business Intelligence</p>
-                <h3 class="text-4xl font-bold text-gray-950 mt-2 max-w-3xl">
-                    Data-driven insights that directly impact your profit margins.
+<!-- Features Section -->
+<section id="features" class="py-24 bg-white relative overflow-hidden">
+    <div class="absolute inset-0 opacity-[0.015]" style="background-image: url('data:image/svg+xml,%3Csvg width=&quot;60&quot; height=&quot;60&quot; viewBox=&quot;0 0 60 60&quot; xmlns=&quot;http://www.w3.org/2000/svg&quot;%3E%3Cg fill=&quot;none&quot; fill-rule=&quot;evenodd&quot;%3E%3Cg fill=&quot;%23000000&quot; fill-opacity=&quot;1&quot;%3E%3Cpath d=&quot;M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z&quot;/%3E%3C/g%3E%3C/g%3E%3C/svg%3E');"></div>
+    
+    <div class="relative max-w-7xl mx-auto px-6 lg:px-8">
+        <div class="text-center max-w-3xl mx-auto mb-20">
+            <span class="inline-block px-4 py-2 rounded-full bg-emerald-50 text-emerald-700 text-sm font-semibold mb-6 animate-on-scroll animate-fade-up">
+                Core Features
+            </span>
+            <h2 class="font-display text-4xl lg:text-5xl font-bold text-slate-900 mb-6 animate-on-scroll animate-fade-up stagger-1">
+                Everything You Need to Understand Your Customers
+            </h2>
+            <p class="text-xl text-slate-600 animate-on-scroll animate-fade-up stagger-2">
+                Our AI analyzes every review across all platforms to surface the insights that matter most to your business.
+            </p>
+        </div>
+        
+        <!-- Feature 1: Complaint Extraction -->
+        <div class="grid lg:grid-cols-2 gap-16 items-center mb-32">
+            <div class="order-2 lg:order-1 animate-on-scroll animate-slide-in-left">
+                <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-rose-100 text-rose-700 text-sm font-semibold mb-6">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                    </svg>
+                    Complaint Extraction
+                </div>
+                <h3 class="font-display text-3xl lg:text-4xl font-bold text-slate-900 mb-6">
+                    Catch Issues Before They Become Problems
                 </h3>
+                <p class="text-lg text-slate-600 mb-8">
+                    Our AI automatically identifies and categorizes every complaint from your reviews. No more reading through hundreds of reviews—get a clear list of what's bothering your customers, ranked by frequency and severity.
+                </p>
+                <ul class="space-y-4">
+                    <li class="flex items-start gap-3">
+                        <div class="w-6 h-6 rounded-full bg-emerald-100 flex items-center justify-center flex-shrink-0 mt-0.5">
+                            <svg class="w-4 h-4 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                            </svg>
+                        </div>
+                        <span class="text-slate-700">Automatic categorization (service, food, ambiance, pricing)</span>
+                    </li>
+                    <li class="flex items-start gap-3">
+                        <div class="w-6 h-6 rounded-full bg-emerald-100 flex items-center justify-center flex-shrink-0 mt-0.5">
+                            <svg class="w-4 h-4 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                            </svg>
+                        </div>
+                        <span class="text-slate-700">Trend analysis to spot emerging issues early</span>
+                    </li>
+                    <li class="flex items-start gap-3">
+                        <div class="w-6 h-6 rounded-full bg-emerald-100 flex items-center justify-center flex-shrink-0 mt-0.5">
+                            <svg class="w-4 h-4 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                            </svg>
+                        </div>
+                        <span class="text-slate-700">Priority scoring based on impact and frequency</span>
+                    </li>
+                </ul>
             </div>
-
-            <div class="mt-10 grid grid-cols-1 gap-4 sm:mt-16 sm:grid-cols-2 lg:grid-cols-6 lg:grid-rows-2">
-        <!-- Smart Sentiment Analysis -->
-                <div class="group relative overflow-hidden rounded-2xl bg-white p-8 shadow-lg hover:shadow-xl transition-all duration-300 lg:col-span-3 lg:rounded-tl-4xl">
-                    <div class="absolute inset-0 bg-gradient-to-br from-green-50 to-emerald-100 opacity-50"></div>
+            <div class="order-1 lg:order-2 animate-on-scroll animate-slide-in-right">
                     <div class="relative">
-                        <p class="text-sm font-semibold text-green-600 tracking-wider uppercase">Revenue Protection</p>
-                        <h4 class="text-2xl font-bold text-gray-950 mt-2">AI-Powered Risk Detection</h4>
-                        <p class="text-gray-700 mt-4">
-                            Identify revenue-threatening issues before they escalate. Our AI monitors sentiment trends and flags declining satisfaction that could impact your bottom line, with automated alerts for management teams.
-                        </p>
-                        <div class="mt-8 h-48 bg-gradient-to-br from-green-100 to-emerald-200 rounded-lg p-4">
-                            <div class="grid grid-cols-3 gap-2 text-center h-full">
-                                <div class="flex flex-col justify-center">
-                                    <div class="text-3xl font-bold text-green-600">87%</div>
-                                    <div class="text-xs text-green-700">Positive</div>
-                                    <div class="text-xs text-green-600">😊 Happy</div>
+                    <div class="bg-gradient-to-br from-rose-50 to-rose-100 rounded-3xl p-8 border border-rose-200">
+                        <div class="space-y-4">
+                            <div class="flex items-center justify-between mb-6">
+                                <h4 class="font-semibold text-slate-900">Top Complaints This Week</h4>
+                                <span class="text-sm text-slate-500">23 total</span>
+                            </div>
+                            <div class="bg-white rounded-xl p-4 border border-rose-200 hover:shadow-md transition-shadow">
+                                <div class="flex items-center justify-between mb-2">
+                                    <span class="text-sm font-medium text-rose-700">Long wait times</span>
+                                    <span class="px-2 py-1 rounded-full bg-rose-100 text-rose-700 text-xs font-semibold">12 mentions</span>
                                 </div>
-                                <div class="flex flex-col justify-center">
-                                    <div class="text-2xl font-bold text-yellow-600">8%</div>
-                                    <div class="text-xs text-yellow-700">Neutral</div>
-                                    <div class="text-xs text-yellow-600">😐 Mixed</div>
+                                <div class="w-full bg-rose-100 rounded-full h-2">
+                                    <div class="bg-gradient-to-r from-rose-400 to-rose-500 h-2 rounded-full" style="width: 85%"></div>
                                 </div>
-                                <div class="flex flex-col justify-center">
-                                    <div class="text-2xl font-bold text-red-600">5%</div>
-                                    <div class="text-xs text-red-700">Negative</div>
-                                    <div class="text-xs text-red-600">😠 Upset</div>
+                            </div>
+                            <div class="bg-white rounded-xl p-4 border border-rose-200 hover:shadow-md transition-shadow">
+                                <div class="flex items-center justify-between mb-2">
+                                    <span class="text-sm font-medium text-rose-700">Portion sizes too small</span>
+                                    <span class="px-2 py-1 rounded-full bg-rose-100 text-rose-700 text-xs font-semibold">7 mentions</span>
+                                </div>
+                                <div class="w-full bg-rose-100 rounded-full h-2">
+                                    <div class="bg-gradient-to-r from-rose-400 to-rose-500 h-2 rounded-full" style="width: 55%"></div>
+                                </div>
+                            </div>
+                            <div class="bg-white rounded-xl p-4 border border-rose-200 hover:shadow-md transition-shadow">
+                                <div class="flex items-center justify-between mb-2">
+                                    <span class="text-sm font-medium text-rose-700">Noisy atmosphere</span>
+                                    <span class="px-2 py-1 rounded-full bg-rose-100 text-rose-700 text-xs font-semibold">4 mentions</span>
+                                </div>
+                                <div class="w-full bg-rose-100 rounded-full h-2">
+                                    <div class="bg-gradient-to-r from-rose-400 to-rose-500 h-2 rounded-full" style="width: 30%"></div>
+                                </div>
+                            </div>
                                 </div>
                             </div>
                         </div>
           </div>
         </div>
 
-                <!-- Detailed Ratings -->
-                <div class="group relative overflow-hidden rounded-2xl bg-white p-8 shadow-lg hover:shadow-xl transition-all duration-300 lg:col-span-3 lg:rounded-tr-4xl">
-                    <div class="absolute inset-0 bg-gradient-to-br from-blue-50 to-indigo-100 opacity-50"></div>
+        <!-- Feature 2: Suggestion Extraction -->
+        <div class="grid lg:grid-cols-2 gap-16 items-center mb-32">
+            <div class="animate-on-scroll animate-slide-in-left">
                     <div class="relative">
-                        <p class="text-sm font-semibold text-blue-600 tracking-wider uppercase">Performance Metrics</p>
-                        <h4 class="text-2xl font-bold text-gray-950 mt-2">Operational Performance Index</h4>
-                        <p class="text-gray-700 mt-4">
-                            Executive-level KPIs that track Food Quality, Service Excellence, and Atmosphere performance. Benchmark against industry standards and identify profit optimization opportunities.
-                        </p>
-                        <div class="mt-8 h-48 bg-gradient-to-br from-blue-100 to-indigo-200 rounded-lg p-4">
+                    <div class="bg-gradient-to-br from-cyan-50 to-cyan-100 rounded-3xl p-8 border border-cyan-200">
                             <div class="space-y-4">
-                                <div class="flex justify-between items-center">
-                                    <span class="text-sm font-medium text-blue-700">🍽️ Food Quality</span>
-                                    <div class="flex items-center">
-                                        <div class="w-16 bg-blue-300 rounded-full h-2 mr-2">
-                                            <div class="bg-blue-600 h-2 rounded-full" style="width: 92%"></div>
+                            <div class="flex items-center justify-between mb-6">
+                                <h4 class="font-semibold text-slate-900">Customer Suggestions</h4>
+                                <span class="text-sm text-slate-500">15 this month</span>
+                            </div>
+                            <div class="bg-white rounded-xl p-4 border border-cyan-200 hover:shadow-md transition-shadow">
+                                <div class="flex items-start gap-3">
+                                    <div class="w-8 h-8 rounded-lg bg-cyan-100 flex items-center justify-center flex-shrink-0">
+                                        <svg class="w-4 h-4 text-cyan-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                                        </svg>
                                         </div>
-                                        <span class="text-sm font-bold text-blue-600">4.6</span>
+                                    <div>
+                                        <p class="text-sm font-medium text-slate-900">More vegetarian options</p>
+                                        <p class="text-xs text-slate-500 mt-1">Mentioned in 8 reviews</p>
                                     </div>
                                 </div>
-                                <div class="flex justify-between items-center">
-                                    <span class="text-sm font-medium text-blue-700">👥 Service</span>
-                                    <div class="flex items-center">
-                                        <div class="w-16 bg-blue-300 rounded-full h-2 mr-2">
-                                            <div class="bg-blue-600 h-2 rounded-full" style="width: 78%"></div>
+                            </div>
+                            <div class="bg-white rounded-xl p-4 border border-cyan-200 hover:shadow-md transition-shadow">
+                                <div class="flex items-start gap-3">
+                                    <div class="w-8 h-8 rounded-lg bg-cyan-100 flex items-center justify-center flex-shrink-0">
+                                        <svg class="w-4 h-4 text-cyan-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                                        </svg>
                                         </div>
-                                        <span class="text-sm font-bold text-blue-600">3.9</span>
+                                    <div>
+                                        <p class="text-sm font-medium text-slate-900">Outdoor seating area</p>
+                                        <p class="text-xs text-slate-500 mt-1">Mentioned in 5 reviews</p>
                                     </div>
                                 </div>
-                                <div class="flex justify-between items-center">
-                                    <span class="text-sm font-medium text-blue-700">🏛️ Atmosphere</span>
-                                    <div class="flex items-center">
-                                        <div class="w-16 bg-blue-300 rounded-full h-2 mr-2">
-                                            <div class="bg-blue-600 h-2 rounded-full" style="width: 88%"></div>
+                            </div>
+                            <div class="bg-white rounded-xl p-4 border border-cyan-200 hover:shadow-md transition-shadow">
+                                <div class="flex items-start gap-3">
+                                    <div class="w-8 h-8 rounded-lg bg-cyan-100 flex items-center justify-center flex-shrink-0">
+                                        <svg class="w-4 h-4 text-cyan-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                                        </svg>
                                         </div>
-                                        <span class="text-sm font-bold text-blue-600">4.4</span>
+                                    <div>
+                                        <p class="text-sm font-medium text-slate-900">Happy hour specials</p>
+                                        <p class="text-xs text-slate-500 mt-1">Mentioned in 3 reviews</p>
                                     </div>
                                 </div>
                             </div>
                         </div>
           </div>
         </div>
-
-        <!-- Fully Filterable Dashboard -->
-                <div class="group relative overflow-hidden rounded-2xl bg-white p-8 shadow-lg hover:shadow-xl transition-all duration-300 lg:col-span-2 lg:rounded-bl-4xl">
-                    <div class="absolute inset-0 bg-gradient-to-br from-purple-50 to-violet-100 opacity-50"></div>
-                    <div class="relative">
-                        <p class="text-sm font-semibold text-purple-600 tracking-wider uppercase">Executive Control</p>
-                        <h4 class="text-2xl font-bold text-gray-950 mt-2">Strategic Analysis Dashboard</h4>
-                        <p class="text-gray-700 mt-4">
-                            Filter and analyze data by location, time period, customer segments, and revenue impact. Make informed decisions with customizable reports designed for executive teams.
-                        </p>
-                        <div class="mt-8 space-y-3">
-                            <div class="flex space-x-2">
-                                <span class="px-2 py-1 bg-purple-200 text-purple-800 rounded text-xs">📅 Last 30 Days</span>
-                                <span class="px-2 py-1 bg-purple-200 text-purple-800 rounded text-xs">⭐ 4+ Stars</span>
+            </div>
+            <div class="animate-on-scroll animate-slide-in-right">
+                <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-cyan-100 text-cyan-700 text-sm font-semibold mb-6">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                    </svg>
+                    Suggestion Mining
+                </div>
+                <h3 class="font-display text-3xl lg:text-4xl font-bold text-slate-900 mb-6">
+                    Discover What Customers Really Want
+                </h3>
+                <p class="text-lg text-slate-600 mb-8">
+                    Hidden in reviews are goldmines of customer suggestions. Our AI extracts and aggregates these ideas, showing you exactly what improvements would delight your guests and drive more business.
+                </p>
+                <ul class="space-y-4">
+                    <li class="flex items-start gap-3">
+                        <div class="w-6 h-6 rounded-full bg-emerald-100 flex items-center justify-center flex-shrink-0 mt-0.5">
+                            <svg class="w-4 h-4 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                            </svg>
                             </div>
-                            <div class="flex space-x-2">
-                                <span class="px-2 py-1 bg-purple-200 text-purple-800 rounded text-xs">📱 Google</span>
-                                <span class="px-2 py-1 bg-purple-200 text-purple-800 rounded text-xs">😊 Positive</span>
+                        <span class="text-slate-700">Extract implicit and explicit suggestions</span>
+                    </li>
+                    <li class="flex items-start gap-3">
+                        <div class="w-6 h-6 rounded-full bg-emerald-100 flex items-center justify-center flex-shrink-0 mt-0.5">
+                            <svg class="w-4 h-4 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                            </svg>
+                            </div>
+                        <span class="text-slate-700">Group similar ideas to identify popular requests</span>
+                    </li>
+                    <li class="flex items-start gap-3">
+                        <div class="w-6 h-6 rounded-full bg-emerald-100 flex items-center justify-center flex-shrink-0 mt-0.5">
+                            <svg class="w-4 h-4 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                            </svg>
+                        </div>
+                        <span class="text-slate-700">Track implementation impact on future reviews</span>
+                    </li>
+                </ul>
+          </div>
+        </div>
+
+        <!-- Feature 3: Automated Reports -->
+        <div class="grid lg:grid-cols-2 gap-16 items-center">
+            <div class="order-2 lg:order-1 animate-on-scroll animate-slide-in-left">
+                <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-100 text-emerald-700 text-sm font-semibold mb-6">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                    </svg>
+                    Automated Reports
+                </div>
+                <h3 class="font-display text-3xl lg:text-4xl font-bold text-slate-900 mb-6">
+                    Intelligence Delivered to Your Inbox
+                </h3>
+                <p class="text-lg text-slate-600 mb-8">
+                    Get weekly or monthly digest emails with your top complaints, suggestions, and sentiment trends. Stay informed without logging in—perfect for busy restaurant owners and managers.
+                </p>
+                <ul class="space-y-4">
+                    <li class="flex items-start gap-3">
+                        <div class="w-6 h-6 rounded-full bg-emerald-100 flex items-center justify-center flex-shrink-0 mt-0.5">
+                            <svg class="w-4 h-4 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                            </svg>
+                        </div>
+                        <span class="text-slate-700">Choose weekly or monthly delivery</span>
+                    </li>
+                    <li class="flex items-start gap-3">
+                        <div class="w-6 h-6 rounded-full bg-emerald-100 flex items-center justify-center flex-shrink-0 mt-0.5">
+                            <svg class="w-4 h-4 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                            </svg>
+                        </div>
+                        <span class="text-slate-700">Executive summary with key metrics</span>
+                    </li>
+                    <li class="flex items-start gap-3">
+                        <div class="w-6 h-6 rounded-full bg-emerald-100 flex items-center justify-center flex-shrink-0 mt-0.5">
+                            <svg class="w-4 h-4 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                            </svg>
+                        </div>
+                        <span class="text-slate-700">Share with your team automatically</span>
+                    </li>
+                </ul>
+            </div>
+            <div class="order-1 lg:order-2 animate-on-scroll animate-slide-in-right">
+                    <div class="relative">
+                    <div class="bg-white rounded-3xl shadow-2xl shadow-slate-900/10 overflow-hidden border border-slate-200">
+                        <div class="bg-gradient-to-r from-emerald-500 to-cyan-500 px-6 py-4">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center backdrop-blur-sm">
+                                    <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                                    </svg>
+                                </div>
+                                <div>
+                                    <p class="font-semibold text-white">Your Weekly Report</p>
+                                    <p class="text-sm text-white/80">Bella Italia • Dec 23-29</p>
+                                </div>
                             </div>
                         </div>
+                        <div class="p-6 space-y-5">
+                            <div class="grid grid-cols-3 gap-4">
+                                <div class="text-center p-3 bg-slate-50 rounded-xl">
+                                    <p class="text-2xl font-bold text-slate-900">47</p>
+                                    <p class="text-xs text-slate-500">New Reviews</p>
           </div>
+                                <div class="text-center p-3 bg-emerald-50 rounded-xl">
+                                    <p class="text-2xl font-bold text-emerald-600">4.3</p>
+                                    <p class="text-xs text-slate-500">Avg Rating</p>
         </div>
-
-                <!-- Keyword-Level Insights -->
-                <div class="group relative overflow-hidden rounded-2xl bg-white p-8 shadow-lg hover:shadow-xl transition-all duration-300 lg:col-span-2">
-                    <div class="absolute inset-0 bg-gradient-to-br from-indigo-50 to-indigo-100 opacity-50"></div>
-                    <div class="relative">
-                        <p class="text-sm font-semibold text-indigo-600 tracking-wider uppercase">Competitive Intelligence</p>
-                        <h4 class="text-2xl font-bold text-gray-950 mt-2">Menu & Service Optimization</h4>
-                        <p class="text-gray-700 mt-4">
-                            Track ROI on specific dishes and services. Identify your highest-margin items that customers love and eliminate profit-draining offerings based on sentiment analysis.
-                        </p>
-                        <div class="mt-8 space-y-2">
-                            <div class="flex justify-between items-center">
-                                <span class="px-2 py-1 bg-green-200 text-green-800 rounded text-xs">Pasta (+98%)</span>
-                                <span class="text-xs text-green-600">247 mentions</span>
-                            </div>
-                            <div class="flex justify-between items-center">
-                                <span class="px-2 py-1 bg-red-200 text-red-800 rounded text-xs">Wait Time (-76%)</span>
-                                <span class="text-xs text-red-600">89 mentions</span>
-          </div>
-                            <div class="flex justify-between items-center">
-                                <span class="px-2 py-1 bg-green-200 text-green-800 rounded text-xs">Atmosphere (+84%)</span>
-                                <span class="text-xs text-green-600">156 mentions</span>
-        </div>
+                                <div class="text-center p-3 bg-rose-50 rounded-xl">
+                                    <p class="text-2xl font-bold text-rose-600">8</p>
+                                    <p class="text-xs text-slate-500">Complaints</p>
       </div>
     </div>
+                            <div class="space-y-3">
+                                <p class="text-sm font-semibold text-slate-900">Top Issue This Week</p>
+                                <div class="flex items-center gap-3 p-3 bg-rose-50 rounded-xl">
+                                    <div class="w-2 h-2 rounded-full bg-rose-500"></div>
+                                    <p class="text-sm text-slate-700">Wait time increased 15% vs last week</p>
       </div>
-      
-                <!-- Complaint & Suggestion Extraction -->
-                <div class="group relative overflow-hidden rounded-2xl bg-white p-8 shadow-lg hover:shadow-xl transition-all duration-300 lg:col-span-2 lg:rounded-br-4xl">
-                    <div class="absolute inset-0 bg-gradient-to-br from-rose-50 to-pink-100 opacity-50"></div>
-      <div class="relative">
-                        <p class="text-sm font-semibold text-rose-600 tracking-wider uppercase">Risk Mitigation</p>
-                        <h4 class="text-2xl font-bold text-gray-950 mt-2">Automated Issue Detection</h4>
-                        <p class="text-gray-700 mt-4">
-                            Automatically identify and prioritize operational issues that could impact revenue. Get executive summaries of critical problems with recommended action plans.
-                        </p>
-                        <div class="mt-8 space-y-3">
-                            <div class="bg-rose-100 rounded-lg p-2">
-                                <div class="text-xs font-medium text-rose-700 mb-1">🚨 Common Complaint</div>
-                                <div class="text-xs text-rose-600">"Service too slow during dinner rush"</div>
                             </div>
-                            <div class="bg-blue-100 rounded-lg p-2">
-                                <div class="text-xs font-medium text-blue-700 mb-1">💡 Suggestion</div>
-                                <div class="text-xs text-blue-600">"Add more vegetarian options"</div>
+                            <div class="space-y-3">
+                                <p class="text-sm font-semibold text-slate-900">Trending Suggestion</p>
+                                <div class="flex items-center gap-3 p-3 bg-cyan-50 rounded-xl">
+                                    <div class="w-2 h-2 rounded-full bg-cyan-500"></div>
+                                    <p class="text-sm text-slate-700">"Add gluten-free pizza options"</p>
+                                </div>
                             </div>
                         </div>
             </div>
-          </div>
+                    <div class="absolute -top-4 -right-4 w-24 h-24 bg-gradient-to-br from-emerald-400 to-cyan-400 rounded-full blur-2xl opacity-30"></div>
+                    <div class="absolute -bottom-4 -left-4 w-32 h-32 bg-gradient-to-br from-blue-400 to-purple-400 rounded-full blur-2xl opacity-20"></div>
         </div>
       </div>
         </div>
     </div>
+</section>
 
-
-</main>
-
-  <!-- Testimonials -->
-<section class="py-32 bg-gradient-to-b from-gray-900 via-gray-800 to-gray-900 relative">
-    <div class="absolute inset-0 bg-gradient-to-r from-indigo-900/20 via-transparent to-purple-900/20"></div>
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-      <div class="text-center mb-16">
-            <h2 class="text-4xl font-bold text-white mb-4">
-                Trusted by Restaurant Leaders Who Value Results
+<!-- Integrations Section -->
+<section id="integrations" class="py-24 bg-slate-900 relative overflow-hidden">
+    <div class="absolute inset-0">
+        <div class="absolute top-0 left-1/4 w-96 h-96 bg-emerald-500/10 rounded-full blur-3xl"></div>
+        <div class="absolute bottom-0 right-1/4 w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl"></div>
+    </div>
+    
+    <div class="relative max-w-7xl mx-auto px-6 lg:px-8">
+        <div class="text-center max-w-3xl mx-auto mb-16">
+            <span class="inline-block px-4 py-2 rounded-full bg-white/10 text-emerald-400 text-sm font-semibold mb-6 animate-on-scroll animate-fade-up">
+                Platform Integrations
+            </span>
+            <h2 class="font-display text-4xl lg:text-5xl font-bold text-white mb-6 animate-on-scroll animate-fade-up stagger-1">
+                All Your Reviews, One Dashboard
         </h2>
-        <p class="text-xl text-gray-300">
-                See how Tablr is protecting revenue and driving growth for restaurant businesses
+            <p class="text-xl text-slate-400 animate-on-scroll animate-fade-up stagger-2">
+                We automatically collect and analyze reviews from all major platforms. Connect once, and let us handle the rest.
         </p>
       </div>
 
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-        <!-- Testimonial 1 -->
-            <div class="bg-gradient-to-br from-indigo-600 to-purple-700 rounded-3xl shadow-2xl p-8 border border-indigo-500/20 hover:scale-105 transition-transform duration-300">
-                <div class="flex items-center mb-6">
-                    <div class="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm">
-                        <span class="text-white font-semibold text-lg">MR</span>
+        <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div class="group bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-6 hover:bg-white/10 hover:border-emerald-500/50 transition-all duration-300 animate-on-scroll animate-fade-up stagger-1">
+                <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-[#4285F4] to-[#34A853] flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
+                    <svg class="w-8 h-8 text-white" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+                    </svg>
+                </div>
+                <h3 class="font-display font-semibold text-xl text-white mb-2">Google Maps</h3>
+                <p class="text-slate-400 text-sm">Pull reviews from your Google Business Profile automatically</p>
             </div>
-            <div class="ml-4">
-              <h4 class="text-lg font-semibold text-white">Maria Rodriguez</h4>
-              <p class="text-indigo-200">CEO & Founder, Casa Bella Restaurant Group</p>
+            
+            <div class="group bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-6 hover:bg-white/10 hover:border-emerald-500/50 transition-all duration-300 animate-on-scroll animate-fade-up stagger-2">
+                <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-[#FF1A1A] to-[#c41200] flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
+                    <svg class="w-8 h-8 text-white" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                    </svg>
+                </div>
+                <h3 class="font-display font-semibold text-xl text-white mb-2">Yelp</h3>
+                <p class="text-slate-400 text-sm">Import and analyze all your Yelp reviews in real-time</p>
             </div>
+            
+            <div class="group bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-6 hover:bg-white/10 hover:border-emerald-500/50 transition-all duration-300 animate-on-scroll animate-fade-up stagger-3">
+                <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-[#00b67a] to-[#00857c] flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
+                    <svg class="w-8 h-8 text-white" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                    </svg>
           </div>
-          <p class="text-indigo-100 italic">
-            "Tablr identified that wait times were costing us $ in lost customers. After optimizing our staffing based on their insights, we increased revenue by 23% and improved our service rating from 4.1 to 4.7 stars."
-          </p>
+                <h3 class="font-display font-semibold text-xl text-white mb-2">TrustPilot</h3>
+                <p class="text-slate-400 text-sm">Connect your TrustPilot profile for comprehensive insights</p>
         </div>
 
-        <!-- Testimonial 2 -->
-            <div class="bg-gradient-to-br from-emerald-600 to-teal-700 rounded-3xl shadow-2xl p-8 border border-emerald-500/20 hover:scale-105 transition-transform duration-300">
-                <div class="flex items-center mb-6">
-              <div class="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm">
-                <span class="text-white font-semibold text-lg">JC</span>
+            <div class="group bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-6 hover:bg-white/10 hover:border-emerald-500/50 transition-all duration-300 animate-on-scroll animate-fade-up stagger-4">
+                <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-[#DA3743] to-[#b02d37] flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
+                    <svg class="w-8 h-8 text-white" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                    </svg>
             </div>
-            <div class="ml-4">
-              <h4 class="text-lg font-semibold text-white">James Chen</h4>
-              <p class="text-emerald-200">COO, Dragon Palace Hospitality</p>
+                <h3 class="font-display font-semibold text-xl text-white mb-2">OpenTable</h3>
+                <p class="text-slate-400 text-sm">Sync reservation reviews for a complete picture</p>
             </div>
-          </div>
-          <p class="text-emerald-100 italic">
-                    "Tablr's AI recommendations directly increased our profit margins by 18%. Their insights helped us eliminate underperforming menu items and optimize our highest-ROI dishes, saving us $35K in food costs annually."
-          </p>
         </div>
 
-        <!-- Testimonial 3 -->
-            <div class="bg-gradient-to-br from-rose-600 to-pink-700 rounded-3xl shadow-2xl p-8 border border-rose-500/20 hover:scale-105 transition-transform duration-300">
-                <div class="flex items-center mb-6">
-              <div class="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm">
-                <span class="text-white font-semibold text-lg">SK</span>
+        <div class="mt-16 grid sm:grid-cols-3 gap-8 text-center">
+            <div class="animate-on-scroll animate-fade-up stagger-1">
+                <p class="font-display text-4xl font-bold text-white mb-2">50K+</p>
+                <p class="text-slate-400">Reviews Analyzed Daily</p>
             </div>
-            <div class="ml-4">
-              <h4 class="text-lg font-semibold text-white">Sarah Kim</h4>
-              <p class="text-rose-200">Founder & Executive Chef, Seoul Kitchen Group</p>
+            <div class="animate-on-scroll animate-fade-up stagger-2">
+                <p class="font-display text-4xl font-bold text-white mb-2">99.9%</p>
+                <p class="text-slate-400">Sync Reliability</p>
             </div>
-          </div>
-          <p class="text-rose-100 italic">
-            "As a multi-location owner, Tablr's executive dashboard gives me real-time visibility into all my restaurants' performance. We've reduced customer churn by 35% and increased average ticket size by $12 per order."
-          </p>
+            <div class="animate-on-scroll animate-fade-up stagger-3">
+                <p class="font-display text-4xl font-bold text-white mb-2">&lt;5min</p>
+                <p class="text-slate-400">Average Sync Time</p>
         </div>
       </div>
     </div>
   </section>
 
   <!-- Pricing Section -->
-<section id="pricing" class="py-32 bg-gradient-to-b from-slate-50 via-blue-50 to-indigo-50 relative">
-    <div class="absolute inset-0 bg-gradient-to-r from-blue-100/20 via-transparent to-indigo-100/20"></div>
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+<section id="pricing" class="py-24 bg-slate-50 relative overflow-hidden">
+    <div class="absolute inset-0 mesh-gradient opacity-50"></div>
+    
+    <div class="relative max-w-4xl mx-auto px-6 lg:px-8">
         <div class="text-center mb-16">
-            <h2 class="text-4xl font-bold text-slate-900 mb-4">
-                Simple, Transparent Pricing
+            <span class="inline-block px-4 py-2 rounded-full bg-emerald-50 text-emerald-700 text-sm font-semibold mb-6 animate-on-scroll animate-fade-up">
+                Simple Pricing
+            </span>
+            <h2 class="font-display text-4xl lg:text-5xl font-bold text-slate-900 mb-6 animate-on-scroll animate-fade-up stagger-1">
+                Start Understanding Your Customers Today
             </h2>
-            <p class="text-xl text-slate-600">
-                Everything you need to turn reviews into revenue. No hidden fees, no surprises.
+            <p class="text-xl text-slate-600 animate-on-scroll animate-fade-up stagger-2">
+                One plan with everything you need. No hidden fees, no surprises.
             </p>
         </div>
 
-        <div class="max-w-4xl mx-auto">
-            <!-- Main Pricing Card -->
-            <div class="bg-white/80 backdrop-blur-sm rounded-3xl shadow-2xl border border-blue-200/50 overflow-hidden relative">
-                <!-- Popular Badge -->
-                <div class="absolute top-0 right-0 bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-6 py-2 rounded-bl-2xl text-sm font-semibold shadow-lg">
+        <div class="relative animate-on-scroll animate-fade-up stagger-3">
+            <div class="absolute inset-0 bg-gradient-to-r from-emerald-500 to-cyan-500 rounded-3xl blur-xl opacity-20"></div>
+            <div class="relative bg-white rounded-3xl shadow-2xl shadow-slate-900/10 overflow-hidden border border-slate-200">
+                <div class="absolute top-6 right-6">
+                    <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-gradient-to-r from-emerald-500 to-cyan-500 text-white text-sm font-semibold">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                        </svg>
                     Most Popular
+                    </span>
                 </div>
                 
-                <div class="p-8 md:p-12">
-                    <div class="text-center mb-8">
-                        <h3 class="text-3xl font-bold text-slate-900 mb-4">Restaurant Analytics Pro</h3>
-                        <div class="flex items-baseline justify-center mb-6">
-                            <span class="text-6xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">$9</span>
-                            <span class="text-xl text-slate-600 ml-2">/month</span>
+                <div class="p-10">
+                    <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-8 mb-10">
+                        <div>
+                            <h3 class="font-display text-2xl font-bold text-slate-900 mb-2">Restaurant Analytics Pro</h3>
+                            <p class="text-slate-600">Everything you need to turn reviews into insights</p>
                         </div>
-                        <p class="text-slate-600 text-lg">Perfect for restaurants serious about growth</p>
+                        <div class="flex items-baseline gap-2">
+                            <span class="font-display text-6xl font-bold gradient-text">$9</span>
+                            <span class="text-slate-500">/month</span>
+                        </div>
                     </div>
 
-                    <!-- Features List -->
-                    <div class="grid md:grid-cols-2 gap-8 mb-8">
+                    <div class="grid md:grid-cols-2 gap-6 mb-10">
                         <div class="space-y-4">
-                            <h4 class="text-lg font-semibold text-slate-900 mb-4">What's Included:</h4>
-                            <div class="space-y-3">
-                                <div class="flex items-start">
-                                    <div class="w-5 h-5 bg-gradient-to-r from-green-400 to-emerald-500 rounded-full flex items-center justify-center mr-3 mt-0.5">
-                                        <svg class="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
-                                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                            <div class="flex items-center gap-3">
+                                <div class="w-5 h-5 rounded-full bg-gradient-to-r from-emerald-400 to-cyan-400 flex items-center justify-center">
+                                    <svg class="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" />
                                         </svg>
-                                    </div>
-                                    <span class="text-slate-700">6 months of historic data</span>
                                 </div>
-                                <div class="flex items-start">
-                                    <div class="w-5 h-5 bg-gradient-to-r from-green-400 to-emerald-500 rounded-full flex items-center justify-center mr-3 mt-0.5">
-                                        <svg class="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
-                                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                <span class="text-slate-700">AI complaint extraction</span>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <div class="w-5 h-5 rounded-full bg-gradient-to-r from-emerald-400 to-cyan-400 flex items-center justify-center">
+                                    <svg class="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" />
                                         </svg>
-                                    </div>
-                                    <span class="text-slate-700">Up to 2,000 reviews</span>
                                 </div>
-                                <div class="flex items-start">
-                                    <div class="w-5 h-5 bg-gradient-to-r from-green-400 to-emerald-500 rounded-full flex items-center justify-center mr-3 mt-0.5">
-                                        <svg class="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
-                                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                <span class="text-slate-700">Suggestion mining</span>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <div class="w-5 h-5 rounded-full bg-gradient-to-r from-emerald-400 to-cyan-400 flex items-center justify-center">
+                                    <svg class="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" />
                                         </svg>
-                                    </div>
-                                    <span class="text-slate-700">AI-powered sentiment analysis</span>
                                 </div>
-                                <div class="flex items-start">
-                                    <div class="w-5 h-5 bg-gradient-to-r from-green-400 to-emerald-500 rounded-full flex items-center justify-center mr-3 mt-0.5">
-                                        <svg class="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
-                                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                <span class="text-slate-700">Weekly/monthly email reports</span>
+                                    </div>
+                            <div class="flex items-center gap-3">
+                                <div class="w-5 h-5 rounded-full bg-gradient-to-r from-emerald-400 to-cyan-400 flex items-center justify-center">
+                                    <svg class="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" />
                                         </svg>
-                                    </div>
-                                    <span class="text-slate-700">Complaint & suggestion extraction</span>
                                 </div>
-                                <div class="flex items-start">
-                                    <div class="w-5 h-5 bg-gradient-to-r from-green-400 to-emerald-500 rounded-full flex items-center justify-center mr-3 mt-0.5">
-                                        <svg class="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
-                                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
-                                        </svg>
-                                    </div>
-                                    <span class="text-slate-700">Executive dashboard & reports</span>
-                                </div>
+                                <span class="text-slate-700">6 months historic data</span>
                             </div>
                         </div>
-                        
                         <div class="space-y-4">
-                            <h4 class="text-lg font-semibold text-slate-900 mb-4">Additional Benefits:</h4>
-                            <div class="space-y-3">
-                                <div class="flex items-start">
-                                    <div class="w-5 h-5 bg-gradient-to-r from-green-400 to-emerald-500 rounded-full flex items-center justify-center mr-3 mt-0.5">
-                                        <svg class="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
-                                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                            <div class="flex items-center gap-3">
+                                <div class="w-5 h-5 rounded-full bg-gradient-to-r from-emerald-400 to-cyan-400 flex items-center justify-center">
+                                    <svg class="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" />
                                         </svg>
-                                    </div>
-                                    <span class="text-slate-700">Real-time alerts & notifications</span>
                                 </div>
-                                <div class="flex items-start">
-                                    <div class="w-5 h-5 bg-gradient-to-r from-green-400 to-emerald-500 rounded-full flex items-center justify-center mr-3 mt-0.5">
-                                        <svg class="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
-                                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                <span class="text-slate-700">All 4 platform integrations</span>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <div class="w-5 h-5 rounded-full bg-gradient-to-r from-emerald-400 to-cyan-400 flex items-center justify-center">
+                                    <svg class="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" />
                                         </svg>
-                                    </div>
-                                    <span class="text-slate-700">Priority customer support</span>
                                 </div>
-                                <div class="flex items-start">
-                                    <div class="w-5 h-5 bg-gradient-to-r from-green-400 to-emerald-500 rounded-full flex items-center justify-center mr-3 mt-0.5">
-                                        <svg class="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
-                                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                <span class="text-slate-700">Up to 2,000 reviews</span>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <div class="w-5 h-5 rounded-full bg-gradient-to-r from-emerald-400 to-cyan-400 flex items-center justify-center">
+                                    <svg class="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" />
                                         </svg>
-                                    </div>
-                                    <span class="text-slate-700">30-day money-back guarantee</span>
                                 </div>
-                                <div class="flex items-start">
-                                    <div class="w-5 h-5 bg-gradient-to-r from-green-400 to-emerald-500 rounded-full flex items-center justify-center mr-3 mt-0.5">
-                                        <svg class="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
-                                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
-                                        </svg>
-                                    </div>
-                                    <span class="text-slate-700">No setup fees or hidden costs</span>
-                                </div>
-                                <div class="flex items-start">
-                                    <div class="w-5 h-5 bg-gradient-to-r from-green-400 to-emerald-500 rounded-full flex items-center justify-center mr-3 mt-0.5">
-                                        <svg class="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
-                                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                <span class="text-slate-700">Priority support</span>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <div class="w-5 h-5 rounded-full bg-gradient-to-r from-emerald-400 to-cyan-400 flex items-center justify-center">
+                                    <svg class="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" />
                                         </svg>
                                     </div>
                                     <span class="text-slate-700">Cancel anytime</span>
-                                </div>
                             </div>
                         </div>
                     </div>
 
-                    <!-- CTA Buttons -->
-                    <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                    <div class="flex flex-col sm:flex-row gap-4">
                         <% if user_signed_in? %>
-                            <%= link_to "Go to Dashboard", dashboard_path, class: "inline-flex items-center justify-center px-8 py-4 border border-transparent text-lg font-medium rounded-md text-white bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 transition duration-150 ease-in-out shadow-lg hover:shadow-xl" %>
+                            <%= link_to "Go to Dashboard", dashboard_path, class: "flex-1 inline-flex items-center justify-center gap-2 px-8 py-4 text-lg font-semibold text-white bg-gradient-to-r from-emerald-500 to-cyan-500 rounded-xl hover:shadow-xl hover:shadow-emerald-500/30 transition-all duration-300" %>
                         <% else %>
-                            <%= link_to "Start Free Trial", new_user_registration_path, class: "inline-flex items-center justify-center px-8 py-4 border border-transparent text-lg font-medium rounded-md text-white bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 transition duration-150 ease-in-out shadow-lg hover:shadow-xl" %>
+                            <%= link_to new_user_registration_path, class: "flex-1 inline-flex items-center justify-center gap-2 px-8 py-4 text-lg font-semibold text-white bg-gradient-to-r from-emerald-500 to-cyan-500 rounded-xl hover:shadow-xl hover:shadow-emerald-500/30 transition-all duration-300" do %>
+                                Start Free Trial
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                                </svg>
+                            <% end %>
+                            <%= link_to "Request Demo", new_demo_request_path, class: "flex-1 inline-flex items-center justify-center px-8 py-4 text-lg font-semibold text-slate-700 bg-slate-100 border-2 border-slate-200 rounded-xl hover:bg-slate-50 hover:border-slate-300 transition-all duration-300" %>
                         <% end %>
                     </div>
 
-                    <!-- Additional Info -->
-                    <div class="mt-8 text-center">
-                        <p class="text-slate-600 mb-4">
-                            <strong>Need more historic data?</strong> We offer custom pricing for restaurants requiring extended data access.
-                        </p>
-                        <p class="text-sm text-slate-500">
-                            Still unsure? Book a demo and we'll make you feel at home. No pressure, just insights.
-                        </p>
-                    </div>
+                    <p class="text-center text-sm text-slate-500 mt-6">
+                        30-day money-back guarantee. No credit card required for trial.
+                    </p>
                 </div>
             </div>
         </div>
     </div>
 </section>
 
+<!-- CTA Section -->
+<section class="py-24 bg-gradient-to-br from-emerald-600 via-emerald-500 to-cyan-500 relative overflow-hidden">
+    <div class="absolute inset-0">
+        <div class="absolute top-0 right-0 w-96 h-96 bg-white/10 rounded-full blur-3xl"></div>
+        <div class="absolute bottom-0 left-0 w-96 h-96 bg-white/10 rounded-full blur-3xl"></div>
+    </div>
+    
+    <div class="relative max-w-4xl mx-auto px-6 lg:px-8 text-center">
+        <h2 class="font-display text-4xl lg:text-5xl font-bold text-white mb-6 animate-on-scroll animate-fade-up">
+            Ready to Understand Your Customers Better?
+        </h2>
+        <p class="text-xl text-white/90 mb-10 animate-on-scroll animate-fade-up stagger-1">
+            Join hundreds of restaurant owners who've transformed their customer feedback into actionable growth strategies.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center animate-on-scroll animate-fade-up stagger-2">
+            <% if user_signed_in? %>
+                <%= link_to "Go to Dashboard", dashboard_path, class: "inline-flex items-center justify-center gap-2 px-8 py-4 text-lg font-semibold text-emerald-600 bg-white rounded-xl hover:shadow-2xl hover:shadow-white/20 transition-all duration-300 hover:-translate-y-1" %>
+            <% else %>
+                <%= link_to new_user_registration_path, class: "inline-flex items-center justify-center gap-2 px-8 py-4 text-lg font-semibold text-emerald-600 bg-white rounded-xl hover:shadow-2xl hover:shadow-white/20 transition-all duration-300 hover:-translate-y-1" do %>
+                    Start Your Free Trial
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                    </svg>
+                <% end %>
+            <% end %>
+        </div>
+    </div>
+</section>
+
   <!-- Footer -->
-<footer class="bg-gray-900 text-white">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-        <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
-            <div class="col-span-1 md:col-span-2">
-        <h3 class="text-2xl font-bold mb-4">Tablr</h3>
-                <p class="text-gray-400 mb-6 max-w-md">
-                    Turn restaurant reviews into actionable insights. Understand your customers better and improve their experience with AI-powered analytics.
-                </p>
-                <div class="flex space-x-4">
-                    <a href="#" class="text-gray-400 hover:text-white transition-colors">
-                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+<footer class="bg-slate-900 pt-16 pb-8">
+    <div class="max-w-7xl mx-auto px-6 lg:px-8">
+        <div class="grid md:grid-cols-4 gap-12 mb-12">
+            <div class="md:col-span-2">
+                <div class="flex items-center gap-2 mb-4">
+                    <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-emerald-500 to-cyan-500 flex items-center justify-center">
+                        <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
                         </svg>
+                    </div>
+                    <span class="font-display font-semibold text-xl text-white">Tablr</span>
+                </div>
+                <p class="text-slate-400 max-w-sm mb-6">
+                    Transform customer reviews into actionable insights. AI-powered intelligence for restaurant owners who care about their guests.
+                </p>
+                <div class="flex gap-4">
+                    <a href="#" class="w-10 h-10 rounded-lg bg-slate-800 flex items-center justify-center text-slate-400 hover:text-white hover:bg-slate-700 transition-colors">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+                    </a>
+                    <a href="#" class="w-10 h-10 rounded-lg bg-slate-800 flex items-center justify-center text-slate-400 hover:text-white hover:bg-slate-700 transition-colors">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
                     </a>
                 </div>
             </div>
             
             <div>
-                <h4 class="text-lg font-semibold mb-4">Product</h4>
-                <ul class="space-y-2">
-                    <li><a href="#features" class="text-gray-400 hover:text-white transition-colors">Features</a></li>
-                    <li><a href="#pricing" class="text-gray-400 hover:text-white transition-colors">Pricing</a></li>
-                    <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Integrations</a></li>
-                    <li><a href="#" class="text-gray-400 hover:text-white transition-colors">API</a></li>
+                <h4 class="font-semibold text-white mb-4">Product</h4>
+                <ul class="space-y-3">
+                    <li><a href="#features" class="text-slate-400 hover:text-white transition-colors">Features</a></li>
+                    <li><a href="#integrations" class="text-slate-400 hover:text-white transition-colors">Integrations</a></li>
+                    <li><a href="#pricing" class="text-slate-400 hover:text-white transition-colors">Pricing</a></li>
                 </ul>
             </div>
             
             <div>
-                <h4 class="text-lg font-semibold mb-4">Support</h4>
-                <ul class="space-y-2">
-                    <li><a href="#" onclick="openCustomerSupportModal()" class="text-gray-400 hover:text-white transition-colors cursor-pointer">Customer Support</a></li>
-                    <li><%= link_to "Request Demo", new_demo_request_path, class: "text-gray-400 hover:text-white transition-colors" %></li>
-                    <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Privacy Policy</a></li>
-                    <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Terms of Service</a></li>
+                <h4 class="font-semibold text-white mb-4">Support</h4>
+                <ul class="space-y-3">
+                    <li><a href="mailto:hello@tablr.io" class="text-slate-400 hover:text-white transition-colors">Contact Us</a></li>
+                    <li><%= link_to "Request Demo", new_demo_request_path, class: "text-slate-400 hover:text-white transition-colors" %></li>
+                    <li><a href="#" class="text-slate-400 hover:text-white transition-colors">Privacy Policy</a></li>
+                    <li><a href="#" class="text-slate-400 hover:text-white transition-colors">Terms of Service</a></li>
                 </ul>
             </div>
         </div>
         
-        <div class="mt-12 pt-8 border-t border-gray-800 text-center">
-            <p class="text-gray-400">© 2024 Tablr. All rights reserved.</p>
+        <div class="pt-8 border-t border-slate-800 text-center">
+            <p class="text-slate-500">&copy; <%= Time.current.year %> Tablr. All rights reserved.</p>
       </div>
     </div>
   </footer>
 
-<!-- Customer Support Modal -->
-<div data-controller="modal" data-modal-target="modal" id="customer-support-modal" class="fixed inset-0 z-50 hidden" aria-labelledby="modal-title" role="dialog" aria-modal="true">
-  <!-- Backdrop -->
-  <div onclick="closeCustomerSupportModal()" class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
-
-  <!-- Modal container -->
-  <div class="fixed inset-0 z-10 overflow-y-auto">
-    <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
-      <!-- Modal panel -->
-      <div onclick="event.stopPropagation()" class="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 w-full max-w-md">
-        <!-- Header -->
-        <div class="bg-white px-6 py-4 border-b border-gray-200">
-          <div class="flex items-center justify-between">
-            <h3 class="text-lg font-semibold text-gray-900" id="modal-title">
-              Customer Support
-            </h3>
-            <button type="button" onclick="closeCustomerSupportModal()" class="rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
-              <span class="sr-only">Close</span>
-              <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-              </svg>
-            </button>
-          </div>
-        </div>
-
-        <!-- Content -->
-        <div class="bg-white px-6 py-6">
-          <div class="text-center">
-            <div class="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-indigo-100 mb-4">
-              <svg class="h-6 w-6 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
-              </svg>
-            </div>
-            <h4 class="text-lg font-medium text-gray-900 mb-2">Need Help?</h4>
-            <p class="text-sm text-gray-600 mb-4">
-              Get in touch with our support team for assistance with your account, billing questions, or technical issues.
-            </p>
-            <div class="bg-gray-50 rounded-lg p-4">
-              <p class="text-sm font-medium text-gray-700 mb-2">Email us at:</p>
-              <a href="mailto:hello@tablr.io" class="text-indigo-600 hover:text-indigo-800 font-semibold text-lg">
-                hello@tablr.io
-              </a>
-            </div>
-            <p class="text-xs text-gray-500 mt-3">
-              We typically respond within 24 hours during business days.
-            </p>
-          </div>
-        </div>
-
-        <!-- Footer -->
-        <div class="bg-gray-50 px-6 py-4 flex justify-center">
-          <button type="button" onclick="closeCustomerSupportModal()" class="inline-flex justify-center items-center rounded-md bg-indigo-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
-            Got it, thanks!
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<script>
-function openCustomerSupportModal() {
-  const modal = document.getElementById('customer-support-modal');
-  modal.classList.remove('hidden');
-  document.body.style.overflow = 'hidden';
-  modal.focus();
-}
-
-function closeCustomerSupportModal() {
-  const modal = document.getElementById('customer-support-modal');
-  modal.classList.add('hidden');
-  document.body.style.overflow = '';
-}
-
-// Close modal when clicking outside or pressing Escape
-document.addEventListener('keydown', function(e) {
-  if (e.key === 'Escape') {
-    closeCustomerSupportModal();
-  }
-});
-</script> 

@@ -26,17 +26,12 @@ Rails.application.routes.draw do
   get '/payment/processing', to: 'payment#processing', as: :payment_processing
   get '/data/processing', to: 'home#data_processing', as: :data_processing
   post '/webhooks/lemonsqueezy', to: 'payment#lemonsqueezy_webhook', as: :lemonsqueezy_webhook
-  get 'analytics', to: 'analytics#index'
   get 'restaurant', to: 'home#restaurant', as: :restaurant
   get 'settings', to: 'settings#edit', as: :settings
   get 'support', to: 'support#index', as: :support
   patch 'settings/update_email_notification_period', to: 'settings#update_email_notification_period', as: :update_email_notification_period
-  resources :reviews, only: [:index, :show]
   resources :complains, only: [:index]
   resources :suggestions, only: [:index]
-  namespace :sentiment_analysis do
-    resources :categories, only: [:index, :show]
-  end
   resources :notifications, only: [] do
     member do
       patch :mark_read

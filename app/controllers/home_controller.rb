@@ -15,23 +15,31 @@ class HomeController < DashboardController
     @previous_start_date = @start_date - @duration_days.days
     @previous_end_date = @start_date - 1.day
     
-    # Calculate current period ratings
-    @current_ratings = calculate_ratings(@start_date, @end_date)
+    # Calculate current period complaint count
+    @current_complaints_count = complaints_count(@start_date, @end_date)
+    @previous_complaints_count = complaints_count(@previous_start_date, @previous_end_date)
+    @complaint_change = calculate_change(@current_complaints_count, @previous_complaints_count)
     
-    # Calculate previous period ratings for comparison
-    @previous_ratings = calculate_ratings(@previous_start_date, @previous_end_date)
+    # Calculate current period suggestion count
+    @current_suggestions_count = suggestions_count(@start_date, @end_date)
+    @previous_suggestions_count = suggestions_count(@previous_start_date, @previous_end_date)
+    @suggestion_change = calculate_change(@current_suggestions_count, @previous_suggestions_count)
     
-    # Calculate percentage changes for ratings
-    @rating_changes = calculate_rating_changes(@current_ratings, @previous_ratings)
+    # Get top complaint categories
+    @top_complaint_categories = Complain.joins(:category, review: :place)
+                                        .where(reviews: { published_at: @start_date..@end_date })
+                                        .group('categories.name')
+                                        .order('count_all DESC')
+                                        .limit(5)
+                                        .count
     
-    # Calculate current period review counts
-    @current_reviews = calculate_review_counts(@start_date, @end_date)
-    
-    # Calculate previous period review counts for comparison
-    @previous_reviews = calculate_review_counts(@previous_start_date, @previous_end_date)
-    
-    # Calculate percentage changes for reviews
-    @review_changes = calculate_review_changes(@current_reviews, @previous_reviews)
+    # Get top suggestion categories
+    @top_suggestion_categories = Suggestion.joins(:category, review: :place)
+                                           .where(reviews: { published_at: @start_date..@end_date })
+                                           .group('categories.name')
+                                           .order('count_all DESC')
+                                           .limit(5)
+                                           .count
   end
 
   def restaurant
@@ -74,78 +82,26 @@ class HomeController < DashboardController
   
   private
   
-  def calculate_ratings(start_date, end_date)
-    reviews = Review.joins(:place)
-                   .where(published_at: start_date..end_date)
-                   .where.not(food_rating: nil, service_rating: nil, atmosphere_rating: nil)
-    
-    return default_ratings if reviews.empty?
-    
-    {
-      overall: reviews.average(:stars)&.round(1) || 0,
-      food: reviews.average(:food_rating)&.round(1) || 0,
-      service: reviews.average(:service_rating)&.round(1) || 0,
-      atmosphere: reviews.average(:atmosphere_rating)&.round(1) || 0
-    }
+  def complaints_count(start_date, end_date)
+    Complain.joins(review: :place)
+            .where(reviews: { published_at: start_date..end_date })
+            .count
   end
   
-  def calculate_review_counts(start_date, end_date)
-    reviews = Review.joins(:place).where(published_at: start_date..end_date)
-    
-    {
-      total: reviews.count,
-      positive: reviews.where(sentiment: :positive).count,
-      negative: reviews.where(sentiment: :negative).count,
-      neutral: reviews.where(sentiment: :neutral).count
-    }
+  def suggestions_count(start_date, end_date)
+    Suggestion.joins(review: :place)
+              .where(reviews: { published_at: start_date..end_date })
+              .count
   end
   
-  def calculate_rating_changes(current, previous)
-    changes = {}
-    
-    current.each do |key, current_value|
-      previous_value = previous[key]
-      
-      if previous_value && previous_value > 0
-        change = ((current_value - previous_value) / previous_value * 100).round(1)
-        changes[key] = {
-          value: change,
-          positive: change >= 0
-        }
-      else
-        changes[key] = { value: 0, positive: true }
-      end
+  def calculate_change(current_value, previous_value)
+    if previous_value && previous_value > 0
+      change = ((current_value - previous_value) / previous_value.to_f * 100).round(1)
+      { value: change, positive: change >= 0 }
+    elsif current_value > 0
+      { value: 100, positive: true }
+    else
+      { value: 0, positive: true }
     end
-    
-    changes
-  end
-  
-  def calculate_review_changes(current, previous)
-    changes = {}
-    
-    current.each do |key, current_value|
-      previous_value = previous[key]
-      
-      if previous_value && previous_value > 0
-        change = ((current_value - previous_value) / previous_value.to_f * 100).round(1)
-        changes[key] = {
-          value: change,
-          positive: change >= 0
-        }
-      else
-        # If previous value is 0 but current value > 0, show as 100% increase
-        if current_value > 0
-          changes[key] = { value: 100, positive: true }
-        else
-          changes[key] = { value: 0, positive: true }
-        end
-      end
-    end
-    
-    changes
-  end
-  
-  def default_ratings
-    { overall: 0, food: 0, service: 0, atmosphere: 0 }
   end
 end

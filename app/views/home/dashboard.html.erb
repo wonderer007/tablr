@@ -1,4 +1,4 @@
-<%# Dashboard View - Rating Analytics with Date Range Filtering %>
+<%# Dashboard View - Complaints & Suggestions Analytics with Date Range Filtering %>
 
 <% content_for :title, "Dashboard - Tablr" %>
 
@@ -6,423 +6,224 @@
 <div class="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-50">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
     <div class="space-y-8">
-  <!-- Page Header with Date Range Picker -->
-  <div class="md:flex md:items-center md:justify-between">
-    <div class="min-w-0 flex-1">
-      <div class="flex items-center space-x-3">
-        <h1 class="text-2xl sm:text-3xl font-semibold text-gray-900" id="dashboard-title">
-          Dashboard
-        </h1>
+      <!-- Page Header with Date Range Picker -->
+      <div class="md:flex md:items-center md:justify-between">
+        <div class="min-w-0 flex-1">
+          <div class="flex items-center space-x-3">
+            <h1 class="text-2xl sm:text-3xl font-semibold text-gray-900" id="dashboard-title">
+              Dashboard
+            </h1>
+            <div class="relative group">
+              <svg class="h-5 w-5 text-gray-400 hover:text-gray-600 cursor-help" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z" />
+              </svg>
+              <!-- Tooltip -->
+              <div class="invisible group-hover:visible absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-3 py-2 text-sm text-white bg-gray-900 rounded-lg shadow-lg whitespace-nowrap z-10">
+                Showing data from <strong><%= @start_date.strftime('%B %d, %Y') %></strong> to 
+                <strong><%= @end_date.strftime('%B %d, %Y') %></strong> 
+                (<%= @duration_days %> days). Changes compared to previous <%= @duration_days %> days.
+                <!-- Tooltip arrow -->
+                <div class="absolute top-full left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-l-transparent border-r-transparent border-t-gray-900"></div>
+              </div>
+            </div>
+          </div>
+          <p class="mt-2 text-sm text-gray-700">Monitor customer complaints and suggestions over time.</p>
+        </div>
+        
+        <!-- Date Range Filter -->
+        <div class="mt-4 flex md:ml-4 md:mt-0">
+          <%= form_with url: dashboard_path, method: :get, local: true, class: "flex items-center space-x-2" do |form| %>
+            <div data-controller="date-range" 
+                 data-date-range-start-date-value="<%= @start_date.strftime('%Y-%m-%d') %>"
+                 data-date-range-end-date-value="<%= @end_date.strftime('%Y-%m-%d') %>"
+                 class="relative">
+              
+              <input type="text" 
+                     data-date-range-target="input"
+                     placeholder="Select date range"
+                     class="block w-72 h-11 rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                     readonly>
+              
+              <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+                <svg class="h-4 w-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25m-10.5 0V3h7.5v2.25m-7.5 0h7.5m-7.5 0v17.25M17.25 5.25v2.25M6.75 5.25h10.5v14.25H6.75V5.25z" />
+                </svg>
+              </div>
+              
+              <%= form.hidden_field :start_date, data: { "date-range-target": "startDate" } %>
+              <%= form.hidden_field :end_date, data: { "date-range-target": "endDate" } %>
+            </div>
+            
+            <%= form.submit "Filter", class: "inline-flex h-11 items-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600" %>
+
+            <a href="<%= dashboard_path %>" 
+               data-action="click->date-range#clear"
+               class="inline-flex items-center h-11 rounded-md bg-gray-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-gray-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-600">
+              Clear
+            </a>
+          <% end %>
+        </div>
+      </div>
+
+      <!-- Overview Stats -->
+      <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
+        <!-- Total Complaints Card -->
         <div class="relative group">
-          <svg class="h-5 w-5 text-gray-400 hover:text-gray-600 cursor-help" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z" />
-          </svg>
-          <!-- Tooltip -->
-          <div class="invisible group-hover:visible absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-3 py-2 text-sm text-white bg-gray-900 rounded-lg shadow-lg whitespace-nowrap z-10">
-            Showing data from <strong><%= @start_date.strftime('%B %d, %Y') %></strong> to 
-            <strong><%= @end_date.strftime('%B %d, %Y') %></strong> 
-            (<%= @duration_days %> days). Changes compared to previous <%= @duration_days %> days.
-            <!-- Tooltip arrow -->
-            <div class="absolute top-full left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-l-transparent border-r-transparent border-t-gray-900"></div>
+          <div class="bg-gradient-to-br from-red-50 to-red-100 rounded-2xl p-8 border border-red-200 hover:shadow-xl transition-all duration-200 hover:scale-[1.02]">
+            <div class="flex items-center justify-between mb-6">
+              <div class="flex items-center space-x-4">
+                <div class="p-3 bg-gradient-to-br from-red-500 to-red-600 rounded-xl shadow-lg">
+                  <svg class="w-8 h-8 text-white" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z" />
+                  </svg>
+                </div>
+                <div>
+                  <h4 class="text-lg font-semibold text-red-900">Total Complaints</h4>
+                  <p class="text-sm text-red-600">Last <%= @duration_days %> days</p>
+                </div>
+              </div>
+              <% if @complaint_change[:value] != 0 %>
+                <div class="flex items-center space-x-1 px-3 py-1.5 rounded-full <%= @complaint_change[:positive] ? 'bg-red-200 text-red-800' : 'bg-green-100 text-green-800' %>">
+                  <% if @complaint_change[:positive] %>
+                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                      <path fill-rule="evenodd" d="M10 17a.75.75 0 01-.75-.75V5.612L5.29 9.77a.75.75 0 01-1.08-1.04l5.25-5.5a.75.75 0 011.08 0l5.25 5.5a.75.75 0 11-1.08 1.04l-3.96-4.158V16.25A.75.75 0 0110 17z" clip-rule="evenodd" />
+                    </svg>
+                  <% else %>
+                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                      <path fill-rule="evenodd" d="M10 3a.75.75 0 01.75.75v10.638l3.96-4.158a.75.75 0 111.08 1.04l-5.25 5.5a.75.75 0 01-1.08 0l-5.25-5.5a.75.75 0 111.08-1.04l-3.96 4.158V3.75A.75.75 0 0110 3z" clip-rule="evenodd" />
+                    </svg>
+                  <% end %>
+                  <span class="text-sm font-semibold"><%= @complaint_change[:value].abs %>%</span>
+                </div>
+              <% end %>
+            </div>
+            <div class="flex items-baseline space-x-3">
+              <span class="text-5xl font-bold text-red-900"><%= number_with_delimiter(@current_complaints_count) %></span>
+              <span class="text-lg text-red-600">complaints</span>
+            </div>
+            <div class="mt-6">
+              <a href="<%= complains_path %>" class="inline-flex items-center text-sm font-medium text-red-600 hover:text-red-800 transition-colors">
+                View all complaints
+                <svg class="ml-1 w-4 h-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+                </svg>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Total Suggestions Card -->
+        <div class="relative group">
+          <div class="bg-gradient-to-br from-amber-50 to-amber-100 rounded-2xl p-8 border border-amber-200 hover:shadow-xl transition-all duration-200 hover:scale-[1.02]">
+            <div class="flex items-center justify-between mb-6">
+              <div class="flex items-center space-x-4">
+                <div class="p-3 bg-gradient-to-br from-amber-500 to-amber-600 rounded-xl shadow-lg">
+                  <svg class="w-8 h-8 text-white" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 18v-5.25m0 0a6.01 6.01 0 0 0 1.5-.189m-1.5.189a6.01 6.01 0 0 1-1.5-.189m3.75 7.478a12.06 12.06 0 0 1-4.5 0m3.75 2.383a14.406 14.406 0 0 1-3 0M14.25 18v-.192c0-.983.658-1.823 1.508-2.316a7.5 7.5 0 1 0-7.517 0c.85.493 1.509 1.333 1.509 2.316V18" />
+                  </svg>
+                </div>
+                <div>
+                  <h4 class="text-lg font-semibold text-amber-900">Total Suggestions</h4>
+                  <p class="text-sm text-amber-600">Last <%= @duration_days %> days</p>
+                </div>
+              </div>
+              <% if @suggestion_change[:value] != 0 %>
+                <div class="flex items-center space-x-1 px-3 py-1.5 rounded-full <%= @suggestion_change[:positive] ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' %>">
+                  <% if @suggestion_change[:positive] %>
+                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                      <path fill-rule="evenodd" d="M10 17a.75.75 0 01-.75-.75V5.612L5.29 9.77a.75.75 0 01-1.08-1.04l5.25-5.5a.75.75 0 011.08 0l5.25 5.5a.75.75 0 11-1.08 1.04l-3.96-4.158V16.25A.75.75 0 0110 17z" clip-rule="evenodd" />
+                    </svg>
+                  <% else %>
+                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                      <path fill-rule="evenodd" d="M10 3a.75.75 0 01.75.75v10.638l3.96-4.158a.75.75 0 111.08 1.04l-5.25 5.5a.75.75 0 01-1.08 0l-5.25-5.5a.75.75 0 111.08-1.04l-3.96 4.158V3.75A.75.75 0 0110 3z" clip-rule="evenodd" />
+                    </svg>
+                  <% end %>
+                  <span class="text-sm font-semibold"><%= @suggestion_change[:value].abs %>%</span>
+                </div>
+              <% end %>
+            </div>
+            <div class="flex items-baseline space-x-3">
+              <span class="text-5xl font-bold text-amber-900"><%= number_with_delimiter(@current_suggestions_count) %></span>
+              <span class="text-lg text-amber-600">suggestions</span>
+            </div>
+            <div class="mt-6">
+              <a href="<%= suggestions_path %>" class="inline-flex items-center text-sm font-medium text-amber-600 hover:text-amber-800 transition-colors">
+                View all suggestions
+                <svg class="ml-1 w-4 h-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+                </svg>
+              </a>
+            </div>
           </div>
         </div>
       </div>
-      <p class="mt-2 text-sm text-gray-700">Monitor your ratings and reviews performance and trends over time.</p>
-    </div>
-    
-    <!-- Date Range Filter -->
-    <div class="mt-4 flex md:ml-4 md:mt-0">
-      <%= form_with url: dashboard_path, method: :get, local: true, class: "flex items-center space-x-2" do |form| %>
-        <div data-controller="date-range" 
-             data-date-range-start-date-value="<%= @start_date.strftime('%Y-%m-%d') %>"
-             data-date-range-end-date-value="<%= @end_date.strftime('%Y-%m-%d') %>"
-             class="relative">
-          
-          <input type="text" 
-                 data-date-range-target="input"
-                 placeholder="Select date range"
-                 class="block w-72 h-11 rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                 readonly>
-          
-          <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
-            <svg class="h-4 w-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25m-10.5 0V3h7.5v2.25m-7.5 0h7.5m-7.5 0v17.25M17.25 5.25v2.25M6.75 5.25h10.5v14.25H6.75V5.25z" />
-            </svg>
+
+      <!-- Categories Breakdown -->
+      <div class="grid grid-cols-1 gap-6 lg:grid-cols-2">
+        <!-- Top Complaint Categories -->
+        <div class="bg-white rounded-2xl shadow-xl border border-gray-100 p-8">
+          <div class="mb-6">
+            <h3 class="text-xl font-bold text-gray-900 mb-2">Top Complaint Categories</h3>
+            <p class="text-gray-600">Most common issues from customer feedback</p>
           </div>
           
-          <%= form.hidden_field :start_date, data: { "date-range-target": "startDate" } %>
-          <%= form.hidden_field :end_date, data: { "date-range-target": "endDate" } %>
+          <% if @top_complaint_categories.any? %>
+            <div class="space-y-4">
+              <% max_count = @top_complaint_categories.values.max %>
+              <% @top_complaint_categories.each do |category_name, count| %>
+                <div class="group">
+                  <div class="flex items-center justify-between mb-2">
+                    <span class="text-sm font-medium text-gray-700 group-hover:text-gray-900 transition-colors"><%= category_name %></span>
+                    <span class="text-sm font-semibold text-red-600"><%= count %></span>
+                  </div>
+                  <div class="w-full bg-red-100 rounded-full h-2.5">
+                    <div class="bg-gradient-to-r from-red-400 to-red-600 h-2.5 rounded-full transition-all duration-500" style="width: <%= (count.to_f / max_count * 100).round %>%"></div>
+                  </div>
+                </div>
+              <% end %>
+            </div>
+          <% else %>
+            <div class="text-center py-12">
+              <svg class="mx-auto h-12 w-12 text-gray-300" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5m6 4.125l2.25 2.25m0 0l2.25 2.25M12 13.875l2.25-2.25M12 13.875l-2.25 2.25M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z" />
+              </svg>
+              <p class="mt-4 text-gray-500">No complaints in this period</p>
+            </div>
+          <% end %>
         </div>
-        
-        <%= form.submit "Filter", class: "inline-flex h-11 items-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600" %>
 
-        <a href="<%= dashboard_path %>" 
-                data-action="click->date-range#clear"
-                class="inline-flex items-center h-11 rounded-md bg-gray-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-gray-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-600">
-          Clear
-        </a>
-        
-      <% end %>
+        <!-- Top Suggestion Categories -->
+        <div class="bg-white rounded-2xl shadow-xl border border-gray-100 p-8">
+          <div class="mb-6">
+            <h3 class="text-xl font-bold text-gray-900 mb-2">Top Suggestion Categories</h3>
+            <p class="text-gray-600">Most requested improvements from customers</p>
+          </div>
+          
+          <% if @top_suggestion_categories.any? %>
+            <div class="space-y-4">
+              <% max_count = @top_suggestion_categories.values.max %>
+              <% @top_suggestion_categories.each do |category_name, count| %>
+                <div class="group">
+                  <div class="flex items-center justify-between mb-2">
+                    <span class="text-sm font-medium text-gray-700 group-hover:text-gray-900 transition-colors"><%= category_name %></span>
+                    <span class="text-sm font-semibold text-amber-600"><%= count %></span>
+                  </div>
+                  <div class="w-full bg-amber-100 rounded-full h-2.5">
+                    <div class="bg-gradient-to-r from-amber-400 to-amber-600 h-2.5 rounded-full transition-all duration-500" style="width: <%= (count.to_f / max_count * 100).round %>%"></div>
+                  </div>
+                </div>
+              <% end %>
+            </div>
+          <% else %>
+            <div class="text-center py-12">
+              <svg class="mx-auto h-12 w-12 text-gray-300" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 18v-5.25m0 0a6.01 6.01 0 0 0 1.5-.189m-1.5.189a6.01 6.01 0 0 1-1.5-.189m3.75 7.478a12.06 12.06 0 0 1-4.5 0m3.75 2.383a14.406 14.406 0 0 1-3 0M14.25 18v-.192c0-.983.658-1.823 1.508-2.316a7.5 7.5 0 1 0-7.517 0c.85.493 1.509 1.333 1.509 2.316V18" />
+              </svg>
+              <p class="mt-4 text-gray-500">No suggestions in this period</p>
+            </div>
+          <% end %>
+        </div>
+      </div>
     </div>
   </div>
-
-
-
-      <!-- Rating Analytics Section -->
-      <div class="bg-white rounded-2xl shadow-xl border border-gray-100 p-8">
-        <div class="mb-8">
-          <h3 class="text-xl font-bold text-gray-900 mb-2">Ratings</h3>
-          <p class="text-gray-600">Last <%= @duration_days %> days overview</p>
-        </div>
-
-        <dl class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-                 <!-- Overall Rating -->
-           <div class="relative group">
-             <div class="bg-gradient-to-br from-indigo-50 to-indigo-100 rounded-xl p-6 border border-indigo-200 hover:shadow-lg transition-all duration-200 hover:scale-105">
-               <div class="flex items-center justify-between mb-4">
-                 <div class="flex items-center space-x-3">
-                   <div class="p-2 bg-gradient-to-br from-indigo-500 to-indigo-600 rounded-lg">
-                     <svg class="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                       <path stroke-linecap="round" stroke-linejoin="round" d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z" />
-                     </svg>
-                   </div>
-                   <div>
-                     <h4 class="text-sm font-medium text-indigo-900">Overall Rating</h4>
-                   </div>
-                 </div>
-                 <% change = @rating_changes[:overall] %>
-                 <% if change[:value] != 0 %>
-                   <div class="flex items-center space-x-1 px-2 py-1 rounded-full <%= change[:positive] ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' %>">
-                     <% if change[:positive] %>
-                       <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
-                         <path fill-rule="evenodd" d="M10 17a.75.75 0 01-.75-.75V5.612L5.29 9.77a.75.75 0 01-1.08-1.04l5.25-5.5a.75.75 0 011.08 0l5.25 5.5a.75.75 0 11-1.08 1.04l-3.96-4.158V16.25A.75.75 0 0110 17z" clip-rule="evenodd" />
-                       </svg>
-                     <% else %>
-                       <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
-                         <path fill-rule="evenodd" d="M10 3a.75.75 0 01.75.75v10.638l3.96-4.158a.75.75 0 111.08 1.04l-5.25 5.5a.75.75 0 01-1.08 0l-5.25-5.5a.75.75 0 111.08-1.04l-3.96 4.158V3.75A.75.75 0 0110 3z" clip-rule="evenodd" />
-                       </svg>
-                     <% end %>
-                     <span class="text-xs font-semibold"><%= change[:value].abs %>%</span>
-                   </div>
-                 <% end %>
-               </div>
-               <div class="flex items-baseline space-x-2">
-                 <span class="text-3xl font-bold text-indigo-900"><%= @current_ratings[:overall] %></span>
-                 <span class="text-sm text-indigo-600">/ 5.0</span>
-               </div>
-               <div class="mt-4">
-                 <a href="<%= reviews_path %>" class="text-sm font-medium text-indigo-600 hover:text-indigo-800 transition-colors">
-                   View all reviews →
-                 </a>
-               </div>
-             </div>
-           </div>
-
-                 <!-- Food Rating -->
-           <div class="relative group">
-             <div class="bg-gradient-to-br from-orange-50 to-orange-100 rounded-xl p-6 border border-orange-200 hover:shadow-lg transition-all duration-200 hover:scale-105">
-               <div class="flex items-center justify-between mb-4">
-                 <div class="flex items-center space-x-3">
-                   <div class="p-2 bg-gradient-to-br from-orange-500 to-orange-600 rounded-lg">
-                     <svg class="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                       <path stroke-linecap="round" stroke-linejoin="round" d="M12 8.25v-1.5m0 1.5c-1.355 0-2.697.056-4.024.166C6.845 8.51 6 9.473 6 10.608v2.513m6-4.87c1.355 0 2.697.055 4.024.165C17.155 8.51 18 9.473 18 10.608v2.513m-3-4.87v-1.5m-6 1.5v-1.5m12 9.75l-1.5.75a3.354 3.354 0 01-3 0 3.354 3.354 0 00-3 0 3.354 3.354 0 01-3 0 3.354 3.354 0 00-3 0 3.354 3.354 0 01-3 0L3 16.5m15-3.38a48.474 48.474 0 00-6-.37c-2.032 0-4.034.125-6 .37m12 0c.39.049.777.102 1.163.16 1.07.16 1.837 1.094 1.837 2.175v5.169c0 .621-.504 1.125-1.125 1.125H4.125A1.125 1.125 0 013 20.625v-5.17c0-1.08.768-2.014 1.837-2.174A47.78 47.78 0 016 13.12M12.265 3.11a.375.375 0 11-.53 0L12 2.845l.265.265zm-3 0a.375.375 0 11-.53 0L9 2.845l.265.265zm6 0a.375.375 0 11-.53 0L15 2.845l.265.265z" />
-                     </svg>
-                   </div>
-                   <div>
-                     <h4 class="text-sm font-medium text-orange-900">Food Rating</h4>
-                   </div>
-                 </div>
-                 <% change = @rating_changes[:food] %>
-                 <% if change[:value] != 0 %>
-                   <div class="flex items-center space-x-1 px-2 py-1 rounded-full <%= change[:positive] ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' %>">
-                     <% if change[:positive] %>
-                       <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
-                         <path fill-rule="evenodd" d="M10 17a.75.75 0 01-.75-.75V5.612L5.29 9.77a.75.75 0 01-1.08-1.04l5.25-5.5a.75.75 0 011.08 0l5.25 5.5a.75.75 0 11-1.08 1.04l-3.96-4.158V16.25A.75.75 0 0110 17z" clip-rule="evenodd" />
-                       </svg>
-                     <% else %>
-                       <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
-                         <path fill-rule="evenodd" d="M10 3a.75.75 0 01.75.75v10.638l3.96-4.158a.75.75 0 111.08 1.04l-5.25 5.5a.75.75 0 01-1.08 0l-5.25-5.5a.75.75 0 111.08-1.04l-3.96 4.158V3.75A.75.75 0 0110 3z" clip-rule="evenodd" />
-                       </svg>
-                     <% end %>
-                     <span class="text-xs font-semibold"><%= change[:value].abs %>%</span>
-                   </div>
-                 <% end %>
-               </div>
-               <div class="flex items-baseline space-x-2">
-                 <span class="text-3xl font-bold text-orange-900"><%= @current_ratings[:food] %></span>
-                 <span class="text-sm text-orange-600">/ 5.0</span>
-               </div>
-               <div class="mt-4">
-                 <a href="<%= reviews_path %>" class="text-sm font-medium text-orange-600 hover:text-orange-800 transition-colors">
-                   View food reviews →
-                 </a>
-               </div>
-             </div>
-           </div>
-
-                        <!-- Service Rating -->
-           <div class="relative group">
-             <div class="bg-gradient-to-br from-green-50 to-green-100 rounded-xl p-6 border border-green-200 hover:shadow-lg transition-all duration-200 hover:scale-105">
-               <div class="flex items-center justify-between mb-4">
-                 <div class="flex items-center space-x-3">
-                   <div class="p-2 bg-gradient-to-br from-green-500 to-green-600 rounded-lg">
-                     <svg class="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                       <path stroke-linecap="round" stroke-linejoin="round" d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 00-5.058 2.772m0 0a3 3 0 00-4.681 2.72 8.986 8.986 0 003.74.477m.94-3.197a5.971 5.971 0 00-.94 3.197M15 6.75a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z" />
-                     </svg>
-                   </div>
-                   <div>
-                     <h4 class="text-sm font-medium text-green-900">Service Rating</h4>
-                   </div>
-                 </div>
-                 <% change = @rating_changes[:service] %>
-                 <% if change[:value] != 0 %>
-                   <div class="flex items-center space-x-1 px-2 py-1 rounded-full <%= change[:positive] ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' %>">
-                     <% if change[:positive] %>
-                       <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
-                         <path fill-rule="evenodd" d="M10 17a.75.75 0 01-.75-.75V5.612L5.29 9.77a.75.75 0 01-1.08-1.04l5.25-5.5a.75.75 0 011.08 0l5.25 5.5a.75.75 0 11-1.08 1.04l-3.96-4.158V16.25A.75.75 0 0110 17z" clip-rule="evenodd" />
-                       </svg>
-                     <% else %>
-                       <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
-                         <path fill-rule="evenodd" d="M10 3a.75.75 0 01.75.75v10.638l3.96-4.158a.75.75 0 111.08 1.04l-5.25 5.5a.75.75 0 01-1.08 0l-5.25-5.5a.75.75 0 111.08-1.04l-3.96 4.158V3.75A.75.75 0 0110 3z" clip-rule="evenodd" />
-                       </svg>
-                     <% end %>
-                     <span class="text-xs font-semibold"><%= change[:value].abs %>%</span>
-                   </div>
-                 <% end %>
-               </div>
-               <div class="flex items-baseline space-x-2">
-                 <span class="text-3xl font-bold text-green-900"><%= @current_ratings[:service] %></span>
-                 <span class="text-sm text-green-600">/ 5.0</span>
-               </div>
-               <div class="mt-4">
-                 <a href="<%= reviews_path %>" class="text-sm font-medium text-green-600 hover:text-green-800 transition-colors">
-                   View service reviews →
-                 </a>
-               </div>
-             </div>
-           </div>
-
-           <!-- Atmosphere Rating -->
-           <div class="relative group">
-             <div class="bg-gradient-to-br from-purple-50 to-purple-100 rounded-xl p-6 border border-purple-200 hover:shadow-lg transition-all duration-200 hover:scale-105">
-               <div class="flex items-center justify-between mb-4">
-                 <div class="flex items-center space-x-3">
-                   <div class="p-2 bg-gradient-to-br from-purple-500 to-purple-600 rounded-lg">
-                     <svg class="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                       <path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456zM16.894 20.567L16.5 21.75l-.394-1.183a2.25 2.25 0 00-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 001.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 001.423 1.423l1.183.394-1.183.394a2.25 2.25 0 00-1.423 1.423z" />
-                     </svg>
-                   </div>
-                   <div>
-                     <h4 class="text-sm font-medium text-purple-900">Atmosphere Rating</h4>
-                   </div>
-                 </div>
-                 <% change = @rating_changes[:atmosphere] %>
-                 <% if change[:value] != 0 %>
-                   <div class="flex items-center space-x-1 px-2 py-1 rounded-full <%= change[:positive] ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' %>">
-                     <% if change[:positive] %>
-                       <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
-                         <path fill-rule="evenodd" d="M10 17a.75.75 0 01-.75-.75V5.612L5.29 9.77a.75.75 0 01-1.08-1.04l5.25-5.5a.75.75 0 011.08 0l5.25 5.5a.75.75 0 11-1.08 1.04l-3.96-4.158V16.25A.75.75 0 0110 17z" clip-rule="evenodd" />
-                       </svg>
-                     <% else %>
-                       <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
-                         <path fill-rule="evenodd" d="M10 3a.75.75 0 01.75.75v10.638l3.96-4.158a.75.75 0 111.08 1.04l-5.25 5.5a.75.75 0 01-1.08 0l-5.25-5.5a.75.75 0 111.08-1.04l-3.96 4.158V3.75A.75.75 0 0110 3z" clip-rule="evenodd" />
-                       </svg>
-                     <% end %>
-                     <span class="text-xs font-semibold"><%= change[:value].abs %>%</span>
-                   </div>
-                 <% end %>
-               </div>
-               <div class="flex items-baseline space-x-2">
-                 <span class="text-3xl font-bold text-purple-900"><%= @current_ratings[:atmosphere] %></span>
-                 <span class="text-sm text-purple-600">/ 5.0</span>
-               </div>
-               <div class="mt-4">
-                 <a href="<%= reviews_path %>" class="text-sm font-medium text-purple-600 hover:text-purple-800 transition-colors">
-                   View atmosphere reviews →
-                 </a>
-               </div>
-             </div>
-           </div>
-         </dl>
-       </div>
-
-       <!-- Review Analytics Section -->
-       <div class="bg-white rounded-2xl shadow-xl border border-gray-100 p-8">
-         <div class="mb-8">
-           <h3 class="text-xl font-bold text-gray-900 mb-2">Reviews</h3>
-           <p class="text-gray-600">Sentiment breakdown for the last <%= @duration_days %> days</p>
-         </div>
-
-         <dl class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-                           <!-- Total Reviews -->
-            <div class="relative group">
-              <div class="bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl p-6 border border-blue-200 hover:shadow-lg transition-all duration-200 hover:scale-105">
-                <div class="flex items-center justify-between mb-4">
-                  <div class="flex items-center space-x-3">
-                    <div class="p-2 bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg">
-                      <svg class="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M7.5 8.25h9m-9 3H12m-9.75 1.51c0 1.6 1.123 2.994 2.707 3.227 1.129.166 2.27.293 3.423.379.35.026.67.21.865.501L12 21l2.755-4.133a1.14 1.14 0 0 1 .865-.501 48.172 48.172 0 0 0 3.423-.379c1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0 0 12 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018Z" />
-                      </svg>
-                    </div>
-                    <div>
-                      <h4 class="text-sm font-medium text-blue-900">Total Reviews</h4>
-                    </div>
-                  </div>
-                  <% change = @review_changes[:total] %>
-                  <% if change[:value] != 0 %>
-                    <div class="flex items-center space-x-1 px-2 py-1 rounded-full <%= change[:positive] ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' %>">
-                      <% if change[:positive] %>
-                        <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
-                          <path fill-rule="evenodd" d="M10 17a.75.75 0 01-.75-.75V5.612L5.29 9.77a.75.75 0 01-1.08-1.04l5.25-5.5a.75.75 0 011.08 0l5.25 5.5a.75.75 0 11-1.08 1.04l-3.96-4.158V16.25A.75.75 0 0110 17z" clip-rule="evenodd" />
-                        </svg>
-                      <% else %>
-                        <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
-                          <path fill-rule="evenodd" d="M10 3a.75.75 0 01.75.75v10.638l3.96-4.158a.75.75 0 111.08 1.04l-5.25 5.5a.75.75 0 01-1.08 0l-5.25-5.5a.75.75 0 111.08-1.04l-3.96 4.158V3.75A.75.75 0 0110 3z" clip-rule="evenodd" />
-                        </svg>
-                      <% end %>
-                      <span class="text-xs font-semibold"><%= change[:value].abs %>%</span>
-                    </div>
-                  <% end %>
-                </div>
-                <div class="flex items-baseline space-x-2">
-                  <span class="text-3xl font-bold text-blue-900"><%= number_with_delimiter(@current_reviews[:total]) %></span>
-                  <span class="text-sm text-blue-600">reviews</span>
-                </div>
-                <div class="mt-4">
-                  <a href="<%= reviews_path %>" class="text-sm font-medium text-blue-600 hover:text-blue-800 transition-colors">
-                    View all reviews →
-                  </a>
-                </div>
-              </div>
-            </div>
-
-                   <!-- Positive Sentiment Reviews -->
-            <div class="relative group">
-              <div class="bg-gradient-to-br from-green-50 to-green-100 rounded-xl p-6 border border-green-200 hover:shadow-lg transition-all duration-200 hover:scale-105">
-                <div class="flex items-center justify-between mb-4">
-                  <div class="flex items-center space-x-3">
-                    <div class="p-2 bg-gradient-to-br from-green-500 to-green-600 rounded-lg">
-                      <svg class="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M15.182 15.182a4.5 4.5 0 01-6.364 0M21 12a9 9 0 11-18 0 9 9 0 0118 0zM9.75 9.75c0 .414-.168.75-.375.75S9 10.164 9 9.75 9.168 9 9.375 9s.375.336.375.75zm-.375 0h.008v.015h-.008V9.75zm5.625 0c0 .414-.168.75-.375.75s-.375-.336-.375-.75.168-.75.375-.75.375.336.375.75zm-.375 0h.008v.015h-.008V9.75z" />
-                      </svg>
-                    </div>
-                    <div>
-                      <h4 class="text-sm font-medium text-green-900">Positive Reviews</h4>
-                    </div>
-                  </div>
-                  <% change = @review_changes[:positive] %>
-                  <% if change[:value] != 0 %>
-                    <div class="flex items-center space-x-1 px-2 py-1 rounded-full <%= change[:positive] ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' %>">
-                      <% if change[:positive] %>
-                        <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
-                          <path fill-rule="evenodd" d="M10 17a.75.75 0 01-.75-.75V5.612L5.29 9.77a.75.75 0 01-1.08-1.04l5.25-5.5a.75.75 0 011.08 0l5.25 5.5a.75.75 0 11-1.08 1.04l-3.96-4.158V16.25A.75.75 0 0110 17z" clip-rule="evenodd" />
-                        </svg>
-                      <% else %>
-                        <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
-                          <path fill-rule="evenodd" d="M10 3a.75.75 0 01.75.75v10.638l3.96-4.158a.75.75 0 111.08 1.04l-5.25 5.5a.75.75 0 01-1.08 0l-5.25-5.5a.75.75 0 111.08-1.04l-3.96 4.158V3.75A.75.75 0 0110 3z" clip-rule="evenodd" />
-                        </svg>
-                      <% end %>
-                      <span class="text-xs font-semibold"><%= change[:value].abs %>%</span>
-                    </div>
-                  <% end %>
-                </div>
-                <div class="flex items-baseline space-x-2">
-                  <span class="text-3xl font-bold text-green-900"><%= number_with_delimiter(@current_reviews[:positive]) %></span>
-                  <span class="text-sm text-green-600">positive</span>
-                </div>
-                <div class="mt-4">
-                  <a href="<%= reviews_path(q: { sentiment_eq: 0 }) %>" class="text-sm font-medium text-green-600 hover:text-green-800 transition-colors">
-                    View positive reviews →
-                  </a>
-                </div>
-              </div>
-            </div>
-
-                   <!-- Negative Sentiment Reviews -->
-            <div class="relative group">
-              <div class="bg-gradient-to-br from-red-50 to-red-100 rounded-xl p-6 border border-red-200 hover:shadow-lg transition-all duration-200 hover:scale-105">
-                <div class="flex items-center justify-between mb-4">
-                  <div class="flex items-center space-x-3">
-                    <div class="p-2 bg-gradient-to-br from-red-500 to-red-600 rounded-lg">
-                      <svg class="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M15.182 16.318A4.486 4.486 0 0012.016 15a4.486 4.486 0 00-3.198 1.318M21 12a9 9 0 11-18 0 9 9 0 0118 0zM9.75 9.75c0 .414-.168.75-.375.75S9 10.164 9 9.75 9.168 9 9.375 9s.375.336.375.75zm-.375 0h.008v.015h-.008V9.75zm5.625 0c0 .414-.168.75-.375.75s-.375-.336-.375-.75.168-.75.375-.75.375.336.375.75zm-.375 0h.008v.015h-.008V9.75z" />
-                      </svg>
-                    </div>
-                    <div>
-                      <h4 class="text-sm font-medium text-red-900">Negative Reviews</h4>
-                    </div>
-                  </div>
-                  <% change = @review_changes[:negative] %>
-                  <% if change[:value] != 0 %>
-                    <div class="flex items-center space-x-1 px-2 py-1 rounded-full <%= change[:positive] ?  'bg-red-100 text-red-800' : 'bg-green-100 text-green-800' %>">
-                      <% if change[:positive] %>
-                        <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
-                          <path fill-rule="evenodd" d="M10 17a.75.75 0 01-.75-.75V5.612L5.29 9.77a.75.75 0 01-1.08-1.04l5.25-5.5a.75.75 0 011.08 0l5.25 5.5a.75.75 0 11-1.08 1.04l-3.96-4.158V16.25A.75.75 0 0110 17z" clip-rule="evenodd" />
-                        </svg>
-                      <% else %>
-                        <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
-                          <path fill-rule="evenodd" d="M10 3a.75.75 0 01.75.75v10.638l3.96-4.158a.75.75 0 111.08 1.04l-5.25 5.5a.75.75 0 01-1.08 0l-5.25-5.5a.75.75 0 111.08-1.04l-3.96 4.158V3.75A.75.75 0 0110 3z" clip-rule="evenodd" />
-                        </svg>
-                      <% end %>
-                      <span class="text-xs font-semibold"><%= change[:value].abs %>%</span>
-                    </div>
-                  <% end %>
-                </div>
-                <div class="flex items-baseline space-x-2">
-                  <span class="text-3xl font-bold text-red-900"><%= number_with_delimiter(@current_reviews[:negative]) %></span>
-                  <span class="text-sm text-red-600">negative</span>
-                </div>
-                <div class="mt-4">
-                  <a href="<%= reviews_path(q: { sentiment_eq: 1 }) %>" class="text-sm font-medium text-red-600 hover:text-red-800 transition-colors">
-                    View negative reviews →
-                  </a>
-                </div>
-              </div>
-            </div>
-
-            <!-- Neutral Sentiment Reviews -->
-            <div class="relative group">
-              <div class="bg-gradient-to-br from-gray-50 to-gray-100 rounded-xl p-6 border border-gray-200 hover:shadow-lg transition-all duration-200 hover:scale-105">
-                <div class="flex items-center justify-between mb-4">
-                  <div class="flex items-center space-x-3">
-                    <div class="p-2 bg-gradient-to-br from-gray-500 to-gray-600 rounded-lg">
-                      <svg class="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0zM9.75 9.75c0 .414-.168.75-.375.75S9 10.164 9 9.75 9.168 9 9.375 9s.375.336.375.75zm-.375 0h.008v.015h-.008V9.75zm5.625 0c0 .414-.168.75-.375.75s-.375-.336-.375-.75.168-.75.375-.75.375.336.375.75zm-.375 0h.008v.015h-.008V9.75z" />
-                      </svg>
-                    </div>
-                    <div>
-                      <h4 class="text-sm font-medium text-gray-900">Neutral Reviews</h4>
-                    </div>
-                  </div>
-                  <% change = @review_changes[:neutral] %>
-                  <% if change[:value] != 0 %>
-                    <div class="flex items-center space-x-1 px-2 py-1 rounded-full <%= change[:positive] ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' %>">
-                      <% if change[:positive] %>
-                        <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
-                          <path fill-rule="evenodd" d="M10 17a.75.75 0 01-.75-.75V5.612L5.29 9.77a.75.75 0 01-1.08-1.04l5.25-5.5a.75.75 0 011.08 0l5.25 5.5a.75.75 0 11-1.08 1.04l-3.96-4.158V16.25A.75.75 0 0710 17z" clip-rule="evenodd" />
-                        </svg>
-                      <% else %>
-                        <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
-                          <path fill-rule="evenodd" d="M10 3a.75.75 0 01.75.75v10.638l3.96-4.158a.75.75 0 111.08 1.04l-5.25 5.5a.75.75 0 01-1.08 0l-5.25-5.5a.75.75 0 111.08-1.04l-3.96 4.158V3.75A.75.75 0 0110 3z" clip-rule="evenodd" />
-                        </svg>
-                      <% end %>
-                      <span class="text-xs font-semibold"><%= change[:value].abs %>%</span>
-                    </div>
-                  <% end %>
-                </div>
-                <div class="flex items-baseline space-x-2">
-                  <span class="text-3xl font-bold text-gray-900"><%= number_with_delimiter(@current_reviews[:neutral]) %></span>
-                  <span class="text-sm text-gray-600">neutral</span>
-                </div>
-                <div class="mt-4">
-                  <a href="<%= reviews_path(q: { sentiment_eq: 2 }) %>" class="text-sm font-medium text-gray-600 hover:text-gray-800 transition-colors">
-                    View neutral reviews →
-                  </a>
-                </div>
-              </div>
-            </div>
-         </dl>
-       </div>
-     </div>
-   </div>
- </div>
+</div>

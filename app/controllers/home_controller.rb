@@ -3,43 +3,23 @@ class HomeController < DashboardController
   skip_before_action :check_data_processing_complete, only: [:data_processing]
   
   def landing
-    # Landing page for unauthenticated users
   end
 
   def dashboard
-    @start_date = params[:start_date]&.to_date || 90.days.ago.to_date
-    @end_date = params[:end_date]&.to_date || Date.current
+    # Only apply date filtering if user explicitly selects dates
+    @start_date = params[:start_date].present? ? params[:start_date].to_date : nil
+    @end_date = params[:end_date].present? ? params[:end_date].to_date : nil
+    @date_filter_active = @start_date.present? && @end_date.present?
     
-    # Calculate duration in days for previous period comparison
-    @duration_days = (@end_date - @start_date).to_i
-    @previous_start_date = @start_date - @duration_days.days
-    @previous_end_date = @start_date - 1.day
-    
-    # Calculate current period complaint count
-    @current_complaints_count = complaints_count(@start_date, @end_date)
-    @previous_complaints_count = complaints_count(@previous_start_date, @previous_end_date)
-    @complaint_change = calculate_change(@current_complaints_count, @previous_complaints_count)
-    
-    # Calculate current period suggestion count
-    @current_suggestions_count = suggestions_count(@start_date, @end_date)
-    @previous_suggestions_count = suggestions_count(@previous_start_date, @previous_end_date)
-    @suggestion_change = calculate_change(@current_suggestions_count, @previous_suggestions_count)
+    # Get total counts (filtered or all)
+    @total_complaints_count = complaints_count(@start_date, @end_date)
+    @total_suggestions_count = suggestions_count(@start_date, @end_date)
     
     # Get top complaint categories
-    @top_complaint_categories = Complain.joins(:category, review: :place)
-                                        .where(reviews: { published_at: @start_date..@end_date })
-                                        .group('categories.name')
-                                        .order('count_all DESC')
-                                        .limit(5)
-                                        .count
+    @top_complaint_categories = build_complaint_categories_query(@start_date, @end_date)
     
     # Get top suggestion categories
-    @top_suggestion_categories = Suggestion.joins(:category, review: :place)
-                                           .where(reviews: { published_at: @start_date..@end_date })
-                                           .group('categories.name')
-                                           .order('count_all DESC')
-                                           .limit(5)
-                                           .count
+    @top_suggestion_categories = build_suggestion_categories_query(@start_date, @end_date)
   end
 
   def restaurant
@@ -83,25 +63,40 @@ class HomeController < DashboardController
   private
   
   def complaints_count(start_date, end_date)
-    Complain.joins(review: :place)
-            .where(reviews: { published_at: start_date..end_date })
-            .count
+    query = Complain.joins(review: :place)
+    if start_date.present? && end_date.present?
+      query = query.where(reviews: { published_at: start_date..end_date })
+    end
+    query.count
   end
   
   def suggestions_count(start_date, end_date)
-    Suggestion.joins(review: :place)
-              .where(reviews: { published_at: start_date..end_date })
-              .count
+    query = Suggestion.joins(review: :place)
+    if start_date.present? && end_date.present?
+      query = query.where(reviews: { published_at: start_date..end_date })
+    end
+    query.count
   end
   
-  def calculate_change(current_value, previous_value)
-    if previous_value && previous_value > 0
-      change = ((current_value - previous_value) / previous_value.to_f * 100).round(1)
-      { value: change, positive: change >= 0 }
-    elsif current_value > 0
-      { value: 100, positive: true }
-    else
-      { value: 0, positive: true }
+  def build_complaint_categories_query(start_date, end_date)
+    query = Complain.joins(:category, review: :place)
+    if start_date.present? && end_date.present?
+      query = query.where(reviews: { published_at: start_date..end_date })
     end
+    query.group('categories.name')
+         .order('count_all DESC')
+         .limit(5)
+         .count
+  end
+  
+  def build_suggestion_categories_query(start_date, end_date)
+    query = Suggestion.joins(:category, review: :place)
+    if start_date.present? && end_date.present?
+      query = query.where(reviews: { published_at: start_date..end_date })
+    end
+    query.group('categories.name')
+         .order('count_all DESC')
+         .limit(5)
+         .count
   end
 end

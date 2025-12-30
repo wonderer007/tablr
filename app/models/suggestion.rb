@@ -4,8 +4,6 @@ class Suggestion < ApplicationRecord
   belongs_to :category
   belongs_to :review
 
-  acts_as_tenant :place
-
   # Define which attributes can be searched/filtered via Ransack
   def self.ransackable_attributes(auth_object = nil)
     %w[text category_id]

@@ -32,12 +32,7 @@ Rails.application.routes.draw do
   patch 'settings/update_email_notification_period', to: 'settings#update_email_notification_period', as: :update_email_notification_period
   resources :complains, only: [:index]
   resources :suggestions, only: [:index]
-  resources :notifications, only: [] do
-    member do
-      patch :mark_read
-    end
-  end
-  
+
   resources :demo_requests, only: [:new, :create] do
     collection do
       get :thank_you

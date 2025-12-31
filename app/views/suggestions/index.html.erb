@@ -1,180 +1,149 @@
-<% content_for :title, "Suggestions" %>
+<% content_for :title, "Suggestions - Tablr" %>
 
-<div class="bg-white">
-  <div class="px-4 py-5 sm:px-6">
-    <div class="sm:flex sm:items-center sm:justify-between">
-      <div class="sm:flex-auto">
-        <h1 class="text-2xl font-bold tracking-tight text-gray-900">Suggestions</h1>
-        <div class="mt-2 flex items-center gap-x-2">
-          <p class="text-sm text-gray-700">List of all suggestions and their categories.</p>
-          <span class="inline-flex items-center rounded-md bg-indigo-50 px-2 py-1 text-xs font-medium text-indigo-700 ring-1 ring-inset ring-indigo-700/10">
-            <%= pluralize(@suggestions.total_count, 'suggestion') %>
-          </span>
+<div class="min-h-screen bg-gray-50">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    
+    <!-- Header -->
+    <div class="mb-8">
+      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <div>
+          <h1 class="text-2xl font-semibold text-gray-900">Suggestions</h1>
+          <p class="mt-1 text-sm text-gray-500">
+            <%= pluralize(@suggestions.total_count, 'suggestion') %> extracted from reviews
+          </p>
         </div>
       </div>
     </div>
 
-    <%= search_form_for @q, url: suggestions_path, method: :get do |f| %>
-      <div class="mt-6 bg-white shadow-sm rounded-lg border border-gray-200 divide-y divide-gray-200">
-        <div class="px-4 py-5 sm:px-6">
-          <div class="-ml-4 -mt-4 flex flex-wrap items-center justify-between sm:flex-nowrap">
-            <div class="ml-4 mt-4">
-              <h3 class="text-base font-semibold leading-6 text-gray-900">Filters</h3>
-              <p class="mt-1 text-sm text-gray-500">Use the filters below to narrow down the suggestions.</p>
-            </div>
-            <div class="ml-4 mt-4 flex-shrink-0">
-              <div class="flex items-center gap-x-3">
-                <%= f.submit "Apply Filters", class: "rounded-md bg-indigo-600 px-3.5 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600" %>
-                <%= link_to "Clear Filters", suggestions_path, class: "rounded-md bg-white px-3.5 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50" %>
-              </div>
-            </div>
+    <!-- Filters -->
+    <%= search_form_for @q, url: suggestions_path, method: :get, class: "mb-6" do |f| %>
+      <div class="bg-white rounded-xl border border-gray-100 p-4">
+        <div class="flex flex-wrap items-end gap-3">
+          <!-- Keyword Search -->
+          <div class="flex-1 min-w-[200px]">
+            <label class="block text-xs font-medium text-gray-500 mb-1.5">Search</label>
+<%= f.search_field :text_cont, 
+                  placeholder: "Search suggestions...", 
+                  autocomplete: "off",
+                  class: "w-full h-10 rounded-lg border border-gray-200 bg-white px-3 text-sm text-gray-700 placeholder:text-gray-400 focus:border-gray-400 focus:ring-0 focus:outline-none" %>
           </div>
-        </div>
 
-        <div class="px-4 py-5 sm:p-6">
-          <div class="grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-            <div class="sm:col-span-2">
-              <label for="text" class="block text-sm font-medium leading-6 text-gray-900">Suggestion</label>
-              <div class="mt-2 relative">
-                <%= f.search_field :text_cont, 
-                    placeholder: "Search suggestions...", 
-                    autocomplete: "off",
-                    class: "block w-full h-11 rounded-md border-0 px-4 py-2 text-gray-900 shadow-sm ring-1 ring-inset #{params.dig(:q, :text_cont).present? ? 'ring-indigo-600 bg-indigo-50/50' : 'ring-gray-300'} placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" %>
-                <% if params.dig(:q, :text_cont).present? %>
-                  <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
-                    <svg class="size-4 text-indigo-600" viewBox="0 0 20 20" fill="currentColor">
-                      <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clip-rule="evenodd" />
-                    </svg>
-                  </div>
-                <% end %>
-              </div>
-            </div>
-
-            <div class="sm:col-span-2">
-              <label for="category" class="block text-sm font-medium leading-6 text-gray-900">Category</label>
-              <div class="mt-2">
-                <%= f.select :category_id_eq, 
-                    options_from_collection_for_select(Category.order(:name), :id, :name, params.dig(:q, :category_id_eq)), 
-                    { include_blank: "Any Category" }, 
-                    class: "block w-full h-11 rounded-md border-0 px-4 py-2 text-gray-900 shadow-sm ring-1 ring-inset #{params.dig(:q, :category_id_eq).present? ? 'ring-indigo-600 bg-indigo-50/50 font-medium' : 'ring-gray-300'} focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" %>
-              </div>
-            </div>
-
-            <div class="sm:col-span-2">
-              <label for="published" class="block text-sm font-medium leading-6 text-gray-900">Published</label>
-              <div class="mt-2" data-controller="date-range" 
-                   data-date-range-start-date-value="<%= params.dig(:q, :review_published_at_gteq) %>"
-                   data-date-range-end-date-value="<%= params.dig(:q, :review_published_at_lteq) %>">
-                <%= f.text_field :review_published_at_gteq, 
-                    value: params.dig(:q, :review_published_at_gteq), 
-                    placeholder: "Select date range...",
-                    autocomplete: "off",
-                    data: { 
-                      date_range_target: "input startDate"
-                    },
-                    class: "block w-full h-11 rounded-md border-0 px-4 py-2 text-gray-900 shadow-sm ring-1 ring-inset #{params.dig(:q, :review_published_at_gteq).present? ? 'ring-indigo-600 bg-indigo-50/50' : 'ring-gray-300'} placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" %>
-                <%= f.hidden_field :review_published_at_lteq, 
-                    value: params.dig(:q, :review_published_at_lteq),
-                    data: { date_range_target: "endDate" } %>
-              </div>
-            </div>
+          <!-- Category Filter -->
+          <div class="min-w-[180px]">
+            <label class="block text-xs font-medium text-gray-500 mb-1.5">Category</label>
+            <%= f.select :category_id_eq, 
+                options_from_collection_for_select(Category.order(:name), :id, :name, params.dig(:q, :category_id_eq)), 
+                { include_blank: "All Categories" }, 
+                class: "w-full h-10 rounded-lg border border-gray-200 bg-white px-3 text-sm text-gray-700 focus:border-gray-400 focus:ring-0 focus:outline-none" %>
           </div>
-        </div>
-      </div>
 
-      <div class="mt-6 overflow-hidden shadow ring-1 ring-black ring-opacity-5 sm:rounded-lg">
-        <% if @suggestions.any? %>
-          <div class="min-w-full">
-            <table class="min-w-full divide-y divide-gray-300">
-              <thead class="bg-gray-50">
-                <tr>
-                  <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">
-                    <%= sort_link(@q, :text, { class: "group inline-flex items-center gap-x-2" }) do %>
-                      Suggestion
-                      <span class="ml-2 flex-none rounded <%= sort_indicator_class(params.dig(:q, :s), 'text') %>">
-                        <%= sort_arrow_icon(params.dig(:q, :s), 'text') %>
-                      </span>
-                    <% end %>
-                  </th>
-                  <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
-                    <%= sort_link(@q, :category_name, { class: "group inline-flex items-center gap-x-2" }) do %>
-                      Category
-                      <span class="ml-2 flex-none rounded <%= sort_indicator_class(params.dig(:q, :s), 'category_name') %>">
-                        <%= sort_arrow_icon(params.dig(:q, :s), 'category_name') %>
-                      </span>
-                    <% end %>
-                  </th>
-                  <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
-                    <%= sort_link(@q, :review_published_at, { class: "group inline-flex items-center gap-x-2" }) do %>
-                      Published
-                      <span class="ml-2 flex-none rounded <%= sort_indicator_class(params.dig(:q, :s), 'review_published_at') %>">
-                        <%= sort_arrow_icon(params.dig(:q, :s), 'review_published_at') %>
-                      </span>
-                    <% end %>
-                  </th>
-                </tr>
-              </thead>
-              <tbody class="divide-y divide-gray-200 bg-white">
-                <% @suggestions.each do |suggestion| %>
-                  <tr class="hover:bg-gray-50">
-                    <td class="py-4 pl-4 pr-3 sm:pl-6">
-                      <div class="flex items-center gap-x-4">
-                        <img class="size-10 flex-none rounded-full bg-gray-50"
-                              src="<%= profile_image_url(suggestion.review.image_url) %>"
-                              alt="<%= suggestion.review.name %>'s profile picture"
-                              width="40"
-                              height="40"
-                              loading="lazy"
-                              onerror="this.onerror=null;this.src='/images/default-profile.png';" />
-                        <div class="min-w-0">
-                          <p class="text-sm font-semibold leading-6 text-gray-900"><%= suggestion.review.name %></p>
-                          <p class="mt-1 truncate text-sm leading-5 text-gray-500" title="<%= suggestion.review.text %>">
-                            <%= truncate(suggestion.text, length: 70, separator: ' ') %>
-                          </p>
-                        </div>
-                      </div>
-                    </td>
-                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                      <span class="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-700/10">
-                        <%= suggestion.category.name %>
-                      </span>
-                    </td>
-                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                      <%= suggestion.review.published_at&.strftime('%b %d, %Y') || 'N/A' %>
-                    </td>
-                  </tr>
-                <% end %>
-              </tbody>
-            </table>
+          <!-- Date Range -->
+          <div class="min-w-[200px]" 
+               data-controller="date-range" 
+               data-date-range-start-date-value="<%= params.dig(:q, :review_published_at_gteq) %>"
+               data-date-range-end-date-value="<%= params.dig(:q, :review_published_at_lteq) %>">
+            <label class="block text-xs font-medium text-gray-500 mb-1.5">Published Date</label>
+            <input type="text" 
+                   data-date-range-target="input"
+                   placeholder="Select date range"
+                   class="w-full h-10 rounded-lg border border-gray-200 bg-white px-3 text-sm text-gray-700 placeholder:text-gray-400 focus:border-gray-400 focus:ring-0 focus:outline-none"
+                   readonly>
+            <%= f.hidden_field :review_published_at_gteq, data: { "date-range-target": "startDate" } %>
+            <%= f.hidden_field :review_published_at_lteq, data: { "date-range-target": "endDate" } %>
           </div>
-        <% else %>
-          <!-- Empty State -->
-          <div class="bg-white px-6 py-12">
-            <div class="text-center">
-              <svg class="mx-auto size-24 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014.846 21H9.154a3.374 3.374 0 00-2.548-1.146l-.548-.547z" />
-              </svg>
-              <h3 class="mt-4 text-lg font-semibold text-gray-900">No suggestions found</h3>
-              <p class="mt-2 text-sm text-gray-500">
-                <% if params[:q].present? %>
-                  No suggestions match your current filters. Try adjusting your search criteria.
-                <% else %>
-                  No suggestions have been extracted from reviews yet. They will appear here once reviews are processed.
-                <% end %>
-              </p>
-              <% if params[:q].present? %>
-                <div class="mt-4">
-                  <%= link_to "Clear Filters", suggestions_path, class: "rounded-md bg-indigo-600 px-3.5 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600" %>
-                </div>
+
+          <!-- Filter Actions -->
+          <div class="flex items-center gap-2">
+            <%= f.submit "Apply", class: "h-10 px-4 text-sm font-medium text-white bg-gray-900 rounded-lg hover:bg-gray-800 transition-colors cursor-pointer" %>
+            
+            <% if params[:q].present? && params[:q].values.any?(&:present?) %>
+              <%= link_to suggestions_path, class: "h-10 px-4 text-sm font-medium text-gray-600 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors inline-flex items-center" do %>
+                Clear
               <% end %>
-            </div>
+            <% end %>
           </div>
-        <% end %>
+        </div>
       </div>
     <% end %>
 
-    <div class="mt-6">
-      <%= render 'shared/pagination', paginated_collection: @suggestions %>
+    <!-- Suggestions List -->
+    <div class="bg-white rounded-xl border border-gray-100 overflow-hidden">
+      <% if @suggestions.any? %>
+        <table class="w-full">
+          <thead>
+            <tr class="border-b border-gray-100">
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Suggestion</th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Category</th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Published</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-gray-100">
+            <% @suggestions.each do |suggestion| %>
+              <tr class="hover:bg-gray-50 transition-colors">
+                <td class="px-6 py-4">
+                  <div class="flex items-center gap-3">
+                    <img class="w-9 h-9 flex-shrink-0 rounded-full bg-gray-100"
+                         src="<%= profile_image_url(suggestion.review.image_url) %>"
+                         alt="<%= suggestion.review.name %>"
+                         width="36"
+                         height="36"
+                         loading="lazy"
+                         onerror="this.onerror=null;this.src='/images/default-profile.png';" />
+                    <div class="min-w-0 flex-1">
+                      <p class="text-sm font-medium text-gray-900"><%= suggestion.review.name %></p>
+                      <p class="text-sm text-gray-500 truncate max-w-md" title="<%= suggestion.text %>">
+                        <%= truncate(suggestion.text, length: 80, separator: ' ') %>
+                      </p>
+                    </div>
+                  </div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <span class="inline-flex items-center px-3 py-1.5 text-sm font-medium rounded-lg border-2 border-blue-300 text-blue-700 bg-blue-50">
+                    <%= suggestion.category.name %>
+                  </span>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                  <%= suggestion.review.published_at&.strftime('%b %d, %Y') || '—' %>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+
+        <!-- Pagination -->
+        <div class="border-t border-gray-100 px-6 py-4">
+          <div class="flex items-center justify-between">
+            <p class="text-sm text-gray-500">
+              Showing <span class="font-medium text-gray-700"><%= @suggestions.offset_value + 1 %></span> 
+              to <span class="font-medium text-gray-700"><%= [@suggestions.offset_value + @suggestions.limit_value, @suggestions.total_count].min %></span> 
+              of <span class="font-medium text-gray-700"><%= @suggestions.total_count %></span> results
+            </p>
+            <div class="flex items-center gap-2">
+              <%== paginate @suggestions %>
+            </div>
+          </div>
+        </div>
+      <% else %>
+        <!-- Empty State -->
+        <div class="text-center py-16">
+          <div class="w-16 h-16 bg-amber-50 rounded-full flex items-center justify-center mx-auto mb-4">
+            <svg class="w-8 h-8 text-amber-300" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 18v-5.25m0 0a6.01 6.01 0 0 0 1.5-.189m-1.5.189a6.01 6.01 0 0 1-1.5-.189m3.75 7.478a12.06 12.06 0 0 1-4.5 0m3.75 2.383a14.406 14.406 0 0 1-3 0M14.25 18v-.192c0-.983.658-1.823 1.508-2.316a7.5 7.5 0 1 0-7.517 0c.85.493 1.509 1.333 1.509 2.316V18" />
+            </svg>
+          </div>
+          <h3 class="text-base font-medium text-gray-900 mb-1">No suggestions found</h3>
+          <p class="text-sm text-gray-500 mb-4 max-w-sm mx-auto">
+            <% if params[:q].present? && params[:q].values.any?(&:present?) %>
+              No suggestions match your filters. Try adjusting your search criteria.
+            <% else %>
+              Suggestions extracted from reviews will appear here once reviews are processed.
+            <% end %>
+          </p>
+          <% if params[:q].present? && params[:q].values.any?(&:present?) %>
+            <%= link_to "Clear Filters", suggestions_path, class: "inline-flex items-center px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors" %>
+          <% end %>
+        </div>
+      <% end %>
     </div>
   </div>
 </div>

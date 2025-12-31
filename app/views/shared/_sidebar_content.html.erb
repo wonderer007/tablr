@@ -12,63 +12,46 @@
   
   <!-- Navigation Menu -->
   <nav class="flex flex-1 flex-col">
-    <ul role="list" class="flex flex-1 flex-col gap-y-6">
-      <!-- Core Features -->
+    <ul role="list" class="-mx-2 space-y-1">
+      <!-- Dashboard -->
       <li>
-        <div class="text-xs font-semibold leading-6 text-indigo-200 uppercase tracking-wide mb-2">
-          Overview
-        </div>
-        <ul role="list" class="-mx-2 space-y-1">
-          <!-- Dashboard -->
-          <li>
-            <a href="<%= dashboard_path %>" class="group flex gap-x-3 rounded-lg <%= current_page?(dashboard_path) ? 'bg-white/20 text-white shadow-sm' : 'text-indigo-200 hover:bg-white/10 hover:text-white' %> p-3 text-sm font-medium transition-all duration-200">
-              <svg class="size-5 shrink-0 <%= current_page?(dashboard_path) ? 'text-white' : 'text-indigo-300 group-hover:text-white' %>" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" />
-              </svg>
-              <span>Dashboard</span>
-            </a>
-          </li>
-          
-          <!-- Alerts -->
-          <li>
-            <a href="<%= settings_path %>" class="group flex gap-x-3 rounded-lg <%= current_page?(settings_path) ? 'bg-white/20 text-white shadow-sm' : 'text-indigo-200 hover:bg-white/10 hover:text-white' %> p-3 text-sm font-medium transition-all duration-200">
-              <svg class="size-5 shrink-0 <%= current_page?(settings_path) ? 'text-white' : 'text-indigo-300 group-hover:text-white' %>" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0" />
-              </svg>
-              <span>Alerts</span>
-            </a>
-          </li>
-        </ul>
+        <a href="<%= dashboard_path %>" class="group flex gap-x-3 rounded-lg <%= current_page?(dashboard_path) ? 'bg-white/20 text-white shadow-sm' : 'text-indigo-200 hover:bg-white/10 hover:text-white' %> p-3 text-sm font-medium transition-all duration-200">
+          <svg class="size-5 shrink-0 <%= current_page?(dashboard_path) ? 'text-white' : 'text-indigo-300 group-hover:text-white' %>" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" />
+          </svg>
+          <span>Dashboard</span>
+        </a>
+      </li>
+      
+      <!-- Alerts -->
+      <li>
+        <a href="<%= settings_path %>" class="group flex gap-x-3 rounded-lg <%= current_page?(settings_path) ? 'bg-white/20 text-white shadow-sm' : 'text-indigo-200 hover:bg-white/10 hover:text-white' %> p-3 text-sm font-medium transition-all duration-200">
+          <svg class="size-5 shrink-0 <%= current_page?(settings_path) ? 'text-white' : 'text-indigo-300 group-hover:text-white' %>" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0" />
+          </svg>
+          <span>Alerts</span>
+        </a>
       </li>
 
-      <!-- Customer Feedback -->
+      <!-- Complaints -->
       <li>
-        <div class="text-xs font-semibold leading-6 text-indigo-200 uppercase tracking-wide mb-2">
-          Customer Feedback
-        </div>
-        <ul role="list" class="-mx-2 space-y-1">
-          <!-- Complaints -->
-          <li>
-            <a href="<%= complains_path %>" class="group flex gap-x-3 rounded-lg <%= current_page?(complains_path) ? 'bg-white/20 text-white shadow-sm' : 'text-indigo-200 hover:bg-white/10 hover:text-white' %> p-3 text-sm font-medium transition-all duration-200">
-              <svg class="size-5 shrink-0 <%= current_page?(complains_path) ? 'text-white' : 'text-indigo-300 group-hover:text-white' %>" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z" />
-              </svg>
-              <span>Complaints</span>
-            </a>
-          </li>
-          
-          <!-- Suggestions -->
-          <li>
-            <a href="<%= suggestions_path %>" class="group flex gap-x-3 rounded-lg <%= current_page?(suggestions_path) ? 'bg-white/20 text-white shadow-sm' : 'text-indigo-200 hover:bg-white/10 hover:text-white' %> p-3 text-sm font-medium transition-all duration-200">
-              <svg class="size-5 shrink-0 <%= current_page?(suggestions_path) ? 'text-white' : 'text-indigo-300 group-hover:text-white' %>" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M12 18v-5.25m0 0a6.01 6.01 0 0 0 1.5-.189m-1.5.189a6.01 6.01 0 0 1-1.5-.189m3.75 7.478a12.06 12.06 0 0 1-4.5 0m3.75 2.383a14.406 14.406 0 0 1-3 0M14.25 18v-.192c0-.983.658-1.823 1.508-2.316a7.5 7.5 0 1 0-7.517 0c.85.493 1.509 1.333 1.509 2.316V18" />
-              </svg>
-              <span>Suggestions</span>
-            </a>
-          </li>
-        </ul>
+        <a href="<%= complains_path %>" class="group flex gap-x-3 rounded-lg <%= current_page?(complains_path) ? 'bg-white/20 text-white shadow-sm' : 'text-indigo-200 hover:bg-white/10 hover:text-white' %> p-3 text-sm font-medium transition-all duration-200">
+          <svg class="size-5 shrink-0 <%= current_page?(complains_path) ? 'text-white' : 'text-indigo-300 group-hover:text-white' %>" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z" />
+          </svg>
+          <span>Complaints</span>
+        </a>
       </li>
-
+      
+      <!-- Suggestions -->
+      <li>
+        <a href="<%= suggestions_path %>" class="group flex gap-x-3 rounded-lg <%= current_page?(suggestions_path) ? 'bg-white/20 text-white shadow-sm' : 'text-indigo-200 hover:bg-white/10 hover:text-white' %> p-3 text-sm font-medium transition-all duration-200">
+          <svg class="size-5 shrink-0 <%= current_page?(suggestions_path) ? 'text-white' : 'text-indigo-300 group-hover:text-white' %>" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 18v-5.25m0 0a6.01 6.01 0 0 0 1.5-.189m-1.5.189a6.01 6.01 0 0 1-1.5-.189m3.75 7.478a12.06 12.06 0 0 1-4.5 0m3.75 2.383a14.406 14.406 0 0 1-3 0M14.25 18v-.192c0-.983.658-1.823 1.508-2.316a7.5 7.5 0 1 0-7.517 0c.85.493 1.509 1.333 1.509 2.316V18" />
+          </svg>
+          <span>Suggestions</span>
+        </a>
+      </li>
     </ul>
   </nav>
 </div>

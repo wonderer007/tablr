@@ -14,6 +14,7 @@ class User < ApplicationRecord
   attr_accessor :google_maps_url
 
   enum :email_notification_period, [:weekly, :monthly, :weekly_and_monthly]
+  enum :email_notification_time, [:morning, :afternoon]
 
   after_update :trigger_place_sync, if: :payment_approved_changed_to_true?
 

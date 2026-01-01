@@ -53,11 +53,17 @@ class HomeController < DashboardController
     
     # If processing is complete, redirect to dashboard
     if @business.first_inference_completed?
-      redirect_to dashboard_path and return
+      respond_to do |format|
+        format.html { redirect_to dashboard_path }
+        format.json { render json: { first_inference_completed: true, redirect_url: dashboard_path } }
+      end
+      return
     end
     
-    # Set layout to auth for cleaner processing page
-    render layout: 'auth'
+    respond_to do |format|
+      format.html { render layout: 'auth' }
+      format.json { render json: { first_inference_completed: false, status: @business.status } }
+    end
   end
   
   private

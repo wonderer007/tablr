@@ -1,36 +1,165 @@
-<div class="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
-  <div class="sm:mx-auto sm:w-full sm:max-w-md">
-    <div class="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
-      <div class="text-center">
-        <!-- Payment Processing Icon -->
-        <div class="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-yellow-100 mb-4">
-          <svg class="h-6 w-6 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"></path>
-          </svg>
+<% content_for(:title, "Complete Your Payment - Tablr") %>
+
+<!-- Custom styles for this page -->
+<style>
+  @import url('https://api.fontshare.com/v2/css?f[]=clash-display@400,500,600,700&f[]=satoshi@400,500,700&display=swap');
+  
+  .font-display { font-family: 'Clash Display', system-ui, sans-serif; }
+  .font-body { font-family: 'Satoshi', system-ui, sans-serif; }
+  
+  .gradient-text {
+    background: linear-gradient(135deg, rgb(79, 70, 229) 0%, rgb(139, 92, 246) 50%, rgb(167, 139, 250) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  
+  .glass-card {
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+  }
+  
+  .mesh-gradient {
+    background: 
+      radial-gradient(at 40% 20%, rgba(79, 70, 229, 0.15) 0px, transparent 50%),
+      radial-gradient(at 80% 0%, rgba(99, 102, 241, 0.1) 0px, transparent 50%),
+      radial-gradient(at 0% 50%, rgba(139, 92, 246, 0.1) 0px, transparent 50%),
+      radial-gradient(at 80% 50%, rgba(167, 139, 250, 0.1) 0px, transparent 50%),
+      radial-gradient(at 0% 100%, rgba(79, 70, 229, 0.1) 0px, transparent 50%);
+  }
+  
+  @keyframes fadeUp {
+    0% { opacity: 0; transform: translateY(30px); }
+    100% { opacity: 1; transform: translateY(0); }
+  }
+  
+  @keyframes pulse-ring {
+    0% { transform: scale(0.8); opacity: 0.5; }
+    50% { transform: scale(1.2); opacity: 0; }
+    100% { transform: scale(0.8); opacity: 0.5; }
+  }
+  
+  @keyframes spin-slow {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+  
+  .animate-fade-up {
+    animation: fadeUp 0.6s ease-out forwards;
+  }
+  
+  .animate-pulse-ring {
+    animation: pulse-ring 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+  
+  .animate-spin-slow {
+    animation: spin-slow 3s linear infinite;
+  }
+  
+  .stagger-1 { animation-delay: 0.1s; opacity: 0; }
+  .stagger-2 { animation-delay: 0.2s; opacity: 0; }
+  .stagger-3 { animation-delay: 0.3s; opacity: 0; }
+  .stagger-4 { animation-delay: 0.4s; opacity: 0; }
+</style>
+
+<div class="min-h-screen bg-slate-50 mesh-gradient font-body flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+  <!-- Decorative blobs -->
+  <div class="absolute top-20 left-10 w-72 h-72 bg-indigo-400/20 rounded-full blur-3xl"></div>
+  <div class="absolute bottom-20 right-10 w-96 h-96 bg-violet-400/20 rounded-full blur-3xl"></div>
+  
+  <div class="relative w-full max-w-md mx-auto">
+    <!-- Glass Card -->
+    <div class="glass-card rounded-2xl sm:rounded-3xl shadow-2xl shadow-slate-900/10 overflow-hidden animate-fade-up">
+      <!-- Gradient Header -->
+      <div class="bg-gradient-to-r from-indigo-600 to-violet-500 px-6 py-5 sm:px-8 sm:py-6">
+        <div class="flex items-center gap-3 sm:gap-4">
+          <div class="relative flex-shrink-0">
+            <!-- Animated ring -->
+            <div class="absolute inset-0 rounded-xl bg-white/30 animate-pulse-ring"></div>
+            <div class="relative w-11 h-11 sm:w-12 sm:h-12 rounded-xl bg-white/20 backdrop-blur-sm flex items-center justify-center">
+              <svg class="w-5 h-5 sm:w-6 sm:h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path>
+              </svg>
+            </div>
+          </div>
+          <div class="min-w-0">
+            <h1 class="font-display font-bold text-lg sm:text-xl text-white">Complete Your Payment</h1>
+            <p class="text-white/80 text-xs sm:text-sm">One step away from your dashboard</p>
+          </div>
         </div>
-        
-        <h2 class="text-2xl font-extrabold text-gray-900 mb-2">
-          Complete Your Payment
-        </h2>
-        
-        <p class="text-sm text-gray-600 mb-6">
-          To access your dashboard, please complete your payment by clicking the link below.
-        </p>
+      </div>
+      
+      <!-- Card Body -->
+      <div class="px-6 py-6 sm:px-8 sm:py-8">
+        <div class="text-center mb-6 animate-fade-up stagger-1">
+          <p class="text-slate-600 text-sm leading-relaxed">
+            To unlock your analytics dashboard and start transforming reviews into insights, please complete your payment.
+          </p>
+        </div>
 
         <!-- Payment Button -->
-        <div class="mb-4">
+        <div class="mb-6 animate-fade-up stagger-2">
           <a href="<%= @payment_url %>" 
              id="payment-link"
-             class="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition duration-150 ease-in-out">
+             class="group w-full inline-flex items-center justify-center gap-2 py-3.5 px-5 text-base font-semibold text-white bg-gradient-to-r from-indigo-600 to-violet-500 rounded-xl hover:shadow-xl hover:shadow-indigo-500/30 transition-all duration-300 hover:-translate-y-0.5">
             Complete Payment Now
+            <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+            </svg>
           </a>
         </div>
 
-        <!-- Info Text -->
-        <p class="text-xs text-gray-500 text-center">
-          You will be automatically redirected if you don't click the link above.
-          <div class="text-xl font-bold text-gray-900" id="countdown">10</div>
-        </p>
+        <!-- Countdown Section -->
+        <div class="animate-fade-up stagger-3">
+          <div class="bg-slate-50 rounded-xl p-4 sm:p-5 border border-slate-200">
+            <div class="flex items-center justify-center gap-3 sm:gap-4">
+              <div class="relative flex-shrink-0">
+                <!-- Spinning loader -->
+                <svg class="w-10 h-10 sm:w-12 sm:h-12 animate-spin-slow" viewBox="0 0 100 100">
+                  <circle cx="50" cy="50" r="45" fill="none" stroke="#e2e8f0" stroke-width="8"/>
+                  <circle cx="50" cy="50" r="45" fill="none" stroke="url(#gradient)" stroke-width="8" stroke-linecap="round" stroke-dasharray="70 200"/>
+                  <defs>
+                    <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                      <stop offset="0%" stop-color="#4f46e5"/>
+                      <stop offset="100%" stop-color="#8b5cf6"/>
+                    </linearGradient>
+                  </defs>
+                </svg>
+                <div class="absolute inset-0 flex items-center justify-center">
+                  <span class="font-display text-lg sm:text-xl font-bold gradient-text" id="countdown">10</span>
+                </div>
+              </div>
+              <div class="text-left min-w-0">
+                <p class="text-sm font-medium text-slate-700">Auto-redirecting</p>
+                <p class="text-xs text-slate-500">You'll be taken to payment shortly</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Security Badge -->
+        <div class="mt-6 animate-fade-up stagger-4">
+          <div class="flex items-center justify-center gap-2 text-slate-400">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
+            </svg>
+            <span class="text-xs">Secure payment powered by Stripe</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Logo -->
+    <div class="mt-8 flex justify-center animate-fade-up stagger-4">
+      <div class="flex items-center gap-2">
+        <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-indigo-600 to-violet-500 flex items-center justify-center shadow-lg shadow-indigo-500/20">
+          <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+          </svg>
+        </div>
+        <span class="font-display font-bold text-lg text-slate-900">Tablr</span>
       </div>
     </div>
   </div>
@@ -48,12 +177,10 @@
       
       if (timeLeft <= 0) {
         clearInterval(countdown);
-        // Redirect to payment URL
         window.location.href = paymentUrl;
       }
     }, 1000);
     
-    // If user clicks the payment link, stop the countdown
     document.getElementById('payment-link').addEventListener('click', function() {
       clearInterval(countdown);
     });

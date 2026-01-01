@@ -9,6 +9,7 @@ Rails.application.configure do
   config.enable_reloading = true
 
   config.hosts << /[a-z0-9\-]+\.ngrok-free\.app/
+  config.hosts << /[a-z0-9\-]+\.ngrok-free\.dev/
 
   # Do not eager load code on boot.
   config.eager_load = false

@@ -39,7 +39,7 @@ class Business < ApplicationRecord
     },
     pro: {
       name: 'Pro',
-      price: '$9',
+      price: '$10',
       period: 'per month',
       features: [
         'Up to 5,000 reviews',

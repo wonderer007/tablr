@@ -90,7 +90,7 @@
                          onerror="this.onerror=null;this.src='/images/default-profile.png';" />
                     <div class="min-w-0 flex-1">
                       <p class="text-sm font-medium text-gray-900"><%= suggestion.review.name %></p>
-                      <p class="text-sm text-gray-500 truncate max-w-md" title="<%= suggestion.review.text %>">
+                      <p class="text-sm text-gray-500 truncate max-w-md" title="<%= suggestion&.review&.text %>">
                         <%= truncate(suggestion.text, length: 80, separator: ' ') %>
                       </p>
                     </div>

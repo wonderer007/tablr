@@ -1,112 +1,192 @@
-<% content_for :title, "Edit Profile" %>
+<% content_for :title, "Edit Profile - Tablr" %>
 
-<div class="bg-white">
-  <div class="px-4 py-5 sm:px-6">
-    <div class="sm:flex sm:items-center sm:justify-between">
-      <div class="sm:flex-auto">
-        <h1 class="text-2xl font-bold tracking-tight text-gray-900">Edit Profile</h1>
-        <div class="mt-2 flex items-center gap-x-2">
-          <p class="text-sm text-gray-700">Update your account information and preferences.</p>
+<div class="min-h-screen bg-gray-50">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    
+    <!-- Header -->
+    <div class="mb-8">
+      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <div>
+          <h1 class="text-2xl font-semibold text-gray-900">Edit Profile</h1>
+          <p class="mt-1 text-sm text-gray-500">Update your account information and preferences.</p>
         </div>
       </div>
     </div>
 
-    <div class="mt-6 bg-white shadow sm:rounded-lg">
-      <div class="px-4 py-5 sm:p-6">
-        <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put, class: "space-y-6" }) do |f| %>
-          <%= render "devise/shared/error_messages", resource: resource %>
-
-          <!-- Personal Information Section -->
+    <div class="space-y-6">
+      <!-- Personal Information Card -->
+      <div class="bg-white rounded-xl border border-gray-100 overflow-hidden">
+        <div class="flex items-center gap-3 p-6 border-b border-gray-100">
+          <div class="w-8 h-8 bg-indigo-50 rounded-lg flex items-center justify-center">
+            <svg class="w-4 h-4 text-indigo-500" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
+            </svg>
+          </div>
           <div>
-            <h3 class="text-lg font-medium leading-6 text-gray-900 mb-4">Personal Information</h3>
-            <div class="space-y-6">
+            <h2 class="text-base font-semibold text-gray-900">Personal Information</h2>
+            <p class="text-sm text-gray-500">Update your name and contact details.</p>
+          </div>
+        </div>
+
+        <div class="p-6">
+          <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
+            <%= render "devise/shared/error_messages", resource: resource %>
+
+            <div class="space-y-6 max-w-md">
               <!-- First Name -->
-              <div class="max-w-md">
-                <%= f.label :first_name, "First Name", class: "block text-sm font-medium leading-6 text-gray-900" %>
-                <div class="mt-2">
-                  <%= f.text_field :first_name, required: true, class: "block w-full h-10 rounded-md border-0 px-4 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6", placeholder: "Enter your first name" %>
-                </div>
+              <div>
+                <label for="user_first_name" class="block text-xs font-medium text-gray-500 mb-1.5">First Name</label>
+                <%= f.text_field :first_name, required: true, class: "w-full h-10 rounded-lg border border-gray-200 bg-white px-3 text-sm text-gray-700 focus:border-gray-400 focus:ring-0 focus:outline-none", placeholder: "Enter your first name" %>
               </div>
 
               <!-- Last Name -->
-              <div class="max-w-md">
-                <%= f.label :last_name, "Last Name", class: "block text-sm font-medium leading-6 text-gray-900" %>
-                <div class="mt-2">
-                  <%= f.text_field :last_name, required: true, class: "block w-full h-10 rounded-md border-0 px-4 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6", placeholder: "Enter your last name" %>
-                </div>
+              <div>
+                <label for="user_last_name" class="block text-xs font-medium text-gray-500 mb-1.5">Last Name</label>
+                <%= f.text_field :last_name, required: true, class: "w-full h-10 rounded-lg border border-gray-200 bg-white px-3 text-sm text-gray-700 focus:border-gray-400 focus:ring-0 focus:outline-none", placeholder: "Enter your last name" %>
               </div>
 
-              <!-- Phone Number -->
-              <div class="max-w-md">
-                <%= f.label :phone_number, "Phone Number", class: "block text-sm font-medium leading-6 text-gray-900" %>
-                <div class="mt-2">
-                  <%= f.text_field :phone_number, required: true, class: "block w-full h-10 rounded-md border-0 px-4 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6", placeholder: "Enter your phone number" %>
+              <!-- Email (Read-only) -->
+              <div>
+                <label class="block text-xs font-medium text-gray-500 mb-1.5">Email Address</label>
+                <div class="w-full h-10 rounded-lg border border-gray-200 bg-gray-50 px-3 text-sm text-gray-500 flex items-center">
+                  <%= resource.email %>
                 </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Contact Information Section -->
-          <div class="border-t border-gray-200 pt-6">
-            <h3 class="text-lg font-medium leading-6 text-gray-900 mb-4">Contact Information</h3>
-            <div class="space-y-6">
-              <!-- Email -->
-              <div class="max-w-md">
-                <%= f.label :email, "Email Address", class: "block text-sm font-medium leading-6 text-gray-900" %>
-                <div class="mt-2">
-                  <%= f.email_field :email, autofocus: true, autocomplete: "email", required: true, class: "block w-full h-10 rounded-md border-0 px-4 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6", placeholder: "Enter your email" %>
-                </div>
-                <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
-                  <p class="mt-2 text-sm text-yellow-600">Currently waiting confirmation for: <%= resource.unconfirmed_email %></p>
-                <% end %>
+                <p class="mt-1.5 text-xs text-gray-400">Email cannot be changed.</p>
               </div>
 
               <!-- Current Password -->
-              <div class="max-w-md">
-                <%= f.label :current_password, "Current Password", class: "block text-sm font-medium leading-6 text-gray-900" %>
-                <div class="mt-2">
-                  <%= f.password_field :current_password, autocomplete: "current-password", required: true, class: "block w-full h-10 rounded-md border-0 px-4 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6", placeholder: "Enter your current password" %>
-                </div>
-                <p class="mt-1 text-sm text-gray-500">Required to confirm any changes</p>
+              <div>
+                <label for="user_current_password" class="block text-xs font-medium text-gray-500 mb-1.5">Current Password</label>
+                <%= f.password_field :current_password, autocomplete: "current-password", required: true, class: "w-full h-10 rounded-lg border border-gray-200 bg-white px-3 text-sm text-gray-700 focus:border-gray-400 focus:ring-0 focus:outline-none", placeholder: "Enter your current password" %>
+                <p class="mt-1.5 text-xs text-gray-400">Required to confirm any changes.</p>
               </div>
+            </div>
+
+            <div class="mt-6 flex justify-end">
+              <%= f.submit "Update Profile", class: "h-10 px-4 text-sm font-medium text-white bg-gray-900 rounded-lg hover:bg-gray-800 transition-colors cursor-pointer" %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+
+      <!-- Business Information Card -->
+      <% if current_user.business.present? %>
+        <div class="bg-white rounded-xl border border-gray-100 overflow-hidden">
+          <div class="flex items-center gap-3 p-6 border-b border-gray-100">
+            <div class="w-8 h-8 bg-emerald-50 rounded-lg flex items-center justify-center">
+              <svg class="w-4 h-4 text-emerald-500" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 21v-7.5a.75.75 0 0 1 .75-.75h3a.75.75 0 0 1 .75.75V21m-4.5 0H2.36m11.14 0H18m0 0h3.64m-1.39 0V9.349M3.75 21V9.349m0 0a3.001 3.001 0 0 0 3.75-.615A2.993 2.993 0 0 0 9.75 9.75c.896 0 1.7-.393 2.25-1.016a2.993 2.993 0 0 0 2.25 1.016c.896 0 1.7-.393 2.25-1.015a3.001 3.001 0 0 0 3.75.614m-16.5 0a3.004 3.004 0 0 1-.621-4.72l1.189-1.19A1.5 1.5 0 0 1 5.378 3h13.243a1.5 1.5 0 0 1 1.06.44l1.19 1.189a3 3 0 0 1-.621 4.72M6.75 18h3.75a.75.75 0 0 0 .75-.75V13.5a.75.75 0 0 0-.75-.75H6.75a.75.75 0 0 0-.75.75v3.75c0 .414.336.75.75.75Z" />
+              </svg>
+            </div>
+            <div>
+              <h2 class="text-base font-semibold text-gray-900">Business Information</h2>
+              <p class="text-sm text-gray-500">Your connected business details.</p>
             </div>
           </div>
 
-          <!-- Security Section -->
-          <div class="border-t border-gray-200 pt-6">
-            <h3 class="text-lg font-medium leading-6 text-gray-900 mb-4">Change Password</h3>
-            <p class="text-sm text-gray-500 mb-4">Leave password fields blank if you don't want to change your password</p>
-            
-            <div class="space-y-6">
-              <!-- New Password -->
-              <div class="max-w-md">
-                <%= f.label :password, "New Password", class: "block text-sm font-medium leading-6 text-gray-900" %>
-                <div class="mt-2">
-                  <%= f.password_field :password, autocomplete: "new-password", class: "block w-full h-10 rounded-md border-0 px-4 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6", placeholder: "Leave blank to keep current password" %>
+          <div class="p-6">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              <!-- Business Name -->
+              <div>
+                <label class="block text-xs font-medium text-gray-500 mb-1.5">Business Name</label>
+                <div class="w-full h-10 rounded-lg border border-gray-200 bg-gray-50 px-3 text-sm text-gray-700 flex items-center">
+                  <%= current_user.business.name || "Not set" %>
                 </div>
+              </div>
+
+              <!-- Plan -->
+              <div>
+                <label class="block text-xs font-medium text-gray-500 mb-1.5">Current Plan</label>
+                <div class="w-full h-10 rounded-lg border border-gray-200 bg-gray-50 px-3 text-sm flex items-center gap-2">
+                  <% if current_user.business.pro? %>
+                    <span class="inline-flex items-center px-2 py-0.5 rounded-md text-xs font-medium bg-indigo-100 text-indigo-700">Pro</span>
+                  <% else %>
+                    <span class="inline-flex items-center px-2 py-0.5 rounded-md text-xs font-medium bg-gray-100 text-gray-700">Free</span>
+                  <% end %>
+                </div>
+              </div>
+
+              <!-- Rating -->
+              <div>
+                <label class="block text-xs font-medium text-gray-500 mb-1.5">Rating</label>
+                <div class="w-full h-10 rounded-lg border border-gray-200 bg-gray-50 px-3 text-sm text-gray-700 flex items-center gap-2">
+                  <% if current_user.business.rating.present? %>
+                    <svg class="w-4 h-4 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                    </svg>
+                    <span><%= current_user.business.rating %></span>
+                  <% else %>
+                    <span class="text-gray-400">No rating yet</span>
+                  <% end %>
+                </div>
+              </div>
+
+              <!-- Business Type -->
+              <div>
+                <label class="block text-xs font-medium text-gray-500 mb-1.5">Business Type</label>
+                <div class="w-full h-10 rounded-lg border border-gray-200 bg-gray-50 px-3 text-sm text-gray-700 flex items-center">
+                  <%= current_user.business.business_type&.titleize&.gsub('_', ' ') || "Not set" %>
+                </div>
+              </div>
+
+              <!-- Address -->
+              <% if current_user.business.address.present? %>
+                <div class="sm:col-span-2">
+                  <label class="block text-xs font-medium text-gray-500 mb-1.5">Address</label>
+                  <div class="w-full min-h-10 rounded-lg border border-gray-200 bg-gray-50 px-3 py-2.5 text-sm text-gray-700">
+                    <%= current_user.business.address %>
+                  </div>
+                </div>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      <% end %>
+
+      <!-- Change Password Card -->
+      <div class="bg-white rounded-xl border border-gray-100 overflow-hidden">
+        <div class="flex items-center gap-3 p-6 border-b border-gray-100">
+          <div class="w-8 h-8 bg-amber-50 rounded-lg flex items-center justify-center">
+            <svg class="w-4 h-4 text-amber-500" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 1 0-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H6.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z" />
+            </svg>
+          </div>
+          <div>
+            <h2 class="text-base font-semibold text-gray-900">Change Password</h2>
+            <p class="text-sm text-gray-500">Update your password to keep your account secure.</p>
+          </div>
+        </div>
+
+        <div class="p-6">
+          <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
+            <div class="space-y-6 max-w-md">
+              <!-- Current Password -->
+              <div>
+                <label for="user_current_password" class="block text-xs font-medium text-gray-500 mb-1.5">Current Password</label>
+                <%= f.password_field :current_password, autocomplete: "current-password", required: true, class: "w-full h-10 rounded-lg border border-gray-200 bg-white px-3 text-sm text-gray-700 focus:border-gray-400 focus:ring-0 focus:outline-none", placeholder: "Enter your current password" %>
+              </div>
+
+              <!-- New Password -->
+              <div>
+                <label for="user_password" class="block text-xs font-medium text-gray-500 mb-1.5">New Password</label>
+                <%= f.password_field :password, autocomplete: "new-password", class: "w-full h-10 rounded-lg border border-gray-200 bg-white px-3 text-sm text-gray-700 focus:border-gray-400 focus:ring-0 focus:outline-none", placeholder: "Enter your new password" %>
                 <% if @minimum_password_length %>
-                  <p class="mt-1 text-sm text-gray-500"><%= @minimum_password_length %> characters minimum</p>
+                  <p class="mt-1.5 text-xs text-gray-400"><%= @minimum_password_length %> characters minimum.</p>
                 <% end %>
               </div>
 
               <!-- Confirm New Password -->
-              <div class="max-w-md">
-                <%= f.label :password_confirmation, "Confirm New Password", class: "block text-sm font-medium leading-6 text-gray-900" %>
-                <div class="mt-2">
-                  <%= f.password_field :password_confirmation, autocomplete: "new-password", class: "block w-full h-10 rounded-md border-0 px-4 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6", placeholder: "Confirm your new password" %>
-                </div>
+              <div>
+                <label for="user_password_confirmation" class="block text-xs font-medium text-gray-500 mb-1.5">Confirm New Password</label>
+                <%= f.password_field :password_confirmation, autocomplete: "new-password", class: "w-full h-10 rounded-lg border border-gray-200 bg-white px-3 text-sm text-gray-700 focus:border-gray-400 focus:ring-0 focus:outline-none", placeholder: "Confirm your new password" %>
               </div>
             </div>
-          </div>
 
-          <!-- Form Actions -->
-          <div class="border-t border-gray-200 pt-6">
-            <div class="flex justify-end space-x-3">
-              <%= link_to "Cancel", dashboard_path, class: "rounded-md border border-gray-300 bg-white py-2 px-4 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2" %>
-              <%= f.submit "Update Profile", class: "inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2" %>
+            <div class="mt-6 flex justify-end">
+              <%= f.submit "Update Password", class: "h-10 px-4 text-sm font-medium text-white bg-gray-900 rounded-lg hover:bg-gray-800 transition-colors cursor-pointer" %>
             </div>
-          </div>
-        <% end %>
+          <% end %>
+        </div>
       </div>
     </div>
   </div>

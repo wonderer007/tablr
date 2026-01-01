@@ -31,6 +31,15 @@
         <%= form_with url: update_email_notification_period_path, method: :patch, local: true do |form| %>
           <div class="space-y-8 max-w-md">
             <div>
+              <label for="email_notification" class="block text-xs font-medium text-gray-500 mb-1.5">Email Notifications</label>
+              <%= form.select :email_notification, 
+                  options_for_select([['Active', true], ['Deactivated', false]], current_user.email_notification), 
+                  {}, 
+                  { class: "w-full h-10 rounded-lg border border-gray-200 bg-white px-3 text-sm text-gray-700 focus:border-gray-400 focus:ring-0 focus:outline-none" } %>
+              <p class="mt-2 text-sm text-gray-500">Receive email reports and notifications.</p>
+            </div>
+
+            <div>
               <label for="email_notification_period" class="block text-xs font-medium text-gray-500 mb-1.5">Email Notification Period</label>
               <%= form.select :email_notification_period, 
                   options_for_select([['Weekly', 'weekly'], ['Monthly', 'monthly'], ['Weekly and Monthly (Both)', 'weekly_and_monthly']], current_user.email_notification_period), 

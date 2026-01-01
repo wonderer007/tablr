@@ -38,6 +38,11 @@ class Users::RegistrationsController < Devise::RegistrationsController
     respond_with resource
   end
 
+  def edit
+    @business = current_user.business
+    @payment_url = "#{ENV['PAYMENT_URL']}?checkout[custom][email]=#{current_user.email}&checkout[custom][tenant]=#{@business.id}"
+  end
+
   protected
 
   def configure_sign_up_params

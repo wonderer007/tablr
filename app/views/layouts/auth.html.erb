@@ -1,9 +1,10 @@
 <!DOCTYPE html>
-<html class="bg-gray-50">
+<html class="h-full">
   <head>
-    <title><%= content_for(:title) || "Tablr" %></title>
+    <title><%= content_for(:title) || "Tablr - Review Intelligence for Every Business" %></title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="description" content="<%= content_for(:description) || "Transform customer reviews into actionable insights with AI-powered analytics." %>">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
@@ -16,11 +17,54 @@
     <link rel="icon" href="/icon.png" type="image/png">
     <link rel="icon" href="/icon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="/icon.png">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
+    
+    <style>
+      .font-display {
+        font-family: 'Inter', system-ui, sans-serif;
+        font-weight: 700;
+      }
+      
+      .gradient-text {
+        background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 50%, #8b5cf6 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+      
+      .mesh-gradient {
+        background: 
+          radial-gradient(ellipse at 20% 30%, rgba(99, 102, 241, 0.08) 0%, transparent 50%),
+          radial-gradient(ellipse at 80% 70%, rgba(139, 92, 246, 0.08) 0%, transparent 50%),
+          radial-gradient(ellipse at 50% 50%, rgba(244, 244, 245, 0.5) 0%, transparent 70%),
+          linear-gradient(180deg, #fafafa 0%, #f4f4f5 100%);
+      }
+      
+      .glass-card {
+        background: rgba(255, 255, 255, 0.85);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+      }
+      
+      @keyframes pulse-slow {
+        0%, 100% { opacity: 0.4; }
+        50% { opacity: 0.7; }
+      }
+      
+      .animate-pulse-slow {
+        animation: pulse-slow 4s ease-in-out infinite;
+      }
+    </style>
   </head>
 
-  <body class="bg-gray-50">
+  <body class="h-full bg-slate-50">
     <%= yield %>
   </body>
 </html>

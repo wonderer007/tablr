@@ -1,111 +1,197 @@
 <!-- Sign Up Page -->
-<div class="min-h-screen py-16 px-4 sm:px-6 lg:px-8">
-  <div class="max-w-md mx-auto">
-    <div class="text-center mb-12">
-      <h1 class="text-3xl font-bold text-gray-900">Create Your <%= link_to "Tablr", root_path, class: "text-indigo-600 hover:text-indigo-500 transition duration-200 font-medium" %> Account</h1>
-      <p class="mt-4 text-sm text-gray-600">
-        Join <%= link_to "Tablr", root_path, class: "text-indigo-600 hover:text-indigo-500 transition duration-200 font-medium" %> to transform your restaurant reviews into actionable insights
-      </p>
+<div class="min-h-screen relative overflow-hidden">
+  <!-- Background Effects -->
+  <div class="absolute inset-0 mesh-gradient"></div>
+  <div class="absolute top-20 left-10 w-72 h-72 bg-indigo-400/20 rounded-full blur-3xl animate-pulse-slow"></div>
+  <div class="absolute bottom-20 right-10 w-96 h-96 bg-violet-400/20 rounded-full blur-3xl animate-pulse-slow" style="animation-delay: 2s;"></div>
+  
+  <div class="relative z-10 grid lg:grid-cols-2 min-h-screen">
+    <!-- Left Side - Branding -->
+    <div class="hidden lg:flex items-center justify-end pr-16 xl:pr-24">
+      <div class="w-full max-w-md space-y-8">
+        <div class="flex items-center gap-3">
+          <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-indigo-600 to-violet-500 flex items-center justify-center shadow-lg shadow-indigo-500/30">
+            <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+            </svg>
+          </div>
+          <%= link_to root_path, class: "font-display font-bold text-3xl text-slate-900" do %>
+            Tablr
+          <% end %>
+        </div>
+        
+        <div class="space-y-4">
+          <h1 class="font-display text-4xl font-bold text-slate-900 leading-tight">
+            Transform Reviews Into
+            <span class="gradient-text">Actionable Insights</span>
+          </h1>
+          <p class="text-lg text-slate-600 leading-relaxed">
+            Join hundreds of business owners who use AI-powered analytics to understand customers and grow their business.
+          </p>
+        </div>
+        
+        <!-- Feature highlights -->
+        <div class="space-y-4 pt-4">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-lg bg-rose-100 flex items-center justify-center">
+              <svg class="w-5 h-5 text-rose-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+              </svg>
+            </div>
+            <span class="text-slate-700 font-medium">Extract complaints automatically</span>
+          </div>
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-lg bg-violet-100 flex items-center justify-center">
+              <svg class="w-5 h-5 text-violet-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+              </svg>
+            </div>
+            <span class="text-slate-700 font-medium">Discover customer suggestions</span>
+          </div>
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-lg bg-indigo-100 flex items-center justify-center">
+              <svg class="w-5 h-5 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+              </svg>
+            </div>
+            <span class="text-slate-700 font-medium">Weekly reports to your inbox</span>
+          </div>
+        </div>
+        
+        <!-- Social proof -->
+        <div class="flex items-center gap-4 pt-4">
+          <div class="flex -space-x-2">
+            <div class="w-8 h-8 rounded-full bg-gradient-to-br from-rose-400 to-rose-600 border-2 border-white flex items-center justify-center text-white text-xs font-semibold">JC</div>
+            <div class="w-8 h-8 rounded-full bg-gradient-to-br from-indigo-400 to-indigo-600 border-2 border-white flex items-center justify-center text-white text-xs font-semibold">MR</div>
+            <div class="w-8 h-8 rounded-full bg-gradient-to-br from-violet-400 to-violet-600 border-2 border-white flex items-center justify-center text-white text-xs font-semibold">SK</div>
+          </div>
+          <p class="text-sm text-slate-600">Trusted by <span class="font-semibold text-slate-900">500+</span> business owners</p>
+        </div>
+      </div>
     </div>
-
-    <!-- Flash Messages -->
-    <% if notice %>
-      <div class="bg-green-50 border border-green-200 text-green-800 px-6 py-4 rounded-lg relative mb-6" role="alert" data-controller="alert">
-        <span class="block sm:inline"><%= notice %></span>
-      </div>
-    <% end %>
     
-    <% if alert %>
-      <div class="bg-red-50 border border-red-200 text-red-800 px-6 py-4 rounded-lg relative mb-6" role="alert" data-controller="alert">
-        <span class="block sm:inline"><%= alert %></span>
-      </div>
-    <% end %>
-
-    <div class="bg-white py-10 px-6 shadow-lg sm:rounded-lg sm:px-12">
-      <!-- Google Sign Up Button -->
-      <%= button_to user_google_oauth2_omniauth_authorize_path, method: :post, data: { turbo: false }, class: "w-full flex items-center justify-center gap-3 py-3 px-6 border border-gray-300 rounded-md shadow-sm text-base font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition duration-200 ease-in-out" do %>
-        <svg class="w-5 h-5" viewBox="0 0 24 24">
-          <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
-          <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
-          <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
-          <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
-        </svg>
-        <span>Continue with Google</span>
-      <% end %>
-
-      <!-- Divider -->
-      <div class="relative my-8">
-        <div class="absolute inset-0 flex items-center">
-          <div class="w-full border-t border-gray-300"></div>
-        </div>
-        <div class="relative flex justify-center text-sm">
-          <span class="px-4 bg-white text-gray-500">Or sign up with email</span>
-        </div>
-      </div>
-
-      <%= form_for(resource, as: resource_name, url: registration_path(resource_name), class: "space-y-8", autocomplete: "off") do |f| %>
-        <div class="mb-6">
-          <%= render "devise/shared/error_messages", resource: resource %>
+    <!-- Right Side - Form -->
+    <div class="flex items-center justify-center lg:justify-start lg:pl-16 xl:pl-24 p-6 lg:py-12">
+      <div class="w-full max-w-md">
+        <!-- Mobile Logo -->
+        <div class="lg:hidden flex items-center justify-center gap-2 mb-8">
+          <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-600 to-violet-500 flex items-center justify-center shadow-lg shadow-indigo-500/20">
+            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+            </svg>
+          </div>
+          <%= link_to root_path, class: "font-display font-bold text-2xl text-slate-900" do %>
+            Tablr
+          <% end %>
         </div>
 
-        <div class="space-y-6">
-          <div class="grid grid-cols-2 gap-4">
-            <div>
-              <%= f.label :first_name, "First Name", class: "block text-sm font-medium text-gray-700 mb-2" %>
-              <%= f.text_field :first_name, required: true, autofocus: true, autocomplete: "off", class: "appearance-none block w-full px-4 py-3 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition duration-200", placeholder: "John" %>
+        <!-- Flash Messages -->
+        <% if notice %>
+          <div class="bg-emerald-50 border border-emerald-200 text-emerald-800 px-5 py-4 rounded-xl relative mb-6 flex items-center gap-3" role="alert" data-controller="alert">
+            <svg class="w-5 h-5 text-emerald-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <span class="text-sm"><%= notice %></span>
+          </div>
+        <% end %>
+        
+        <% if alert %>
+          <div class="bg-rose-50 border border-rose-200 text-rose-800 px-5 py-4 rounded-xl relative mb-6 flex items-center gap-3" role="alert" data-controller="alert">
+            <svg class="w-5 h-5 text-rose-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <span class="text-sm"><%= alert %></span>
+          </div>
+        <% end %>
+
+        <div class="glass-card rounded-2xl p-8 shadow-xl shadow-slate-900/5 border border-white/50">
+          <div class="text-center mb-8">
+            <h2 class="font-display text-2xl font-bold text-slate-900 mb-2">Create your account</h2>
+            <p class="text-slate-600 text-sm">Start your free trial today</p>
+          </div>
+
+          <!-- Google Sign Up Button -->
+          <%= button_to user_google_oauth2_omniauth_authorize_path, method: :post, data: { turbo: false }, class: "w-full flex items-center justify-center gap-3 py-3.5 px-6 bg-white border border-slate-200 rounded-xl shadow-sm text-sm font-semibold text-slate-700 hover:bg-slate-50 hover:border-slate-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all duration-200" do %>
+            <svg class="w-5 h-5" viewBox="0 0 24 24">
+              <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+              <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+              <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+              <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+            </svg>
+            <span>Continue with Google</span>
+          <% end %>
+
+          <!-- Divider -->
+          <div class="relative my-6">
+            <div class="absolute inset-0 flex items-center">
+              <div class="w-full border-t border-slate-200"></div>
+            </div>
+            <div class="relative flex justify-center text-sm">
+              <span class="px-3 bg-white text-slate-500">or continue with email</span>
+            </div>
+          </div>
+
+          <%= form_for(resource, as: resource_name, url: registration_path(resource_name), class: "space-y-5", autocomplete: "off") do |f| %>
+            <% if resource.errors.any? %>
+              <div class="bg-rose-50 border border-rose-200 text-rose-700 px-4 py-3 rounded-xl text-sm">
+                <ul class="list-disc list-inside space-y-1">
+                  <% resource.errors.full_messages.each do |message| %>
+                    <li><%= message %></li>
+                  <% end %>
+                </ul>
+              </div>
+            <% end %>
+
+            <div class="grid grid-cols-2 gap-4">
+              <div>
+                <%= f.label :first_name, "First name", class: "block text-sm font-medium text-slate-700 mb-1.5" %>
+                <%= f.text_field :first_name, required: true, autofocus: true, autocomplete: "off", class: "w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent focus:bg-white transition-all duration-200 text-sm", placeholder: "John" %>
+              </div>
+
+              <div>
+                <%= f.label :last_name, "Last name", class: "block text-sm font-medium text-slate-700 mb-1.5" %>
+                <%= f.text_field :last_name, required: true, autocomplete: "off", class: "w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent focus:bg-white transition-all duration-200 text-sm", placeholder: "Doe" %>
+              </div>
             </div>
 
             <div>
-              <%= f.label :last_name, "Last Name", class: "block text-sm font-medium text-gray-700 mb-2" %>
-              <%= f.text_field :last_name, required: true, autocomplete: "off", class: "appearance-none block w-full px-4 py-3 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition duration-200", placeholder: "Doe" %>
+              <%= f.label :email, "Email address", class: "block text-sm font-medium text-slate-700 mb-1.5" %>
+              <%= f.email_field :email, required: true, autocomplete: "off", class: "w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent focus:bg-white transition-all duration-200 text-sm", placeholder: "john@company.com" %>
             </div>
-          </div>
 
-          <div>
-            <%= f.label :email, "Email Address", class: "block text-sm font-medium text-gray-700 mb-2" %>
-            <%= f.email_field :email, required: true, autocomplete: "off", class: "appearance-none block w-full px-4 py-3 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition duration-200", placeholder: "john@restaurant.com" %>
-          </div>
-
-          <div>
-            <%= f.label :password, "Password", class: "block text-sm font-medium text-gray-700 mb-2" %>
-            <%= f.password_field :password, required: true, autocomplete: "new-password", class: "appearance-none block w-full px-4 py-3 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition duration-200" %>
-            <p class="mt-2 text-xs text-gray-500">Minimum 6 characters</p>
-          </div>
-
-          <div>
-            <%= f.label :password_confirmation, "Confirm Password", class: "block text-sm font-medium text-gray-700 mb-2" %>
-            <%= f.password_field :password_confirmation, required: true, autocomplete: "new-password", class: "appearance-none block w-full px-4 py-3 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition duration-200" %>
-          </div>
-        </div>
-
-        <!-- Terms and Conditions Section -->
-        <div class="pt-6 border-t border-gray-100">
-          <div class="flex items-start">
-            <div class="flex items-center h-5">
-              <input id="terms_accepted" name="terms_accepted" type="checkbox" required class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded">
+            <div>
+              <%= f.label :password, "Password", class: "block text-sm font-medium text-slate-700 mb-1.5" %>
+              <%= f.password_field :password, required: true, autocomplete: "new-password", class: "w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent focus:bg-white transition-all duration-200 text-sm", placeholder: "Create a password" %>
+              <p class="mt-1.5 text-xs text-slate-500">Must be at least 6 characters</p>
             </div>
-            <div class="ml-3 text-sm">
-              <label for="terms_accepted" class="text-gray-700">
+
+            <!-- Terms and Conditions -->
+            <div class="flex items-start gap-3 pt-2">
+              <div class="flex items-center h-5 mt-0.5">
+                <input id="terms_accepted" name="terms_accepted" type="checkbox" required class="w-4 h-4 text-indigo-600 border-slate-300 rounded focus:ring-indigo-500 focus:ring-2 cursor-pointer">
+              </div>
+              <label for="terms_accepted" class="text-sm text-slate-600">
                 I agree to the 
-                <button type="button" onclick="openTermsModal()" class="text-indigo-600 hover:text-indigo-500 underline font-medium">
+                <button type="button" onclick="openTermsModal()" class="text-indigo-600 hover:text-indigo-500 font-medium underline underline-offset-2">
                   Terms and Conditions
                 </button>
               </label>
             </div>
-          </div>
-        </div>
 
-        <div class="pt-6">
-          <%= f.submit "Create Account", id: "create-account-btn", class: "w-full flex justify-center py-3 px-6 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition duration-200 ease-in-out" %>
-        </div>
-      <% end %>
+            <div class="pt-2">
+              <%= f.submit "Create account", id: "create-account-btn", class: "w-full py-3.5 px-6 text-white font-semibold bg-gradient-to-r from-indigo-600 to-violet-500 rounded-xl hover:shadow-lg hover:shadow-indigo-500/30 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all duration-300 cursor-pointer" %>
+            </div>
+          <% end %>
 
-      <div class="mt-8">
-        <div class="relative flex justify-center text-sm">
-          <span class="px-4 bg-white text-gray-500">Already have an account?</span>
+          <p class="mt-6 text-center text-sm text-slate-600">
+            Already have an account?
+            <%= link_to "Sign in", new_user_session_path, class: "font-semibold text-indigo-600 hover:text-indigo-500 transition-colors" %>
+          </p>
         </div>
-
-        <%= link_to "Sign In", new_user_session_path, class: "w-full flex justify-center py-3 px-6 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition duration-200 ease-in-out mt-4" %>
+        
+        <p class="mt-6 text-center text-xs text-slate-500">
+          By signing up, you agree to our Terms of Service and Privacy Policy
+        </p>
       </div>
     </div>
   </div>
@@ -119,7 +205,6 @@
     if (window.termsModalController) {
       window.termsModalController.open()
     } else {
-      // Fallback if controller not ready
       const modal = document.querySelector('[data-modal-target="modal"]')
       if (modal) {
         modal.classList.remove('hidden')
@@ -132,7 +217,6 @@
     if (window.termsModalController) {
       window.termsModalController.close()
     } else {
-      // Fallback if controller not ready
       const modal = document.querySelector('[data-modal-target="modal"]')
       if (modal) {
         modal.classList.add('hidden')
@@ -142,26 +226,18 @@
   }
 
   function acceptTermsAndClose() {
-    // Check the checkbox
     const checkbox = document.getElementById('terms_accepted')
     if (checkbox) {
       checkbox.checked = true
-      
-      // Remove any error styling
-      checkbox.classList.remove('border-red-300', 'focus:ring-red-500')
-      
-      // Remove error message if it exists
+      checkbox.classList.remove('border-rose-300', 'focus:ring-rose-500')
       const errorMessage = document.getElementById('terms-error-message')
       if (errorMessage) {
         errorMessage.remove()
       }
     }
-    
-    // Close the modal
     closeTermsModal()
   }
 
-  // Form validation
   document.addEventListener('DOMContentLoaded', function() {
     const form = document.querySelector('form')
     if (form) {
@@ -170,7 +246,7 @@
         
         if (!checkbox || !checkbox.checked) {
           event.preventDefault()
-          showValidationError('You must accept the Terms and Conditions to create an account.')
+          showValidationError('Please accept the Terms and Conditions to continue.')
           return false
         }
       })
@@ -178,40 +254,34 @@
   })
 
   function showValidationError(message) {
-    // Remove any existing error messages
     const existingError = document.getElementById('terms-error-message')
     if (existingError) {
       existingError.remove()
     }
 
-    // Create and insert error message
     const checkbox = document.getElementById('terms_accepted')
     if (checkbox) {
       const errorDiv = document.createElement('div')
       errorDiv.id = 'terms-error-message'
-      errorDiv.className = 'mt-2 text-sm text-red-600'
-      errorDiv.textContent = message
+      errorDiv.className = 'mt-2 text-sm text-rose-600 flex items-center gap-1.5'
+      errorDiv.innerHTML = '<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>' + message
       
-      // Insert after the checkbox container
       const checkboxContainer = checkbox.closest('.flex.items-start')
       if (checkboxContainer) {
         checkboxContainer.parentNode.insertBefore(errorDiv, checkboxContainer.nextSibling)
       }
 
-      // Add red border to checkbox
-      checkbox.classList.add('border-red-300', 'focus:ring-red-500')
+      checkbox.classList.add('border-rose-300', 'focus:ring-rose-500')
       
-      // Remove error styling when checkbox is checked
       checkbox.addEventListener('change', function() {
         if (checkbox.checked) {
           errorDiv.remove()
-          checkbox.classList.remove('border-red-300', 'focus:ring-red-500')
+          checkbox.classList.remove('border-rose-300', 'focus:ring-rose-500')
         }
       }, { once: true })
     }
   }
 
-  // Handle escape key
   document.addEventListener('keydown', function(event) {
     if (event.key === 'Escape') {
       const modal = document.querySelector('[data-modal-target="modal"]')

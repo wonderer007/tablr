@@ -1,22 +1,29 @@
 <!-- Terms and Conditions Modal -->
 <div data-controller="modal" data-modal-target="modal" class="fixed inset-0 z-50 hidden" aria-labelledby="modal-title" role="dialog" aria-modal="true">
   <!-- Backdrop -->
-  <div onclick="closeTermsModal()" class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
+  <div onclick="closeTermsModal()" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm transition-opacity"></div>
 
   <!-- Modal container -->
   <div class="fixed inset-0 z-10 overflow-y-auto">
     <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
       <!-- Modal panel -->
-      <div onclick="event.stopPropagation()" class="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 w-full max-w-2xl">
+      <div onclick="event.stopPropagation()" class="relative transform overflow-hidden rounded-2xl bg-white text-left shadow-2xl transition-all sm:my-8 w-full max-w-2xl">
         <!-- Header -->
-        <div class="bg-white px-6 py-4 border-b border-gray-200">
+        <div class="bg-gradient-to-r from-indigo-600 to-violet-500 px-6 py-5">
           <div class="flex items-center justify-between">
-            <h3 class="text-lg font-semibold text-gray-900" id="modal-title">
-              Terms and Conditions
-            </h3>
-            <button type="button" onclick="closeTermsModal()" class="rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center backdrop-blur-sm">
+                <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                </svg>
+              </div>
+              <h3 class="text-lg font-semibold text-white" id="modal-title">
+                Terms and Conditions
+              </h3>
+            </div>
+            <button type="button" onclick="closeTermsModal()" class="rounded-lg bg-white/10 p-2 text-white/80 hover:text-white hover:bg-white/20 focus:outline-none focus:ring-2 focus:ring-white/50 transition-all">
               <span class="sr-only">Close</span>
-              <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+              <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
               </svg>
             </button>
@@ -24,112 +31,199 @@
         </div>
 
         <!-- Content - Fixed height with scroll -->
-        <div class="bg-white px-6 py-4 max-h-96 overflow-y-auto">
-          <div class="prose prose-sm max-w-none">
-            <p class="text-sm text-gray-600 mb-4">
-              <strong>Last updated:</strong> <%= Date.current.strftime("%B %d, %Y") %>
+        <div class="bg-white px-6 py-6 max-h-[28rem] overflow-y-auto">
+          <div class="prose prose-sm max-w-none prose-slate">
+            <p class="text-sm text-slate-500 mb-6 flex items-center gap-2">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+              </svg>
+              <span>Last updated: <%= Date.current.strftime("%B %d, %Y") %></span>
             </p>
 
-            <h4 class="text-base font-semibold text-gray-900 mb-3">Welcome to Tablr</h4>
-            <p class="text-sm text-gray-700 mb-4">
-              By using Tablr's services, you agree to these terms and conditions. Please read them carefully before proceeding with your registration.
+            <div class="bg-indigo-50 border border-indigo-100 rounded-xl p-4 mb-6">
+              <h4 class="text-base font-semibold text-indigo-900 mb-2 flex items-center gap-2">
+                <svg class="w-5 h-5 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                Welcome to Tablr
+              </h4>
+              <p class="text-sm text-indigo-800">
+                By using Tablr's services, you agree to these terms and conditions. Please read them carefully before proceeding with your registration.
+              </p>
+            </div>
+
+            <h4 class="text-base font-semibold text-slate-900 mb-2">1. Service Description</h4>
+            <p class="text-sm text-slate-700 mb-5">
+              Tablr provides AI-powered review analysis and intelligence services for businesses of all types. We process publicly available review data from various platforms including Google Maps, Yelp, TrustPilot, App Store, Google Play, and other review sites to extract complaints, suggestions, and actionable insights.
             </p>
 
-            <h4 class="text-base font-semibold text-gray-900 mb-3">1. Service Description</h4>
-            <p class="text-sm text-gray-700 mb-4">
-              Tablr provides restaurant review analysis and sentiment analysis services by processing publicly available review data from various platforms including Google Maps and other review sites.
+            <h4 class="text-base font-semibold text-slate-900 mb-2">2. Subscription Plans and Data Limits</h4>
+            <div class="text-sm text-slate-700 mb-5">
+              <p class="mb-3"><strong class="text-slate-900">Business Analytics Pro ($9/month) includes:</strong></p>
+              <ul class="list-none space-y-2 pl-0">
+                <li class="flex items-start gap-2">
+                  <svg class="w-4 h-4 text-indigo-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                  </svg>
+                  <span>Analysis of up to 2,000 reviews from the last 6 months of historic data</span>
+                </li>
+                <li class="flex items-start gap-2">
+                  <svg class="w-4 h-4 text-indigo-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                  </svg>
+                  <span>Connection to all 6 supported review platforms</span>
+                </li>
+                <li class="flex items-start gap-2">
+                  <svg class="w-4 h-4 text-indigo-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                  </svg>
+                  <span>Weekly or monthly automated email reports</span>
+                </li>
+                <li class="flex items-start gap-2">
+                  <svg class="w-4 h-4 text-indigo-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                  </svg>
+                  <span>AI-powered complaint and suggestion extraction</span>
+                </li>
+              </ul>
+              <p class="mt-3 text-slate-600">For analysis of additional reviews beyond plan limits, please contact our support team.</p>
+            </div>
+
+            <h4 class="text-base font-semibold text-slate-900 mb-2">3. Daily Review Processing Limits</h4>
+            <p class="text-sm text-slate-700 mb-5">
+              Our service processes a maximum of 60 new reviews per day per business. If your business receives more than 60 reviews on any given day, only the most recent 60 reviews will be analyzed and included in your dashboard for that day.
             </p>
 
-            <h4 class="text-base font-semibold text-gray-900 mb-3">2. Subscription Plans and Data Limits</h4>
-            <div class="text-sm text-gray-700 mb-4">
-              <p class="mb-2"><strong>$9 Monthly Plan includes:</strong></p>
-              <ul class="list-disc pl-5 space-y-1">
-                <li>Analysis of up to 2,000 reviews from the last 6 months of historic data</li>
-                <li>If your establishment has more than 2,000 reviews in the last 6 months, we will analyze the most recent 2,000 reviews</li>
-                <li>For analysis of additional reviews beyond this limit, please contact our support team</li>
+            <h4 class="text-base font-semibold text-slate-900 mb-2">4. Data Sources and Privacy</h4>
+            <div class="text-sm text-slate-700 mb-5">
+              <p class="mb-3">Tablr operates within the following guidelines:</p>
+              <ul class="list-none space-y-2 pl-0">
+                <li class="flex items-start gap-2">
+                  <svg class="w-4 h-4 text-emerald-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                  </svg>
+                  <span>We only analyze publicly available review data</span>
+                </li>
+                <li class="flex items-start gap-2">
+                  <svg class="w-4 h-4 text-emerald-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                  </svg>
+                  <span>We do not store or access any private customer information</span>
+                </li>
+                <li class="flex items-start gap-2">
+                  <svg class="w-4 h-4 text-emerald-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                  </svg>
+                  <span>All data processing complies with applicable privacy laws</span>
+                </li>
+                <li class="flex items-start gap-2">
+                  <svg class="w-4 h-4 text-emerald-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                  </svg>
+                  <span>We respect platform terms of service and rate limits</span>
+                </li>
               </ul>
             </div>
 
-            <h4 class="text-base font-semibold text-gray-900 mb-3">3. Daily Review Processing Limits</h4>
-            <p class="text-sm text-gray-700 mb-4">
-              Our service processes a maximum of 60 new reviews per day. If your establishment receives more than 60 reviews on any given day, only the most recent 60 reviews will be analyzed and included in your dashboard for that day.
-            </p>
-
-            <h4 class="text-base font-semibold text-gray-900 mb-3">4. Data Sources and Privacy</h4>
-            <div class="text-sm text-gray-700 mb-4">
-              <p class="mb-2">Tablr operates within the following guidelines:</p>
-              <ul class="list-disc pl-5 space-y-1">
-                <li>We only analyze publicly available review data</li>
-                <li>We do not store or access any private customer information</li>
-                <li>All data processing complies with applicable privacy laws and platform terms of service</li>
-                <li>We respect robots.txt files and rate limiting policies of source platforms</li>
+            <h4 class="text-base font-semibold text-slate-900 mb-2">5. Pricing and Payment Terms</h4>
+            <div class="text-sm text-slate-700 mb-5">
+              <ul class="list-none space-y-2 pl-0">
+                <li class="flex items-start gap-2">
+                  <span class="w-1.5 h-1.5 bg-slate-400 rounded-full mt-2 flex-shrink-0"></span>
+                  <span>Tablr reserves the right to modify pricing structure in the future</span>
+                </li>
+                <li class="flex items-start gap-2">
+                  <span class="w-1.5 h-1.5 bg-slate-400 rounded-full mt-2 flex-shrink-0"></span>
+                  <span>Existing subscribers will receive 30 days advance notice of any pricing changes</span>
+                </li>
+                <li class="flex items-start gap-2">
+                  <span class="w-1.5 h-1.5 bg-slate-400 rounded-full mt-2 flex-shrink-0"></span>
+                  <span>You may cancel your subscription at any time before the next billing cycle</span>
+                </li>
               </ul>
             </div>
 
-            <h4 class="text-base font-semibold text-gray-900 mb-3">5. Pricing and Payment Terms</h4>
-            <div class="text-sm text-gray-700 mb-4">
-              <p class="mb-2">Important pricing information:</p>
-              <ul class="list-disc pl-5 space-y-1">
-                <li>Tablr reserves the right to modify pricing structure in the future</li>
-                <li>Existing subscribers will receive 30 days advance notice of any pricing changes</li>
-                <li>Changes to pricing will not affect your current billing cycle</li>
-                <li>You may cancel your subscription at any time before the next billing cycle</li>
-              </ul>
-            </div>
-
-            <h4 class="text-base font-semibold text-gray-900 mb-3">6. Service Availability</h4>
-            <p class="text-sm text-gray-700 mb-4">
+            <h4 class="text-base font-semibold text-slate-900 mb-2">6. Service Availability</h4>
+            <p class="text-sm text-slate-700 mb-5">
               While we strive to maintain 99.9% uptime, Tablr does not guarantee uninterrupted service availability. We reserve the right to perform maintenance and updates that may temporarily affect service availability.
             </p>
 
-            <h4 class="text-base font-semibold text-gray-900 mb-3">7. Data Accuracy and Liability</h4>
-            <p class="text-sm text-gray-700 mb-4">
+            <h4 class="text-base font-semibold text-slate-900 mb-2">7. Data Accuracy and Liability</h4>
+            <p class="text-sm text-slate-700 mb-5">
               Tablr provides analysis based on publicly available data and AI-powered sentiment analysis. While we strive for accuracy, we cannot guarantee 100% precision in sentiment classification or data completeness. Users should use insights as guidance alongside their own business judgment.
             </p>
 
-            <h4 class="text-base font-semibold text-gray-900 mb-3">8. Acceptable Use</h4>
-            <div class="text-sm text-gray-700 mb-4">
-              <p class="mb-2">Users agree not to:</p>
-              <ul class="list-disc pl-5 space-y-1">
-                <li>Attempt to reverse engineer or circumvent our service</li>
-                <li>Use the service for any illegal or unauthorized purpose</li>
-                <li>Share account credentials with unauthorized parties</li>
-                <li>Attempt to access data beyond your subscription limits</li>
+            <h4 class="text-base font-semibold text-slate-900 mb-2">8. Acceptable Use</h4>
+            <div class="text-sm text-slate-700 mb-5">
+              <p class="mb-3">Users agree not to:</p>
+              <ul class="list-none space-y-2 pl-0">
+                <li class="flex items-start gap-2">
+                  <svg class="w-4 h-4 text-rose-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                  <span>Attempt to reverse engineer or circumvent our service</span>
+                </li>
+                <li class="flex items-start gap-2">
+                  <svg class="w-4 h-4 text-rose-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                  <span>Use the service for any illegal or unauthorized purpose</span>
+                </li>
+                <li class="flex items-start gap-2">
+                  <svg class="w-4 h-4 text-rose-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                  <span>Share account credentials with unauthorized parties</span>
+                </li>
+                <li class="flex items-start gap-2">
+                  <svg class="w-4 h-4 text-rose-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                  <span>Attempt to access data beyond your subscription limits</span>
+                </li>
               </ul>
             </div>
 
-            <h4 class="text-base font-semibold text-gray-900 mb-3">9. Cancellation and Refunds</h4>
-            <p class="text-sm text-gray-700 mb-4">
-              You may cancel your subscription at any time. Cancellations will take effect at the end of your current billing period. We do not provide prorated refunds for partial months, except as required by law.
+            <h4 class="text-base font-semibold text-slate-900 mb-2">9. Cancellation and Refunds</h4>
+            <p class="text-sm text-slate-700 mb-5">
+              You may cancel your subscription at any time. Cancellations will take effect at the end of your current billing period. We offer a 30-day money-back guarantee for new subscribers.
             </p>
 
-            <h4 class="text-base font-semibold text-gray-900 mb-3">10. Support and Contact</h4>
-            <p class="text-sm text-gray-700 mb-4">
-              For questions about these terms, billing issues, or requests for additional data analysis beyond plan limits, please contact our support team through the in-app support feature or by email.
+            <h4 class="text-base font-semibold text-slate-900 mb-2">10. Support and Contact</h4>
+            <p class="text-sm text-slate-700 mb-5">
+              For questions about these terms, billing issues, or requests for additional data analysis beyond plan limits, please contact our support team at <a href="mailto:hello@tablr.io" class="text-indigo-600 hover:text-indigo-500">hello@tablr.io</a> or through the in-app support feature.
             </p>
 
-            <h4 class="text-base font-semibold text-gray-900 mb-3">11. Changes to Terms</h4>
-            <p class="text-sm text-gray-700 mb-4">
+            <h4 class="text-base font-semibold text-slate-900 mb-2">11. Changes to Terms</h4>
+            <p class="text-sm text-slate-700 mb-5">
               Tablr may update these terms and conditions periodically. Users will be notified of significant changes via email or through the application interface. Continued use of the service after changes constitutes acceptance of updated terms.
             </p>
 
-            <h4 class="text-base font-semibold text-gray-900 mb-3">12. Governing Law</h4>
-            <p class="text-sm text-gray-700 mb-4">
+            <h4 class="text-base font-semibold text-slate-900 mb-2">12. Governing Law</h4>
+            <p class="text-sm text-slate-700 mb-5">
               These terms and conditions are governed by the laws of the jurisdiction where Tablr operates. Any disputes will be resolved through binding arbitration in accordance with applicable arbitration rules.
             </p>
 
-            <p class="text-sm text-gray-600 mt-6 pt-4 border-t border-gray-200">
-              By clicking "I Accept" below and proceeding with registration, you acknowledge that you have read, understood, and agree to be bound by these terms and conditions.
-            </p>
+            <div class="bg-slate-50 border border-slate-200 rounded-xl p-4 mt-6">
+              <p class="text-sm text-slate-600 flex items-start gap-2">
+                <svg class="w-5 h-5 text-slate-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <span>By clicking "I Accept" below and proceeding with registration, you acknowledge that you have read, understood, and agree to be bound by these terms and conditions.</span>
+              </p>
+            </div>
           </div>
         </div>
 
         <!-- Footer -->
-        <div class="bg-gray-50 px-6 py-4 flex flex-col-reverse gap-3 sm:flex-row sm:justify-end sm:gap-3">
-          <button type="button" onclick="closeTermsModal()" class="inline-flex w-full justify-center items-center rounded-md bg-white px-4 py-2.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:w-auto min-h-[40px]">
+        <div class="bg-slate-50 px-6 py-4 flex flex-col-reverse gap-3 sm:flex-row sm:justify-end sm:gap-3 border-t border-slate-100">
+          <button type="button" onclick="closeTermsModal()" class="inline-flex w-full justify-center items-center rounded-xl bg-white px-5 py-2.5 text-sm font-semibold text-slate-700 shadow-sm ring-1 ring-inset ring-slate-200 hover:bg-slate-50 sm:w-auto transition-colors">
             Cancel
           </button>
-          <button type="button" id="accept-terms-btn" onclick="acceptTermsAndClose()" class="inline-flex w-full justify-center items-center rounded-md bg-indigo-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:w-auto min-h-[40px]">
+          <button type="button" id="accept-terms-btn" onclick="acceptTermsAndClose()" class="inline-flex w-full justify-center items-center rounded-xl bg-gradient-to-r from-indigo-600 to-violet-500 px-5 py-2.5 text-sm font-semibold text-white shadow-sm hover:shadow-lg hover:shadow-indigo-500/25 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:w-auto transition-all">
+            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+            </svg>
             I Accept
           </button>
         </div>

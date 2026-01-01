@@ -1,9 +1,9 @@
 ActiveAdmin.register Marketing::Company do
   menu label: "Marketing Companies"
 
-  permit_params :name, :linkedin_url, :address, :city, :state, :country, :phone, :google_map_url, :place_id
+  permit_params :name, :linkedin_url, :address, :city, :state, :country, :phone, :google_map_url, :business_id
 
-  member_action :create_place, method: :post do
+  member_action :create_business, method: :post do
     company = resource
 
     if company.google_map_url.blank?
@@ -11,25 +11,25 @@ ActiveAdmin.register Marketing::Company do
       return
     end
 
-    place = Place.find_or_initialize_by(url: company.google_map_url)
-    place.status = :created
-    place.test = true
+    business = Business.find_or_initialize_by(url: company.google_map_url)
+    business.status = :created
+    business.test = true
 
-    if place.save
-      company.update(place: place)
+    if business.save
+      company.update(business: business)
       random_password = SecureRandom.hex(10)
-      place.users.create!(
-        email: "testuser#{place.id}@tablr.io",
+      business.users.create!(
+        email: "testuser#{business.id}@tablr.io",
         first_name: "Test",
         last_name: "User",
         password: random_password,
         password_confirmation: random_password,
         payment_approved: true
       )
-      Apify::SyncPlaceJob.perform_later(place_id: place.id)
-      redirect_to resource_path(company), notice: "Place created and linked to company."
+      Apify::SyncBusinessJob.perform_later(business_id: business.id)
+      redirect_to resource_path(company), notice: "Business created and linked to company."
     else
-      redirect_to resource_path(company), alert: "Failed to create place: #{place.errors.full_messages.to_sentence}"
+      redirect_to resource_path(company), alert: "Failed to create business: #{business.errors.full_messages.to_sentence}"
     end
   end
 
@@ -80,7 +80,7 @@ ActiveAdmin.register Marketing::Company do
   filter :city
   filter :state
   filter :country
-  filter :place_id
+  filter :business_id
   filter :updated_at
 
   controller do
@@ -94,7 +94,7 @@ ActiveAdmin.register Marketing::Company do
     private
 
     def default_intro_sentences_for(company)
-      insights = Marketing::ReviewInsights.for_place(company.place)
+      insights = Marketing::ReviewInsights.for_business(company.business)
       positive_categories = insights[:positive_categories]
       feedback = insights[:feedback]
 
@@ -120,7 +120,7 @@ ActiveAdmin.register Marketing::Company do
     column :city
     column :country
 
-    column :place
+    column :business
     column :updated_at
     actions
   end
@@ -140,37 +140,37 @@ ActiveAdmin.register Marketing::Company do
       row :google_map_url do |company|
         link_to company.google_map_url, company.google_map_url, target: "_blank" if company.google_map_url.present?
       end
-      if resource.google_map_url.present? && resource.place.blank?
-        row("Create Place") do |company|
-          button_to "Create Place", create_place_admin_marketing_company_path(company), method: :post
+      if resource.google_map_url.present? && resource.business.blank?
+        row("Create Business") do |company|
+          button_to "Create Business", create_business_admin_marketing_company_path(company), method: :post
         end
       elsif resource.google_map_url.blank?
         row("Find Google Map Place") do |company|
           button_to "Find Google Map Place", find_google_map_place_admin_marketing_company_path(company), method: :post
         end
       end
-      row :place
+      row :business
       row :reviews_count do |company|
-        company&.place&.reviews&.count
+        company&.business&.reviews&.count
       end
       row :total_reviews do |company|
-        company&.place&.data&.dig('reviewsCount') || 0
+        company&.business&.data&.dig('reviewsCount') || 0
       end
       row :rating do |company|
-        company&.place&.rating&.round(1)
+        company&.business&.rating&.round(1)
       end
       row :test do |company|
-        company&.place&.test?
+        company&.business&.test?
       end
       row :first_inference_completed do |company|
-        company&.place&.first_inference_completed?
+        company&.business&.first_inference_completed?
       end
       row :created_at
       row :updated_at
     end
 
     panel "Marketing Email Preview" do
-      render 'marketing_email_preview', company: resource if resource&.place&.first_inference_completed? && resource&.marketing_contacts&.any?
+      render 'marketing_email_preview', company: resource if resource&.business&.first_inference_completed? && resource&.marketing_contacts&.any?
     end
 
     panel "Contacts" do
@@ -196,7 +196,7 @@ ActiveAdmin.register Marketing::Company do
       f.input :country
       f.input :phone
       f.input :google_map_url
-      f.input :place_id
+      f.input :business_id
     end
     f.actions
   end

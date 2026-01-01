@@ -1,5 +1,5 @@
 class Keyword < ApplicationRecord
-  acts_as_tenant :place
+  acts_as_tenant :business
 
   belongs_to :review
   belongs_to :category

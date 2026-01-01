@@ -5,19 +5,19 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable,
          :omniauthable, omniauth_providers: [:google_oauth2]
 
-  acts_as_tenant :place
+  acts_as_tenant :business
 
   validates :first_name, presence: true
   validates :last_name, presence: true
   # Password not required for OAuth users
   validates :password, presence: true, unless: :oauth_user?
 
-  belongs_to :place, optional: true
+  belongs_to :business, optional: true
 
   enum :email_notification_period, [:weekly, :monthly, :weekly_and_monthly]
   enum :email_notification_time, [:morning, :afternoon]
 
-  after_update :trigger_place_sync, if: :payment_approved_changed_to_true?
+  after_update :trigger_business_sync, if: :payment_approved_changed_to_true?
 
   def full_name
     "#{first_name} #{last_name}"
@@ -47,10 +47,10 @@ class User < ApplicationRecord
     saved_change_to_payment_approved? && payment_approved? && !payment_approved_before_last_save
   end
 
-  def trigger_place_sync
-    return unless place_id.present?
+  def trigger_business_sync
+    return unless business_id.present?
     
-    Rails.logger.info "Triggering Apify::SyncPlaceJob for place_id: #{place_id} (user: #{email})"
-    Apify::SyncPlaceJob.perform_later(place_id: place_id)
+    Rails.logger.info "Triggering Apify::SyncBusinessJob for business_id: #{business_id} (user: #{email})"
+    Apify::SyncBusinessJob.perform_later(business_id: business_id)
   end
 end

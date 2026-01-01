@@ -1,7 +1,7 @@
 class RestaurantReportMailer < ApplicationMailer
-  def periodic_report(user, place, start_date, end_date, report_type = 'weekly')
+  def periodic_report(user, business, start_date, end_date, report_type = 'weekly')
     @user = user
-    @place = place
+    @business = business
     @start_date = start_date
     @end_date = end_date
     @report_type = report_type
@@ -10,7 +10,7 @@ class RestaurantReportMailer < ApplicationMailer
 
     mail(
       to: user.email,
-      subject: "#{@place.name} - #{@report_type.titleize} Performance Report (#{@start_date.strftime('%b %d %Y')} - #{@end_date.strftime('%b %d, %Y')})"
+      subject: "#{@business.name} - #{@report_type.titleize} Performance Report (#{@start_date.strftime('%b %d %Y')} - #{@end_date.strftime('%b %d, %Y')})"
     )
   end
 
@@ -18,7 +18,7 @@ class RestaurantReportMailer < ApplicationMailer
 
   def generate_report_data
     ReviewAnalyticsService.new(
-      place: @place,
+      business: @business,
       start_date: @start_date,
       end_date: @end_date
     ).call

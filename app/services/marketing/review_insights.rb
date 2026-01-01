@@ -3,9 +3,9 @@ module Marketing
     DEFAULT_POSITIVE_CATEGORIES = ['Food', 'Service'].freeze
     DEFAULT_NEGATIVE_CATEGORIES = ['Price', 'Timing'].freeze
 
-    def self.for_place(place)
+    def self.for_business(business)
       previous_tenant = ActsAsTenant.current_tenant
-      ActsAsTenant.current_tenant = place
+      ActsAsTenant.current_tenant = business
 
       positive_counts = Hash.new(0)
       negative_counts = Hash.new(0)

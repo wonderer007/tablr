@@ -3,15 +3,15 @@ class Marketing::Company < ApplicationRecord
 
   validates :name, presence: true
 
-  belongs_to :place, optional: true
+  belongs_to :business, optional: true
   has_many :marketing_contacts, class_name: "Marketing::Contact", foreign_key: "company_id", dependent: :destroy
   has_many :marketing_emails, through: :marketing_contacts
 
   def self.ransackable_attributes(auth_object = nil)
-    %w[name linkedin_url address city state country phone google_map_url place_id created_at updated_at]
+    %w[name linkedin_url address city state country phone google_map_url business_id created_at updated_at]
   end
 
   def self.ransackable_associations(auth_object = nil)
-    ["marketing_contacts", "place"]
+    ["marketing_contacts", "business"]
   end
 end

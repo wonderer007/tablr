@@ -1,10 +1,10 @@
 class Apify::UpdateReviewsJob < ApplicationJob
   queue_as :default
 
-  def perform(place_id:)
-    place = Place.find(place_id)
-    ActsAsTenant.with_tenant(place) do
-      Apify::UpdateReviews.call(place_id: place.id)
+  def perform(business_id:)
+    business = Business.find(business_id)
+    ActsAsTenant.with_tenant(business) do
+      Apify::UpdateReviews.call(business_id: business.id)
     end
   end
 end

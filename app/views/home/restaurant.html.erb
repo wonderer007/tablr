@@ -9,7 +9,7 @@
         <div class="flex items-center justify-between">
           <div class="flex-auto">
             <h1 class="text-3xl font-bold tracking-tight text-gray-900">
-              <%= @restaurant_data['title'] || @place&.name || 'My Restaurant' %>
+              <%= @restaurant_data['title'] || @business&.name || 'My Restaurant' %>
             </h1>
             <% if @restaurant_data['subTitle'].present? %>
               <p class="mt-1 text-lg text-gray-600"><%= @restaurant_data['subTitle'] %></p>
@@ -54,7 +54,7 @@
                 <div class="sm:col-span-1">
                   <dt class="text-sm font-medium text-gray-500">Overall Rating</dt>
                   <dd class="mt-1 flex items-center gap-x-2">
-                    <% total_score = @restaurant_data['totalScore'] || @place&.rating || 0 %>
+                    <% total_score = @restaurant_data['totalScore'] || @business&.rating || 0 %>
                     <%= render 'shared/star_rating', rating: total_score, show_number: true %>
                     <% if @restaurant_data['reviewsCount'].present? %>
                       <span class="text-sm text-gray-500">(<%= number_with_delimiter(@restaurant_data['reviewsCount']) %> reviews)</span>

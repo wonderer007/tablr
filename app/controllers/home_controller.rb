@@ -23,19 +23,19 @@ class HomeController < DashboardController
   end
 
   def restaurant
-    # Get the restaurant place data (assuming single restaurant for now)
-    @place = current_place
+    # Get the restaurant business data (assuming single restaurant for now)
+    @business = current_business
     
     # Parse the comprehensive JSON data if available
-    @restaurant_data = @place&.data || {}
+    @restaurant_data = @business&.data || {}
     
     # Calculate recent reviews summary
-    @recent_reviews = @place&.reviews&.order(published_at: :desc)&.limit(10) || []
-    @total_reviews_count = @place&.reviews&.count || 0
+    @recent_reviews = @business&.reviews&.order(published_at: :desc)&.limit(10) || []
+    @total_reviews_count = @business&.reviews&.count || 0
     
     # Calculate rating distribution if reviews exist
-    if @place&.reviews&.any?
-      total_reviews = @place.reviews.count
+    if @business&.reviews&.any?
+      total_reviews = @business.reviews.count
       @rating_distribution = {
         5 => (@restaurant_data.dig('reviewsDistribution', 'fiveStar') || 0),
         4 => (@restaurant_data.dig('reviewsDistribution', 'fourStar') || 0),
@@ -49,10 +49,10 @@ class HomeController < DashboardController
   end
 
   def data_processing
-    @place = current_place
+    @business = current_business
     
     # If processing is complete, redirect to dashboard
-    if @place.first_inference_completed?
+    if @business.first_inference_completed?
       redirect_to dashboard_path and return
     end
     
@@ -63,7 +63,7 @@ class HomeController < DashboardController
   private
   
   def complaints_count(start_date, end_date)
-    query = Complain.joins(review: :place)
+    query = Complain.joins(review: :business)
     if start_date.present? && end_date.present?
       query = query.where(reviews: { published_at: start_date..end_date })
     end
@@ -71,7 +71,7 @@ class HomeController < DashboardController
   end
   
   def suggestions_count(start_date, end_date)
-    query = Suggestion.joins(review: :place)
+    query = Suggestion.joins(review: :business)
     if start_date.present? && end_date.present?
       query = query.where(reviews: { published_at: start_date..end_date })
     end
@@ -79,7 +79,7 @@ class HomeController < DashboardController
   end
   
   def build_complaint_categories_query(start_date, end_date)
-    query = Complain.joins(:category, review: :place)
+    query = Complain.joins(:category, review: :business)
     if start_date.present? && end_date.present?
       query = query.where(reviews: { published_at: start_date..end_date })
     end
@@ -90,7 +90,7 @@ class HomeController < DashboardController
   end
   
   def build_suggestion_categories_query(start_date, end_date)
-    query = Suggestion.joins(:category, review: :place)
+    query = Suggestion.joins(:category, review: :business)
     if start_date.present? && end_date.present?
       query = query.where(reviews: { published_at: start_date..end_date })
     end

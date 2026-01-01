@@ -14,7 +14,7 @@
   <p>However, feedback on <%= @feedback.first(2).to_sentence(two_words_connector: ' and ', last_word_connector: ', and ') %> needs your attention, potentially impacting repeats.</p>
 <% end %>
 
-<p>Check out our free report on trends here: <%= link_to "View Full Report for #{@company_name}", report_url(@company.place&.place_actor_run_id || @company.place_id), target: '_blank' %>.</p>
+<p>Check out our free report on trends here: <%= link_to "View Full Report for #{@company_name}", report_url(@company.business&.place_actor_run_id || @company.place_id), target: '_blank' %>.</p>
 
 <p>Tablr converts these into wins—our partners average 22% more revenue by addressing them.</p>
 

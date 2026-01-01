@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :category do
-    association :place
+    association :business
 
     name do
       ["food", "timing", "pricing", "ambiance", "cleanliness", "service", "sentiment", "location"].sample

@@ -1,15 +1,15 @@
-class PlacesController < ApplicationController
+class BusinessesController < ApplicationController
   layout 'landing'
 
   include AnalyticsHelper
 
   def report
-    @place = Place.find_by(place_actor_run_id: params[:id])
+    @business = Business.find_by(place_actor_run_id: params[:id])
 
-    redirect_to root_path unless @place.test? 
+    redirect_to root_path unless @business.test? 
 
-    ActsAsTenant.with_tenant(@place) do
-      @reviews = @place.reviews.where(processed: true)
+    ActsAsTenant.with_tenant(@business) do
+      @reviews = @business.reviews.where(processed: true)
                                .includes(:keywords, :complains, :suggestions)
 
       @total_reviews = @reviews.count
@@ -50,3 +50,4 @@ class PlacesController < ApplicationController
 
 
 end
+

@@ -2,7 +2,7 @@ class ComplainsController < DashboardController
   before_action :mark_notifications_as_read, only: [:index]
 
   def index
-    @q = Complain.includes(:category, review: :place).ransack(params[:q])
+    @q = Complain.includes(:category, review: :business).ransack(params[:q])
     @complains = @q.result
     
     # Only apply default ordering if no search or sort parameters are present
@@ -15,6 +15,6 @@ class ComplainsController < DashboardController
   private
 
   def mark_notifications_as_read
-    current_place.notifications.where(read: false, notification_type: :complain).update_all(read: true)
+    current_business.notifications.where(read: false, notification_type: :complain).update_all(read: true)
   end
 end

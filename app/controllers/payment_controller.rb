@@ -8,7 +8,7 @@ class PaymentController < ApplicationController
       redirect_to dashboard_path and return
     end
 
-    @payment_url = "#{ENV['PAYMENT_URL']}?checkout[custom][email]=#{current_user.email}&checkout[custom][tenant]=#{current_user.place.id}"
+    @payment_url = "#{ENV['PAYMENT_URL']}?checkout[custom][email]=#{current_user.email}&checkout[custom][tenant]=#{current_user.business.id}"
   end
 
   def lemonsqueezy_webhook

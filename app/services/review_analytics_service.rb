@@ -1,12 +1,12 @@
 class ReviewAnalyticsService
-  def initialize(place:, start_date:, end_date:)
-    @place = place
+  def initialize(business:, start_date:, end_date:)
+    @business = business
     @start_date = start_date
     @end_date = end_date
   end
 
   def call
-    ActsAsTenant.with_tenant(place) do
+    ActsAsTenant.with_tenant(business) do
       {
         total_reviews: reviews.count,
         average_rating: average_rating,
@@ -22,10 +22,10 @@ class ReviewAnalyticsService
 
   private
 
-  attr_reader :place, :start_date, :end_date
+  attr_reader :business, :start_date, :end_date
 
   def reviews
-    @reviews ||= Review.includes(:keywords, :complains, :suggestions, :place)
+    @reviews ||= Review.includes(:keywords, :complains, :suggestions, :business)
                        .where(published_at: start_date..end_date, processed: true)
   end
 

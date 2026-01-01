@@ -1,18 +1,18 @@
 require 'openai'
 
 class Ai::ReviewInference < ApplicationService
-  attr_reader :place_id, :review_ids
+  attr_reader :business_id, :review_ids
 
   BATCH_LIMIT = 30
 
-  def initialize(place_id:, review_ids:)
-    @place_id = place_id
+  def initialize(business_id:, review_ids:)
+    @business_id = business_id
     @review_ids = review_ids
   end
 
   def call
     return if reviews.empty?
-    return unless place.payment_approved?
+    return unless business.payment_approved?
 
     inference_response.each_with_index do |inference, index|
       review = reviews[index]
@@ -48,7 +48,7 @@ class Ai::ReviewInference < ApplicationService
       review.update(processed: true, sentiment: inference.dig('sentiment'))
     end
 
-    place.inference_responses.create(response: response)
+    business.inference_responses.create(response: response)
   end
 
   private
@@ -91,15 +91,15 @@ class Ai::ReviewInference < ApplicationService
   end
 
   def reviews
-    @reviews ||= place.reviews.where(id: review_ids, processed: false)
+    @reviews ||= business.reviews.where(id: review_ids, processed: false)
                               .where.not(text: nil)
                               .limit(BATCH_LIMIT)
-                              .select(:id, :text, :processed, :place_id)
+                              .select(:id, :text, :processed, :business_id)
                               .reject { |review| review.text.split.size > 800 }
   end
 
-  def place
-    @place ||= Place.find(place_id)
+  def business
+    @business ||= Business.find(business_id)
   end
 
   def output_sample

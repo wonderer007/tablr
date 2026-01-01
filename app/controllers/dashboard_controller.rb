@@ -6,14 +6,14 @@ class DashboardController < ApplicationController
   before_action :check_data_processing_complete
   set_current_tenant_through_filter
   before_action :set_current_tenant_by_user
-  helper_method :current_place
+  helper_method :current_business
 
   def set_current_tenant_by_user
-    set_current_tenant(current_place)
+    set_current_tenant(current_business)
   end
 
-  def current_place
-    current_user.place
+  def current_business
+    current_user.business
   end
 
   def check_payment_approved
@@ -23,7 +23,7 @@ class DashboardController < ApplicationController
   end
 
   def check_data_processing_complete
-    unless current_place.first_inference_completed?
+    unless current_business.first_inference_completed?
       redirect_to data_processing_path
     end
   end

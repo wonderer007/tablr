@@ -16,7 +16,7 @@
         
         <!-- Dynamic Status Message -->
         <div id="status-message">
-          <% case @place.status.to_sym %>
+          <% case @business.status.to_sym %>
           <% when :created, :syncing_place %>
             <p class="text-sm text-gray-600 mb-2">
               We're fetching your restaurant information...
@@ -55,7 +55,7 @@
           <% end %>
         </div>
 
-        <% unless @place.status.to_sym == :failed %>
+        <% unless @business.status.to_sym == :failed %>
           <!-- Processing Details -->
           <div class="text-xs text-gray-500 mb-6">
             <p class="mb-2">This usually takes 2-5 minutes depending on the number of reviews.</p>
@@ -70,15 +70,15 @@
             <h3 class="text-sm font-medium text-gray-900 mb-2">What we're doing:</h3>
             <ul class="text-xs text-gray-600 space-y-1">
               <li class="flex items-center">
-                <span class="w-2 h-2 bg-<%= @place.status.in?(['created', 'syncing_place']) ? 'blue' : 'green' %>-400 rounded-full mr-2"></span>
+                <span class="w-2 h-2 bg-<%= @business.status.in?(['created', 'syncing_place']) ? 'blue' : 'green' %>-400 rounded-full mr-2"></span>
                 Gathering restaurant information
               </li>
               <li class="flex items-center">
-                <span class="w-2 h-2 bg-<%= @place.status.in?(['synced_place', 'syncing_reviews']) ? 'blue' : (@place.status.in?(['synced_reviews']) ? 'green' : 'gray') %>-400 rounded-full mr-2"></span>
+                <span class="w-2 h-2 bg-<%= @business.status.in?(['synced_place', 'syncing_reviews']) ? 'blue' : (@business.status.in?(['synced_reviews']) ? 'green' : 'gray') %>-400 rounded-full mr-2"></span>
                 Collecting customer reviews
               </li>
               <li class="flex items-center">
-                <span class="w-2 h-2 bg-<%= @place.status == 'synced_reviews' ? 'blue' : 'gray' %>-400 rounded-full mr-2"></span>
+                <span class="w-2 h-2 bg-<%= @business.status == 'synced_reviews' ? 'blue' : 'gray' %>-400 rounded-full mr-2"></span>
                 AI analysis for insights & recommendations
               </li>
             </ul>
@@ -100,7 +100,7 @@
   </div>
 </div>
 
-<% unless @place.status.to_sym == :failed %>
+<% unless @business.status.to_sym == :failed %>
 <script>
   document.addEventListener('DOMContentLoaded', function() {
     let timeLeft = 15;

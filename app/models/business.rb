@@ -1,4 +1,4 @@
-class Place < ApplicationRecord
+class Business < ApplicationRecord
   ACTOR_ID = '2Mdma1N6Fd0y3QEjR'
 
   validates :url, presence: true, uniqueness: { scope: :test }
@@ -9,9 +9,16 @@ class Place < ApplicationRecord
   has_many :inference_responses
 
   enum :status, [:created, :syncing_place, :synced_place, :syncing_reviews, :synced_reviews, :failed]
+  enum :business_type, {
+    google_place: 'google_place',
+    amazon_store: 'amazon_store',
+    shopify_store: 'shopify_store',
+    android_app: 'android_app',
+    ios_app: 'ios_app'
+  }, default: 'google_place'
 
   def self.ransackable_attributes(auth_object = nil)
-    %w[name place_actor_run_id review_actor_run_id status url rating id first_inference_completed test]
+    %w[name place_actor_run_id review_actor_run_id status url rating id first_inference_completed test business_type]
   end
 
   def self.ransackable_associations(auth_object = nil)
@@ -44,3 +51,4 @@ class Place < ApplicationRecord
     data&.dig('address')
   end
 end
+

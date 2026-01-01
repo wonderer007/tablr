@@ -6,22 +6,22 @@ namespace :email_reports do
     end_date = Date.current
     start_date = end_date - 1.week
     
-    Place.where(test: false).includes(:users).find_each do |place|
-      next if place.users.empty?
+    Business.where(test: false).includes(:users).find_each do |business|
+      next if business.users.empty?
       
-      place.users.each do |user|
+      business.users.each do |user|
         begin
           RestaurantReportMailer.periodic_report(
             user, 
-            place, 
+            business, 
             start_date, 
             end_date, 
             'weekly'
           ).deliver_now
           
-          puts "✅ Sent weekly report to #{user.email} for #{place.name}"
+          puts "✅ Sent weekly report to #{user.email} for #{business.name}"
         rescue => e
-          puts "❌ Failed to send weekly report to #{user.email} for #{place.name}: #{e.message}"
+          puts "❌ Failed to send weekly report to #{user.email} for #{business.name}: #{e.message}"
         end
       end
     end
@@ -36,22 +36,22 @@ namespace :email_reports do
     end_date = Date.current
     start_date = end_date - 2.weeks
     
-    Place.where(test: false).includes(:users).find_each do |place|
-      next if place.users.empty?
+    Business.where(test: false).includes(:users).find_each do |business|
+      next if business.users.empty?
       
-      place.users.each do |user|
+      business.users.each do |user|
         begin
           RestaurantReportMailer.periodic_report(
             user, 
-            place, 
+            business, 
             start_date, 
             end_date, 
             'bi-weekly'
           ).deliver_now
           
-          puts "✅ Sent bi-weekly report to #{user.email} for #{place.name}"
+          puts "✅ Sent bi-weekly report to #{user.email} for #{business.name}"
         rescue => e
-          puts "❌ Failed to send bi-weekly report to #{user.email} for #{place.name}: #{e.message}"
+          puts "❌ Failed to send bi-weekly report to #{user.email} for #{business.name}: #{e.message}"
         end
       end
     end
@@ -66,22 +66,22 @@ namespace :email_reports do
     end_date = Date.current
     start_date = end_date - 1.month
     
-    Place.where(test: false).includes(:users).find_each do |place|
-      next if place.users.empty?
+    Business.where(test: false).includes(:users).find_each do |business|
+      next if business.users.empty?
       
-      place.users.each do |user|
+      business.users.each do |user|
         begin
           RestaurantReportMailer.periodic_report(
             user, 
-            place, 
+            business, 
             start_date, 
             end_date, 
             'monthly'
           ).deliver_now
           
-          puts "✅ Sent monthly report to #{user.email} for #{place.name}"
+          puts "✅ Sent monthly report to #{user.email} for #{business.name}"
         rescue => e
-          puts "❌ Failed to send monthly report to #{user.email} for #{place.name}: #{e.message}"
+          puts "❌ Failed to send monthly report to #{user.email} for #{business.name}: #{e.message}"
         end
       end
     end
@@ -89,20 +89,20 @@ namespace :email_reports do
     puts "Monthly reports sending completed!"
   end
 
-  desc "Send custom date range report for a specific place"
-  task :send_custom, [:place_id, :start_date, :end_date, :report_type] => :environment do |t, args|
-    place = Place.find(args[:place_id])
+  desc "Send custom date range report for a specific business"
+  task :send_custom, [:business_id, :start_date, :end_date, :report_type] => :environment do |t, args|
+    business = Business.find(args[:business_id])
     start_date = Date.parse(args[:start_date])
     end_date = Date.parse(args[:end_date])
     report_type = args[:report_type] || 'custom'
     
-    puts "Sending custom report for #{place.name} (#{start_date} to #{end_date})..."
+    puts "Sending custom report for #{business.name} (#{start_date} to #{end_date})..."
     
-    place.users.each do |user|
+    business.users.each do |user|
       begin
         RestaurantReportMailer.periodic_report(
           user,
-          place,
+          business,
           start_date,
           end_date,
           report_type
@@ -117,13 +117,13 @@ namespace :email_reports do
     puts "Custom report sending completed!"
   end
 
-  desc "Preview report for a specific place (doesn't send email)"
-  task :preview, [:place_id] => :environment do |t, args|
-    place = Place.find(args[:place_id])
-    user = place.users.first
+  desc "Preview report for a specific business (doesn't send email)"
+  task :preview, [:business_id] => :environment do |t, args|
+    business = Business.find(args[:business_id])
+    user = business.users.first
     
     unless user
-      puts "❌ No users found for place #{place.name}"
+      puts "❌ No users found for business #{business.name}"
       exit
     end
     
@@ -131,18 +131,18 @@ namespace :email_reports do
     start_date = end_date - 1.week
     
     puts "="*60
-    puts "PREVIEW: Weekly Report for #{place.name}"
+    puts "PREVIEW: Weekly Report for #{business.name}"
     puts "="*60
     puts "User: #{user.full_name} (#{user.email})"
     puts "Date Range: #{start_date} to #{end_date}"
     puts "="*60
     
     # Set tenant context and generate preview data
-    ActsAsTenant.with_tenant(place) do
+    ActsAsTenant.with_tenant(business) do
       mailer = RestaurantReportMailer.new
       
       # Access private method for preview
-      mailer.instance_variable_set(:@place, place)
+      mailer.instance_variable_set(:@business, business)
       mailer.instance_variable_set(:@start_date, start_date)
       mailer.instance_variable_set(:@end_date, end_date)
       
@@ -220,8 +220,8 @@ end
 # Send bi-weekly reports to all users:
 # rake email_reports:send_biweekly
 #
-# Send custom date range report for a specific place:
+# Send custom date range report for a specific business:
 # rake email_reports:send_custom[1,"2024-01-01","2024-01-31","january_summary"]
 #
-# Preview report for a specific place:
+# Preview report for a specific business:
 # rake email_reports:preview[1] 

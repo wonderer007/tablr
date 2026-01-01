@@ -1,21 +1,21 @@
 class Apify::UpdateReviews < ApplicationService
-  attr_reader :place_id
+  attr_reader :business_id
 
-  def initialize(place_id:)
-    @place_id = place_id
+  def initialize(business_id:)
+    @business_id = business_id
   end
 
   def call
-    return unless place.syncing_reviews?
+    return unless business.syncing_reviews?
 
-    data = Apify::Client.get_run_info(Review::ACTOR_ID, place.review_actor_run_id)
+    data = Apify::Client.get_run_info(Review::ACTOR_ID, business.review_actor_run_id)
 
     if data.dig('data', 'status') == 'SUCCEEDED'
       reviews = Apify::Client.fetch_results(data.dig('data', 'defaultDatasetId'))
       unique_reviews = reviews.uniq { |review| review['reviewId'] }
       payload = unique_reviews.map do |review|
         {
-          place_id: place.id,
+          business_id: business.id,
           review_context: review['reviewContext'],
           review_url: review['reviewUrl'],
           external_review_id: review['reviewId'],
@@ -34,16 +34,16 @@ class Apify::UpdateReviews < ApplicationService
         }
       end
 
-      Review.upsert_all(payload, unique_by: [:place_id, :external_review_id])
-      place.update(status: :synced_reviews, review_synced_at: Time.zone.now)
+      Review.upsert_all(payload, unique_by: [:business_id, :external_review_id])
+      business.update(status: :synced_reviews, review_synced_at: Time.zone.now)
 
-      Ai::InferenceJob.perform_later(place_id: place.id, review_ids: place.reviews.where(processed: false).pluck(:id))
+      Ai::InferenceJob.perform_later(business_id: business.id, review_ids: business.reviews.where(processed: false).pluck(:id))
     elsif data.dig('data', 'status').in?(%w[FAILED ABORTED])
-      place.update(status: :failed)
+      business.update(status: :failed)
     end
   end
 
-  def place
-    @place ||= Place.find(@place_id)
+  def business
+    @business ||= Business.find(@business_id)
   end
 end

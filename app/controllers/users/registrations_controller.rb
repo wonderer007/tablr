@@ -2,7 +2,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
   layout :resolve_layout
   before_action :configure_sign_up_params, only: [:create]
 
-  helper_method :current_place
+  helper_method :current_business
 
   protected
 
@@ -23,7 +23,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
     end
   end
 
-  def current_place
-    current_user.place
+  def current_business
+    current_user.business
   end
 end 

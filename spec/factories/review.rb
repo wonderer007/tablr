@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :review do
-    association :place
+    association :business
     review_url { Faker::Internet.url }
     external_review_id { SecureRandom.uuid }
     text { Faker::Restaurant.review  }

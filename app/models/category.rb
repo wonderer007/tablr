@@ -1,5 +1,5 @@
 class Category < ApplicationRecord
-  acts_as_tenant :place
+  acts_as_tenant :business
 
   has_many :keywords
   has_many :suggestions

@@ -1,4 +1,4 @@
-class Apify::SyncReviewsJob < ApplicationJob
+class Apify::SyncBusinessJob < ApplicationJob
   queue_as :default
 
   def perform(business_id:)
@@ -7,7 +7,8 @@ class Apify::SyncReviewsJob < ApplicationJob
     return unless business.payment_approved?
 
     ActsAsTenant.with_tenant(business) do
-      Apify::SyncReviews.call(business_id: business.id)
+      Apify::SyncBusiness.call(business_id: business.id)
     end
   end
 end
+

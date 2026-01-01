@@ -5,7 +5,7 @@
   :schedule:
     apify_place_sync_processor:
       every: "20s"
-      class: Apify::PlaceSyncProcessorJob
+      class: Apify::BusinessSyncProcessorJob
     # promotional_email_job:
     #   cron: "0 14 * * 1-5"
     #   class: PromotionalEmailJob

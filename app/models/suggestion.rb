@@ -1,5 +1,5 @@
 class Suggestion < ApplicationRecord
-  acts_as_tenant :place
+  acts_as_tenant :business
 
   belongs_to :category
   belongs_to :review

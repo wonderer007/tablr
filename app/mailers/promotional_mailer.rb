@@ -21,11 +21,11 @@ class PromotionalMailer < ApplicationMailer
     @recipient_name = recipient_name(contact)
     @company_name = contact.company.name.downcase.split.map(&:titleize).join(" ").gsub(".", "")
     @recipient_email = contact.email
-    @place = contact.company.place
+    @business = contact.company.business
     @company = contact.company
     @email = contact.email
     @ai_generated_intro = ai_generated_intro
-    insights = Marketing::ReviewInsights.for_place(@place)
+    insights = Marketing::ReviewInsights.for_business(@business)
     @positive_categories = insights[:positive_categories]
     @feedback = insights[:feedback]
 

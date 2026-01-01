@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2026_01_01_100000) do
+ActiveRecord::Schema[7.2].define(version: 2026_01_01_120000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
   enable_extension "plpgsql"
@@ -27,13 +27,33 @@ ActiveRecord::Schema[7.2].define(version: 2026_01_01_100000) do
     t.index ["reset_password_token"], name: "index_admin_users_on_reset_password_token", unique: true
   end
 
+  create_table "businesses", force: :cascade do |t|
+    t.string "name"
+    t.string "place_actor_run_id"
+    t.string "review_actor_run_id"
+    t.datetime "review_synced_at"
+    t.datetime "place_synced_at"
+    t.integer "status"
+    t.string "url"
+    t.jsonb "data"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.float "rating"
+    t.boolean "first_inference_completed", default: false
+    t.boolean "test", default: false
+    t.string "business_type", default: "google_place", null: false
+    t.index ["business_type"], name: "index_businesses_on_business_type"
+    t.index ["url", "test"], name: "index_businesses_on_url_and_test", unique: true
+    t.index ["url"], name: "index_businesses_on_url"
+  end
+
   create_table "categories", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "place_id", default: 1, null: false
-    t.index ["place_id", "name"], name: "index_categories_on_place_id_and_name", unique: true
-    t.index ["place_id"], name: "index_categories_on_place_id"
+    t.bigint "business_id", default: 1, null: false
+    t.index ["business_id", "name"], name: "index_categories_on_business_id_and_name", unique: true
+    t.index ["business_id"], name: "index_categories_on_business_id"
   end
 
   create_table "complains", force: :cascade do |t|
@@ -42,9 +62,9 @@ ActiveRecord::Schema[7.2].define(version: 2026_01_01_100000) do
     t.bigint "review_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "place_id", default: 1, null: false
+    t.bigint "business_id", default: 1, null: false
+    t.index ["business_id"], name: "index_complains_on_business_id"
     t.index ["category_id"], name: "index_complains_on_category_id"
-    t.index ["place_id"], name: "index_complains_on_place_id"
     t.index ["review_id"], name: "index_complains_on_review_id"
   end
 
@@ -59,11 +79,11 @@ ActiveRecord::Schema[7.2].define(version: 2026_01_01_100000) do
   end
 
   create_table "inference_responses", force: :cascade do |t|
-    t.bigint "place_id", null: false
+    t.bigint "business_id", null: false
     t.jsonb "response"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["place_id"], name: "index_inference_responses_on_place_id"
+    t.index ["business_id"], name: "index_inference_responses_on_business_id"
   end
 
   create_table "keywords", force: :cascade do |t|
@@ -75,7 +95,7 @@ ActiveRecord::Schema[7.2].define(version: 2026_01_01_100000) do
     t.boolean "is_dish", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "place_id", default: 1, null: false
+    t.bigint "business_id", default: 1, null: false
     t.index ["category_id"], name: "index_keywords_on_category_id"
     t.index ["review_id"], name: "index_keywords_on_review_id"
   end
@@ -89,10 +109,10 @@ ActiveRecord::Schema[7.2].define(version: 2026_01_01_100000) do
     t.string "country"
     t.string "phone"
     t.string "google_map_url"
-    t.bigint "place_id"
+    t.bigint "business_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["place_id"], name: "index_marketing_companies_on_place_id"
+    t.index ["business_id"], name: "index_marketing_companies_on_business_id"
   end
 
   create_table "marketing_contacts", force: :cascade do |t|
@@ -123,7 +143,7 @@ ActiveRecord::Schema[7.2].define(version: 2026_01_01_100000) do
 
   create_table "marketing_emails", force: :cascade do |t|
     t.integer "marketing_contact_id"
-    t.integer "place_id"
+    t.integer "business_id"
     t.string "subject"
     t.text "body"
     t.datetime "sent_at"
@@ -138,32 +158,14 @@ ActiveRecord::Schema[7.2].define(version: 2026_01_01_100000) do
     t.string "text", null: false
     t.boolean "read", default: false
     t.string "notification_type", null: false
-    t.bigint "place_id", null: false
+    t.bigint "business_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["place_id"], name: "index_notifications_on_place_id"
-  end
-
-  create_table "places", force: :cascade do |t|
-    t.string "name"
-    t.string "place_actor_run_id"
-    t.string "review_actor_run_id"
-    t.datetime "review_synced_at"
-    t.datetime "place_synced_at"
-    t.integer "status"
-    t.string "url"
-    t.jsonb "data"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.float "rating"
-    t.boolean "first_inference_completed", default: false
-    t.boolean "test", default: false
-    t.index ["url", "test"], name: "index_places_on_url_and_test", unique: true
-    t.index ["url"], name: "index_places_on_url"
+    t.index ["business_id"], name: "index_notifications_on_business_id"
   end
 
   create_table "reviews", force: :cascade do |t|
-    t.bigint "place_id", null: false
+    t.bigint "business_id", null: false
     t.jsonb "review_context"
     t.string "review_url"
     t.string "external_review_id"
@@ -182,13 +184,13 @@ ActiveRecord::Schema[7.2].define(version: 2026_01_01_100000) do
     t.string "image_url"
     t.integer "sentiment"
     t.index ["atmosphere_rating"], name: "index_reviews_on_atmosphere_rating"
+    t.index ["business_id", "external_review_id"], name: "index_reviews_on_business_id_and_external_review_id", unique: true
+    t.index ["business_id", "processed"], name: "index_reviews_on_business_id_and_processed"
+    t.index ["business_id", "published_at"], name: "index_reviews_on_business_id_and_published_at"
+    t.index ["business_id", "stars"], name: "index_reviews_on_business_id_and_stars"
+    t.index ["business_id"], name: "index_reviews_on_business_id"
     t.index ["created_at"], name: "index_reviews_on_created_at"
     t.index ["food_rating"], name: "index_reviews_on_food_rating"
-    t.index ["place_id", "external_review_id"], name: "index_reviews_on_place_id_and_external_review_id", unique: true
-    t.index ["place_id", "processed"], name: "index_reviews_on_place_id_and_processed"
-    t.index ["place_id", "published_at"], name: "index_reviews_on_place_id_and_published_at"
-    t.index ["place_id", "stars"], name: "index_reviews_on_place_id_and_stars"
-    t.index ["place_id"], name: "index_reviews_on_place_id"
     t.index ["processed"], name: "index_reviews_on_processed"
     t.index ["published_at"], name: "index_reviews_on_published_at"
     t.index ["service_rating"], name: "index_reviews_on_service_rating"
@@ -202,9 +204,9 @@ ActiveRecord::Schema[7.2].define(version: 2026_01_01_100000) do
     t.bigint "review_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "place_id", default: 1, null: false
+    t.bigint "business_id", default: 1, null: false
+    t.index ["business_id"], name: "index_suggestions_on_business_id"
     t.index ["category_id"], name: "index_suggestions_on_category_id"
-    t.index ["place_id"], name: "index_suggestions_on_place_id"
     t.index ["review_id"], name: "index_suggestions_on_review_id"
   end
 
@@ -214,7 +216,7 @@ ActiveRecord::Schema[7.2].define(version: 2026_01_01_100000) do
     t.string "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.bigint "place_id"
+    t.bigint "business_id"
     t.string "first_name"
     t.string "last_name"
     t.string "phone_number"
@@ -226,26 +228,26 @@ ActiveRecord::Schema[7.2].define(version: 2026_01_01_100000) do
     t.string "provider"
     t.string "uid"
     t.string "avatar_url"
+    t.index ["business_id"], name: "index_users_on_business_id"
     t.index ["email"], name: "index_users_on_email", unique: true
-    t.index ["place_id"], name: "index_users_on_place_id"
     t.index ["provider", "uid"], name: "index_users_on_provider_and_uid", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
-  add_foreign_key "categories", "places"
+  add_foreign_key "categories", "businesses"
+  add_foreign_key "complains", "businesses"
   add_foreign_key "complains", "categories"
-  add_foreign_key "complains", "places"
   add_foreign_key "complains", "reviews"
-  add_foreign_key "inference_responses", "places"
+  add_foreign_key "inference_responses", "businesses"
+  add_foreign_key "keywords", "businesses"
   add_foreign_key "keywords", "categories"
-  add_foreign_key "keywords", "places"
   add_foreign_key "keywords", "reviews"
-  add_foreign_key "marketing_companies", "places"
+  add_foreign_key "marketing_companies", "businesses"
   add_foreign_key "marketing_contacts", "marketing_companies", column: "company_id"
-  add_foreign_key "notifications", "places"
-  add_foreign_key "reviews", "places"
+  add_foreign_key "notifications", "businesses"
+  add_foreign_key "reviews", "businesses"
+  add_foreign_key "suggestions", "businesses"
   add_foreign_key "suggestions", "categories"
-  add_foreign_key "suggestions", "places"
   add_foreign_key "suggestions", "reviews"
-  add_foreign_key "users", "places"
+  add_foreign_key "users", "businesses"
 end

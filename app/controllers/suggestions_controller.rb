@@ -2,7 +2,7 @@ class SuggestionsController < DashboardController
   before_action :mark_notifications_as_read, only: [:index]
 
   def index
-    @q = Suggestion.includes(:category, review: :place).ransack(params[:q])
+    @q = Suggestion.includes(:category, review: :business).ransack(params[:q])
     @suggestions = @q.result
     
     # Only apply default ordering if no search or sort parameters are present
@@ -15,6 +15,6 @@ class SuggestionsController < DashboardController
   private
 
   def mark_notifications_as_read
-    current_place.notifications.where(read: false, notification_type: :suggestion).update_all(read: true)
+    current_business.notifications.where(read: false, notification_type: :suggestion).update_all(read: true)
   end
 end

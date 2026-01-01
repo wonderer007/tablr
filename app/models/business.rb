@@ -1,7 +1,9 @@
 class Business < ApplicationRecord
   ACTOR_ID = '2Mdma1N6Fd0y3QEjR'
 
-  validates :url, presence: true, uniqueness: { scope: :test }
+  # URL is required only after onboarding is completed
+  validates :url, uniqueness: { scope: :test }, allow_nil: true
+  validates :url, presence: true, if: :onboarding_completed?
 
   has_many :reviews
   has_many :users
@@ -16,6 +18,29 @@ class Business < ApplicationRecord
     android_app: 'android_app',
     ios_app: 'ios_app'
   }, default: 'google_place'
+
+  # Available integrations for onboarding
+  AVAILABLE_INTEGRATIONS = [
+    { id: :google_maps, name: 'Google Maps', icon: 'google_maps', url_label: 'Google Place URL', placeholder: 'https://maps.google.com/...' },
+    { id: :yelp, name: 'Yelp', icon: 'yelp', url_label: 'Yelp Profile URL', placeholder: 'https://yelp.com/biz/...' },
+    { id: :tripadvisor, name: 'Tripadvisor', icon: 'tripadvisor', url_label: 'Tripadvisor URL', placeholder: 'https://tripadvisor.com/...' },
+    { id: :trustpilot, name: 'Trustpilot', icon: 'trustpilot', url_label: 'Trustpilot URL', placeholder: 'https://trustpilot.com/...' }
+  ].freeze
+
+  INTEGRATION_TO_BUSINESS_TYPE = {
+    google_maps: :google_place,
+    yelp: :google_place,
+    tripadvisor: :google_place,
+    trustpilot: :google_place,
+    amazon_store: :amazon_store,
+    shopify: :shopify_store,
+    play_store: :android_app,
+    app_store: :ios_app
+  }.freeze
+
+  def needs_onboarding?
+    !onboarding_completed?
+  end
 
   def self.ransackable_attributes(auth_object = nil)
     %w[name place_actor_run_id review_actor_run_id status url rating id first_inference_completed test business_type]

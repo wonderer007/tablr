@@ -1,0 +1,84 @@
+<% content_for(:title, "Connect a Platform - Tablr") %>
+
+<div class="min-h-screen relative overflow-hidden">
+  <!-- Background -->
+  <div class="absolute inset-0 mesh-gradient"></div>
+  <div class="absolute top-20 left-10 w-72 h-72 bg-indigo-400/20 rounded-full blur-3xl"></div>
+  <div class="absolute bottom-20 right-10 w-96 h-96 bg-violet-400/20 rounded-full blur-3xl"></div>
+
+  <div class="relative min-h-screen flex flex-col justify-center py-12 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-xl mx-auto w-full">
+      <!-- Progress indicator -->
+      <div class="mb-12">
+        <div class="flex items-center justify-center gap-4 mb-4">
+          <div class="flex items-center gap-2">
+            <div class="w-10 h-10 rounded-full bg-gradient-to-r from-indigo-600 to-violet-500 text-white flex items-center justify-center font-semibold text-sm shadow-lg shadow-indigo-500/30">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path>
+              </svg>
+            </div>
+            <span class="text-sm font-medium text-slate-700 hidden sm:block">Business</span>
+          </div>
+          <div class="w-12 h-0.5 bg-indigo-500 rounded-full"></div>
+          <div class="flex items-center gap-2">
+            <div class="w-10 h-10 rounded-full bg-gradient-to-r from-indigo-600 to-violet-500 text-white flex items-center justify-center font-semibold text-sm shadow-lg shadow-indigo-500/30">2</div>
+            <span class="text-sm font-medium text-slate-700 hidden sm:block">Platform</span>
+          </div>
+          <div class="w-12 h-0.5 bg-slate-200 rounded-full"></div>
+          <div class="flex items-center gap-2">
+            <div class="w-10 h-10 rounded-full bg-slate-200 text-slate-400 flex items-center justify-center font-semibold text-sm">3</div>
+            <span class="text-sm font-medium text-slate-400 hidden sm:block">Connect</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Header -->
+      <div class="text-center mb-8">
+        <h1 class="font-display text-3xl sm:text-4xl font-bold text-slate-900 tracking-tight mb-3">
+          Where are your reviews?
+        </h1>
+        <p class="text-slate-600 text-lg">Select a platform to connect and import your customer reviews.</p>
+      </div>
+
+      <!-- Flash Messages -->
+      <% if alert %>
+        <div class="bg-red-50 border border-red-100 text-red-600 px-4 py-3 rounded-xl text-sm mb-6">
+          <%= alert %>
+        </div>
+      <% end %>
+
+      <!-- Integration Cards -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
+        <% @available_integrations.each do |integration| %>
+          <%= form_with url: onboarding_integrations_path, method: :post, data: { turbo: false }, class: "contents" do %>
+            <input type="hidden" name="integration" value="<%= integration[:id] %>">
+            <button type="submit" class="group bg-white rounded-2xl border-2 border-slate-100 p-6 text-left transition-all duration-300 hover:border-indigo-500 hover:shadow-xl hover:shadow-indigo-500/10 hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+              <div class="flex items-center gap-4">
+                <div class="w-14 h-14 rounded-xl flex items-center justify-center transition-transform group-hover:scale-110 <%= integration_bg_class(integration[:id]) %>">
+                  <%= render 'onboarding/integration_icon', icon: integration[:icon], size: 'medium' %>
+                </div>
+                <div class="flex-1">
+                  <div class="font-semibold text-slate-900 text-lg group-hover:text-indigo-600 transition-colors"><%= integration[:name] %></div>
+                  <div class="text-sm text-slate-500">Import reviews</div>
+                </div>
+                <svg class="w-5 h-5 text-slate-300 group-hover:text-indigo-500 group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                </svg>
+              </div>
+            </button>
+          <% end %>
+        <% end %>
+      </div>
+
+      <!-- Back link -->
+      <div class="text-center">
+        <%= link_to onboarding_business_name_path, class: "inline-flex items-center gap-2 text-slate-500 hover:text-slate-700 text-sm font-medium transition-colors" do %>
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+          </svg>
+          Back
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

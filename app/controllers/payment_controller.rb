@@ -4,6 +4,11 @@ class PaymentController < ApplicationController
   layout 'auth'
 
   def processing
+    # Check if user needs onboarding first
+    if current_user.needs_onboarding?
+      redirect_to onboarding_path and return
+    end
+
     if current_user.payment_approved?
       redirect_to dashboard_path and return
     end
@@ -42,7 +47,7 @@ class PaymentController < ApplicationController
         return render json: { error: 'Customer email or tenant id not found' }, status: :bad_request
       end
 
-      ActsAsTenant.current_tenant = Place.find(tenant_id)
+      ActsAsTenant.current_tenant = Business.find(tenant_id)
       user = User.find_by(email: customer_email)
 
       unless user

@@ -10,6 +10,16 @@ Rails.application.routes.draw do
   
   mount Sidekiq::Web => '/sidekiq'
 
+  # Onboarding routes
+  get '/onboarding', to: 'onboarding#business_name', as: :onboarding
+  get '/onboarding/business-name', to: 'onboarding#business_name', as: :onboarding_business_name
+  patch '/onboarding/business-name', to: 'onboarding#update_business_name'
+  get '/onboarding/integrations', to: 'onboarding#integrations', as: :onboarding_integrations
+  post '/onboarding/integrations', to: 'onboarding#select_integration'
+  get '/onboarding/integration-url', to: 'onboarding#integration_url', as: :onboarding_integration_url
+  patch '/onboarding/integration-url', to: 'onboarding#save_integration_url'
+  get '/onboarding/complete', to: 'onboarding#complete', as: :onboarding_complete
+
   # Root route - always shows landing page
   root to: 'website#index'
   

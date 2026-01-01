@@ -1,13 +1,13 @@
 class RestaurantReportMailerPreview < ActionMailer::Preview
   def periodic_report
-  place = Place.first
-  ActsAsTenant.current_tenant = place
+  business = Business.first
+  ActsAsTenant.current_tenant = busine
 
-  user = place.users.first
+  user = busine.users.first
 
     RestaurantReportMailer.periodic_report(
       user,
-      place,
+      busine,
       Date.today - 1.year,
       Date.today,
       'weekly'

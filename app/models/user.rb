@@ -31,14 +31,33 @@ class User < ApplicationRecord
     provider.present? && uid.present?
   end
 
+  def needs_onboarding?
+    business.nil? || business.needs_onboarding?
+  end
+
   def self.from_omniauth(auth)
-    where(provider: auth.provider, uid: auth.uid).first_or_create do |user|
-      user.email = auth.info.email
-      user.password = Devise.friendly_token[0, 20]
-      user.first_name = auth.info.first_name || auth.info.name&.split&.first || "User"
-      user.last_name = auth.info.last_name || auth.info.name&.split&.last || ""
-      user.avatar_url = auth.info.image
+    user = find_by(provider: auth.provider, uid: auth.uid)
+    return user if user.present?
+
+    # Create new user with a business for onboarding
+    user = new(
+      provider: auth.provider,
+      uid: auth.uid,
+      email: auth.info.email,
+      password: Devise.friendly_token[0, 20],
+      first_name: auth.info.first_name || auth.info.name&.split&.first || "User",
+      last_name: auth.info.last_name || auth.info.name&.split&.last || "",
+      avatar_url: auth.info.image
+    )
+
+    # Create business first, then associate
+    ActiveRecord::Base.transaction do
+      business = Business.create!(business_type: :google_place, status: :created)
+      user.business = business
+      user.save!
     end
+
+    user
   end
 
   private

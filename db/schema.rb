@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2026_01_01_120000) do
+ActiveRecord::Schema[7.2].define(version: 2026_01_02_000000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
   enable_extension "plpgsql"
@@ -42,6 +42,7 @@ ActiveRecord::Schema[7.2].define(version: 2026_01_01_120000) do
     t.boolean "first_inference_completed", default: false
     t.boolean "test", default: false
     t.string "business_type", default: "google_place", null: false
+    t.boolean "onboarding_completed", default: false
     t.index ["business_type"], name: "index_businesses_on_business_type"
     t.index ["url", "test"], name: "index_businesses_on_url_and_test", unique: true
     t.index ["url"], name: "index_businesses_on_url"

@@ -12,7 +12,6 @@ class Ai::ReviewInference < ApplicationService
 
   def call
     return if reviews.empty?
-    return unless business.payment_approved?
 
     inference_response.each_with_index do |inference, index|
       review = reviews[index]

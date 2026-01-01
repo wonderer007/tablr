@@ -18,6 +18,41 @@ class Business < ApplicationRecord
     android_app: 'android_app',
     ios_app: 'ios_app'
   }, default: 'google_place'
+  enum :plan, { free: 'free', pro: 'pro' }, default: 'free'
+
+  # Plan features
+  PLAN_FEATURES = {
+    free: {
+      name: 'Free',
+      price: '$0',
+      period: 'one-time',
+      features: [
+        'Up to 200 reviews',
+        'Basic complaint extraction',
+        'Basic suggestion mining',
+        '1 platform integration'
+      ],
+      limitations: [
+        'Limited to 200 reviews',
+        'One-time analysis only'
+      ]
+    },
+    pro: {
+      name: 'Pro',
+      price: '$9',
+      period: 'per month',
+      features: [
+        'Up to 5,000 reviews',
+        'AI complaint extraction',
+        'AI suggestion mining',
+        'Weekly & monthly reports',
+        'All platform integrations',
+        '6 months historic data',
+        'Priority support'
+      ],
+      limitations: []
+    }
+  }.freeze
 
   # Available integrations for onboarding
   AVAILABLE_INTEGRATIONS = [
@@ -50,8 +85,14 @@ class Business < ApplicationRecord
     []
   end
 
-  def payment_approved?
-    users&.first&.payment_approved?
+  # Check if business needs to complete payment for Pro plan
+  def needs_payment?
+    pro? && !payment_approved?
+  end
+
+  # Check if business can proceed (Free plan or paid Pro)
+  def can_access?
+    free? || payment_approved?
   end
 
   def food_rating

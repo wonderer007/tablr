@@ -5,7 +5,7 @@ class Apify::BusinessSyncProcessorJob < ApplicationJob
     businesses = Business.where(status: [:syncing_place, :synced_place, :syncing_reviews])
 
     businesses.each do |business|
-      run_sync_service(business) if business.payment_approved?
+      run_sync_service(business) if business.plan.to_sym == :free || (business.plan.to_sym == :pro && business.payment_approved?)
     end
   end
 

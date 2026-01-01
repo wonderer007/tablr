@@ -18,6 +18,8 @@ Rails.application.routes.draw do
   post '/onboarding/integrations', to: 'onboarding#select_integration'
   get '/onboarding/integration-url', to: 'onboarding#integration_url', as: :onboarding_integration_url
   patch '/onboarding/integration-url', to: 'onboarding#save_integration_url'
+  get '/onboarding/plan', to: 'onboarding#plan', as: :onboarding_plan
+  post '/onboarding/plan', to: 'onboarding#select_plan'
   get '/onboarding/complete', to: 'onboarding#complete', as: :onboarding_complete
 
   # Root route - always shows landing page

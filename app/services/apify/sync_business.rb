@@ -7,7 +7,6 @@ class Apify::SyncBusiness < ApplicationService
 
   def call
     return if can_sync?
-    return unless business.payment_approved?
 
     data = Apify::Client.start_run(Business::ACTOR_ID, {
       language: "en",

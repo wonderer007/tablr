@@ -8,11 +8,16 @@ class ApplicationController < ActionController::Base
 
   def after_sign_in_path_for(resource)
     if resource.is_a?(User)
+      business = resource.business
+      
       # Check onboarding first
       if resource.needs_onboarding?
         onboarding_path
-      # Then check payment approval
-      elsif !resource.payment_approved?
+      # Free plan users skip payment
+      elsif business&.free?
+        dashboard_path
+      # Pro plan users need payment approval
+      elsif business&.pro? && !business.payment_approved?
         payment_processing_path
       else
         dashboard_path

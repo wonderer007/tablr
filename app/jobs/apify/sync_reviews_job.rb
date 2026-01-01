@@ -4,8 +4,6 @@ class Apify::SyncReviewsJob < ApplicationJob
   def perform(business_id:)
     business = Business.find(business_id)
 
-    return unless business.payment_approved?
-
     ActsAsTenant.with_tenant(business) do
       Apify::SyncReviews.call(business_id: business.id)
     end

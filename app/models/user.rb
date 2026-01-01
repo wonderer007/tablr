@@ -17,8 +17,6 @@ class User < ApplicationRecord
   enum :email_notification_period, [:weekly, :monthly, :weekly_and_monthly]
   enum :email_notification_time, [:morning, :afternoon]
 
-  after_update :trigger_business_sync, if: :payment_approved_changed_to_true?
-
   def full_name
     "#{first_name} #{last_name}"
   end
@@ -46,7 +44,7 @@ class User < ApplicationRecord
       email: auth.info.email,
       password: Devise.friendly_token[0, 20],
       first_name: auth.info.first_name || auth.info.name&.split&.first || "User",
-      last_name: auth.info.last_name || auth.info.name&.split&.last || "",
+      last_name: auth.info.last_name || "",
       avatar_url: auth.info.image
     )
 
@@ -60,16 +58,4 @@ class User < ApplicationRecord
     user
   end
 
-  private
-
-  def payment_approved_changed_to_true?
-    saved_change_to_payment_approved? && payment_approved? && !payment_approved_before_last_save
-  end
-
-  def trigger_business_sync
-    return unless business_id.present?
-    
-    Rails.logger.info "Triggering Apify::SyncBusinessJob for business_id: #{business_id} (user: #{email})"
-    Apify::SyncBusinessJob.perform_later(business_id: business_id)
-  end
 end

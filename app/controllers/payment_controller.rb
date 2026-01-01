@@ -4,16 +4,24 @@ class PaymentController < ApplicationController
   layout 'auth'
 
   def processing
+    @business = current_user.business
+
     # Check if user needs onboarding first
     if current_user.needs_onboarding?
       redirect_to onboarding_path and return
     end
 
-    if current_user.payment_approved?
+    # Free plan users don't need payment
+    if @business&.free?
       redirect_to dashboard_path and return
     end
 
-    @payment_url = "#{ENV['PAYMENT_URL']}?checkout[custom][email]=#{current_user.email}&checkout[custom][tenant]=#{current_user.business.id}"
+    # Already paid Pro users go to dashboard
+    if @business&.payment_approved?
+      redirect_to dashboard_path and return
+    end
+
+    @payment_url = "#{ENV['PAYMENT_URL']}?checkout[custom][email]=#{current_user.email}&checkout[custom][tenant]=#{@business.id}"
   end
 
   def lemonsqueezy_webhook
@@ -47,17 +55,21 @@ class PaymentController < ApplicationController
         return render json: { error: 'Customer email or tenant id not found' }, status: :bad_request
       end
 
-      ActsAsTenant.current_tenant = Business.find(tenant_id)
-      user = User.find_by(email: customer_email)
+      business = Business.find(tenant_id)
+      ActsAsTenant.current_tenant = business
 
-      unless user
-        Rails.logger.error "Lemon Squeezy webhook: User not found for email #{customer_email}"
-        return render json: { error: 'User not found' }, status: :not_found
+      unless business
+        Rails.logger.error "Lemon Squeezy webhook: Business not found for tenant_id #{tenant_id}"
+        return render json: { error: 'Business not found' }, status: :not_found
       end
 
-      user.update!(payment_approved: true)      
+      # Update payment_approved on business
+      business.update!(payment_approved: true)
+      
+      # Trigger the sync job for Pro plan after payment
+      Apify::SyncBusinessJob.perform_later(business_id: business.id)
+      Rails.logger.info "Lemon Squeezy webhook: Payment approved and sync triggered for business #{business.id} (email: #{customer_email})"
 
-      Rails.logger.info "Lemon Squeezy webhook: Payment approved for user #{user.email}"
       render json: { message: 'Payment status updated successfully' }, status: :ok
 
     rescue JSON::ParserError => e

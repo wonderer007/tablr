@@ -6,8 +6,6 @@ class Ai::InferenceJob < ApplicationJob
   def perform(business_id:, review_ids:)
     business = Business.find(business_id)
 
-    return unless business.payment_approved?
-
     ActsAsTenant.with_tenant(business) do
       review_scope = business.reviews.where(id: review_ids, processed: false)
 

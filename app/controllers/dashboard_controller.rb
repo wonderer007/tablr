@@ -24,7 +24,11 @@ class DashboardController < ApplicationController
   end
 
   def check_payment_approved
-    unless current_user.payment_approved?
+    # Skip payment check for free plan
+    return if current_business&.free?
+    
+    # For Pro plan, check if payment is approved
+    unless current_business&.payment_approved?
       redirect_to payment_processing_path
     end
   end

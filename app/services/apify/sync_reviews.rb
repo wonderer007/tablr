@@ -6,11 +6,10 @@ class Apify::SyncReviews < ApplicationService
   end
 
   def max_reviews
-    business.test ? Review::REVIEW_COUNT_FOR_TEST : Review::MAX_REVIEW_COUNT
+    business.plan == :free ? Review::REVIEW_COUNT_FOR_TEST : Review::MAX_REVIEW_COUNT
   end
 
   def call    
-    return unless business.payment_approved?
     return if business.status.to_sym == :syncing_place || business.status.to_sym == :syncing_reviews
 
     params = {

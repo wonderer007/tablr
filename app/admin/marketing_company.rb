@@ -17,14 +17,16 @@ ActiveAdmin.register Marketing::Company do
 
     if business.save
       company.update(business: business)
+      # Set payment_approved, onboarding_completed and plan on business
+      business.update!(payment_approved: true, onboarding_completed: true, plan: :pro)
+      # Create a test user for the business
       random_password = SecureRandom.hex(10)
       business.users.create!(
         email: "testuser#{business.id}@tablr.io",
         first_name: "Test",
         last_name: "User",
         password: random_password,
-        password_confirmation: random_password,
-        payment_approved: true
+        password_confirmation: random_password
       )
       Apify::SyncBusinessJob.perform_later(business_id: business.id)
       redirect_to resource_path(company), notice: "Business created and linked to company."

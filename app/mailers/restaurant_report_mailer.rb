@@ -19,6 +19,9 @@ class RestaurantReportMailer < ApplicationMailer
     @business = business
     @complaints = fetch_latest_complaints
     @suggestions = fetch_latest_suggestions
+
+    return if @complaints.empty? && @suggestions.empty?
+
     @generated_at = Time.current
 
     mail(

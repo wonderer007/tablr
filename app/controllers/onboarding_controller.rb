@@ -104,7 +104,7 @@ class OnboardingController < ApplicationController
   private
 
   def ensure_needs_onboarding
-    unless current_user.needs_onboarding?
+    if !current_user.needs_onboarding? && params[:change_plan] != 'true'
       redirect_to dashboard_path
     end
   end

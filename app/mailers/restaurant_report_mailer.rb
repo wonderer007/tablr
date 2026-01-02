@@ -26,7 +26,7 @@ class RestaurantReportMailer < ApplicationMailer
 
     mail(
       to: user.email,
-      subject: "#{@business.name} - Latest Customer Insights from Tablr"
+      subject: "Latest Customer Insights for #{@business.name}"
     )
   end
 

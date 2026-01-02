@@ -14,6 +14,19 @@ class RestaurantReportMailer < ApplicationMailer
     )
   end
 
+  def insights_digest(user, business)
+    @user = user
+    @business = business
+    @complaints = fetch_latest_complaints
+    @suggestions = fetch_latest_suggestions
+    @generated_at = Time.current
+
+    mail(
+      to: user.email,
+      subject: "#{@business.name} - Latest Customer Insights from Tablr"
+    )
+  end
+
   private
 
   def generate_report_data
@@ -22,5 +35,21 @@ class RestaurantReportMailer < ApplicationMailer
       start_date: @start_date,
       end_date: @end_date
     ).call
+  end
+
+  def fetch_latest_complaints
+    ActsAsTenant.with_tenant(@business) do
+      Complain.includes(:category, :review)
+              .order(created_at: :desc)
+              .limit(5)
+    end
+  end
+
+  def fetch_latest_suggestions
+    ActsAsTenant.with_tenant(@business) do
+      Suggestion.includes(:category, :review)
+                .order(created_at: :desc)
+                .limit(5)
+    end
   end
 end

@@ -21,9 +21,8 @@ class Ai::InferenceFinalizeJob < ApplicationJob
       end_date = reviews_end_date.present? ? Date.parse(reviews_end_date) : nil
 
       if !business.test && start_date && end_date
-        RestaurantReportMailer.periodic_report(business.users.first, business, start_date, end_date).deliver_later
+        RestaurantReportMailer.insights_digest(business.users.first, business).deliver_later
       end
     end
   end
 end
-

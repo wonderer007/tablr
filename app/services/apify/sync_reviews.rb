@@ -6,7 +6,7 @@ class Apify::SyncReviews < ApplicationService
   end
 
   def max_reviews
-    business.plan == :free ? Review::REVIEW_COUNT_FOR_TEST : Review::MAX_REVIEW_COUNT
+    business.plan.to_sym == :pro ? Review::MAX_REVIEW_COUNT : Review::REVIEW_COUNT_FOR_TEST
   end
 
   def call    

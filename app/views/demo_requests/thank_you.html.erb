@@ -1,74 +1,155 @@
 <!-- Thank You Page -->
-<div class="min-h-screen py-16 px-4 sm:px-6 lg:px-8">
-  <div class="max-w-2xl mx-auto">
-    <div class="text-center">
-      <!-- Success Icon -->
-      <div class="mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-green-100 mb-8">
-        <svg class="h-8 w-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-        </svg>
+<div class="min-h-screen relative overflow-hidden">
+  <!-- Background Effects -->
+  <div class="absolute inset-0 mesh-gradient"></div>
+  <div class="absolute top-20 left-10 w-72 h-72 bg-emerald-400/20 rounded-full blur-3xl animate-pulse-slow"></div>
+  <div class="absolute bottom-20 right-10 w-96 h-96 bg-violet-400/20 rounded-full blur-3xl animate-pulse-slow" style="animation-delay: 2s;"></div>
+
+  <!-- Navigation -->
+  <nav class="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-lg border-b border-slate-200/50">
+    <div class="max-w-7xl mx-auto px-6 lg:px-8">
+      <div class="flex items-center h-16">
+        <!-- Logo -->
+        <div class="flex items-center gap-2.5 flex-shrink-0">
+          <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-indigo-600 to-violet-500 flex items-center justify-center shadow-lg shadow-indigo-500/20">
+            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+            </svg>
+          </div>
+          <%= link_to root_path, class: "font-display font-bold text-xl text-slate-900 hover:text-indigo-600 transition-colors" do %>
+            Tablr
+          <% end %>
+        </div>
+
+        <!-- CTA Buttons - Right -->
+        <div class="flex items-center gap-3 flex-shrink-0 ml-auto">
+          <% if user_signed_in? %>
+            <%= link_to "Dashboard", dashboard_path, class: "px-5 py-2 text-sm font-semibold text-white bg-gradient-to-r from-indigo-600 to-violet-500 rounded-full hover:shadow-lg hover:shadow-indigo-500/25 transition-all duration-300" %>
+          <% else %>
+            <%= link_to "Sign In", new_user_session_path, class: "hidden sm:block px-4 py-2 text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors" %>
+            <%= link_to "Get Started", new_user_registration_path, class: "px-5 py-2 text-sm font-semibold text-white bg-gradient-to-r from-indigo-600 to-violet-500 rounded-full hover:shadow-lg hover:shadow-indigo-500/25 transition-all duration-300" %>
+          <% end %>
+        </div>
       </div>
-
-      <h1 class="text-4xl font-bold text-gray-900 mb-4">Thank You!</h1>
-      <p class="text-xl text-gray-600 mb-8">
-        Your demo request has been submitted successfully. We're excited to show you how <%= link_to "Tablr", root_path, class: "text-indigo-600 hover:text-indigo-500 transition duration-200 font-medium" %> can transform your restaurant's review analysis.
-      </p>
     </div>
+  </nav>
 
-    <div class="bg-white rounded-lg shadow-lg p-8 mb-8">
-      <div class="text-center">
-        <h2 class="text-2xl font-semibold text-gray-900 mb-4">Schedule Your Demo</h2>
-        <p class="text-gray-600 mb-6">
-          Ready to see Tablr in action? Schedule a personalized demo with our team to explore how our AI-powered analytics and insights can help your restaurant.
+  <div class="relative z-10 pt-24 pb-16 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-4xl mx-auto space-y-8">
+
+      <!-- Success Message -->
+      <div class="text-center animate-fade-up">
+        <!-- Success Icon -->
+        <div class="mx-auto flex items-center justify-center h-20 w-20 rounded-full bg-emerald-100 mb-8 shadow-lg shadow-emerald-500/20">
+          <svg class="h-10 w-10 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+          </svg>
+        </div>
+
+        <h1 class="font-display text-5xl lg:text-6xl font-bold text-slate-900 mb-6">
+          Thank You!
+        </h1>
+        <p class="text-xl text-slate-600 max-w-2xl mx-auto leading-relaxed">
+          Your demo request has been submitted successfully. We're excited to show you how
+          <span class="font-semibold text-indigo-600">Tablr</span> can transform your restaurant's review analysis.
         </p>
-        
-        <a href="https://calendly.com/alihaider907/15min" 
-           target="_blank" 
-           rel="noopener noreferrer"
-           class="inline-flex items-center justify-center px-8 py-4 border border-transparent text-lg font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition duration-200 ease-in-out shadow-lg hover:shadow-xl">
-          <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
-          </svg>
-          Schedule Demo Now
-        </a>
       </div>
-    </div>
 
-    <div class="bg-gray-50 rounded-lg p-6">
-      <h3 class="text-lg font-semibold text-gray-900 mb-4">What to Expect in Your Demo</h3>
-      <ul class="space-y-3 text-gray-600">
-        <li class="flex items-start">
-          <svg class="w-5 h-5 text-indigo-600 mr-3 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-          </svg>
-          Live walkthrough of your restaurant's review analytics
-        </li>
-        <li class="flex items-start">
-          <svg class="w-5 h-5 text-indigo-600 mr-3 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-          </svg>
-          AI-powered sentiment analysis and trend identification
-        </li>
-        <li class="flex items-start">
-          <svg class="w-5 h-5 text-indigo-600 mr-3 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-          </svg>
-          Actionable insights to improve customer satisfaction
-        </li>
-        <li class="flex items-start">
-          <svg class="w-5 h-5 text-indigo-600 mr-3 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-          </svg>
-          Q&A session tailored to your restaurant's needs
-        </li>
-      </ul>
-    </div>
+      <!-- Schedule Demo Card -->
+      <div class="glass-card rounded-3xl p-8 shadow-2xl shadow-slate-900/10 border border-white/50 animate-fade-up animate-on-scroll animate-slide-in-up" style="animation-delay: 0.2s;">
+        <div class="text-center">
+          <h2 class="font-display text-3xl font-bold text-slate-900 mb-4">Schedule Your Demo</h2>
+          <p class="text-lg text-slate-600 mb-8 max-w-2xl mx-auto">
+            Ready to see Tablr in action? Schedule a personalized demo with our team to explore how our AI-powered analytics and insights can help your restaurant.
+          </p>
 
-    <div class="text-center mt-8">
-      <p class="text-gray-500 text-sm mb-4">
-        Questions before your demo? We're here to help.
-      </p>
-      <%= link_to "Return to Homepage", root_path, class: "text-indigo-600 hover:text-indigo-500 transition duration-200 font-medium" %>
+          <a href="https://calendly.com/alihaider907/15min"
+             target="_blank"
+             rel="noopener noreferrer"
+             class="inline-flex items-center justify-center gap-3 px-8 py-4 text-lg font-semibold text-white bg-gradient-to-r from-indigo-600 to-violet-500 rounded-xl hover:shadow-xl hover:shadow-indigo-500/30 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all duration-300 hover:-translate-y-1">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+            </svg>
+            Schedule Demo Now
+          </a>
+        </div>
+      </div>
+
+      <!-- What to Expect -->
+      <div class="glass-card rounded-3xl p-8 shadow-2xl shadow-slate-900/10 border border-white/50 animate-fade-up animate-on-scroll animate-slide-in-up" style="animation-delay: 0.4s;">
+        <div class="text-center mb-8">
+          <h3 class="font-display text-2xl font-bold text-slate-900">What to Expect in Your Demo</h3>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-6">
+          <div class="flex items-start gap-4">
+            <div class="w-10 h-10 rounded-xl bg-emerald-100 flex items-center justify-center flex-shrink-0">
+              <svg class="w-5 h-5 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+              </svg>
+            </div>
+            <div>
+              <p class="text-slate-700 font-medium">Live walkthrough of your restaurant's review analytics</p>
+            </div>
+          </div>
+
+          <div class="flex items-start gap-4">
+            <div class="w-10 h-10 rounded-xl bg-indigo-100 flex items-center justify-center flex-shrink-0">
+              <svg class="w-5 h-5 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+              </svg>
+            </div>
+            <div>
+              <p class="text-slate-700 font-medium">AI-powered sentiment analysis and trend identification</p>
+            </div>
+          </div>
+
+          <div class="flex items-start gap-4">
+            <div class="w-10 h-10 rounded-xl bg-violet-100 flex items-center justify-center flex-shrink-0">
+              <svg class="w-5 h-5 text-violet-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+              </svg>
+            </div>
+            <div>
+              <p class="text-slate-700 font-medium">Actionable insights to improve customer satisfaction</p>
+            </div>
+          </div>
+
+          <div class="flex items-start gap-4">
+            <div class="w-10 h-10 rounded-xl bg-rose-100 flex items-center justify-center flex-shrink-0">
+              <svg class="w-5 h-5 text-rose-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M7.5 8.25h9m-9 3H12m-9.75 1.51c0 1.6 1.123 2.994 2.707 3.227 1.129.166 2.27.293 3.423.379.35.026.67.21.865.501L12 21l2.755-4.133a1.14 1.14 0 0 1 .865-.501 48.172 48.172 0 0 0 3.423-.379c1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0 0 12 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018Z" />
+              </svg>
+            </div>
+            <div>
+              <p class="text-slate-700 font-medium">Q&A session tailored to your restaurant's needs</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Contact Section -->
+      <div class="text-center animate-fade-up animate-on-scroll animate-slide-in-up" style="animation-delay: 0.6s;">
+        <div class="glass-card rounded-2xl p-6 shadow-xl shadow-slate-900/5 border border-white/50 inline-block">
+          <p class="text-slate-600 mb-4">
+            Questions before your demo? We're here to help.
+          </p>
+          <div class="flex flex-col sm:flex-row gap-4 justify-center">
+            <%= link_to root_path, class: "inline-flex items-center justify-center gap-2 px-6 py-3 text-sm font-semibold text-slate-700 bg-white border-2 border-slate-200 rounded-xl hover:border-indigo-300 hover:bg-indigo-50/50 transition-all duration-300" do %>
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+              </svg>
+              Return to Homepage
+            <% end %>
+            <%= link_to "mailto:hello@tablr.io", target: "_blank", class: "inline-flex items-center justify-center gap-2 px-6 py-3 text-sm font-semibold text-white bg-gradient-to-r from-indigo-600 to-violet-500 rounded-xl hover:shadow-lg hover:shadow-indigo-500/30 transition-all duration-300" do %>
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+              </svg>
+              Contact Us
+            <% end %>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>

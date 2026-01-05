@@ -105,11 +105,11 @@ ActiveAdmin.register Marketing::Company do
       company_name = company.name.to_s.downcase.split.map(&:titleize).join(" ").gsub(".", "")
 
       introduction = if company.business.rating.to_f >= 4.5
-        "I noticed #{company_name} has an impressive #{company.business.rating} rating—customers clearly love what you're doing. Keep building on that trust!"
+        "With a #{company.business.rating} rating, #{company_name} is clearly winning customers over."
       elsif company.business.rating.to_f >= 4.0
-        "I noticed #{company_name} has a solid #{company.business.rating} rating—customers are responding positively. There's room to make it even better while continuing to build trust."
+        "#{company_name}'s #{company.business.rating} rating is solid—there's room to make it even better."
       else
-        "I took a look at #{company_name}'s reviews and noticed some areas where customer feedback could use attention. At a #{company.business.rating} rating, there's a real opportunity to turn things around."
+        "At #{company.business.rating}, #{company_name} has an opportunity to turn things around."
       end
 
       complain_sentence = customer_complains.any? ? "However, customers complains about #{customer_complains.first(2).to_sentence(two_words_connector: ' and ', last_word_connector: ', and ')} needs your attention, potentially impacting repeats." : nil

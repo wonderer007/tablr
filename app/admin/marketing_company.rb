@@ -13,7 +13,9 @@ ActiveAdmin.register Marketing::Company do
 
     business = Business.find_or_initialize_by(url: company.google_map_url)
     business.status = :created
+    business.business_type = :google_place
     business.test = true
+    business.plan = :free
 
     if business.save
       company.update(business: business)

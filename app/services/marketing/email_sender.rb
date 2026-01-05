@@ -10,7 +10,7 @@ module Marketing
       end
 
       def default_subject_for(company)
-        "Unlock 22% Revenue Growth from #{company.name&.downcase&.split&.map(&:titleize)&.join(" ")} Reviews - Free Report Inside"
+        "Unlock 22% Revenue Growth from #{company.name&.downcase&.split&.map(&:titleize)&.join(" ")} Reviews"
       end
 
       private

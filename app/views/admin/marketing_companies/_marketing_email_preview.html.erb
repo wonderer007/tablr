@@ -7,7 +7,7 @@
 
   email = PromotionalMailer.cold_email_outreach(preview_contact, ai_generated_intro: ai_generated_intro)
   html_body = email.html_part ? email.html_part.body.to_s : email.body.to_s
-  email_subject = "Unlock 22% Revenue Growth from #{company.name&.downcase&.split&.map(&:titleize)&.join(" ")} Reviews - Free Report Inside"
+  email_subject = "Unlock 22% Revenue Growth from #{company.name&.downcase&.split&.map(&:titleize)&.join(" ")} Reviews"
 
   draft_email.body = html_body
   draft_email.subject = email_subject

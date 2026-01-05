@@ -31,7 +31,7 @@ class PromotionalMailer < ApplicationMailer
 
     mail(
       to: contact.email,
-      subject: "Unlock 22% Revenue Growth from #{@company_name} Reviews - Free Report Inside",
+      subject: "Unlock 22% Revenue Growth from #{@company_name} Reviews",
       headers: {
         'List-Unsubscribe' => "<#{unsubscribe_url(email: contact.email)}>"
       }

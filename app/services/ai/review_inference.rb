@@ -3,7 +3,7 @@ require 'openai'
 class Ai::ReviewInference < ApplicationService
   attr_reader :business_id, :review_ids
 
-  BATCH_LIMIT = 30
+  BATCH_LIMIT = 50
 
   def initialize(business_id:, review_ids:)
     @business_id = business_id
@@ -13,22 +13,15 @@ class Ai::ReviewInference < ApplicationService
   def call
     return if reviews.empty?
 
-    inference_response.each_with_index do |inference, index|
-      review = reviews[index]
+    parsed_response = inference_response
+    # Validate response count matches input count
+    if parsed_response.size != reviews.size
+      Rails.logger.error("[ReviewInference] Mismatch: expected #{reviews.size} responses, got #{parsed_response.size}")
+      raise "AI returned #{parsed_response.size} responses for #{reviews.size} reviews"
+    end
 
-      inference.fetch('analysis', {}).each do |category_name, items|
-        category = Category.find_or_create_by(name: category_name)
-        items.each do |item|
-          Keyword.create(
-            review_id: review.id,
-            category: category,
-            name: item['name'],
-            sentiment: item['sentiment'],
-            sentiment_score: item['sentiment_score'],
-            is_dish: item['is_dish'] || false
-          )
-        end
-      end
+    parsed_response.each_with_index do |inference, index|
+      review = business.reviews.find(inference['review_id'])
 
       inference.fetch('complains', {}).each do |category_name, items|
         category = Category.find_or_create_by(name: category_name)
@@ -44,7 +37,7 @@ class Ai::ReviewInference < ApplicationService
         end
       end
 
-      review.update(processed: true, sentiment: inference.dig('sentiment'))
+      review.update(processed: true)
     end
 
     business.inference_responses.create(response: response)
@@ -55,34 +48,38 @@ class Ai::ReviewInference < ApplicationService
   def response
     @response ||= client.chat(
       parameters: {
-        model: 'gpt-4o-mini',
+        model: model,
         temperature: 0.2,
         messages: [
           {
             role: "system",
-            content: "You are an AI expert and restaurant review analysis assistant. Your task is to analyze a batch of customer reviews and return structured JSON output for each review, in the same order and same number of reviews as the input #{reviews.size}"
+            content: "You are an expert at analyzing customer reviews. Your task is to extract complaints and suggestions from a batch of reviews for any type of business and return structured JSON output for each review, in the same order and same number of reviews as the input (#{reviews.size})."
           },
           {
             role: "user",
             content: <<~PROMPT
               ### INSTRUCTIONS:
-              1. For each review, analyze categories: food, service, ambiance, pricing, timing, cleanliness and review overall sentiment (positive, negative, neutral).
-              2. For each category, return: name (use category name if there is no name), sentiment (positive, negative, neutral), sentiment_score. Add is_dish: true for dishes.
-              3. Extract complains/suggestions with category. Complains and suggestions MUST be arrays of plain strings (human-readable text) for each category key—do NOT return objects with name/sentiment/sentiment_score/is_dish inside these arrays.
-              4. Do not mix analysis items into complains or suggestions; only include free-text complaints/suggestions there.
-              5. Omit categories not mentioned to save tokens.
-              6. Sentiment should be positive, negative or neutral.
+              1. For each review, extract complaints and suggestions grouped by relevant category.
+              2. Infer categories from the review content (e.g., service, pricing, quality, staff, location, wait time, cleanliness, product, experience, communication, etc.).
+              3. Complaints and suggestions MUST be arrays of plain strings (human-readable text) for each category key.
+              4. If a review has no complaints or suggestions, return empty objects for those fields.
+              5. Use lowercase category names.
+              6. IMPORTANT: You MUST return EXACTLY #{reviews.size} objects in the array, one for each numbered review below. Do not split or merge reviews.
 
-              ### INPUT:
-              #{reviews.pluck(:text)}
+              ### INPUT (#{reviews.size} reviews):
+              #{numbered_reviews}
 
-              ### OUTPUT FORMAT (JSON):
+              ### OUTPUT FORMAT (JSON array with EXACTLY #{reviews.size} objects):
               #{output_sample.to_json}
             PROMPT
           }
         ]
       }
     )
+  end
+
+  def model
+    @model ||= business.plan.to_sym == :pro ? 'gpt-4o' : 'gpt-4o-mini'
   end
 
   def client
@@ -101,40 +98,22 @@ class Ai::ReviewInference < ApplicationService
     @business ||= Business.find(business_id)
   end
 
+  def numbered_reviews
+    reviews.each_with_index.map do |review, index|
+      "[Review ID: #{review.id}] #{review.text}"
+    end.join("\n\n")
+  end
+
   def output_sample
     [
       {
-        "sentiment": "positive",
+        "review_id": 1,
         "complains": {
           "service": ["service was slow"],
           "cleanliness": ["place was not very clean"]
         },
         "suggestions": {
           "reservation": ["booking a table in advance"]
-        },
-        "analysis": {
-          "food": [
-            {
-              "name": "chicken karahi",
-              "sentiment": "positive",
-              "sentiment_score": 88,
-              "is_dish": true
-            }
-          ],
-          "service": [
-            {
-              "name": "wait time",
-              "sentiment": "negative",
-              "sentiment_score": 30
-            }
-          ],
-          "cleanliness": [
-            {
-              "name": "cleanliness",
-              "sentiment": "neutral",
-              "sentiment_score": 40
-            }
-          ]
         }
       }
     ]

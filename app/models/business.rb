@@ -42,7 +42,7 @@ class Business < ApplicationRecord
       price: '$10',
       period: 'per month',
       features: [
-        'Up to 5,000 reviews',
+        'Up to 3,000 reviews',
         'AI complaint extraction',
         'AI suggestion mining',
         'Weekly & monthly reports',

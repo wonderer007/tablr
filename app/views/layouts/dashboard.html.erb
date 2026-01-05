@@ -39,6 +39,36 @@
       <!-- Top Navigation Component -->
       <%= render 'shared/top_navigation' %>
 
+      <%# Free Plan Upgrade Banner %>
+      <% if user_signed_in? && current_user.business&.free? %>
+        <div class="bg-gradient-to-r from-indigo-600 via-purple-600 to-indigo-600 border-b border-indigo-700">
+          <div class="px-4 py-3 sm:px-6 lg:px-8">
+            <div class="flex flex-wrap items-center justify-between gap-3">
+              <div class="flex items-center gap-3">
+                <span class="flex-shrink-0 inline-flex items-center justify-center h-8 w-8 rounded-full bg-white/20">
+                  <svg class="h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M10.868 2.884c-.321-.772-1.415-.772-1.736 0l-1.83 4.401-4.753.381c-.833.067-1.171 1.107-.536 1.651l3.62 3.102-1.106 4.637c-.194.813.691 1.456 1.405 1.02L10 15.591l4.069 2.485c.713.436 1.598-.207 1.404-1.02l-1.106-4.637 3.62-3.102c.635-.544.297-1.584-.536-1.65l-4.752-.382-1.831-4.401z" clip-rule="evenodd" />
+                  </svg>
+                </span>
+                <p class="text-sm font-medium text-white">
+                  <span class="font-semibold">Free Plan:</span>
+                  <span class="hidden sm:inline"> Only your latest 200 reviews are analyzed. Upgrade to Pro for up to 3,000 reviews + weekly reports.</span>
+                  <span class="sm:hidden"> Limited to 200 reviews.</span>
+                </p>
+              </div>
+              <div class="flex-shrink-0">
+                <%= link_to @payment_url, class: "inline-flex items-center gap-1.5 rounded-full bg-white px-4 py-1.5 text-sm font-semibold text-indigo-600 shadow-sm hover:bg-indigo-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white transition-colors" do %>
+                  Upgrade to Pro
+                  <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M3 10a.75.75 0 01.75-.75h10.638L10.23 5.29a.75.75 0 111.04-1.08l5.5 5.25a.75.75 0 010 1.08l-5.5 5.25a.75.75 0 11-1.04-1.08l4.158-3.96H3.75A.75.75 0 013 10z" clip-rule="evenodd" />
+                  </svg>
+                <% end %>
+              </div>
+            </div>
+          </div>
+        </div>
+      <% end %>
+
       <!-- Main Content Component -->
       <%= render 'shared/main_content' %>
     </div>

@@ -5,6 +5,7 @@ class DashboardController < ApplicationController
   before_action :check_onboarding_completed
   before_action :check_payment_approved
   before_action :check_data_processing_complete
+  before_action :set_payment_url
   set_current_tenant_through_filter
   before_action :set_current_tenant_by_user
   helper_method :current_business
@@ -15,6 +16,10 @@ class DashboardController < ApplicationController
 
   def current_business
     current_user.business
+  end
+
+  def set_payment_url
+    @payment_url = "#{ENV['PAYMENT_URL']}?checkout[custom][email]=#{current_user.email}&checkout[custom][tenant]=#{current_business.id}"
   end
 
   def check_onboarding_completed

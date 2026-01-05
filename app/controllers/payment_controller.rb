@@ -11,12 +11,6 @@ class PaymentController < ApplicationController
       redirect_to onboarding_path and return
     end
 
-    # Free plan users don't need payment
-    if @business&.free?
-      redirect_to dashboard_path and return
-    end
-
-    # Already paid Pro users go to dashboard
     if @business&.payment_approved?
       redirect_to dashboard_path and return
     end

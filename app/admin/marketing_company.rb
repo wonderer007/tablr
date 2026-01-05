@@ -110,11 +110,14 @@ ActiveAdmin.register Marketing::Company do
         "I took a look at #{company_name}'s reviews and noticed some areas where customer feedback could use attention. At a #{company.business.rating} rating, there's a real opportunity to turn things around."
       end
 
+      complain_sentence = customer_complains.any? ? "However, customers complains about #{customer_complains.first(2).to_sentence(two_words_connector: ' and ', last_word_connector: ', and ')} needs your attention, potentially impacting repeats." : nil
+      suggestion_sentence = customer_suggestions.any? ? "Additionally, customers suggestions for #{customer_suggestions.first(2).to_sentence(two_words_connector: ' and ', last_word_connector: ', and ')} are a great opportunity to improve your business." : nil
+
       [
         introduction,
-        "However, customers complains about #{customer_complains.first(2).to_sentence(two_words_connector: ' and ', last_word_connector: ', and ')} needs your attention, potentially impacting repeats.",
-        "Additionally, customers suggestions for #{customer_suggestions.first(2).to_sentence(two_words_connector: ' and ', last_word_connector: ', and ')} are a great opportunity to improve your business.", 
-      ]
+        complain_sentence,
+        suggestion_sentence
+      ].compact
     end
   end
 

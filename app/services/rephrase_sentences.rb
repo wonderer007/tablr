@@ -29,7 +29,7 @@ class RephraseSentences
       You are a helpful assistant with expertise in marketing and copywriting.
       You will be given opening sentences from email to business owners and you will need to rephrase each sentence to make it more engaging and persuasive.
       Particularly, if the sentence is about customer feedback, you should rephrase it to make it more actionable and persuasive.
-      Add html tags to the sentences for better readability.
+      Add html tags to the introduction, complain and suggestion sentences for better readability.
       Keep introduction short and concise, don't add any extra information.
       Do NOT use <bold>, <strong>, <b>, <italic>, <i>, or <em> tags. Keep formatting clean and professional.
       Use customer-centric and personalized language such as:

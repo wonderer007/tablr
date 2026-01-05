@@ -12,6 +12,7 @@ class HomeController < DashboardController
     @date_filter_active = @start_date.present? && @end_date.present?
     
     # Get total counts (filtered or all)
+    @total_reviews_count = reviews_count(@start_date, @end_date)
     @total_complaints_count = complaints_count(@start_date, @end_date)
     @total_suggestions_count = suggestions_count(@start_date, @end_date)
     
@@ -67,6 +68,14 @@ class HomeController < DashboardController
   end
   
   private
+  
+  def reviews_count(start_date, end_date)
+    query = Review.all
+    if start_date.present? && end_date.present?
+      query = query.where(published_at: start_date..end_date)
+    end
+    query.count
+  end
   
   def complaints_count(start_date, end_date)
     query = Complain.joins(review: :business)

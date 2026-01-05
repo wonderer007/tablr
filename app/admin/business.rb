@@ -36,6 +36,12 @@ ActiveAdmin.register Business do
       end
       row :status
       row :rating
+      row "Complains Count" do |business|
+        business.complains.count
+      end
+      row "Suggestions Count" do |business|
+        business.suggestions.count
+      end
       row :first_inference_completed
       row :test
       row "Place Actor Run ID" do |business|

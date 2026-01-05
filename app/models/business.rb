@@ -10,6 +10,9 @@ class Business < ApplicationRecord
   has_many :notifications
   has_many :inference_responses
 
+  has_many :complains, through: :reviews
+  has_many :suggestions, through: :reviews
+
   enum :status, [:created, :syncing_place, :synced_place, :syncing_reviews, :synced_reviews, :failed]
   enum :business_type, {
     google_place: 'google_place',

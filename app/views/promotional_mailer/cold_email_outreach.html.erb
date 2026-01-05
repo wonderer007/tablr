@@ -2,21 +2,21 @@
 
 <% if @ai_generated_intro.present? %>
   <% ai_lines = @ai_generated_intro.to_s.split(/(?<=[.!])/).map(&:strip).reject(&:blank?) %>
-  <% if ai_lines.length == 3 %>
-    <% merged_lines = [ai_lines[0], ai_lines[1..2].join(' ')] %>
-    <%= safe_join(merged_lines.map { |line| content_tag(:p, line) }) if merged_lines.any? %>
-  <% else %>
-    <%= safe_join(ai_lines.map { |line| content_tag(:p, line) }) if ai_lines.any? %>
-  <% end %>
+  <%= raw @ai_generated_intro %>
 <% else %>
-  <p>I analyzed recent reviews for <%= @company_name %> and found customers love the <%= @positive_categories.first(2).map(&:downcase).to_sentence(two_words_connector: ' and ', last_word_connector: ', and ') %>—solid wins to build on.</p>
+  <% if @business.rating.to_f >= 4.5 %>
+    <p>I noticed <%= @company_name %> has an impressive <%= @business.rating %> rating—customers clearly love what you're doing. Keep building on that trust!</p>
+  <% elsif @business.rating.to_f >= 4.0 %>
+    <p>I noticed <%= @company_name %> has a solid <%= @business.rating %> rating—customers are responding positively. There's room to make it even better while continuing to build trust.</p>
+  <% else %>
+    <p>I took a look at <%= @company_name %>'s reviews and noticed some areas where customer feedback could use attention. At a <%= @business.rating %> rating, there's a real opportunity to turn things around.</p>
+  <% end %>
 
-  <p>However, feedback on <%= @feedback.first(2).to_sentence(two_words_connector: ' and ', last_word_connector: ', and ') %> needs your attention, potentially impacting repeats.</p>
+  <p>However, customers complains about <%= @customer_complains.first(2).to_sentence(two_words_connector: ' and ', last_word_connector: ', and ') %> needs your attention, potentially impacting repeats.</p>
+  <p>Additionally, customers suggestions for <%= @customer_suggestions.first(2).to_sentence(two_words_connector: ' and ', last_word_connector: ', and ') %> are a great opportunity to improve your business.</p>
 <% end %>
 
-<p>Check out our free report on trends here: <%= link_to "View Full Report for #{@company_name}", report_url(@company.business&.place_actor_run_id || @company.place_id), target: '_blank' %>.</p>
-
-<p>Tablr converts these into wins—our partners average 22% more revenue by addressing them.</p>
+<p>Tablr converts customer feedback into actionable insights—our partners average 22% more revenue by addressing them.</p>
 
 <p>Open to a 15-minute call to dive in?</p>
 

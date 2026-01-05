@@ -97,14 +97,23 @@ ActiveAdmin.register Marketing::Company do
 
     def default_intro_sentences_for(company)
       insights = Marketing::ReviewInsights.for_business(company.business)
-      positive_categories = insights[:positive_categories]
-      feedback = insights[:feedback]
+      customer_complains = insights[:customer_complains]
+      customer_suggestions = insights[:customer_suggestions]
 
       company_name = company.name.to_s.downcase.split.map(&:titleize).join(" ").gsub(".", "")
 
+      introduction = if company.business.rating.to_f >= 4.5
+        "I noticed #{company_name} has an impressive #{company.business.rating} rating—customers clearly love what you're doing. Keep building on that trust!"
+      elsif company.business.rating.to_f >= 4.0
+        "I noticed #{company_name} has a solid #{company.business.rating} rating—customers are responding positively. There's room to make it even better while continuing to build trust."
+      else
+        "I took a look at #{company_name}'s reviews and noticed some areas where customer feedback could use attention. At a #{company.business.rating} rating, there's a real opportunity to turn things around."
+      end
+
       [
-        "I analyzed recent reviews for #{company_name} and found customers love the #{positive_categories.first(2).map(&:downcase).to_sentence(two_words_connector: ' and ', last_word_connector: ', and ')}—solid wins to build on.",
-        "However, feedback on #{feedback.first(2).to_sentence(two_words_connector: ' and ', last_word_connector: ', and ')} needs your attention, potentially impacting repeats."
+        introduction,
+        "However, customers complains about #{customer_complains.first(2).to_sentence(two_words_connector: ' and ', last_word_connector: ', and ')} needs your attention, potentially impacting repeats.",
+        "Additionally, customers suggestions for #{customer_suggestions.first(2).to_sentence(two_words_connector: ' and ', last_word_connector: ', and ')} are a great opportunity to improve your business.", 
       ]
     end
   end

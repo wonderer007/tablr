@@ -26,8 +26,8 @@ class PromotionalMailer < ApplicationMailer
     @email = contact.email
     @ai_generated_intro = ai_generated_intro
     insights = Marketing::ReviewInsights.for_business(@business)
-    @positive_categories = insights[:positive_categories]
-    @feedback = insights[:feedback]
+    @customer_suggestions = insights[:customer_suggestions]
+    @customer_complains = insights[:customer_complains]
 
     mail(
       to: contact.email,

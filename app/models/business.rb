@@ -56,10 +56,10 @@ class Business < ApplicationRecord
 
   # Available integrations for onboarding
   AVAILABLE_INTEGRATIONS = [
-    { id: :google_maps, name: 'Google Maps', icon: 'google_maps', url_label: 'Google Place URL', placeholder: 'https://maps.google.com/...' },
-    { id: :yelp, name: 'Yelp', icon: 'yelp', url_label: 'Yelp Profile URL', placeholder: 'https://yelp.com/biz/...' },
-    { id: :tripadvisor, name: 'Tripadvisor', icon: 'tripadvisor', url_label: 'Tripadvisor URL', placeholder: 'https://tripadvisor.com/...' },
-    { id: :trustpilot, name: 'Trustpilot', icon: 'trustpilot', url_label: 'Trustpilot URL', placeholder: 'https://trustpilot.com/...' }
+    { id: :google_maps, name: 'Google Maps', icon: 'google_maps', url_label: 'Google Place URL', placeholder: 'https://maps.google.com/...', coming_soon: false },
+    { id: :yelp, name: 'Yelp', icon: 'yelp', url_label: 'Yelp Profile URL', placeholder: 'https://yelp.com/biz/...', coming_soon: true },
+    { id: :tripadvisor, name: 'Tripadvisor', icon: 'tripadvisor', url_label: 'Tripadvisor URL', placeholder: 'https://tripadvisor.com/...', coming_soon: true },
+    { id: :trustpilot, name: 'Trustpilot', icon: 'trustpilot', url_label: 'Trustpilot URL', placeholder: 'https://trustpilot.com/...', coming_soon: true }
   ].freeze
 
   INTEGRATION_TO_BUSINESS_TYPE = {

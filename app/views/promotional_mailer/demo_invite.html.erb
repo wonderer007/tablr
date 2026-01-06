@@ -1,0 +1,15 @@
+<p>Hi <%= @recipient_name %>,</p>
+
+<p>We help restaurants like yours turn reviews into revenue — driving an average 20-30% profit boost by identifying issues and opportunities hidden in customer feedback!</p>
+
+<p>Would you like a 10-min demo to see how <a href="https://tablr.io" target="_blank" style="text-decoration: none;">Tablr</a> can boost your ratings & revenue?</p>
+
+
+<p>Best Regards,<br/>
+<span>--</span><br/>
+Haider Ali<br/>
+<a href="https://tablr.io" target="_blank">Tablr.io</a></p>
+<p style="font-size: 12px; color: #666; margin-top: 10px;">
+  Don't want to receive these emails? <%= link_to "Unsubscribe", unsubscribe_url(email: @email), style: "color: #666;text-decoration: none;" %>
+</p>
+

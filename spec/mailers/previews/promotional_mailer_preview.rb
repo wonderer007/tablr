@@ -3,12 +3,8 @@ class PromotionalMailerPreview < ActionMailer::Preview
     PromotionalMailer.cold_email_outreach(contact)
   end
 
-  def hidden_patterns_in_reviews
-    PromotionalMailer.hidden_patterns_in_reviews(contact)
-  end
-
-  def analyzing_reviews_pattern
-    PromotionalMailer.analyzing_reviews_pattern(contact)
+  def demo_invite
+    PromotionalMailer.demo_invite(contact)
   end
 
   private

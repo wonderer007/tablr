@@ -10,8 +10,10 @@ class PromotionalMailer < ApplicationMailer
       contact.first_name
     elsif contact.last_name.present? && contact.last_name.length > 1
       contact.last_name
+    elsif contact.email.present?
+      contact.email.split("@").first
     else
-      "Valued Customer"
+      "there"
     end
   end
 
@@ -37,6 +39,21 @@ class PromotionalMailer < ApplicationMailer
       }
     ) do |format|
         format.html
+    end
+  end
+
+  def demo_invite(contact)
+    @recipient_name = recipient_name(contact)
+    @email = contact.email
+
+    mail(
+      to: contact.email,
+      subject: "Turn Customer Feedback into Revenue",
+      headers: {
+        'List-Unsubscribe' => "<#{unsubscribe_url(email: contact.email)}>"
+      }
+    ) do |format|
+      format.html
     end
   end
 end

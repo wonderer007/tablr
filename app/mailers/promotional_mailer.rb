@@ -48,7 +48,7 @@ class PromotionalMailer < ApplicationMailer
 
     mail(
       to: contact.email,
-      subject: "Turn Customer Feedback into Revenue",
+      subject: "Turn Customer Feedback into Revenue with AI",
       headers: {
         'List-Unsubscribe' => "<#{unsubscribe_url(email: contact.email)}>"
       }

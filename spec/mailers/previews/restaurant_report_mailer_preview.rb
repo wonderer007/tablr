@@ -1,7 +1,7 @@
 class RestaurantReportMailerPreview < ActionMailer::Preview
   def periodic_report
   business = Business.first
-  ActsAsTenant.current_tenant = busine
+  ActsAsTenant.current_tenant = business
 
   user = busine.users.first
 

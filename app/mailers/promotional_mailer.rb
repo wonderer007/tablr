@@ -5,6 +5,10 @@ class PromotionalMailer < ApplicationMailer
 
   private
 
+  def unsubscribe_token(email)
+    Rails.application.message_verifier(:unsubscribe).generate(email, purpose: :unsubscribe)
+  end
+
   def recipient_name(contact)
     if contact.first_name.present? && contact.first_name.length > 1
       contact.first_name
@@ -26,6 +30,7 @@ class PromotionalMailer < ApplicationMailer
     @business = contact.company.business
     @company = contact.company
     @email = contact.email
+    @unsubscribe_token = unsubscribe_token(contact.email)
     @ai_generated_intro = ai_generated_intro
     insights = Marketing::ReviewInsights.for_business(@business)
     @customer_suggestions = insights[:customer_suggestions]
@@ -35,7 +40,7 @@ class PromotionalMailer < ApplicationMailer
       to: contact.email,
       subject: "Unlock 22% Revenue Growth from #{@company_name} Reviews",
       headers: {
-        'List-Unsubscribe' => "<#{unsubscribe_url(email: contact.email)}>"
+        'List-Unsubscribe' => "<#{unsubscribe_url(token: @unsubscribe_token)}>"
       }
     ) do |format|
         format.html
@@ -45,12 +50,13 @@ class PromotionalMailer < ApplicationMailer
   def demo_invite(contact)
     @recipient_name = recipient_name(contact)
     @email = contact.email
+    @unsubscribe_token = unsubscribe_token(contact.email)
 
     mail(
       to: contact.email,
       subject: "Turn Customer Feedback into Revenue with AI",
       headers: {
-        'List-Unsubscribe' => "<#{unsubscribe_url(email: contact.email)}>"
+        'List-Unsubscribe' => "<#{unsubscribe_url(token: @unsubscribe_token)}>"
       }
     ) do |format|
       format.html

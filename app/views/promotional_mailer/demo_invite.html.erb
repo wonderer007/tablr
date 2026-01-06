@@ -10,6 +10,6 @@
 Haider Ali<br/>
 <a href="https://tablr.io" target="_blank">Tablr.io</a></p>
 <p style="font-size: 12px; color: #666; margin-top: 10px;">
-  Don't want to receive these emails? <%= link_to "Unsubscribe", unsubscribe_url(email: @email), style: "color: #666;text-decoration: none;" %>
+  Don't want to receive these emails? <%= link_to "Unsubscribe", unsubscribe_url(token: @unsubscribe_token), style: "color: #666;text-decoration: none;" %>
 </p>
 

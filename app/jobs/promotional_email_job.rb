@@ -21,6 +21,6 @@ class PromotionalEmailJob < ApplicationJob
   def get_random_delay
     return 0 if Rails.env.development?
 
-    rand(5..20)
+    rand(3..6)
   end
 end

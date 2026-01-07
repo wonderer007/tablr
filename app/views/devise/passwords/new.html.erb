@@ -4,22 +4,33 @@
   <div class="absolute inset-0 mesh-gradient"></div>
   <div class="absolute top-20 left-10 w-72 h-72 bg-indigo-400/20 rounded-full blur-3xl animate-pulse-slow"></div>
   <div class="absolute bottom-20 right-10 w-96 h-96 bg-violet-400/20 rounded-full blur-3xl animate-pulse-slow" style="animation-delay: 2s;"></div>
+
+  <!-- Navigation -->
+  <nav class="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-lg border-b border-slate-200/50">
+    <div class="max-w-7xl mx-auto px-6 lg:px-8">
+      <div class="flex items-center h-16">
+        <!-- Logo -->
+        <div class="flex items-center gap-2.5 flex-shrink-0">
+          <a href="/"> <img src="/images/file.svg" alt="Tablr" class="w-auto" style="height: 9.24rem;"></a>
+        </div>
+
+        <!-- CTA Button - Right -->
+        <div class="flex items-center gap-3 flex-shrink-0 ml-auto">
+          <% if user_signed_in? %>
+            <%= link_to "Dashboard", dashboard_path, class: "px-5 py-2 text-sm font-semibold text-white bg-gradient-to-r from-indigo-600 to-violet-500 rounded-full hover:shadow-lg hover:shadow-indigo-500/25 transition-all duration-300" %>
+          <% else %>
+            <%= link_to "Sign In", new_user_session_path, class: "hidden sm:block px-4 py-2 text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors" %>
+            <%= link_to "Get Started", new_user_registration_path, class: "px-5 py-2 text-sm font-semibold text-white bg-gradient-to-r from-indigo-600 to-violet-500 rounded-full hover:shadow-lg hover:shadow-indigo-500/25 transition-all duration-300" %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </nav>
   
-  <div class="relative z-10 grid lg:grid-cols-2 min-h-screen">
+  <div class="relative z-10 grid lg:grid-cols-2 min-h-screen pt-16">
     <!-- Left Side - Branding -->
     <div class="hidden lg:flex items-center justify-end pr-16 xl:pr-24">
       <div class="w-full max-w-md space-y-8">
-        <div class="flex items-center gap-3">
-          <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-indigo-600 to-violet-500 flex items-center justify-center shadow-lg shadow-indigo-500/30">
-            <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-            </svg>
-          </div>
-          <%= link_to root_path, class: "font-display font-bold text-3xl text-slate-900" do %>
-            Tablr
-          <% end %>
-        </div>
-        
         <div class="space-y-4">
           <h1 class="font-display text-4xl font-bold text-slate-900 leading-tight">
             Forgot Your
@@ -65,11 +76,6 @@
       <div class="w-full max-w-md">
         <!-- Mobile Logo -->
         <div class="lg:hidden flex items-center justify-center gap-2 mb-8">
-          <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-600 to-violet-500 flex items-center justify-center shadow-lg shadow-indigo-500/20">
-            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-            </svg>
-          </div>
           <%= link_to root_path, class: "font-display font-bold text-2xl text-slate-900" do %>
             Tablr
           <% end %>

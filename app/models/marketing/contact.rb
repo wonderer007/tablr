@@ -8,6 +8,16 @@ class Marketing::Contact < ApplicationRecord
   belongs_to :company, class_name: "Marketing::Company", optional: true
   has_many :marketing_emails, class_name: "Marketing::Email", foreign_key: "marketing_contact_id", dependent: :destroy
 
+  before_create :generate_unsubscribe_token
+
+  private
+
+  def generate_unsubscribe_token
+    self.unsubscribe_token ||= SecureRandom.urlsafe_base64(32)
+  end
+
+  public
+
   def self.ransackable_attributes(auth_object = nil)
     %w[created_at email email_sent_at first_name id last_name secondary_email unsubscribed updated_at company_id company_name]
   end

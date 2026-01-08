@@ -5,19 +5,23 @@ class WebsiteController < ApplicationController
   end
 
   def unsubscribe
-    # Support both token-based (new) and email-based (legacy) unsubscribe
     if params[:token].present?
-      @email = Rails.application.message_verifier(:unsubscribe).verify(params[:token], purpose: :unsubscribe)
-    else
+      contact = Marketing::Contact.find_by(unsubscribe_token: params[:token])
+      if contact
+        @email = contact.email
+        contact.update(unsubscribed: true)
+      else
+        @email = nil
+        @error = "Invalid unsubscribe link"
+      end
+    elsif params[:email].present?
+      # Legacy email-based unsubscribe (less secure, but maintains backward compatibility)
       @email = params[:email]
-    end
-
-    if @email.present?
       contact = Marketing::Contact.find_by(email: @email)
       contact&.update(unsubscribed: true)
+    else
+      @email = nil
+      @error = "Invalid unsubscribe link"
     end
-  rescue ActiveSupport::MessageVerifier::InvalidSignature
-    @email = nil
-    @error = "Invalid or expired unsubscribe link"
   end
 end

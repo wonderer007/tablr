@@ -9,7 +9,7 @@ class PromotionalMailerPreview < ActionMailer::Preview
 
   private
   def contact
-    # @contact ||= Marketing::Contact.order("RANDOM()")&.first || FactoryBot.create(:marketing_contact)
-    @contact ||= Marketing::Contact.find(27)
+    @contact ||= Marketing::Contact.order("RANDOM()")&.first || FactoryBot.create(:marketing_contact)
+    # @contact ||= Marketing::Contact.find(27)
   end
 end

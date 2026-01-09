@@ -5,23 +5,30 @@ class WebsiteController < ApplicationController
   end
 
   def unsubscribe
-    if params[:token].present?
-      contact = Marketing::Contact.find_by(unsubscribe_token: params[:token])
-      if contact
-        @email = contact.email
-        contact.update(unsubscribed: true)
-      else
-        @email = nil
-        @error = "Invalid unsubscribe link"
-      end
-    elsif params[:email].present?
-      # Legacy email-based unsubscribe (less secure, but maintains backward compatibility)
-      @email = params[:email]
-      contact = Marketing::Contact.find_by(email: @email)
-      contact&.update(unsubscribed: true)
-    else
-      @email = nil
-      @error = "Invalid unsubscribe link"
+    @token = params[:token]
+    @email = params[:email]
+    @unsubscribed = params[:success] == "true"
+  end
+
+  def process_unsubscribe
+    token = params[:token]
+    email = params[:email]
+    reason = params[:reason]
+    other_reason = params[:other_reason]
+
+    # Combine reason with other_reason if "other" was selected
+    full_reason = reason == "other" && other_reason.present? ? "Other: #{other_reason}" : reason
+
+    # Try to find and update the contact, but don't show error if not found
+    if token.present?
+      contact = Marketing::Contact.find_by(unsubscribe_token: token)
+      contact&.update(unsubscribed: true, unsubscribe_reason: full_reason)
+    elsif email.present?
+      contact = Marketing::Contact.find_by(email: email)
+      contact&.update(unsubscribed: true, unsubscribe_reason: full_reason)
     end
+
+    # Redirect with success parameter
+    redirect_to unsubscribe_path(success: true)
   end
 end

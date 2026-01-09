@@ -53,4 +53,5 @@ Rails.application.routes.draw do
   end
 
   get '/unsubscribe', to: 'website#unsubscribe', as: :unsubscribe
+  post '/unsubscribe', to: 'website#process_unsubscribe', as: :process_unsubscribe
 end

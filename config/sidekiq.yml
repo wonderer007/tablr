@@ -6,15 +6,15 @@
     apify_place_sync_processor:
       every: "20s"
       class: Apify::BusinessSyncProcessorJob
-    promotional_email_job_mon_thu:
-      cron: "0 15 * * 1-4"
-      class: PromotionalEmailJob
-      queue: default
-      description: "Send promotional emails Mon-Thu at 3:00 PM ET"
-      tz: "America/New_York"
-    promotional_email_job_fri:
-      cron: "0 10 * * 5"
-      class: PromotionalEmailJob
-      queue: default
-      description: "Send promotional emails Fri at 10:00 AM ET"
-      tz: "America/New_York"
+    # promotional_email_job_mon_thu:
+    #   cron: "0 15 * * 1-4"
+    #   class: PromotionalEmailJob
+    #   queue: default
+    #   description: "Send promotional emails Mon-Thu at 3:00 PM ET"
+    #   tz: "America/New_York"
+    # promotional_email_job_fri:
+    #   cron: "0 10 * * 5"
+    #   class: PromotionalEmailJob
+    #   queue: default
+    #   description: "Send promotional emails Fri at 10:00 AM ET"
+    #   tz: "America/New_York"

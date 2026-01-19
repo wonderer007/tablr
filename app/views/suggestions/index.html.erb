@@ -32,7 +32,7 @@
           <div>
             <label class="block text-xs font-medium text-gray-500 mb-1.5">Category</label>
             <%= f.select :category_id_eq, 
-                options_from_collection_for_select(Category.order(:name), :id, :name, params.dig(:q, :category_id_eq)), 
+                options_from_collection_for_select(@categories, :id, :name, params.dig(:q, :category_id_eq)), 
                 { include_blank: "All Categories" }, 
                 class: "w-full h-10 rounded-lg border border-gray-200 bg-white px-3 text-sm text-gray-700 focus:border-gray-400 focus:ring-0 focus:outline-none" %>
           </div>

@@ -2,6 +2,9 @@ class ComplainsController < DashboardController
   before_action :mark_notifications_as_read, only: [:index]
 
   def index
+    @categories = Category.joins(:complains).group(:id).having('COUNT(complains.id) > 0')
+    @categories = @categories.order(:name).select(:id, :name)
+
     @q = Complain.includes(:category, review: :business).ransack(params[:q])
     @complains = @q.result
     

@@ -1,4 +1,5 @@
 require 'openai'
+require 'tiktoken_ruby'
 
 class Ai::ReviewInference < ApplicationService
   attr_reader :business_id, :review_ids
@@ -40,7 +41,11 @@ class Ai::ReviewInference < ApplicationService
       review.update(processed: true)
     end
 
-    business.inference_responses.create(response: response)
+    business.inference_requests.create(
+      response: response,
+      input_token_count: input_token_count,
+      output_token_count: output_token_count
+    )
   end
 
   private
@@ -123,5 +128,35 @@ class Ai::ReviewInference < ApplicationService
     raw_output = response.dig('choices', 0, 'message', 'content')
     cleaned_output = raw_output.gsub(/```json\n|\n```/, '')
     JSON.parse(cleaned_output)
+  end
+
+  def encoder
+    @encoder ||= Tiktoken.encoding_for_model(model)
+  end
+
+  def input_token_count
+    system_message = "You are an expert at analyzing customer reviews. Your task is to extract complaints and suggestions from a batch of reviews for any type of business and return structured JSON output for each review, in the same order and same number of reviews as the input (#{reviews.size})."
+    user_message = <<~PROMPT
+      ### INSTRUCTIONS:
+      1. For each review, extract complaints and suggestions grouped by relevant category.
+      2. Infer categories from the review content (e.g., service, pricing, quality, staff, location, wait time, cleanliness, product, experience, communication, etc.).
+      3. Complaints and suggestions MUST be arrays of plain strings (human-readable text) for each category key.
+      4. If a review has no complaints or suggestions, return empty objects for those fields.
+      5. Use lowercase category names.
+      6. IMPORTANT: You MUST return EXACTLY #{reviews.size} objects in the array, one for each numbered review below. Do not split or merge reviews.
+
+      ### INPUT (#{reviews.size} reviews):
+      #{numbered_reviews}
+
+      ### OUTPUT FORMAT (JSON array with EXACTLY #{reviews.size} objects):
+      #{output_sample.to_json}
+    PROMPT
+
+    encoder.encode(system_message).length + encoder.encode(user_message).length
+  end
+
+  def output_token_count
+    output_text = response.dig('choices', 0, 'message', 'content') || ''
+    encoder.encode(output_text).length
   end
 end

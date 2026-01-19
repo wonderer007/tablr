@@ -2,6 +2,9 @@ class SuggestionsController < DashboardController
   before_action :mark_notifications_as_read, only: [:index]
 
   def index
+    @categories = Category.joins(:suggestions).group(:id).having('COUNT(suggestions.id) > 0')
+    @categories = @categories.order(:name).select(:id, :name)
+
     @q = Suggestion.includes(:category, review: :business).ransack(params[:q])
     @suggestions = @q.result
     

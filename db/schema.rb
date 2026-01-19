@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2026_01_09_000001) do
+ActiveRecord::Schema[7.2].define(version: 2026_01_20_032533) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
   enable_extension "plpgsql"
@@ -82,12 +82,14 @@ ActiveRecord::Schema[7.2].define(version: 2026_01_09_000001) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "inference_responses", force: :cascade do |t|
+  create_table "inference_requests", force: :cascade do |t|
     t.bigint "business_id", null: false
     t.jsonb "response"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["business_id"], name: "index_inference_responses_on_business_id"
+    t.integer "input_token_count"
+    t.integer "output_token_count"
+    t.index ["business_id"], name: "index_inference_requests_on_business_id"
   end
 
   create_table "keywords", force: :cascade do |t|
@@ -245,7 +247,7 @@ ActiveRecord::Schema[7.2].define(version: 2026_01_09_000001) do
   add_foreign_key "complains", "businesses"
   add_foreign_key "complains", "categories"
   add_foreign_key "complains", "reviews"
-  add_foreign_key "inference_responses", "businesses"
+  add_foreign_key "inference_requests", "businesses"
   add_foreign_key "keywords", "businesses"
   add_foreign_key "keywords", "categories"
   add_foreign_key "keywords", "reviews"

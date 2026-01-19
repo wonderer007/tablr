@@ -8,7 +8,7 @@ class Business < ApplicationRecord
   has_many :reviews
   has_many :users
   has_many :notifications
-  has_many :inference_responses
+  has_many :inference_requests
 
   has_many :complains, through: :reviews
   has_many :suggestions, through: :reviews

@@ -33,45 +33,45 @@
 </nav>
 
 <!-- Hero Section -->
-<section class="relative min-h-screen pt-32 pb-20 overflow-hidden mesh-gradient">
+<section class="relative pt-24 sm:pt-28 lg:pt-32 pb-16 sm:pb-20 overflow-hidden mesh-gradient">
     <div class="absolute top-40 left-10 w-72 h-72 bg-indigo-400/20 rounded-full blur-3xl animate-pulse-slow"></div>
     <div class="absolute bottom-20 right-10 w-96 h-96 bg-violet-400/20 rounded-full blur-3xl animate-pulse-slow" style="animation-delay: 2s;"></div>
     <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-purple-400/10 rounded-full blur-3xl"></div>
     
     <div class="relative max-w-7xl mx-auto px-6 lg:px-8">
-        <div class="grid lg:grid-cols-2 gap-16 items-center">
-            <div class="space-y-8">                
-                <h1 class="font-display text-4xl sm:text-5xl lg:text-6xl font-bold leading-snug tracking-normal animate-fade-up opacity-0" style="animation-delay: 0.2s; animation-fill-mode: forwards;">
+        <div class="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
+            <div class="space-y-5 sm:space-y-6 lg:space-y-8">                
+                <h1 class="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-tight sm:leading-snug tracking-normal animate-fade-up opacity-0" style="animation-delay: 0.2s; animation-fill-mode: forwards;">
                     Turn Feedback Into
                     <span class="gradient-text">Actionable Insights</span>
                 </h1>
                 
-                <p class="text-lg lg:text-xl text-slate-600 leading-relaxed max-w-xl animate-fade-up opacity-0" style="animation-delay: 0.3s; animation-fill-mode: forwards;">
+                <p class="text-base sm:text-lg lg:text-xl text-slate-600 leading-relaxed max-w-xl animate-fade-up opacity-0" style="animation-delay: 0.3s; animation-fill-mode: forwards;">
                     Automatically extract complaints, uncover suggestions, and receive weekly intelligence reports from all your review platforms. Make data-driven decisions that fix customers' issues.
                 </p>
                 
-                <div class="flex flex-col sm:flex-row gap-4 animate-fade-up opacity-0" style="animation-delay: 0.4s; animation-fill-mode: forwards;">
+                <div class="flex flex-col sm:flex-row gap-3 sm:gap-4 animate-fade-up opacity-0" style="animation-delay: 0.4s; animation-fill-mode: forwards;">
                     <% if user_signed_in? %>
-                        <%= link_to dashboard_path, class: "group inline-flex items-center justify-center gap-2 px-8 py-4 text-lg font-semibold text-white bg-gradient-to-r from-indigo-600 to-violet-500 rounded-xl hover:shadow-xl hover:shadow-indigo-500/30 transition-all duration-300 hover:-translate-y-1" do %>
+                        <%= link_to dashboard_path, class: "group inline-flex items-center justify-center gap-2 px-6 py-3 sm:px-8 sm:py-4 text-base sm:text-lg font-semibold text-white bg-gradient-to-r from-indigo-600 to-violet-500 rounded-xl hover:shadow-xl hover:shadow-indigo-500/30 transition-all duration-300 hover:-translate-y-1" do %>
                             Go to Dashboard
                             <svg class="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
                             </svg>
                         <% end %>
                     <% else %>
-                        <%= link_to new_user_registration_path, class: "group inline-flex items-center justify-center gap-2 px-8 py-4 text-lg font-semibold text-white bg-gradient-to-r from-indigo-600 to-violet-500 rounded-xl hover:shadow-xl hover:shadow-indigo-500/30 transition-all duration-300 hover:-translate-y-1" do %>
+                        <%= link_to new_user_registration_path, class: "group inline-flex items-center justify-center gap-2 px-6 py-3 sm:px-8 sm:py-4 text-base sm:text-lg font-semibold text-white bg-gradient-to-r from-indigo-600 to-violet-500 rounded-xl hover:shadow-xl hover:shadow-indigo-500/30 transition-all duration-300 hover:-translate-y-1" do %>
                             Start Free Trial
                             <svg class="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
                             </svg>
                         <% end %>
-                        <a href="#features" class="inline-flex items-center justify-center gap-2 px-8 py-4 text-lg font-semibold text-slate-700 bg-white border-2 border-slate-200 rounded-xl hover:border-indigo-300 hover:bg-indigo-50/50 transition-all duration-300">
+                        <a href="#features" class="inline-flex items-center justify-center gap-2 px-6 py-3 sm:px-8 sm:py-4 text-base sm:text-lg font-semibold text-slate-700 bg-white border-2 border-slate-200 rounded-xl hover:border-indigo-300 hover:bg-indigo-50/50 transition-all duration-300">
                             See How It Works
                         </a>
                     <% end %>
                 </div>
                 
-                <div class="flex items-center gap-6 pt-4 animate-fade-up opacity-0" style="animation-delay: 0.5s; animation-fill-mode: forwards;">
+                <div class="flex items-center gap-4 sm:gap-6 pt-2 sm:pt-4 animate-fade-up opacity-0" style="animation-delay: 0.5s; animation-fill-mode: forwards;">
                     <div class="flex -space-x-3">
                         <div class="w-10 h-10 rounded-full bg-gradient-to-br from-rose-400 to-rose-600 border-2 border-white flex items-center justify-center text-white text-sm font-semibold">JC</div>
                         <div class="w-10 h-10 rounded-full bg-gradient-to-br from-indigo-400 to-indigo-600 border-2 border-white flex items-center justify-center text-white text-sm font-semibold">MR</div>
@@ -92,108 +92,109 @@
             </div>
             
             <!-- Right Column - Visual -->
-            <div class="relative animate-fade-up opacity-0" style="animation-delay: 0.4s; animation-fill-mode: forwards;">
-                <div class="relative glass-card rounded-3xl p-8 shadow-2xl shadow-slate-900/10 animate-float">
-                    <div class="space-y-6">
+            <div class="relative animate-fade-up opacity-0 mt-8 lg:mt-0" style="animation-delay: 0.4s; animation-fill-mode: forwards;">
+                <div class="relative glass-card rounded-2xl sm:rounded-3xl p-5 sm:p-6 lg:p-8 shadow-2xl shadow-slate-900/10 animate-float">
+                    <div class="space-y-4 sm:space-y-5 lg:space-y-6">
                         <div class="flex items-center justify-between">
-                            <div class="flex items-center gap-3">
-                                <div class="w-10 h-10 rounded-full bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center">
-                                    <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24">
+                            <div class="flex items-center gap-2 sm:gap-3">
+                                <div class="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center">
+                                    <svg class="w-4 h-4 sm:w-5 sm:h-5 text-white" fill="currentColor" viewBox="0 0 24 24">
                                         <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
                                     </svg>
                                 </div>
                                 <div>
-                                    <p class="font-semibold text-slate-900">Feedback Analyzed</p>
-                                    <p class="text-sm text-slate-500">from Google Maps</p>
+                                    <p class="text-sm sm:text-base font-semibold text-slate-900">Feedback Analyzed</p>
+                                    <p class="text-xs sm:text-sm text-slate-500">from Google Maps</p>
                                 </div>
                             </div>
-                            <span class="px-3 py-1 rounded-full bg-indigo-100 text-indigo-700 text-sm font-medium">Live</span>
+                            <span class="px-2 py-0.5 sm:px-3 sm:py-1 rounded-full bg-indigo-100 text-indigo-700 text-xs sm:text-sm font-medium">Live</span>
                         </div>
                         
-                        <div class="bg-slate-50 rounded-xl p-4 border border-slate-200">
-                            <div class="flex items-center gap-2 mb-2">
+                        <div class="bg-slate-50 rounded-lg sm:rounded-xl p-3 sm:p-4 border border-slate-200">
+                            <div class="flex items-center gap-1.5 sm:gap-2 mb-1.5 sm:mb-2">
                                 <div class="flex text-amber-400">
-                                    <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
-                                    <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
-                                    <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
-                                    <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
-                                    <svg class="w-4 h-4 text-slate-300 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                                    <svg class="w-3 h-3 sm:w-4 sm:h-4 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                                    <svg class="w-3 h-3 sm:w-4 sm:h-4 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                                    <svg class="w-3 h-3 sm:w-4 sm:h-4 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                                    <svg class="w-3 h-3 sm:w-4 sm:h-4 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                                    <svg class="w-3 h-3 sm:w-4 sm:h-4 text-slate-300 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
                                 </div>
-                                <span class="text-xs text-slate-500">2 hours ago</span>
+                                <span class="text-[10px] sm:text-xs text-slate-500">2 hours ago</span>
                             </div>
-                            <p class="text-sm text-slate-700">"Great ambiance and friendly staff! <span class="bg-rose-100 text-rose-700 px-1 rounded">The wait was too long though</span>. <span class="bg-violet-100 text-violet-700 px-1 rounded">Would love outdoor seating</span>."</p>
+                            <p class="text-xs sm:text-sm text-slate-700">"Great ambiance and friendly staff! <span class="bg-rose-100 text-rose-700 px-1 rounded">The wait was too long though</span>. <span class="bg-violet-100 text-violet-700 px-1 rounded">Would love outdoor seating</span>."</p>
                         </div>
                         
-                        <div class="grid grid-cols-2 gap-3">
-                            <div class="bg-rose-50 rounded-xl p-4 border border-rose-200">
-                                <div class="flex items-center gap-2 mb-2">
-                                    <svg class="w-5 h-5 text-rose-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <div class="grid grid-cols-2 gap-2 sm:gap-3">
+                            <div class="bg-rose-50 rounded-lg sm:rounded-xl p-3 sm:p-4 border border-rose-200">
+                                <div class="flex items-center gap-1.5 sm:gap-2 mb-1.5 sm:mb-2">
+                                    <svg class="w-4 h-4 sm:w-5 sm:h-5 text-rose-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M7.5 8.25h9m-9 3H12m-9.75 1.51c0 1.6 1.123 2.994 2.707 3.227 1.129.166 2.27.293 3.423.379.35.026.67.21.865.501L12 21l2.755-4.133a1.14 1.14 0 0 1 .865-.501 48.172 48.172 0 0 0 3.423-.379c1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0 0 12 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018Z" />
                                     </svg>
-                                    <span class="text-xs font-semibold text-rose-700 uppercase">Complaint</span>
+                                    <span class="text-[10px] sm:text-xs font-semibold text-rose-700 uppercase">Complaint</span>
                                 </div>
-                                <p class="text-sm text-rose-800 font-medium">Long wait times</p>
+                                <p class="text-xs sm:text-sm text-rose-800 font-medium">Long wait times</p>
                             </div>
-                            <div class="bg-violet-50 rounded-xl p-4 border border-violet-200">
-                                <div class="flex items-center gap-2 mb-2">
-                                    <svg class="w-5 h-5 text-violet-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <div class="bg-violet-50 rounded-lg sm:rounded-xl p-3 sm:p-4 border border-violet-200">
+                                <div class="flex items-center gap-1.5 sm:gap-2 mb-1.5 sm:mb-2">
+                                    <svg class="w-4 h-4 sm:w-5 sm:h-5 text-violet-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
                                     </svg>
-                                    <span class="text-xs font-semibold text-violet-700 uppercase">Suggestion</span>
+                                    <span class="text-[10px] sm:text-xs font-semibold text-violet-700 uppercase">Suggestion</span>
                                 </div>
-                                <p class="text-sm text-violet-800 font-medium">Outdoor seating area</p>
+                                <p class="text-xs sm:text-sm text-violet-800 font-medium">Outdoor seating area</p>
                             </div>
                         </div>
                                 </div>
                             </div>
                 
-                <div class="absolute -top-4 -right-4 bg-white rounded-2xl p-4 shadow-xl border border-slate-100 animate-bounce-subtle">
-                    <div class="flex items-center gap-3">
-                        <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-indigo-500 to-indigo-700 flex items-center justify-center">
-                            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div class="hidden sm:block absolute -top-3 -right-3 lg:-top-4 lg:-right-4 bg-white rounded-xl lg:rounded-2xl p-2.5 sm:p-3 lg:p-4 shadow-xl border border-slate-100 animate-bounce-subtle">
+                    <div class="flex items-center gap-2 sm:gap-3">
+                        <div class="w-9 h-9 sm:w-10 sm:h-10 lg:w-12 lg:h-12 rounded-lg lg:rounded-xl bg-gradient-to-br from-indigo-500 to-indigo-700 flex items-center justify-center">
+                            <svg class="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                             </svg>
                         </div>
                         <div>
-                            <p class="text-sm font-semibold text-slate-900">Weekly Report</p>
-                            <p class="text-xs text-slate-500">Sent every Monday</p>
+                            <p class="text-xs sm:text-sm font-semibold text-slate-900">Weekly Report</p>
+                            <p class="text-[10px] sm:text-xs text-slate-500">Sent every Monday</p>
                         </div>
                     </div>
                 </div>
                 
-                <div class="absolute -bottom-6 -left-6 bg-white rounded-2xl p-4 shadow-xl border border-slate-100 animate-bounce-subtle" style="animation-delay: 0.5s;">
-                    <div class="flex items-center gap-3">
+                <div class="hidden sm:block absolute -bottom-6 -left-6 bg-white rounded-2xl p-3 sm:p-4 shadow-xl border border-slate-100 animate-bounce-subtle" style="animation-delay: 0.5s;">
+                    <div class="flex items-center gap-2 sm:gap-3">
                         <div class="flex -space-x-2">
-                            <div class="w-8 h-8 rounded-lg bg-[#4285F4] flex items-center justify-center">
+                            <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-[#4285F4] flex items-center justify-center">
                                 <span class="text-white text-xs font-bold">G</span>
                             </div>
-                            <div class="w-8 h-8 rounded-lg bg-[#007AFF] flex items-center justify-center">
+                            <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-[#007AFF] flex items-center justify-center">
                                 <span class="text-white text-xs font-bold">A</span>
                             </div>
-                            <div class="w-8 h-8 rounded-lg bg-[#34A853] flex items-center justify-center">
+                            <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-[#34A853] flex items-center justify-center">
                                 <span class="text-white text-xs font-bold">P</span>
                             </div>
-                            <div class="w-8 h-8 rounded-lg bg-[#00b67a] flex items-center justify-center">
+                            <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-[#00b67a] flex items-center justify-center">
                                 <span class="text-white text-xs font-bold">+3</span>
                             </div>
                         </div>
                         <div>
-                            <p class="text-sm font-semibold text-slate-900">6 Platforms</p>
-                            <p class="text-xs text-slate-500">Connected</p>
+                            <p class="text-xs sm:text-sm font-semibold text-slate-900">6 Platforms</p>
+                            <p class="text-[10px] sm:text-xs text-slate-500">Connected</p>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-
-    <div class="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
-        <a href="#features" class="flex flex-col items-center gap-2 text-slate-400 hover:text-indigo-500 transition-colors">
-            <span class="text-sm font-medium">Discover More</span>
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
-            </svg>
-        </a>
+        
+        <!-- Discover More - now part of content flow -->
+        <div class="mt-12 sm:mt-16 lg:mt-20 flex justify-center animate-bounce">
+            <a href="#features" class="flex flex-col items-center gap-2 text-slate-400 hover:text-indigo-500 transition-colors">
+                <span class="text-sm font-medium">Discover More</span>
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+                </svg>
+            </a>
+        </div>
     </div>
 </section>
 

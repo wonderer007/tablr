@@ -10,17 +10,8 @@
                <a href="/"> <img src="/images/file.svg" alt="Tablr" class="w-auto" style="height: 9.24rem;"></a>
             </div>
             
-            <!-- Nav Links - Center (absolutely positioned for true center) -->
-            <div class="hidden md:flex items-center justify-center flex-1">
-                <div class="flex items-center bg-slate-100/80 rounded-full px-1.5 py-1.5">
-                    <a href="#features" class="px-4 py-1.5 text-sm font-medium text-slate-600 hover:text-indigo-600 hover:bg-white rounded-full transition-all duration-200">Features</a>
-                    <a href="#integrations" class="px-4 py-1.5 text-sm font-medium text-slate-600 hover:text-indigo-600 hover:bg-white rounded-full transition-all duration-200">Integrations</a>
-                    <a href="#pricing" class="px-4 py-1.5 text-sm font-medium text-slate-600 hover:text-indigo-600 hover:bg-white rounded-full transition-all duration-200">Pricing</a>
-                </div>
-            </div>
-            
             <!-- CTA Buttons - Right -->
-            <div class="flex items-center gap-3 flex-shrink-0 ml-auto md:ml-0">
+            <div class="flex items-center gap-3 flex-shrink-0 ml-auto">
                 <% if user_signed_in? %>
                     <%= link_to "Dashboard", dashboard_path, class: "px-5 py-2 text-sm font-semibold text-white bg-gradient-to-r from-indigo-600 to-violet-500 rounded-full hover:shadow-lg hover:shadow-indigo-500/25 transition-all duration-300" %>
                 <% else %>
@@ -46,7 +37,7 @@
                     <span class="gradient-text">Actionable Insights</span>
                 </h1>
                 
-                <p class="text-base sm:text-lg lg:text-xl text-slate-600 leading-relaxed max-w-xl animate-fade-up opacity-0" style="animation-delay: 0.3s; animation-fill-mode: forwards;">
+                <p class="text-sm sm:text-base lg:text-lg text-slate-600 leading-relaxed max-w-xl animate-fade-up opacity-0" style="animation-delay: 0.3s; animation-fill-mode: forwards;">
                     Automatically extract complaints, uncover suggestions, and receive weekly intelligence reports from all your review platforms. Make data-driven decisions that fix customers' issues.
                 </p>
                 
@@ -72,28 +63,12 @@
                 </div>
                 
                 <div class="flex items-center gap-4 sm:gap-6 pt-2 sm:pt-4 animate-fade-up opacity-0" style="animation-delay: 0.5s; animation-fill-mode: forwards;">
-                    <div class="flex -space-x-3">
-                        <div class="w-10 h-10 rounded-full bg-gradient-to-br from-rose-400 to-rose-600 border-2 border-white flex items-center justify-center text-white text-sm font-semibold">JC</div>
-                        <div class="w-10 h-10 rounded-full bg-gradient-to-br from-indigo-400 to-indigo-600 border-2 border-white flex items-center justify-center text-white text-sm font-semibold">MR</div>
-                        <div class="w-10 h-10 rounded-full bg-gradient-to-br from-blue-400 to-blue-600 border-2 border-white flex items-center justify-center text-white text-sm font-semibold">SK</div>
-                        <div class="w-10 h-10 rounded-full bg-gradient-to-br from-purple-400 to-purple-600 border-2 border-white flex items-center justify-center text-white text-sm font-semibold">+</div>
-                    </div>
-                    <div>
-                        <div class="flex items-center gap-1 text-amber-500">
-                            <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
-                            <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
-                            <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
-                            <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
-                            <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
-                        </div>
-                        <p class="text-sm text-slate-600">Loved by <span class="font-semibold text-slate-900">500+</span> business owners</p>
-                </div>
                 </div>
             </div>
             
             <!-- Right Column - Visual -->
-            <div class="relative animate-fade-up opacity-0 mt-8 lg:mt-0" style="animation-delay: 0.4s; animation-fill-mode: forwards;">
-                <div class="relative glass-card rounded-2xl sm:rounded-3xl p-5 sm:p-6 lg:p-8 shadow-2xl shadow-slate-900/10 animate-float">
+            <div class="relative mt-8 lg:mt-0">
+                <div class="relative glass-card rounded-2xl sm:rounded-3xl p-5 sm:p-6 lg:p-8 shadow-2xl shadow-slate-900/10">
                     <div class="space-y-4 sm:space-y-5 lg:space-y-6">
                         <div class="flex items-center justify-between">
                             <div class="flex items-center gap-2 sm:gap-3">
@@ -107,7 +82,6 @@
                                     <p class="text-xs sm:text-sm text-slate-500">from Google Maps</p>
                                 </div>
                             </div>
-                            <span class="px-2 py-0.5 sm:px-3 sm:py-1 rounded-full bg-indigo-100 text-indigo-700 text-xs sm:text-sm font-medium">Live</span>
                         </div>
                         
                         <div class="bg-slate-50 rounded-lg sm:rounded-xl p-3 sm:p-4 border border-slate-200">
@@ -146,43 +120,6 @@
                         </div>
                                 </div>
                             </div>
-                
-                <div class="hidden sm:block absolute -top-3 -right-3 lg:-top-4 lg:-right-4 bg-white rounded-xl lg:rounded-2xl p-2.5 sm:p-3 lg:p-4 shadow-xl border border-slate-100 animate-bounce-subtle">
-                    <div class="flex items-center gap-2 sm:gap-3">
-                        <div class="w-9 h-9 sm:w-10 sm:h-10 lg:w-12 lg:h-12 rounded-lg lg:rounded-xl bg-gradient-to-br from-indigo-500 to-indigo-700 flex items-center justify-center">
-                            <svg class="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                            </svg>
-                        </div>
-                        <div>
-                            <p class="text-xs sm:text-sm font-semibold text-slate-900">Weekly Report</p>
-                            <p class="text-[10px] sm:text-xs text-slate-500">Sent every Monday</p>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="hidden sm:block absolute -bottom-6 -left-6 bg-white rounded-2xl p-3 sm:p-4 shadow-xl border border-slate-100 animate-bounce-subtle" style="animation-delay: 0.5s;">
-                    <div class="flex items-center gap-2 sm:gap-3">
-                        <div class="flex -space-x-2">
-                            <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-[#4285F4] flex items-center justify-center">
-                                <span class="text-white text-xs font-bold">G</span>
-                            </div>
-                            <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-[#007AFF] flex items-center justify-center">
-                                <span class="text-white text-xs font-bold">A</span>
-                            </div>
-                            <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-[#34A853] flex items-center justify-center">
-                                <span class="text-white text-xs font-bold">P</span>
-                            </div>
-                            <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-[#00b67a] flex items-center justify-center">
-                                <span class="text-white text-xs font-bold">+3</span>
-                            </div>
-                        </div>
-                        <div>
-                            <p class="text-xs sm:text-sm font-semibold text-slate-900">6 Platforms</p>
-                            <p class="text-[10px] sm:text-xs text-slate-500">Connected</p>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
         

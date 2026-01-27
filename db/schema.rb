@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2026_01_20_032533) do
+ActiveRecord::Schema[7.2].define(version: 2026_01_27_103333) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
   enable_extension "plpgsql"
@@ -45,8 +45,10 @@ ActiveRecord::Schema[7.2].define(version: 2026_01_20_032533) do
     t.boolean "onboarding_completed", default: false
     t.string "plan", default: "free", null: false
     t.boolean "payment_approved", default: false
+    t.integer "type", default: 0
     t.index ["business_type"], name: "index_businesses_on_business_type"
     t.index ["plan"], name: "index_businesses_on_plan"
+    t.index ["type"], name: "index_businesses_on_type"
     t.index ["url", "test"], name: "index_businesses_on_url_and_test", unique: true
     t.index ["url"], name: "index_businesses_on_url"
   end

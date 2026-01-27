@@ -1,6 +1,7 @@
 class Business < ApplicationRecord
   ACTOR_ID = '2Mdma1N6Fd0y3QEjR'
 
+  self.inheritance_column = nil
   # URL is required only after onboarding is completed
   validates :url, uniqueness: { scope: :test }, allow_nil: true
   validates :url, presence: true, if: :onboarding_completed?
@@ -13,6 +14,7 @@ class Business < ApplicationRecord
   has_many :complains, through: :reviews
   has_many :suggestions, through: :reviews
 
+  enum :type, [:restaurant, :hotel], default: :restaurant
   enum :status, [:created, :syncing_place, :synced_place, :syncing_reviews, :synced_reviews, :failed]
   enum :business_type, {
     google_place: 'google_place',

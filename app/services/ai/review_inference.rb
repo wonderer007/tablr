@@ -65,10 +65,9 @@ class Ai::ReviewInference < ApplicationService
             content: <<~PROMPT
               ### INSTRUCTIONS:
               1. For each review, extract complaints and suggestions grouped by relevant category.
-              2. Infer categories from the review content (e.g., service, pricing, quality, staff, location, wait time, cleanliness, product, experience, communication, etc.).
+              2. Infer categories from the review content (e.g., #{categories.join(',')}).
               3. Complaints and suggestions MUST be arrays of plain strings (human-readable text) for each category key.
               4. If a review has no complaints or suggestions, return empty objects for those fields.
-              5. Use lowercase category names.
               6. IMPORTANT: You MUST return EXACTLY #{reviews.size} objects in the array, one for each numbered review below. Do not split or merge reviews.
 
               ### INPUT (#{reviews.size} reviews):
@@ -85,6 +84,10 @@ class Ai::ReviewInference < ApplicationService
 
   def model
     @model ||= business.plan.to_sym == :pro ? 'gpt-4o' : 'gpt-4o-mini'
+  end
+
+  def categories
+    @categories ||= business.type == :restaurant ? RESTAURANT_CATEGORIES : HOTEL_CATEGORIES
   end
 
   def client

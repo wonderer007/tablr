@@ -1,237 +1,240 @@
-<% content_for :title, "Review Details" %>
+<% content_for :title, "Review Details - Tablr" %>
 
-<div class="bg-white">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-    <div class="space-y-8">
-      
-      <!-- Page Header -->
-      <div class="mb-8">
-        <!-- Back button -->
-        <div class="mb-6">
-          <%= link_to reviews_path, class: "inline-flex items-center gap-x-2 text-sm font-medium text-gray-600 hover:text-gray-900" do %>
-            <svg class="size-4" viewBox="0 0 20 20" fill="currentColor">
-              <path fill-rule="evenodd" d="M11.78 5.22a.75.75 0 0 1 0 1.06L8.06 10l3.72 3.72a.75.75 0 1 1-1.06 1.06l-4.25-4.25a.75.75 0 0 1 0-1.06l4.25-4.25a.75.75 0 0 1 1.06 0Z" clip-rule="evenodd" />
-            </svg>
-            Back to Reviews
-          <% end %>
-        </div>
-
-        <div class="flex items-center justify-between">
-          <div class="flex-auto">
-            <h1 class="text-3xl font-bold tracking-tight text-gray-900">Review Details</h1>
-            <p class="mt-1 text-lg text-gray-600">Complete information about this review</p>
-          </div>
-          <% if @review.review_url.present? %>
-            <%= link_to @review.review_url, target: "_blank", rel: "noopener noreferrer", class: "inline-flex items-center gap-x-2 rounded-md bg-indigo-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600" do %>
-              <svg class="size-4" viewBox="0 0 20 20" fill="currentColor">
-                <path fill-rule="evenodd" d="M4.25 5.5a.75.75 0 0 0-.75.75v8.5c0 .414.336.75.75.75h8.5a.75.75 0 0 0 .75-.75v-4a.75.75 0 0 1 1.5 0v4A2.25 2.25 0 0 1 12.75 17h-8.5A2.25 2.25 0 0 1 2 14.75v-8.5A2.25 2.25 0 0 1 4.25 4h5a.75.75 0 0 1 0 1.5h-5Z" clip-rule="evenodd" />
-                <path fill-rule="evenodd" d="M6.194 12.753a.75.75 0 0 0 1.06.053L16.5 4.44v2.81a.75.75 0 0 0 1.5 0v-4.5a.75.75 0 0 0-.75-.75h-4.5a.75.75 0 0 0 0 1.5h2.553l-9.056 8.194a.75.75 0 0 0-.053 1.06Z" clip-rule="evenodd" />
+<div class="min-h-screen bg-gray-50">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    
+    <!-- Header -->
+    <div class="mb-8">
+      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <div>
+          <div class="flex items-center gap-3 mb-1">
+            <%= link_to reviews_path, class: "text-gray-400 hover:text-gray-600 transition-colors" do %>
+              <svg class="size-5" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M11.78 5.22a.75.75 0 0 1 0 1.06L8.06 10l3.72 3.72a.75.75 0 1 1-1.06 1.06l-4.25-4.25a.75.75 0 0 1 0-1.06l4.25-4.25a.75.75 0 0 1 1.06 0Z" clip-rule="evenodd" />
               </svg>
-              View on Google Maps
             <% end %>
+            <h1 class="text-2xl font-semibold text-gray-900">Review Details</h1>
+          </div>
+          <p class="mt-1 text-sm text-gray-500 ml-8">
+            Review by <%= @review.name %> on <%= @review.published_at&.strftime('%B %d, %Y') || 'N/A' %>
+          </p>
+        </div>
+        <% if @review.review_url.present? %>
+          <%= link_to @review.review_url, target: "_blank", rel: "noopener noreferrer", class: "inline-flex items-center gap-2 h-10 px-4 text-sm font-medium text-white bg-gray-900 rounded-lg hover:bg-gray-800 transition-colors" do %>
+            <svg class="size-4" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M4.25 5.5a.75.75 0 0 0-.75.75v8.5c0 .414.336.75.75.75h8.5a.75.75 0 0 0 .75-.75v-4a.75.75 0 0 1 1.5 0v4A2.25 2.25 0 0 1 12.75 17h-8.5A2.25 2.25 0 0 1 2 14.75v-8.5A2.25 2.25 0 0 1 4.25 4h5a.75.75 0 0 1 0 1.5h-5Z" clip-rule="evenodd" />
+              <path fill-rule="evenodd" d="M6.194 12.753a.75.75 0 0 0 1.06.053L16.5 4.44v2.81a.75.75 0 0 0 1.5 0v-4.5a.75.75 0 0 0-.75-.75h-4.5a.75.75 0 0 0 0 1.5h2.553l-9.056 8.194a.75.75 0 0 0-.053 1.06Z" clip-rule="evenodd" />
+            </svg>
+            View on Google Maps
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+
+    <!-- Rating Summary Cards -->
+    <div class="mb-6 grid grid-cols-2 lg:grid-cols-4 gap-3">
+      <div class="bg-white rounded-xl border border-gray-100 px-4 py-3">
+        <p class="text-xs font-medium text-gray-500">Overall Rating</p>
+        <div class="mt-1 flex items-center gap-2">
+          <span class="text-xl font-semibold text-gray-900"><%= @review.stars %></span>
+          <div class="flex items-center">
+            <% 5.times do |i| %>
+              <svg class="h-3.5 w-3.5 <%= i < @review.stars.to_i ? 'text-yellow-400' : 'text-gray-200' %>" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+              </svg>
+            <% end %>
+          </div>
+        </div>
+      </div>
+      <div class="bg-white rounded-xl border border-gray-100 px-4 py-3">
+        <p class="text-xs font-medium text-gray-500">Food</p>
+        <div class="mt-1 flex items-center gap-2">
+          <% if @review.food_rating.present? %>
+            <span class="text-xl font-semibold text-gray-900"><%= @review.food_rating %></span>
+            <div class="flex items-center">
+              <% 5.times do |i| %>
+                <svg class="h-3.5 w-3.5 <%= i < @review.food_rating.to_i ? 'text-yellow-400' : 'text-gray-200' %>" fill="currentColor" viewBox="0 0 20 20">
+                  <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                </svg>
+              <% end %>
+            </div>
+          <% else %>
+            <span class="text-xl font-semibold text-gray-300">—</span>
           <% end %>
         </div>
       </div>
+      <div class="bg-white rounded-xl border border-gray-100 px-4 py-3">
+        <p class="text-xs font-medium text-gray-500">Service</p>
+        <div class="mt-1 flex items-center gap-2">
+          <% if @review.service_rating.present? %>
+            <span class="text-xl font-semibold text-gray-900"><%= @review.service_rating %></span>
+            <div class="flex items-center">
+              <% 5.times do |i| %>
+                <svg class="h-3.5 w-3.5 <%= i < @review.service_rating.to_i ? 'text-yellow-400' : 'text-gray-200' %>" fill="currentColor" viewBox="0 0 20 20">
+                  <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                </svg>
+              <% end %>
+            </div>
+          <% else %>
+            <span class="text-xl font-semibold text-gray-300">—</span>
+          <% end %>
+        </div>
+      </div>
+      <div class="bg-white rounded-xl border border-gray-100 px-4 py-3">
+        <p class="text-xs font-medium text-gray-500">Atmosphere</p>
+        <div class="mt-1 flex items-center gap-2">
+          <% if @review.atmosphere_rating.present? %>
+            <span class="text-xl font-semibold text-gray-900"><%= @review.atmosphere_rating %></span>
+            <div class="flex items-center">
+              <% 5.times do |i| %>
+                <svg class="h-3.5 w-3.5 <%= i < @review.atmosphere_rating.to_i ? 'text-yellow-400' : 'text-gray-200' %>" fill="currentColor" viewBox="0 0 20 20">
+                  <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                </svg>
+              <% end %>
+            </div>
+          <% else %>
+            <span class="text-xl font-semibold text-gray-300">—</span>
+          <% end %>
+        </div>
+      </div>
+    </div>
 
-      <!-- Main Content Grid -->
-      <div class="grid grid-cols-1 gap-8 lg:grid-cols-3">
+    <!-- Main Content Grid -->
+    <div class="grid grid-cols-1 gap-6 lg:grid-cols-3">
+      
+      <!-- Left Column - Main Content -->
+      <div class="lg:col-span-2 space-y-6">
         
-        <!-- Left Column - Main Content -->
-        <div class="lg:col-span-2 space-y-8">
-          
-          <!-- Review Ratings Card -->
-          <div class="bg-white shadow-sm rounded-lg border border-gray-200">
-            <div class="px-6 py-5 border-b border-gray-200">
-              <h3 class="text-lg leading-6 font-medium text-gray-900">Review Ratings</h3>
+        <!-- Reviewer Card -->
+        <div class="bg-white rounded-xl border border-gray-100 p-6">
+          <div class="flex items-center gap-4">
+            <img class="w-14 h-14 flex-shrink-0 rounded-full bg-gray-100"
+                 src="<%= profile_image_url(@review.image_url) %>"
+                 alt="<%= @review.name %>'s profile picture"
+                 width="56"
+                 height="56"
+                 onerror="this.onerror=null;this.src='/images/default-profile.png';" />
+            <div class="min-w-0 flex-1">
+              <h3 class="text-lg font-semibold text-gray-900"><%= @review.name %></h3>
+              <p class="text-sm text-gray-500">
+                <%= @review.published_at&.strftime('%B %d, %Y') || 'Date unavailable' %>
+              </p>
             </div>
-            <div class="px-6 py-5">
-              <div class="grid grid-cols-2 gap-4 md:grid-cols-4">
-                <div>
-                  <label class="block text-xs font-medium text-gray-500 uppercase tracking-wide">Overall</label>
-                  <div class="mt-1">
-                    <%= render 'shared/star_rating', rating: @review.stars, show_number: true %>
-                  </div>
-                </div>
-                <% if @review.food_rating.present? %>
-                  <div>
-                    <label class="block text-xs font-medium text-gray-500 uppercase tracking-wide">Food</label>
-                    <div class="mt-1">
-                      <%= render 'shared/star_rating', rating: @review.food_rating, show_number: true %>
-                    </div>
-                  </div>
-                <% end %>
-                <% if @review.service_rating.present? %>
-                  <div>
-                    <label class="block text-xs font-medium text-gray-500 uppercase tracking-wide">Service</label>
-                    <div class="mt-1">
-                      <%= render 'shared/star_rating', rating: @review.service_rating, show_number: true %>
-                    </div>
-                  </div>
-                <% end %>
-                <% if @review.atmosphere_rating.present? %>
-                  <div>
-                    <label class="block text-xs font-medium text-gray-500 uppercase tracking-wide">Atmosphere</label>
-                    <div class="mt-1">
-                      <%= render 'shared/star_rating', rating: @review.atmosphere_rating, show_number: true %>
-                    </div>
-                  </div>
-                <% end %>
+            <% if @review.likes_count.present? && @review.likes_count > 0 %>
+              <div class="flex items-center gap-1.5 text-sm text-gray-500">
+                <svg class="size-4 text-red-400" viewBox="0 0 20 20" fill="currentColor">
+                  <path d="m9.653 16.915-.005-.003-.019-.01a20.759 20.759 0 0 1-1.162-.682 22.045 22.045 0 0 1-2.582-1.9C4.045 12.733 2 10.352 2 7.5a4.5 4.5 0 0 1 8-2.828A4.5 4.5 0 0 1 18 7.5c0 2.852-2.045 5.233-3.885 6.82a22.049 22.049 0 0 1-3.744 2.582l-.019.01-.005.003h-.002a.739.739 0 0 1-.69.001l-.002-.001Z" />
+                </svg>
+                <span><%= @review.likes_count %></span>
               </div>
-            </div>
+            <% end %>
           </div>
-
-          <!-- Review Content Card -->
-          <div class="bg-white shadow-sm rounded-lg border border-gray-200">
-            <div class="px-6 py-5 border-b border-gray-200">
-              <h3 class="text-lg leading-6 font-medium text-gray-900">Review Content</h3>
-            </div>
-            <div class="px-6 py-5">
-              <div class="prose prose-sm max-w-none">
-                <p class="text-gray-700 leading-relaxed"><%= @review.text %></p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Review Context Card -->
-          <% if @review.review_context.present? && @review.review_context.any? %>
-            <div class="bg-white shadow-sm rounded-lg border border-gray-200">
-              <div class="px-6 py-5 border-b border-gray-200">
-                <h3 class="text-lg leading-6 font-medium text-gray-900">Review Context</h3>
-              </div>
-              <div class="px-6 py-5">
-                <dl class="grid grid-cols-1 gap-x-4 gap-y-4 sm:grid-cols-2 lg:grid-cols-3">
-                  <% @review.review_context.each do |key, value| %>
-                    <div>
-                      <dt class="text-sm font-medium text-gray-500"><%= key.humanize %></dt>
-                      <dd class="mt-1 text-sm text-gray-900"><%= value %></dd>
-                    </div>
-                  <% end %>
-                </dl>
-              </div>
-            </div>
-          <% end %>
-
         </div>
 
-        <!-- Right Column - Sidebar -->
-        <div class="space-y-8">
-          
-          <!-- Reviewer Information Card -->
-          <div class="bg-white shadow-sm rounded-lg border border-gray-200">
-            <div class="px-6 py-5 border-b border-gray-200">
-              <h3 class="text-lg leading-6 font-medium text-gray-900">Reviewer Information</h3>
+        <!-- Review Content Card -->
+        <div class="bg-white rounded-xl border border-gray-100 overflow-hidden">
+          <div class="px-6 py-4 border-b border-gray-100">
+            <h3 class="text-sm font-medium text-gray-900">Review Content</h3>
+          </div>
+          <div class="p-6">
+            <% if @review.text.present? %>
+              <p class="text-sm text-gray-700 leading-relaxed whitespace-pre-line"><%= @review.text %></p>
+            <% else %>
+              <p class="text-sm text-gray-400 italic">No review text provided.</p>
+            <% end %>
+          </div>
+        </div>
+
+        <!-- Review Context Card -->
+        <% if @review.review_context.present? && @review.review_context.any? %>
+          <div class="bg-white rounded-xl border border-gray-100 overflow-hidden">
+            <div class="px-6 py-4 border-b border-gray-100">
+              <h3 class="text-sm font-medium text-gray-900">Review Context</h3>
             </div>
-            <div class="px-6 py-5">
-              <div class="flex items-center gap-x-4">
-                <img class="size-16 flex-none rounded-full bg-gray-50"
-                     src="<%= profile_image_url(@review.image_url) %>"
-                     alt="<%= @review.name %>'s profile picture"
-                     width="64"
-                     height="64"
-                     onerror="this.onerror=null;this.src='/images/default-profile.png';" />
-                <div class="min-w-0">
-                  <h4 class="text-lg font-semibold leading-6 text-gray-900"><%= @review.name %></h4>
-                  <p class="text-sm text-gray-500">
-                    Published on <%= @review.published_at&.strftime('%B %d, %Y') || 'N/A' %>
-                  </p>
-                  <% if @review.likes_count.present? && @review.likes_count > 0 %>
-                    <p class="text-sm text-gray-500 flex items-center gap-x-1 mt-1">
-                      <svg class="size-4 text-red-500" viewBox="0 0 20 20" fill="currentColor">
-                        <path d="m9.653 16.915-.005-.003-.019-.01a20.759 20.759 0 0 1-1.162-.682 22.045 22.045 0 0 1-2.582-1.9C4.045 12.733 2 10.352 2 7.5a4.5 4.5 0 0 1 8-2.828A4.5 4.5 0 0 1 18 7.5c0 2.852-2.045 5.233-3.885 6.82a22.049 22.049 0 0 1-3.744 2.582l-.019.01-.005.003h-.002a.739.739 0 0 1-.69.001l-.002-.001Z" />
-                      </svg>
-                      <%= pluralize(@review.likes_count, 'like') %>
-                    </p>
-                  <% end %>
-                </div>
+            <div class="p-6">
+              <div class="grid grid-cols-2 sm:grid-cols-3 gap-4">
+                <% @review.review_context.each do |key, value| %>
+                  <div>
+                    <dt class="text-xs font-medium text-gray-500 uppercase tracking-wide"><%= key.humanize %></dt>
+                    <dd class="mt-1 text-sm text-gray-900"><%= value %></dd>
+                  </div>
+                <% end %>
               </div>
             </div>
           </div>
+        <% end %>
 
-          <!-- Suggestions Card -->
+      </div>
+
+      <!-- Right Column - Sidebar -->
+      <div class="space-y-6">
+        
+        <!-- Suggestions Card -->
+        <div class="bg-white rounded-xl border border-gray-100 overflow-hidden">
+          <div class="px-6 py-4 border-b border-gray-100 flex items-center justify-between">
+            <h3 class="text-sm font-medium text-gray-900">Suggestions</h3>
+            <% if @review.suggestions.any? %>
+              <span class="inline-flex items-center px-2 py-0.5 text-xs font-medium rounded-md bg-amber-50 text-amber-700">
+                <%= @review.suggestions.count %>
+              </span>
+            <% end %>
+          </div>
           <% if @review.suggestions.any? %>
-            <div class="bg-white shadow-sm rounded-lg border border-gray-200">
-              <div class="px-6 py-5 border-b border-gray-200">
-                <div class="flex items-center justify-between">
-                  <h3 class="text-lg leading-6 font-medium text-gray-900">Suggestions</h3>
-                  <span class="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20">
-                    <%= @review.suggestions.count %>
+            <div class="p-4 space-y-3">
+              <% @review.suggestions.each do |suggestion| %>
+                <div class="rounded-lg border border-gray-100 p-3">
+                  <p class="text-sm text-gray-700 mb-2"><%= suggestion.text %></p>
+                  <span class="inline-flex items-center px-2.5 py-1 text-xs font-medium rounded-md border border-amber-200 text-amber-700 bg-amber-50">
+                    <%= suggestion.category.name %>
                   </span>
                 </div>
-              </div>
-              <div class="px-6 py-5">
-                <div class="space-y-3">
-                  <% @review.suggestions.each do |suggestion| %>
-                    <div class="border border-gray-100 rounded-lg p-3">
-                      <p class="text-sm text-gray-900 mb-2"><%= suggestion.text %></p>
-                      <span class="inline-flex items-center rounded-md bg-blue-50 px-2 py-1 text-xs font-medium text-blue-700 ring-1 ring-inset ring-blue-700/10">
-                        <%= suggestion.category.name %>
-                      </span>
-                    </div>
-                  <% end %>
-                </div>
-              </div>
+              <% end %>
             </div>
-          <% end %>
-
-          <!-- Complains Card -->
-          <% if @review.complains.any? %>
-            <div class="bg-white shadow-sm rounded-lg border border-gray-200">
-              <div class="px-6 py-5 border-b border-gray-200">
-                <div class="flex items-center justify-between">
-                  <h3 class="text-lg leading-6 font-medium text-gray-900">Complains</h3>
-                  <span class="inline-flex items-center rounded-md bg-red-50 px-2 py-1 text-xs font-medium text-red-700 ring-1 ring-inset ring-red-600/20">
-                    <%= @review.complains.count %>
-                  </span>
-                </div>
-              </div>
-              <div class="px-6 py-5">
-                <div class="space-y-3">
-                  <% @review.complains.each do |complain| %>
-                    <div class="border border-gray-100 rounded-lg p-3">
-                      <p class="text-sm text-gray-900 mb-2"><%= complain.text %></p>
-                      <span class="inline-flex items-center rounded-md bg-red-50 px-2 py-1 text-xs font-medium text-red-700 ring-1 ring-inset ring-red-700/10">
-                        <%= complain.category.name %>
-                      </span>
-                    </div>
-                  <% end %>
-                </div>
-              </div>
-            </div>
-          <% end %>
-
-          <!-- Empty State for Suggestions -->
-          <% unless @review.suggestions.any? %>
-            <div class="bg-white shadow-sm rounded-lg border border-gray-200">
-              <div class="px-6 py-5 border-b border-gray-200">
-                <h3 class="text-lg leading-6 font-medium text-gray-900">Suggestions</h3>
-              </div>
-              <div class="px-6 py-12 text-center">
-                <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014.846 21H9.154a3.374 3.374 0 00-2.548-1.146l-.548-.547z" />
+          <% else %>
+            <div class="p-8 text-center">
+              <div class="w-12 h-12 bg-gray-50 rounded-full flex items-center justify-center mx-auto mb-3">
+                <svg class="w-6 h-6 text-gray-300" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 18v-5.25m0 0a6.01 6.01 0 0 0 1.5-.189m-1.5.189a6.01 6.01 0 0 1-1.5-.189m3.75 7.478a12.06 12.06 0 0 1-4.5 0m3.75 2.383a14.406 14.406 0 0 1-3 0M14.25 18v-.192c0-.983.658-1.823 1.508-2.316a7.5 7.5 0 1 0-7.517 0c.85.493 1.509 1.333 1.509 2.316V18" />
                 </svg>
-                <h4 class="mt-2 text-sm font-medium text-gray-900">No suggestions found</h4>
-                <p class="mt-1 text-sm text-gray-500">No suggestions were extracted from this review.</p>
               </div>
+              <p class="text-sm text-gray-500">No suggestions found</p>
             </div>
           <% end %>
-
-          <!-- Empty State for Complains -->
-          <% unless @review.complains.any? %>
-            <div class="bg-white shadow-sm rounded-lg border border-gray-200">
-              <div class="px-6 py-5 border-b border-gray-200">
-                <h3 class="text-lg leading-6 font-medium text-gray-900">Complains</h3>
-              </div>
-              <div class="px-6 py-12 text-center">
-                <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z" />
-                </svg>
-                <h4 class="mt-2 text-sm font-medium text-gray-900">No complains found</h4>
-                <p class="mt-1 text-sm text-gray-500">No complains were extracted from this review.</p>
-              </div>
-            </div>
-          <% end %>
-
         </div>
+
+        <!-- Complaints Card -->
+        <div class="bg-white rounded-xl border border-gray-100 overflow-hidden">
+          <div class="px-6 py-4 border-b border-gray-100 flex items-center justify-between">
+            <h3 class="text-sm font-medium text-gray-900">Complaints</h3>
+            <% if @review.complains.any? %>
+              <span class="inline-flex items-center px-2 py-0.5 text-xs font-medium rounded-md bg-red-50 text-red-700">
+                <%= @review.complains.count %>
+              </span>
+            <% end %>
+          </div>
+          <% if @review.complains.any? %>
+            <div class="p-4 space-y-3">
+              <% @review.complains.each do |complain| %>
+                <div class="rounded-lg border border-gray-100 p-3">
+                  <p class="text-sm text-gray-700 mb-2"><%= complain.text %></p>
+                  <span class="inline-flex items-center px-2.5 py-1 text-xs font-medium rounded-md border border-red-200 text-red-700 bg-red-50">
+                    <%= complain.category.name %>
+                  </span>
+                </div>
+              <% end %>
+            </div>
+          <% else %>
+            <div class="p-8 text-center">
+              <div class="w-12 h-12 bg-gray-50 rounded-full flex items-center justify-center mx-auto mb-3">
+                <svg class="w-6 h-6 text-gray-300" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M7.5 8.25h9m-9 3H12m-9.75 1.51c0 1.6 1.123 2.994 2.707 3.227 1.129.166 2.27.293 3.423.379.35.026.67.21.865.501L12 21l2.755-4.133a1.14 1.14 0 0 1 .865-.501 48.172 48.172 0 0 0 3.423-.379c1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0 0 12 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018Z" />
+                </svg>
+              </div>
+              <p class="text-sm text-gray-500">No complaints found</p>
+            </div>
+          <% end %>
+        </div>
+
       </div>
     </div>
   </div>

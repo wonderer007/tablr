@@ -32,6 +32,37 @@ module ApplicationHelper
     url.gsub('s1920', 's75')
   end
 
+  def rating_badge_class(rating)
+    case rating.to_i
+    when 5
+      "bg-green-50 text-green-700"
+    when 4
+      "bg-emerald-50 text-emerald-700"
+    when 3
+      "bg-yellow-50 text-yellow-700"
+    when 2
+      "bg-orange-50 text-orange-700"
+    else
+      "bg-red-50 text-red-700"
+    end
+  end
+
+  def sortable_icon(current_sort, field)
+    is_asc = current_sort&.include?("#{field} asc")
+    is_desc = current_sort&.include?("#{field} desc")
+    
+    if is_asc
+      # Up arrow for ascending (active)
+      '<svg class="h-4 w-4 text-gray-700" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 17a.75.75 0 01-.75-.75V5.612L5.29 9.77a.75.75 0 01-1.08-1.04l5.25-5.5a.75.75 0 011.08 0l5.25 5.5a.75.75 0 11-1.08 1.04l-3.96-4.158V16.25A.75.75 0 0110 17z" clip-rule="evenodd" /></svg>'.html_safe
+    elsif is_desc
+      # Down arrow for descending (active)
+      '<svg class="h-4 w-4 text-gray-700" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 3a.75.75 0 01.75.75v10.638l3.96-4.158a.75.75 0 111.08 1.04l-5.25 5.5a.75.75 0 01-1.08 0l-5.25-5.5a.75.75 0 111.08-1.04l3.96 4.158V3.75A.75.75 0 0110 3z" clip-rule="evenodd" /></svg>'.html_safe
+    else
+      # Default: both arrows (unsorted)
+      '<svg class="h-4 w-4 text-gray-400 group-hover:text-gray-500" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 3a.75.75 0 01.55.24l3.25 3.5a.75.75 0 11-1.1 1.02L10 4.852 7.3 7.76a.75.75 0 01-1.1-1.02l3.25-3.5A.75.75 0 0110 3zm-3.76 9.2a.75.75 0 011.06.04l2.7 2.908 2.7-2.908a.75.75 0 111.1 1.02l-3.25 3.5a.75.75 0 01-1.1 0l-3.25-3.5a.75.75 0 01.04-1.06z" clip-rule="evenodd" /></svg>'.html_safe
+    end
+  end
+
   def notification_icon(notification_type)
     case notification_type.to_s
     when 'review'

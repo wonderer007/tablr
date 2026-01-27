@@ -5,7 +5,6 @@ class ReviewsController < DashboardController
     @q = current_business.reviews.ransack(params[:q])
     @reviews = @q.result(distinct: true)
 
-    # Calculate average ratings for filtered results
     @filtered_reviews_for_stats = @reviews
     @average_ratings = {
       overall: @filtered_reviews_for_stats.average(:stars)&.round(1) || 0,

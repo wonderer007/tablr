@@ -1,361 +1,268 @@
-<% content_for :title, "Reviews" %>
+<% content_for :title, "Reviews - Tablr" %>
 
-<div class="bg-white">
-  <div class="px-4 py-5 sm:px-6">
-    <div class="sm:flex sm:items-center sm:justify-between">
-      <div class="sm:flex-auto">
-        <h1 class="text-2xl font-bold tracking-tight text-gray-900">Reviews</h1>
-        <div class="mt-2 flex items-center gap-x-2">
-          <p class="text-sm text-gray-700">List of all reviews, ratings and sentiment.</p>
-          <span class="inline-flex items-center rounded-md bg-indigo-50 px-2 py-1 text-xs font-medium text-indigo-700 ring-1 ring-inset ring-indigo-700/10">
-            <%= pluralize(@reviews.total_count, 'review') %>
-          </span>
+<div class="min-h-screen bg-gray-50">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    
+    <!-- Header -->
+    <div class="mb-8">
+      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <div>
+          <h1 class="text-2xl font-semibold text-gray-900">Reviews</h1>
+          <p class="mt-1 text-sm text-gray-500">
+            <%= pluralize(@reviews.total_count, 'review') %> from your customers
+          </p>
         </div>
       </div>
     </div>
 
-    <%= search_form_for @q, url: reviews_path, method: :get do |f| %>
-
-      <div class="mt-6 bg-white shadow-sm rounded-lg border border-gray-200 divide-y divide-gray-200">
-        <div class="px-4 py-5 sm:px-6">
-          <div class="-ml-4 -mt-4 flex flex-wrap items-center justify-between sm:flex-nowrap">
-            <div class="ml-4 mt-4">
-              <h3 class="text-base font-semibold leading-6 text-gray-900">Filters</h3>
-              <p class="mt-1 text-sm text-gray-500">Use the filters below to narrow down the reviews.</p>
-            </div>
-            <div class="ml-4 mt-4 flex-shrink-0">
-              <div class="flex items-center gap-x-3">
-                <%= f.submit "Apply Filters", class: "rounded-md bg-indigo-600 px-3.5 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600" %>
-                <%= link_to "Clear Filters", reviews_path, class: "rounded-md bg-white px-3.5 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50" %>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="px-4 py-5 sm:p-6">
-          <div class="grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-7">
-            <div class="sm:col-span-2">
-              <label for="text" class="block text-sm font-medium leading-6 text-gray-900">Review</label>
-              <div class="mt-2 relative">
-                <%= f.search_field :text_cont, 
-                    placeholder: "Search reviews...", 
-                    autocomplete: "off",
-                    class: "block w-full h-11 rounded-md border-0 px-4 py-2 text-gray-900 shadow-sm ring-1 ring-inset #{params.dig(:q, :text_cont).present? ? 'ring-indigo-600 bg-indigo-50/50' : 'ring-gray-300'} placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" %>
-                <% if params.dig(:q, :text_cont).present? %>
-                  <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
-                    <svg class="size-4 text-indigo-600" viewBox="0 0 20 20" fill="currentColor">
-                      <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clip-rule="evenodd" />
-                    </svg>
-                  </div>
-                <% end %>
-              </div>
-            </div>
-
-            <div class="sm:col-span-1">
-              <label for="stars" class="block text-sm font-medium leading-6 text-gray-900">Rating</label>
-              <div class="mt-2">
-                <%= f.select :stars_gteq, 
-                    options_for_select([['Any', ''], ['1+ Stars', 1], ['2+ Stars', 2], ['3+ Stars', 3], ['4+ Stars', 4], ['5 Stars', 5]], params.dig(:q, :stars_gteq)), 
-                    {}, 
-                    class: "block w-full h-11 rounded-md border-0 px-3 py-2 text-gray-900 shadow-sm ring-1 ring-inset #{params.dig(:q, :stars_gteq).present? ? 'ring-indigo-600 bg-indigo-50/50 font-medium' : 'ring-gray-300'} focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" %>
-              </div>
-            </div>
-
-            <div class="sm:col-span-1">
-              <label for="food" class="block text-sm font-medium leading-6 text-gray-900">Food</label>
-              <div class="mt-2">
-                <%= f.select :food_rating_gteq, 
-                    options_for_select([['Any', ''], ['1+ Stars', 1], ['2+ Stars', 2], ['3+ Stars', 3], ['4+ Stars', 4], ['5 Stars', 5]], params.dig(:q, :food_rating_gteq)), 
-                    {}, 
-                    class: "block w-full h-11 rounded-md border-0 px-3 py-2 text-gray-900 shadow-sm ring-1 ring-inset #{params.dig(:q, :food_rating_gteq).present? ? 'ring-indigo-600 bg-indigo-50/50 font-medium' : 'ring-gray-300'} focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" %>
-              </div>
-            </div>
-
-            <div class="sm:col-span-1">
-              <label for="service" class="block text-sm font-medium leading-6 text-gray-900">Service</label>
-              <div class="mt-2">
-                <%= f.select :service_rating_gteq, 
-                    options_for_select([['Any', ''], ['1+ Stars', 1], ['2+ Stars', 2], ['3+ Stars', 3], ['4+ Stars', 4], ['5 Stars', 5]], params.dig(:q, :service_rating_gteq)), 
-                    {}, 
-                    class: "block w-full h-11 rounded-md border-0 px-3 py-2 text-gray-900 shadow-sm ring-1 ring-inset #{params.dig(:q, :service_rating_gteq).present? ? 'ring-indigo-600 bg-indigo-50/50 font-medium' : 'ring-gray-300'} focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" %>
-              </div>
-            </div>
-
-            <div class="sm:col-span-1">
-              <label for="atmosphere" class="block text-sm font-medium leading-6 text-gray-900">Atmosphere</label>
-              <div class="mt-2">
-                <%= f.select :atmosphere_rating_gteq, 
-                    options_for_select([['Any', ''], ['1+ Stars', 1], ['2+ Stars', 2], ['3+ Stars', 3], ['4+ Stars', 4], ['5 Stars', 5]], params.dig(:q, :atmosphere_rating_gteq)), 
-                    {}, 
-                    class: "block w-full h-11 rounded-md border-0 px-3 py-2 text-gray-900 shadow-sm ring-1 ring-inset #{params.dig(:q, :atmosphere_rating_gteq).present? ? 'ring-indigo-600 bg-indigo-50/50 font-medium' : 'ring-gray-300'} focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" %>
-              </div>
-            </div>
-
-            <div class="sm:col-span-2">
-              <label for="published" class="block text-sm font-medium leading-6 text-gray-900">Published</label>
-              <div class="mt-2" data-controller="date-range" 
-                   data-date-range-start-date-value="<%= params.dig(:q, :published_at_gteq) %>"
-                   data-date-range-end-date-value="<%= params.dig(:q, :published_at_lteq) %>">
-                <%= f.text_field :published_at_gteq, 
-                    value: params.dig(:q, :published_at_gteq), 
-                    placeholder: "Select date range...",
-                    autocomplete: "off",
-                    data: { 
-                      date_range_target: "input startDate"
-                    },
-                    class: "block w-full h-11 rounded-md border-0 px-4 py-2 text-gray-900 shadow-sm ring-1 ring-inset #{params.dig(:q, :published_at_gteq).present? ? 'ring-indigo-600 bg-indigo-50/50' : 'ring-gray-300'} placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" %>
-                <%= f.hidden_field :published_at_lteq, 
-                    value: params.dig(:q, :published_at_lteq),
-                    data: { date_range_target: "endDate" } %>
-              </div>
-            </div>
-
-            <div class="sm:col-span-1 content-center">
-              <div class="mt-4">
-                <div class="flex items-center">
-                  <%= f.check_box :text_not_null, 
-                      { class: "h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600" }, 
-                      true,
-                      nil %>
-                  <label for="text_not_null" class="ml-3 text-sm font-medium leading-6 text-gray-900">
-                    With review text
-                  </label>
-                </div>
-              </div>
-            </div>
+    <!-- Rating Summary Cards -->
+    <div class="mb-6 grid grid-cols-2 lg:grid-cols-4 gap-3">
+      <div class="bg-white rounded-xl border border-gray-100 px-4 py-3">
+        <p class="text-xs font-medium text-gray-500">Overall</p>
+        <div class="mt-1 flex items-center gap-2">
+          <span class="text-xl font-semibold text-gray-900"><%= @average_ratings[:overall] %></span>
+          <div class="flex items-center">
+            <% 5.times do |i| %>
+              <svg class="h-3.5 w-3.5 <%= i < @average_ratings[:overall].floor ? 'text-yellow-400' : 'text-gray-200' %>" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+              </svg>
+            <% end %>
           </div>
         </div>
       </div>
-
-      <!-- Filtered Rating Cards -->
-      <div class="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        <!-- Overall Rating Card -->
-        <div class="relative overflow-hidden rounded-lg bg-white px-4 py-5 shadow ring-1 ring-black ring-opacity-5 sm:px-6">
-          <div>
-            <dt class="text-sm font-medium text-gray-500 truncate">Overall Rating</dt>
-            <dd class="mt-1 flex items-baseline justify-between">
-              <div class="flex items-center">
-                <span class="text-2xl font-semibold text-gray-900"><%= @average_ratings[:overall] %></span>
-                <div class="ml-2 flex items-center">
-                  <% 5.times do |i| %>
-                    <svg class="h-4 w-4 <%= i < @average_ratings[:overall].floor ? 'text-yellow-400' : 'text-gray-300' %>" fill="currentColor" viewBox="0 0 20 20">
-                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
-                    </svg>
-                  <% end %>
-                </div>
-              </div>
-            </dd>
-          </div>
-        </div>
-
-        <!-- Food Rating Card -->
-        <div class="relative overflow-hidden rounded-lg bg-white px-4 py-5 shadow ring-1 ring-black ring-opacity-5 sm:px-6">
-          <div>
-            <dt class="text-sm font-medium text-gray-500 truncate">Food Rating</dt>
-            <dd class="mt-1 flex items-baseline justify-between">
-              <div class="flex items-center">
-                <span class="text-2xl font-semibold text-gray-900"><%= @average_ratings[:food] %></span>
-                <div class="ml-2 flex items-center">
-                  <% 5.times do |i| %>
-                    <svg class="h-4 w-4 <%= i < @average_ratings[:food].floor ? 'text-yellow-400' : 'text-gray-300' %>" fill="currentColor" viewBox="0 0 20 20">
-                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
-                    </svg>
-                  <% end %>
-                </div>
-              </div>
-            </dd>
-          </div>
-        </div>
-
-        <!-- Service Rating Card -->
-        <div class="relative overflow-hidden rounded-lg bg-white px-4 py-5 shadow ring-1 ring-black ring-opacity-5 sm:px-6">
-          <div>
-            <dt class="text-sm font-medium text-gray-500 truncate">Service Rating</dt>
-            <dd class="mt-1 flex items-baseline justify-between">
-              <div class="flex items-center">
-                <span class="text-2xl font-semibold text-gray-900"><%= @average_ratings[:service] %></span>
-                <div class="ml-2 flex items-center">
-                  <% 5.times do |i| %>
-                    <svg class="h-4 w-4 <%= i < @average_ratings[:service].floor ? 'text-yellow-400' : 'text-gray-300' %>" fill="currentColor" viewBox="0 0 20 20">
-                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
-                    </svg>
-                  <% end %>
-                </div>
-              </div>
-            </dd>
-          </div>
-        </div>
-
-        <!-- Atmosphere Rating Card -->
-        <div class="relative overflow-hidden rounded-lg bg-white px-4 py-5 shadow ring-1 ring-black ring-opacity-5 sm:px-6">
-          <div>
-            <dt class="text-sm font-medium text-gray-500 truncate">Atmosphere Rating</dt>
-            <dd class="mt-1 flex items-baseline justify-between">
-              <div class="flex items-center">
-                <span class="text-2xl font-semibold text-gray-900"><%= @average_ratings[:atmosphere] %></span>
-                <div class="ml-2 flex items-center">
-                  <% 5.times do |i| %>
-                    <svg class="h-4 w-4 <%= i < @average_ratings[:atmosphere].floor ? 'text-yellow-400' : 'text-gray-300' %>" fill="currentColor" viewBox="0 0 20 20">
-                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
-                    </svg>
-                  <% end %>
-                </div>
-              </div>
-            </dd>
+      <div class="bg-white rounded-xl border border-gray-100 px-4 py-3">
+        <p class="text-xs font-medium text-gray-500">Food</p>
+        <div class="mt-1 flex items-center gap-2">
+          <span class="text-xl font-semibold text-gray-900"><%= @average_ratings[:food] %></span>
+          <div class="flex items-center">
+            <% 5.times do |i| %>
+              <svg class="h-3.5 w-3.5 <%= i < @average_ratings[:food].floor ? 'text-yellow-400' : 'text-gray-200' %>" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+              </svg>
+            <% end %>
           </div>
         </div>
       </div>
-
-      <div class="mt-6 overflow-hidden shadow ring-1 ring-black ring-opacity-5 sm:rounded-lg">
-        <% if @reviews.any? %>
-          <div class="min-w-full">
-            <table class="min-w-full divide-y divide-gray-300">
-              <thead class="bg-gray-50">
-                <tr>
-                  <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">
-                    <%= sort_link(@q, :text, { class: "group inline-flex items-center gap-x-2" }) do %>
-                      Review
-                      <span class="ml-2 flex-none rounded <%= sort_indicator_class(params.dig(:q, :s), 'text') %>">
-                        <%= sort_arrow_icon(params.dig(:q, :s), 'text') %>
-                      </span>
-                    <% end %>
-                  <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
-                    <%= sort_link(@q, :stars, { class: "group inline-flex items-center gap-x-2" }) do %>
-                      Rating
-                      <span class="ml-2 flex-none rounded <%= sort_indicator_class(params.dig(:q, :s), 'stars') %>">
-                        <%= sort_arrow_icon(params.dig(:q, :s), 'stars') %>
-                      </span>
-                    <% end %>
-                  </th>
-                  <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
-                    <%= sort_link(@q, :food_rating, { class: "group inline-flex items-center gap-x-2" }) do %>
-                      Food
-                      <span class="ml-2 flex-none rounded <%= sort_indicator_class(params.dig(:q, :s), 'food_rating') %>">
-                        <%= sort_arrow_icon(params.dig(:q, :s), 'food_rating') %>
-                      </span>
-                    <% end %>
-                  </th>
-                  <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
-                    <%= sort_link(@q, :service_rating, { class: "group inline-flex items-center gap-x-2" }) do %>
-                      Service
-                      <span class="ml-2 flex-none rounded <%= sort_indicator_class(params.dig(:q, :s), 'service_rating') %>">
-                        <%= sort_arrow_icon(params.dig(:q, :s), 'service_rating') %>
-                      </span>
-                    <% end %>
-                  </th>
-                  <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
-                    <%= sort_link(@q, :atmosphere_rating, { class: "group inline-flex items-center gap-x-2" }) do %>
-                      Atmosphere
-                      <span class="ml-2 flex-none rounded <%= sort_indicator_class(params.dig(:q, :s), 'atmosphere_rating') %>">
-                        <%= sort_arrow_icon(params.dig(:q, :s), 'atmosphere_rating') %>
-                      </span>
-                    <% end %>
-                  </th>
-                  <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
-                    <%= sort_link(@q, :published_at, { class: "group inline-flex items-center gap-x-2" }) do %>
-                      Published
-                      <span class="ml-2 flex-none rounded <%= sort_indicator_class(params.dig(:q, :s), 'published_at') %>">
-                        <%= sort_arrow_icon(params.dig(:q, :s), 'published_at') %>
-                      </span>
-                    <% end %>
-                  </th>
-                  <th scope="col" class="relative py-3.5 pl-3 pr-4 sm:pr-6">
-                    <span class="sr-only">Actions</span>
-                  </th>
-                </tr>
-              </thead>
-              <tbody class="divide-y divide-gray-200 bg-white">
-                <% @reviews.each do |review| %>
-                  <tr class="hover:bg-gray-50">
-                    <td class="py-4 pl-4 pr-3 sm:pl-6">
-                      <div class="flex items-center gap-x-4">
-                        <img class="size-10 flex-none rounded-full bg-gray-50"
-                              src="<%= review.image_url %>"
-                              alt="<%= review.name %>'s profile picture"
-                              width="40"
-                              height="40"
-                              onerror="this.onerror=null;this.src='/images/default-profile.png';" />
-                        <div class="min-w-0">
-                          <p class="text-sm font-semibold leading-6 text-gray-900"><%= review.name %></p>
-                          <p class="mt-1 truncate text-sm leading-5 text-gray-500" title="<%= review.text %>">
-                            <%= truncate(review.text, length: 50, separator: ' ') %>
-                          </p>
-                        </div>
-                      </div>
-                    </td>
-                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                      <%= render 'shared/star_rating', rating: review.stars, show_number: false %>
-                    </td>
-                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                      <% if review.food_rating.present? %>
-                        <%= render 'shared/star_rating', rating: review.food_rating, show_number: false %>
-                      <% else %>
-                        <span class="text-gray-400">N/A</span>
-                      <% end %>
-                    </td>
-                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                      <% if review.service_rating.present? %>
-                        <%= render 'shared/star_rating', rating: review.service_rating, show_number: false %>
-                      <% else %>
-                        <span class="text-gray-400">N/A</span>
-                      <% end %>
-                    </td>
-                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                      <% if review.atmosphere_rating.present? %>
-                        <%= render 'shared/star_rating', rating: review.atmosphere_rating, show_number: false %>
-                      <% else %>
-                        <span class="text-gray-400">N/A</span>
-                      <% end %>
-                    </td>
-                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                      <%= review.published_at&.strftime('%b %d, %Y') || 'N/A' %>
-                    </td>
-                    <td class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
-                      <div class="flex justify-end gap-x-4">
-                        <a href="<%= review_path(review) %>" type="button" class="text-indigo-600 hover:text-indigo-900">
-                          <svg class="size-5" viewBox="0 0 20 20" fill="currentColor">
-                            <path d="M10 12.5a2.5 2.5 0 100-5 2.5 2.5 0 000 5z" />
-                            <path fill-rule="evenodd" d="M.664 10.59a1.651 1.651 0 010-1.186A10.004 10.004 0 0110 3c4.257 0 7.893 2.66 9.336 6.41.147.381.146.804 0 1.186A10.004 10.004 0 0110 17c-4.257 0-7.893-2.66-9.336-6.41zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd" />
-                          </svg>
-                          <span class="sr-only">View <%= review.name %>'s review</span>
-                        </a>
-                      </div>
-                    </td>
-                  </tr>
-                <% end %>
-              </tbody>
-            </table>
+      <div class="bg-white rounded-xl border border-gray-100 px-4 py-3">
+        <p class="text-xs font-medium text-gray-500">Service</p>
+        <div class="mt-1 flex items-center gap-2">
+          <span class="text-xl font-semibold text-gray-900"><%= @average_ratings[:service] %></span>
+          <div class="flex items-center">
+            <% 5.times do |i| %>
+              <svg class="h-3.5 w-3.5 <%= i < @average_ratings[:service].floor ? 'text-yellow-400' : 'text-gray-200' %>" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+              </svg>
+            <% end %>
           </div>
-        <% else %>
-          <!-- Empty State -->
-          <div class="bg-white px-6 py-12">
-            <div class="text-center">
-              <svg class="mx-auto size-24 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M12 10.5v6m3-3H9m4.06-7.19l-2.12-2.12a1.5 1.5 0 00-1.061-.44H4.5A2.25 2.25 0 002.25 6v12a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9a2.25 2.25 0 00-2.25-2.25h-5.379a1.5 1.5 0 01-1.06-.44z" />
-              </svg>              
-              <h3 class="mt-4 text-lg font-semibold text-gray-900">No reviews found</h3>
-              <p class="mt-2 text-sm text-gray-500">
-                <% if params[:q].present? %>
-                  No reviews match your current filters. Try adjusting your search criteria.
-                <% else %>
-                  No reviews have been imported yet. They will appear here once data is synced from your review sources.
-                <% end %>
-              </p>
-              <% if params[:q].present? %>
-                <div class="mt-4">
-                  <%= link_to "Clear Filters", reviews_path, class: "rounded-md bg-indigo-600 px-3.5 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600" %>
-                </div>
+        </div>
+      </div>
+      <div class="bg-white rounded-xl border border-gray-100 px-4 py-3">
+        <p class="text-xs font-medium text-gray-500">Atmosphere</p>
+        <div class="mt-1 flex items-center gap-2">
+          <span class="text-xl font-semibold text-gray-900"><%= @average_ratings[:atmosphere] %></span>
+          <div class="flex items-center">
+            <% 5.times do |i| %>
+              <svg class="h-3.5 w-3.5 <%= i < @average_ratings[:atmosphere].floor ? 'text-yellow-400' : 'text-gray-200' %>" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+              </svg>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Filters -->
+    <%= search_form_for @q, url: reviews_path, method: :get, class: "mb-6" do |f| %>
+      <div class="bg-white rounded-xl border border-gray-100 p-4">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-3 items-end">
+          <!-- Search -->
+          <div class="lg:col-span-2">
+            <label class="block text-xs font-medium text-gray-500 mb-1.5">Search</label>
+            <%= f.search_field :text_cont, 
+                  placeholder: "Search reviews...", 
+                  autocomplete: "off",
+                  class: "w-full h-10 rounded-lg border border-gray-200 bg-white px-3 text-sm text-gray-700 placeholder:text-gray-400 focus:border-gray-400 focus:ring-0 focus:outline-none" %>
+          </div>
+
+          <!-- Rating Filter -->
+          <div>
+            <label class="block text-xs font-medium text-gray-500 mb-1.5">Rating</label>
+            <%= f.select :stars_gteq, 
+                options_for_select([['All', ''], ['1+', 1], ['2+', 2], ['3+', 3], ['4+', 4], ['5', 5]], params.dig(:q, :stars_gteq)), 
+                {}, 
+                class: "w-full h-10 rounded-lg border border-gray-200 bg-white px-3 text-sm text-gray-700 focus:border-gray-400 focus:ring-0 focus:outline-none" %>
+          </div>
+
+          <!-- Date Range -->
+          <div data-controller="date-range" 
+               data-date-range-start-date-value="<%= params.dig(:q, :published_at_gteq) %>"
+               data-date-range-end-date-value="<%= params.dig(:q, :published_at_lteq) %>">
+            <label class="block text-xs font-medium text-gray-500 mb-1.5">Published</label>
+            <%= f.text_field :published_at_gteq, 
+                value: params.dig(:q, :published_at_gteq), 
+                placeholder: "Select dates",
+                autocomplete: "off",
+                data: { date_range_target: "input startDate" },
+                class: "w-full h-10 rounded-lg border border-gray-200 bg-white px-3 text-sm text-gray-700 placeholder:text-gray-400 focus:border-gray-400 focus:ring-0 focus:outline-none" %>
+            <%= f.hidden_field :published_at_lteq, 
+                value: params.dig(:q, :published_at_lteq),
+                data: { date_range_target: "endDate" } %>
+          </div>
+
+          <!-- With Text Checkbox -->
+          <div class="flex items-center h-10">
+            <label class="flex items-center gap-2 cursor-pointer">
+              <%= f.check_box :text_not_null, 
+                  { class: "h-4 w-4 rounded border-gray-300 text-gray-900 focus:ring-gray-500" }, 
+                  true,
+                  nil %>
+              <span class="text-sm text-gray-600">With text</span>
+            </label>
+          </div>
+
+          <!-- Filter Actions -->
+          <div class="flex items-center gap-2">
+            <%= f.submit "Apply", class: "h-10 px-4 text-sm font-medium text-white bg-gray-900 rounded-lg hover:bg-gray-800 transition-colors cursor-pointer" %>
+            <% if params[:q].present? && params[:q].values.any?(&:present?) %>
+              <%= link_to reviews_path, class: "h-10 px-4 text-sm font-medium text-gray-600 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors inline-flex items-center" do %>
+                Clear
               <% end %>
-            </div>
+            <% end %>
           </div>
-        <% end %>
-      </div>
-    </div>
+        </div>
       </div>
     <% end %>
 
-    <div class="mt-6">
-      <%= render 'shared/pagination', paginated_collection: @reviews %>
+    <!-- Reviews List -->
+    <div class="bg-white rounded-xl border border-gray-100 overflow-hidden">
+      <% if @reviews.any? %>
+        <table class="w-full">
+          <thead>
+            <tr class="border-b border-gray-100">
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Review</th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <%= sort_link(@q, :stars, { class: "group inline-flex items-center gap-1 hover:text-gray-700", hide_indicator: true }) do %>
+                  Rating <%= sortable_icon(params.dig(:q, :s), 'stars') %>
+                <% end %>
+              </th>
+              <th class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <%= sort_link(@q, :food_rating, { class: "group inline-flex items-center gap-1 hover:text-gray-700", hide_indicator: true }) do %>
+                  Food <%= sortable_icon(params.dig(:q, :s), 'food_rating') %>
+                <% end %>
+              </th>
+              <th class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <%= sort_link(@q, :service_rating, { class: "group inline-flex items-center gap-1 hover:text-gray-700", hide_indicator: true }) do %>
+                  Service <%= sortable_icon(params.dig(:q, :s), 'service_rating') %>
+                <% end %>
+              </th>
+              <th class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <%= sort_link(@q, :atmosphere_rating, { class: "group inline-flex items-center gap-1 hover:text-gray-700", hide_indicator: true }) do %>
+                  Atmosphere <%= sortable_icon(params.dig(:q, :s), 'atmosphere_rating') %>
+                <% end %>
+              </th>
+              <th class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <%= sort_link(@q, :published_at, { class: "group inline-flex items-center gap-1 hover:text-gray-700", hide_indicator: true }) do %>
+                  Published <%= sortable_icon(params.dig(:q, :s), 'published_at') %>
+                <% end %>
+              </th>
+              <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider"></th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-gray-100">
+            <% @reviews.each do |review| %>
+              <tr class="hover:bg-gray-50 transition-colors">
+                <td class="px-6 py-4">
+                  <div class="flex items-center gap-3">
+                    <img class="w-9 h-9 flex-shrink-0 rounded-full bg-gray-100"
+                         src="<%= review.image_url %>"
+                         alt="<%= review.name %>"
+                         width="36"
+                         height="36"
+                         onerror="this.onerror=null;this.src='/images/default-profile.png';" />
+                    <div class="min-w-0 flex-1">
+                      <p class="text-sm font-medium text-gray-900"><%= review.name %></p>
+                      <p class="text-sm text-gray-500 truncate max-w-xs" title="<%= review.text %>">
+                        <%= truncate(review.text, length: 60, separator: ' ') %>
+                      </p>
+                    </div>
+                  </div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <span class="inline-flex items-center px-2.5 py-1 text-sm font-medium rounded-md <%= rating_badge_class(review.stars) %>">
+                    <%= review.stars %>
+                  </span>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                  <% if review.food_rating.present? %>
+                    <span class="font-medium text-gray-700"><%= review.food_rating %></span>
+                  <% else %>
+                    <span class="text-gray-400">—</span>
+                  <% end %>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                  <% if review.service_rating.present? %>
+                    <span class="font-medium text-gray-700"><%= review.service_rating %></span>
+                  <% else %>
+                    <span class="text-gray-400">—</span>
+                  <% end %>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                  <% if review.atmosphere_rating.present? %>
+                    <span class="font-medium text-gray-700"><%= review.atmosphere_rating %></span>
+                  <% else %>
+                    <span class="text-gray-400">—</span>
+                  <% end %>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                  <%= review.published_at&.strftime('%b %d, %Y') || '—' %>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-right">
+                  <%= link_to review_path(review), class: "text-gray-400 hover:text-gray-600 transition-colors" do %>
+                    <svg class="size-5" viewBox="0 0 20 20" fill="currentColor">
+                      <path d="M10 12.5a2.5 2.5 0 100-5 2.5 2.5 0 000 5z" />
+                      <path fill-rule="evenodd" d="M.664 10.59a1.651 1.651 0 010-1.186A10.004 10.004 0 0110 3c4.257 0 7.893 2.66 9.336 6.41.147.381.146.804 0 1.186A10.004 10.004 0 0110 17c-4.257 0-7.893-2.66-9.336-6.41zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd" />
+                    </svg>
+                  <% end %>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+
+        <!-- Pagination -->
+        <div class="border-t border-gray-100 px-6 py-4">
+          <div class="flex items-center justify-between">
+            <p class="text-sm text-gray-500">
+              Showing <span class="font-medium text-gray-700"><%= @reviews.offset_value + 1 %></span> 
+              to <span class="font-medium text-gray-700"><%= [@reviews.offset_value + @reviews.limit_value, @reviews.total_count].min %></span> 
+              of <span class="font-medium text-gray-700"><%= @reviews.total_count %></span> results
+            </p>
+            <div class="flex items-center gap-2">
+              <%== paginate @reviews %>
+            </div>
+          </div>
+        </div>
+      <% else %>
+        <!-- Empty State -->
+        <div class="text-center py-16">
+          <div class="w-16 h-16 bg-indigo-50 rounded-full flex items-center justify-center mx-auto mb-4">
+            <svg class="w-8 h-8 text-indigo-300" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M11.48 3.499a.562.562 0 0 1 1.04 0l2.125 5.111a.563.563 0 0 0 .475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 0 0-.182.557l1.285 5.385a.562.562 0 0 1-.84.61l-4.725-2.885a.562.562 0 0 0-.586 0L6.982 20.54a.562.562 0 0 1-.84-.61l1.285-5.386a.562.562 0 0 0-.182-.557l-4.204-3.602a.562.562 0 0 1 .321-.988l5.518-.442a.563.563 0 0 0 .475-.345L11.48 3.5Z" />
+            </svg>
+          </div>
+          <h3 class="text-base font-medium text-gray-900 mb-1">No reviews found</h3>
+          <p class="text-sm text-gray-500 mb-4 max-w-sm mx-auto">
+            <% if params[:q].present? && params[:q].values.any?(&:present?) %>
+              No reviews match your filters. Try adjusting your search criteria.
+            <% else %>
+              Reviews will appear here once data is synced from your review sources.
+            <% end %>
+          </p>
+          <% if params[:q].present? && params[:q].values.any?(&:present?) %>
+            <%= link_to "Clear Filters", reviews_path, class: "inline-flex items-center px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors" %>
+          <% end %>
+        </div>
+      <% end %>
     </div>
   </div>
 </div>

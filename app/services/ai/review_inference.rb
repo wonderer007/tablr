@@ -25,16 +25,18 @@ class Ai::ReviewInference < ApplicationService
       review = business.reviews.find(inference['review_id'])
 
       inference.fetch('complains', {}).each do |category_name, items|
-        category = Category.find_or_create_by(name: category_name)
+        name = category_name.downcase.split.map(&:capitalize).join(' ')
+        category = Category.find_or_create_by(name: name)
         items.each do |item|
-          review.complains.create(category: category, text: item)
+          review.complains.create(category: category, text: item['text'], severity: item['severity'])
         end
       end
 
       inference.fetch('suggestions', {}).each do |category_name, items|
-        category = Category.find_or_create_by(name: category_name)
+        name = category_name.downcase.split.map(&:capitalize).join(' ')
+        category = Category.find_or_create_by(name: name)
         items.each do |item|
-          review.suggestions.create(category: category, text: item)
+          review.suggestions.create(category: category, text: item['text'], severity: item['severity'])
         end
       end
 
@@ -64,11 +66,13 @@ class Ai::ReviewInference < ApplicationService
             role: "user",
             content: <<~PROMPT
               ### INSTRUCTIONS:
-              1. For each review, extract complaints and suggestions grouped by relevant category.
-              2. Infer categories from the review content (e.g., #{categories.join(',')}).
-              3. Complaints and suggestions MUST be arrays of plain strings (human-readable text) for each category key.
-              4. If a review has no complaints or suggestions, return empty objects for those fields.
-              6. IMPORTANT: You MUST return EXACTLY #{reviews.size} objects in the array, one for each numbered review below. Do not split or merge reviews.
+              1. For each review, extract complaints and suggestions grouped by relevant category
+              2. Infer categories from the review content (e.g., #{categories.join(',')})
+              3. For each complaint and suggestion, assign a severity score between 1 and 10. 1 is the lowest severity and 10 is the highest severity
+              4. Complaints and suggestions MUST be arrays of plain strings (human-readable text) for each category key
+              5. If a review has no complaints or suggestions, return empty objects for those fields
+              6. IMPORTANT: You MUST return EXACTLY #{reviews.size} objects in the array, one for each numbered review below. Do not split or merge reviews
+              7. Use lowercase category names.
 
               ### INPUT (#{reviews.size} reviews):
               #{numbered_reviews}
@@ -87,7 +91,7 @@ class Ai::ReviewInference < ApplicationService
   end
 
   def categories
-    @categories ||= business.type == :restaurant ? RESTAURANT_CATEGORIES : HOTEL_CATEGORIES
+    @categories ||= business.type.to_sym == :restaurant ? RESTAURANT_CATEGORIES : business.type.to_sym == :hotel ? HOTEL_CATEGORIES : OTHERS_CATEGORIES
   end
 
   def client
@@ -117,11 +121,11 @@ class Ai::ReviewInference < ApplicationService
       {
         "review_id": 1,
         "complains": {
-          "service": ["service was slow"],
-          "cleanliness": ["place was not very clean"]
+          "service": [{"text": "service was slow", "severity": 5}],
+          "cleanliness": [{"text": "place was not very clean", "severity": 3}]
         },
         "suggestions": {
-          "reservation": ["booking a table in advance"]
+          "reservation": [{"text": "booking a table in advance", "severity": 7}]
         }
       }
     ]
@@ -141,12 +145,13 @@ class Ai::ReviewInference < ApplicationService
     system_message = "You are an expert at analyzing customer reviews. Your task is to extract complaints and suggestions from a batch of reviews for any type of business and return structured JSON output for each review, in the same order and same number of reviews as the input (#{reviews.size})."
     user_message = <<~PROMPT
       ### INSTRUCTIONS:
-      1. For each review, extract complaints and suggestions grouped by relevant category.
-      2. Infer categories from the review content (e.g., service, pricing, quality, staff, location, wait time, cleanliness, product, experience, communication, etc.).
-      3. Complaints and suggestions MUST be arrays of plain strings (human-readable text) for each category key.
-      4. If a review has no complaints or suggestions, return empty objects for those fields.
-      5. Use lowercase category names.
-      6. IMPORTANT: You MUST return EXACTLY #{reviews.size} objects in the array, one for each numbered review below. Do not split or merge reviews.
+      1. For each review, extract complaints and suggestions grouped by relevant category
+      2. Infer categories from the review content (e.g., #{categories.join(',')})
+      3. For each complaint and suggestion, assign a severity score between 1 and 10. 1 is the lowest severity and 10 is the highest severity
+      4. Complaints and suggestions MUST be arrays of plain strings (human-readable text) for each category key
+      5. If a review has no complaints or suggestions, return empty objects for those fields
+      6. IMPORTANT: You MUST return EXACTLY #{reviews.size} objects in the array, one for each numbered review below. Do not split or merge reviews
+      7. Use lowercase category names.
 
       ### INPUT (#{reviews.size} reviews):
       #{numbered_reviews}

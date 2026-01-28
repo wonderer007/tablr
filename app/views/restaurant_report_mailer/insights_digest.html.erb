@@ -1,18 +1,27 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="x-apple-disable-message-reformatting">
+  <meta name="format-detection" content="telephone=no,address=no,email=no,date=no,url=no">
+  <meta name="color-scheme" content="light">
+  <meta name="supported-color-schemes" content="light">
   <title>Customer Insights - <%= @business.name %></title>
   <!--[if mso]>
   <noscript>
     <xml>
       <o:OfficeDocumentSettings>
+        <o:AllowPNG/>
         <o:PixelsPerInch>96</o:PixelsPerInch>
       </o:OfficeDocumentSettings>
     </xml>
   </noscript>
+  <style>
+    table {border-collapse: collapse;}
+    td,th,div,p,a,h1,h2,h3,h4,h5,h6 {font-family: "Segoe UI", sans-serif; mso-line-height-rule: exactly;}
+  </style>
   <![endif]-->
   <style type="text/css">
     /* Reset styles */
@@ -23,6 +32,7 @@
     table, td {
       mso-table-lspace: 0pt;
       mso-table-rspace: 0pt;
+      border-collapse: collapse !important;
     }
     img {
       -ms-interpolation-mode: bicubic;
@@ -36,127 +46,216 @@
       margin: 0 !important;
       padding: 0 !important;
       width: 100% !important;
+      height: 100% !important;
     }
     a[x-apple-data-detectors] {
       color: inherit !important;
       text-decoration: none !important;
+      font-size: inherit !important;
+      font-family: inherit !important;
+      font-weight: inherit !important;
+      line-height: inherit !important;
     }
-    @media only screen and (max-width: 600px) {
+    u + #body a {
+      color: inherit;
+      text-decoration: none;
+      font-size: inherit;
+      font-family: inherit;
+      font-weight: inherit;
+      line-height: inherit;
+    }
+    #MessageViewBody a {
+      color: inherit;
+      text-decoration: none;
+      font-size: inherit;
+      font-family: inherit;
+      font-weight: inherit;
+      line-height: inherit;
+    }
+    /* Button hover state */
+    .btn-primary:hover {
+      background-color: #1f2937 !important;
+    }
+    /* Responsive styles */
+    @media only screen and (max-width: 620px) {
       .container {
         width: 100% !important;
-        padding: 16px !important;
+        max-width: 100% !important;
       }
-      .content-table {
-        width: 100% !important;
+      .content-padding {
+        padding-left: 20px !important;
+        padding-right: 20px !important;
       }
       .insight-card {
-        padding: 16px !important;
+        padding: 14px !important;
+      }
+      .mobile-center {
+        text-align: center !important;
+      }
+      .mobile-full-width {
+        width: 100% !important;
+        display: block !important;
+      }
+      .mobile-padding {
+        padding: 24px 16px !important;
       }
     }
   </style>
 </head>
-<body style="margin: 0; padding: 0; background-color: #f9fafb; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">
-  
-  <!-- Wrapper Table -->
-  <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="background-color: #f9fafb;">
-    <tr>
-      <td align="center" style="padding: 40px 20px;">
-        
-        <!-- Main Container -->
-        <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="600" class="container" style="max-width: 600px; background-color: #ffffff; border-radius: 12px; border: 1px solid #e5e7eb; overflow: hidden;">
+<body id="body" style="margin: 0; padding: 0; word-spacing: normal; background-color: #f3f4f6;">
+  <div role="article" aria-roledescription="email" aria-label="Customer Insights from Tablr" lang="en" style="text-size-adjust: 100%; -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; background-color: #f3f4f6;">
+    
+    <!-- Preview Text -->
+    <div style="display: none; max-height: 0; overflow: hidden; mso-hide: all;">
+      <%= @complaints.any? ? "#{@complaints.size} complaint#{'s' if @complaints.size > 1}" : '' %><%= @complaints.any? && @suggestions.any? ? ' and ' : '' %><%= @suggestions.any? ? "#{@suggestions.size} suggestion#{'s' if @suggestions.size > 1}" : '' %> from your customers - Turn Feedback Into Actionable Insights
+      &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847;
+    </div>
+
+    <!-- Wrapper Table -->
+    <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="margin: 0 auto; background-color: #f3f4f6;">
+      <tr>
+        <td align="center" style="padding: 40px 10px;">
           
-          <!-- Header -->
-          <tr>
-            <td style="padding: 32px 32px 24px 32px; border-bottom: 1px solid #f3f4f6;">
-              <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
-                <tr>
-                  <td>
-                    <h1 style="margin: 0 0 8px 0; font-size: 24px; font-weight: 600; color: #111827; line-height: 1.3;">
-                      Customer Insights
-                    </h1>
-                    <p style="margin: 0; font-size: 14px; color: #6b7280; line-height: 1.5;">
-                      Latest complaints and suggestions from customers
-                    </p>
-                  </td>
-                  <td align="right" style="vertical-align: top;">
-                    <span style="display: inline-block; padding: 6px 12px; background-color: #f3f4f6; border-radius: 6px; font-size: 12px; font-weight: 500; color: #374151;">
-                      <%= @business.name %>
-                    </span>
-                  </td>
-                </tr>
-              </table>
-            </td>
-          </tr>
-
-          <!-- Greeting -->
-          <tr>
-            <td style="padding: 24px 32px 0 32px;">
-              <p style="margin: 0; font-size: 15px; color: #374151; line-height: 1.6;">
-                Hi <%= @user.first_name.presence || 'there' %>,
-              </p>
-              <p style="margin: 12px 0 0 0; font-size: 15px; color: #374151; line-height: 1.6;">
-                Your customers' voices hold the key to better experiences. Here are the latest insights we've uncovered from their reviews - actionable feedback to help you enhance service, improve satisfaction, and grow your restaurant.
-              </p>
-            </td>
-          </tr>
-
-          <% if @complaints.any? %>
-          <!-- Complaints Section -->
-          <tr>
-            <td style="padding: 32px;">
-              <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
-                <tr>
-                  <td style="padding-bottom: 16px;">
-                    <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
-                      <tr>
-                        <td>
-                          <h2 style="margin: 0; font-size: 16px; font-weight: 600; color: #111827;">
-                            Recent Complaints
-                          </h2>
-                        </td>
-                        <td align="right">
-                          <span style="display: inline-block; padding: 4px 10px; background-color: #fef2f2; border: 1px solid #fecaca; border-radius: 12px; font-size: 12px; font-weight: 500; color: #dc2626;">
-                            <%= @complaints.size %> found
-                          </span>
-                        </td>
-                      </tr>
-                    </table>
-                  </td>
-                </tr>
-
-                <% @complaints.each_with_index do |complaint, index| %>
+          <!-- Main Container -->
+          <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="600" class="container" style="max-width: 600px; margin: 0 auto; background-color: #ffffff; border-radius: 16px; box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px -1px rgba(0, 0, 0, 0.1);">
+            
+            <!-- Header with Logo/Brand -->
+            <tr>
+              <td style="padding: 32px 40px 24px 40px; background: linear-gradient(135deg, #111827 0%, #1f2937 100%); border-radius: 16px 16px 0 0;" class="content-padding">
+                <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
                   <tr>
-                    <td style="padding-bottom: <%= index == @complaints.size - 1 ? '0' : '12px' %>;">
-                      <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" class="insight-card" style="background-color: #fefefe; border: 1px solid #f3f4f6; border-radius: 8px;">
+                    <td>
+                      <h1 style="margin: 0; font-size: 28px; font-weight: 700; color: #ffffff; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; letter-spacing: -0.5px;">
+                        Tablr
+                      </h1>
+                      <p style="margin: 6px 0 0 0; font-size: 13px; color: #9ca3af; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; font-style: italic;">
+                        Turn Feedback Into Actionable Insights
+                      </p>
+                    </td>
+                    <td align="right" style="vertical-align: middle;">
+                      <span style="display: inline-block; padding: 8px 16px; background-color: rgba(255, 255, 255, 0.1); border-radius: 8px; font-size: 13px; font-weight: 600; color: #ffffff; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">
+                        <%= @business.name %>
+                      </span>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+
+            <!-- Title Section -->
+            <tr>
+              <td style="padding: 32px 40px 0 40px;" class="content-padding">
+                <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
+                  <tr>
+                    <td>
+                      <h2 style="margin: 0 0 8px 0; font-size: 22px; font-weight: 700; color: #111827; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; letter-spacing: -0.3px;">
+                        Customer Insights Report
+                      </h2>
+                      <p style="margin: 0; font-size: 14px; color: #6b7280; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; line-height: 1.5;">
+                        <%= @generated_at.strftime('%B %d, %Y') %>
+                      </p>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+
+            <!-- Greeting -->
+            <tr>
+              <td style="padding: 24px 40px 0 40px;" class="content-padding">
+                <p style="margin: 0; font-size: 15px; color: #374151; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; line-height: 1.7;">
+                  Hi <%= @user.first_name.presence || 'there' %>,
+                </p>
+                <p style="margin: 16px 0 0 0; font-size: 15px; color: #374151; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; line-height: 1.7;">
+                  We've analyzed latest customer feedback for <%= @business.name %> and identified key insights that need your attention.
+                </p>
+              </td>
+            </tr>
+
+            <!-- Stats Summary -->
+            <tr>
+              <td style="padding: 24px 40px;" class="content-padding">
+                <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
+                  <tr>
+                    <td width="48%" style="padding: 20px; background-color: #fef2f2; border-radius: 12px; text-align: center;">
+                      <p style="margin: 0; font-size: 32px; font-weight: 700; color: #dc2626; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">
+                        <%= @complaints.size %>
+                      </p>
+                      <p style="margin: 4px 0 0 0; font-size: 13px; font-weight: 500; color: #991b1b; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; text-transform: uppercase; letter-spacing: 0.5px;">
+                        Complaint<%= 's' if @complaints.size != 1 %>
+                      </p>
+                    </td>
+                    <td width="4%"></td>
+                    <td width="48%" style="padding: 20px; background-color: #f5f3ff; border-radius: 12px; text-align: center;">
+                      <p style="margin: 0; font-size: 32px; font-weight: 700; color: #7c3aed; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">
+                        <%= @suggestions.size %>
+                      </p>
+                      <p style="margin: 4px 0 0 0; font-size: 13px; font-weight: 500; color: #5b21b6; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; text-transform: uppercase; letter-spacing: 0.5px;">
+                        Suggestion<%= 's' if @suggestions.size != 1 %>
+                      </p>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+
+            <% if @complaints.any? %>
+            <!-- Complaints Section -->
+            <tr>
+              <td style="padding: 8px 40px 24px 40px;" class="content-padding">
+                <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
+                  <tr>
+                    <td style="padding-bottom: 16px; border-bottom: 2px solid #fecaca;">
+                      <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
                         <tr>
-                          <td style="padding: 16px;">
+                          <td style="vertical-align: middle;">
+                            <table role="presentation" cellspacing="0" cellpadding="0" border="0">
+                              <tr>
+                                <td style="width: 8px; height: 24px; background-color: #dc2626; border-radius: 4px;"></td>
+                                <td style="padding-left: 12px;">
+                                  <h3 style="margin: 0; font-size: 16px; font-weight: 700; color: #111827; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">
+                                    Customer Complaints
+                                  </h3>
+                                </td>
+                              </tr>
+                            </table>
+                          </td>
+                          <td align="right" style="vertical-align: middle;">
+                            <span style="font-size: 12px; color: #dc2626; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; font-weight: 600;">
+                              Requires Attention
+                            </span>
+                          </td>
+                        </tr>
+                      </table>
+                    </td>
+                  </tr>
+
+                  <% @complaints.each_with_index do |complaint, index| %>
+                  <tr>
+                    <td style="padding-top: 16px;">
+                      <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" class="insight-card" style="background-color: #ffffff; border: 1px solid #fee2e2; border-left: 4px solid #dc2626; border-radius: 8px;">
+                        <tr>
+                          <td style="padding: 16px 18px;">
                             <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
                               <tr>
-                                <td style="vertical-align: top; width: 24px; padding-right: 12px;">
-                                  <div style="width: 24px; height: 24px; background-color: #fef2f2; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
-                                    <!--[if mso]><span style="font-size: 12px; color: #f43f5e;">!</span><![endif]-->
-                                    <!--[if !mso]><!-->
-                                    <svg style="width: 14px; height: 14px; color: #f43f5e;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7.5 8.25h9m-9 3H12m-9.75 1.51c0 1.6 1.123 2.994 2.707 3.227 1.129.166 2.27.293 3.423.379.35.026.67.21.865.501L12 21l2.755-4.133a1.14 1.14 0 0 1 .865-.501 48.172 48.172 0 0 0 3.423-.379c1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0 0 12 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018Z" />
-                                    </svg>
-                                    <!--<![endif]-->
-                                  </div>
-                                </td>
-                                <td style="vertical-align: top;">
-                                  <p style="margin: 0; font-size: 14px; color: #374151; line-height: 1.5;">
-                                    <%= complaint.text %>
-                                    <span style="display: inline-block; padding: 3px 8px; background-color: #fef2f2; border: 1px solid #fecaca; border-radius: 4px; font-size: 11px; font-weight: 500; color: #b91c1c;"> <%= complaint.category.name %> </span>
+                                <td>
+                                  <p style="margin: 0 0 12px 0; font-size: 14px; color: #374151; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; line-height: 1.6;">
+                                    "<%= complaint.text %>"
                                   </p>
-                                  <table role="presentation" cellspacing="0" cellpadding="0" border="0" style="margin-bottom: 6px;">
+                                  <table role="presentation" cellspacing="0" cellpadding="0" border="0">
                                     <tr>
                                       <td>
-                                        <span style="font-size: 12px; color: #9ca3af;">
-                                          from <%= complaint.review.name.presence || 'Anonymous' %>
+                                        <span style="display: inline-block; padding: 4px 10px; background-color: #fef2f2; border: 1px solid #fecaca; border-radius: 6px; font-size: 11px; font-weight: 600; color: #b91c1c; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; text-transform: uppercase; letter-spacing: 0.3px;">
+                                          <%= complaint.category.name %>
+                                        </span>
+                                      </td>
+                                      <td style="padding-left: 12px;">
+                                        <span style="font-size: 12px; color: #9ca3af; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">
+                                          &mdash; <%= complaint.review.name.presence || 'Anonymous Customer' %>
                                         </span>
                                       </td>
                                     </tr>
                                   </table>
-
                                 </td>
                               </tr>
                             </table>
@@ -165,76 +264,69 @@
                       </table>
                     </td>
                   </tr>
-                <% end %>
-              </table>
-            </td>
-          </tr>
-          <% else %>
-          <tr>
-            <td style="padding: 32px;">
-              <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
-              </table>
-            </td>
-          </tr>
+                  <% end %>
+                </table>
+              </td>
+            </tr>
+            <% end %>
 
-          <% end %>
-
-          <% if @suggestions.any? %>
-          <!-- Suggestions Section -->
-          <tr>
-            <td style="padding: 0 32px 32px 32px;">
-              <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
-                <tr>
-                  <td style="padding-bottom: 16px;">
-                    <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
-                      <tr>
-                        <td>
-                          <h2 style="margin: 0; font-size: 16px; font-weight: 600; color: #111827;">
-                            Customer Suggestions
-                          </h2>
-                        </td>
-                        <td align="right">
-                          <span style="display: inline-block; padding: 4px 10px; background-color: #f5f3ff; border: 1px solid #ddd6fe; border-radius: 12px; font-size: 12px; font-weight: 500; color: #7c3aed;">
-                            <%= @suggestions.size %> found
-                          </span>
-                        </td>
-                      </tr>
-                    </table>
-                  </td>
-                </tr>
-
-                <% @suggestions.each_with_index do |suggestion, index| %>
+            <% if @suggestions.any? %>
+            <!-- Suggestions Section -->
+            <tr>
+              <td style="padding: 8px 40px 24px 40px;" class="content-padding">
+                <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
                   <tr>
-                    <td style="padding-bottom: <%= index == @suggestions.size - 1 ? '0' : '12px' %>;">
-                      <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" class="insight-card" style="background-color: #fefefe; border: 1px solid #f3f4f6; border-radius: 8px;">
+                    <td style="padding-bottom: 16px; border-bottom: 2px solid #ddd6fe;">
+                      <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
                         <tr>
-                          <td style="padding: 16px;">
+                          <td style="vertical-align: middle;">
+                            <table role="presentation" cellspacing="0" cellpadding="0" border="0">
+                              <tr>
+                                <td style="width: 8px; height: 24px; background-color: #7c3aed; border-radius: 4px;"></td>
+                                <td style="padding-left: 12px;">
+                                  <h3 style="margin: 0; font-size: 16px; font-weight: 700; color: #111827; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">
+                                    Customer Suggestions
+                                  </h3>
+                                </td>
+                              </tr>
+                            </table>
+                          </td>
+                          <td align="right" style="vertical-align: middle;">
+                            <span style="font-size: 12px; color: #7c3aed; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; font-weight: 600;">
+                              Opportunities
+                            </span>
+                          </td>
+                        </tr>
+                      </table>
+                    </td>
+                  </tr>
+
+                  <% @suggestions.each_with_index do |suggestion, index| %>
+                  <tr>
+                    <td style="padding-top: 16px;">
+                      <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" class="insight-card" style="background-color: #ffffff; border: 1px solid #ede9fe; border-left: 4px solid #7c3aed; border-radius: 8px;">
+                        <tr>
+                          <td style="padding: 16px 18px;">
                             <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
                               <tr>
-                                <td style="vertical-align: top; width: 24px; padding-right: 12px;">
-                                  <div style="width: 24px; height: 24px; background-color: #f5f3ff; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
-                                    <!--[if mso]><span style="font-size: 12px; color: #8b5cf6;">&#9728;</span><![endif]-->
-                                    <!--[if !mso]><!-->
-                                    <svg style="width: 14px; height: 14px; color: #8b5cf6;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
-                                    </svg>
-                                    <!--<![endif]-->
-                                  </div>
-                                </td>
-                                  <td style="vertical-align: top;">
-                                  <p style="margin: 0; font-size: 14px; color: #374151; line-height: 1.5;">
-                                    <%= suggestion.text %>
-                                    <span style="display: inline-block; padding: 3px 8px; background-color: #f5f3ff; border: 1px solid #ddd6fe; border-radius: 4px; font-size: 11px; font-weight: 500; color: #7c3aed;"> <%= suggestion.category.name %> </span>
+                                <td>
+                                  <p style="margin: 0 0 12px 0; font-size: 14px; color: #374151; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; line-height: 1.6;">
+                                    "<%= suggestion.text %>"
                                   </p>
-                                    <table role="presentation" cellspacing="0" cellpadding="0" border="0" style="margin-bottom: 6px;">
-                                      <tr>
-                                        <td>
-                                          <span style="font-size: 12px; color: #9ca3af;">
-                                            from <%= suggestion.review.name.presence || 'Anonymous' %>
-                                          </span>
-                                        </td>
-                                      </tr>
-                                    </table>
+                                  <table role="presentation" cellspacing="0" cellpadding="0" border="0">
+                                    <tr>
+                                      <td>
+                                        <span style="display: inline-block; padding: 4px 10px; background-color: #f5f3ff; border: 1px solid #ddd6fe; border-radius: 6px; font-size: 11px; font-weight: 600; color: #6d28d9; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; text-transform: uppercase; letter-spacing: 0.3px;">
+                                          <%= suggestion.category.name %>
+                                        </span>
+                                      </td>
+                                      <td style="padding-left: 12px;">
+                                        <span style="font-size: 12px; color: #9ca3af; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">
+                                          &mdash; <%= suggestion.review.name.presence || 'Anonymous Customer' %>
+                                        </span>
+                                      </td>
+                                    </tr>
+                                  </table>
                                 </td>
                               </tr>
                             </table>
@@ -243,70 +335,109 @@
                       </table>
                     </td>
                   </tr>
-                <% end %>
-              </table>
-            </td>
-          </tr>
-          <% end %>
+                  <% end %>
+                </table>
+              </td>
+            </tr>
+            <% end %>
 
-          <!-- CTA Section -->
-          <tr>
-            <td style="padding: 0 32px 32px 32px;">
-              <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="background-color: #f9fafb; border-radius: 8px;">
-                <tr>
-                  <td style="padding: 24px; text-align: center;">
-                    <p style="margin: 0 0 16px 0; font-size: 14px; color: #374151; line-height: 1.5;">
-                      View all insights and take action on your dashboard.
-                    </p>
-                    <a href="<%= dashboard_url %>" style="display: inline-block; padding: 12px 24px; background-color: #111827; color: #ffffff; font-size: 14px; font-weight: 500; text-decoration: none; border-radius: 8px;">
-                      Open Dashboard
-                    </a>
-                  </td>
-                </tr>
-              </table>
-            </td>
-          </tr>
+            <!-- CTA Section -->
+            <tr>
+              <td style="padding: 8px 40px 32px 40px;" class="content-padding">
+                <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="background: linear-gradient(135deg, #f9fafb 0%, #f3f4f6 100%); border-radius: 12px; border: 1px solid #e5e7eb;">
+                  <tr>
+                    <td style="padding: 28px 24px; text-align: center;">
+                      <p style="margin: 0 0 6px 0; font-size: 16px; font-weight: 600; color: #111827; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">
+                        Ready to take action?
+                      </p>
+                      <p style="margin: 0 0 20px 0; font-size: 14px; color: #6b7280; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; line-height: 1.5;">
+                        View all insights, track trends, and respond to feedback on your dashboard.
+                      </p>
+                      <!--[if mso]>
+                      <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="<%= dashboard_url %>" style="height:48px;v-text-anchor:middle;width:200px;" arcsize="17%" strokecolor="#111827" fillcolor="#111827">
+                        <w:anchorlock/>
+                        <center style="color:#ffffff;font-family:sans-serif;font-size:14px;font-weight:600;">Open Dashboard</center>
+                      </v:roundrect>
+                      <![endif]-->
+                      <!--[if !mso]><!-->
+                      <a href="<%= dashboard_url %>" class="btn-primary" style="display: inline-block; padding: 14px 32px; background-color: #111827; color: #ffffff; font-size: 14px; font-weight: 600; text-decoration: none; border-radius: 8px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; transition: background-color 0.2s ease;">
+                        Open Dashboard
+                      </a>
+                      <!--<![endif]-->
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
 
-          <!-- Footer -->
-          <tr>
-            <td style="padding: 24px 32px; background-color: #f9fafb; border-top: 1px solid #e5e7eb;">
-              <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
-                <tr>
-                  <td style="text-align: center;">
-                    <p style="margin: 0 0 8px 0; font-size: 13px; color: #6b7280; line-height: 1.5;">
-                      This email was sent by <span style="color: #374151; font-weight: 500;">Tablr</span>
-                    </p>
-                    <p style="margin: 0 0 12px 0; font-size: 12px; color: #9ca3af; line-height: 1.5;">
-                      Automatically extract complaints, uncover suggestions from your reviews.
-                    </p>
-                    <p style="margin: 0; font-size: 12px; color: #9ca3af;">
-                      <a href="<%= dashboard_url %>" style="color: #6b7280; text-decoration: underline;">Dashboard</a>
-                      <span style="color: #d1d5db; padding: 0 8px;">|</span>
-                      <a href="<%= settings_url %>" style="color: #6b7280; text-decoration: underline;">Email Preferences</a>
-                    </p>
-                  </td>
-                </tr>
-              </table>
-            </td>
-          </tr>
+            <!-- Divider -->
+            <tr>
+              <td style="padding: 0 40px;" class="content-padding">
+                <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
+                  <tr>
+                    <td style="border-top: 1px solid #e5e7eb;"></td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
 
-        </table>
-        
-        <!-- Generated timestamp -->
-        <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="600" class="container" style="max-width: 600px;">
-          <tr>
-            <td style="padding: 16px 0; text-align: center;">
-              <p style="margin: 0; font-size: 11px; color: #9ca3af;">
-                Generated on <%= @generated_at.strftime('%B %d, %Y at %I:%M %p') %>
-              </p>
-            </td>
-          </tr>
-        </table>
+            <!-- Footer -->
+            <tr>
+              <td style="padding: 32px 40px; background-color: #f9fafb; border-radius: 0 0 16px 16px;" class="content-padding">
+                <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
+                  <tr>
+                    <td style="text-align: center;">
+                      <p style="margin: 0 0 4px 0; font-size: 16px; font-weight: 700; color: #111827; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">
+                        Tablr
+                      </p>
+                      <p style="margin: 0 0 16px 0; font-size: 12px; color: #6b7280; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; font-style: italic;">
+                        Turn Feedback Into Actionable Insights
+                      </p>
+                      <table role="presentation" cellspacing="0" cellpadding="0" border="0" align="center">
+                        <tr>
+                          <td>
+                            <a href="<%= dashboard_url %>" style="font-size: 13px; color: #6b7280; text-decoration: none; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">Dashboard</a>
+                          </td>
+                          <td style="padding: 0 16px;">
+                            <span style="color: #d1d5db;">|</span>
+                          </td>
+                          <td>
+                            <a href="<%= settings_url %>" style="font-size: 13px; color: #6b7280; text-decoration: none; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">Email Preferences</a>
+                          </td>
+                          <td style="padding: 0 16px;">
+                            <span style="color: #d1d5db;">|</span>
+                          </td>
+                          <td>
+                            <a href="<%= settings_url %>" style="font-size: 13px; color: #6b7280; text-decoration: none; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">Unsubscribe</a>
+                          </td>
+                        </tr>
+                      </table>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
 
-      </td>
-    </tr>
-  </table>
+          </table>
+          
+          <!-- Generated timestamp -->
+          <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="600" class="container" style="max-width: 600px;">
+            <tr>
+              <td style="padding: 20px 0; text-align: center;">
+                <p style="margin: 0; font-size: 11px; color: #9ca3af; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">
+                  This email was sent to <%= @user.email %> on <%= @generated_at.strftime('%B %d, %Y at %I:%M %p %Z') %>
+                </p>
+                <p style="margin: 6px 0 0 0; font-size: 11px; color: #9ca3af; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">
+                  &copy; <%= Date.current.year %> Tablr. All rights reserved.
+                </p>
+              </td>
+            </tr>
+          </table>
 
+        </td>
+      </tr>
+    </table>
+
+  </div>
 </body>
 </html>
-

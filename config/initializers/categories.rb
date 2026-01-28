@@ -10,8 +10,8 @@ RESTAURANT_CATEGORIES = [
   "Beverages",
   "Payment Options",
   "Noise Level",
-  "Takeout/Delivery",
-  "Allergies/Accommodations",
+  "Delivery",
+  "Accommodations",
   "Service",
   "Serving Time",
   "Staff",
@@ -23,7 +23,8 @@ RESTAURANT_CATEGORIES = [
 ].freeze
 
 HOTEL_CATEGORIES = [
-  "Check-In/Check-Out",
+  "Check-In",
+  "Check-Out",
   "Amenities",
   "Ambiance",
   "Cleanliness",
@@ -33,11 +34,13 @@ HOTEL_CATEGORIES = [
   "Pricing",
   "Food and Dining",
   "Parking",
-  "Wi-Fi/Technology",
+  "Wi-Fi",
+  "Technology",
   "Security",
   "Sustainability",
   "Accessibility",
-  "Booking/Reservation",
+  "Booking",
+  "Reservation",
   "Staff",
   "Customer Experience",
   "Health & Safety",
@@ -45,3 +48,16 @@ HOTEL_CATEGORIES = [
   "Feedback Channels",
   "Others"
 ]
+
+OTHERS_CATEGORIES = [
+  "Product",
+  "Service",
+  "Pricing",
+  "Cleanliness",
+  "Location",
+  "Delivery",
+  "Staff",
+  "Billing",
+  "Security",
+  "Others"
+].freeze

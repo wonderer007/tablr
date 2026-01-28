@@ -24,9 +24,12 @@ class RestaurantReportMailer < ApplicationMailer
 
     @generated_at = Time.current
 
+    headers['List-Unsubscribe'] = "<#{settings_url}>"
+    headers['List-Unsubscribe-Post'] = 'List-Unsubscribe=One-Click'
+
     mail(
       to: user.email,
-      subject: "Latest Customer Insights for #{@business.name}"
+      subject: "Customer Insights Available For #{@business.name}"
     )
   end
 
@@ -43,7 +46,7 @@ class RestaurantReportMailer < ApplicationMailer
   def fetch_latest_complaints
     ActsAsTenant.with_tenant(@business) do
       Complain.includes(:category, :review)
-              .order(created_at: :desc)
+              .order(severity: :desc)
               .limit(5)
     end
   end
@@ -51,7 +54,7 @@ class RestaurantReportMailer < ApplicationMailer
   def fetch_latest_suggestions
     ActsAsTenant.with_tenant(@business) do
       Suggestion.includes(:category, :review)
-                .order(created_at: :desc)
+                .order(severity: :desc)
                 .limit(5)
     end
   end

@@ -14,7 +14,7 @@ class Business < ApplicationRecord
   has_many :complains, through: :reviews
   has_many :suggestions, through: :reviews
 
-  enum :type, [:restaurant, :hotel], default: :restaurant
+  enum :type, [:restaurant, :hotel, :others], default: :restaurant
   enum :status, [:created, :syncing_place, :synced_place, :syncing_reviews, :synced_reviews, :failed]
   enum :business_type, {
     google_place: 'google_place',

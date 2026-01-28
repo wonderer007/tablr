@@ -89,7 +89,7 @@ class OnboardingController < ApplicationController
       else
         # Free plan - start syncing reviews immediately
         Apify::SyncBusinessJob.perform_later(business_id: @business.id)
-        redirect_to onboarding_complete_path
+        redirect_to data_processing_path
       end
     else
       render :plan, status: :unprocessable_entity
@@ -98,7 +98,7 @@ class OnboardingController < ApplicationController
 
   # Complete
   def complete
-    @business = current_user.business
+    redirect_to data_processing_path
   end
 
   private
@@ -116,6 +116,6 @@ class OnboardingController < ApplicationController
   end
 
   def business_name_params
-    params.require(:business).permit(:name)
+    params.require(:business).permit(:name, :type)
   end
 end

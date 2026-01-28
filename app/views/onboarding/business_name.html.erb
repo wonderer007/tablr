@@ -61,6 +61,12 @@
                 placeholder: "e.g., Joe's Coffee Shop" %>
           </div>
 
+          <!-- Business Type -->
+          <div>
+            <%= f.label :type, "Business Type", class: "block text-sm font-medium text-slate-700 mb-2" %>
+            <%= f.select :type, Business.types.keys.map { |type| [type.humanize, type] }, {}, class: "block w-full px-4 py-3 border border-slate-200 rounded-xl text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition duration-200" %>
+          </div>
+
           <div>
             <%= f.submit "Continue",
                 class: "w-full flex justify-center items-center gap-2 py-3 px-6 text-base font-semibold text-white bg-gradient-to-r from-indigo-600 to-violet-500 rounded-xl hover:shadow-lg hover:shadow-indigo-500/25 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all duration-300 cursor-pointer" %>

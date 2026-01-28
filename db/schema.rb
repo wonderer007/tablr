@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2026_01_27_103333) do
+ActiveRecord::Schema[7.2].define(version: 2026_01_27_222211) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
   enable_extension "plpgsql"
@@ -69,6 +69,7 @@ ActiveRecord::Schema[7.2].define(version: 2026_01_27_103333) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "business_id", default: 1, null: false
+    t.integer "severity"
     t.index ["business_id"], name: "index_complains_on_business_id"
     t.index ["category_id"], name: "index_complains_on_category_id"
     t.index ["review_id"], name: "index_complains_on_review_id"
@@ -216,6 +217,7 @@ ActiveRecord::Schema[7.2].define(version: 2026_01_27_103333) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "business_id", default: 1, null: false
+    t.integer "severity"
     t.index ["business_id"], name: "index_suggestions_on_business_id"
     t.index ["category_id"], name: "index_suggestions_on_category_id"
     t.index ["review_id"], name: "index_suggestions_on_review_id"

@@ -3,11 +3,11 @@ class RestaurantReportMailerPreview < ActionMailer::Preview
   business = Business.first
   ActsAsTenant.current_tenant = business
 
-  user = busine.users.first
+  user = business.users.first
 
     RestaurantReportMailer.periodic_report(
       user,
-      busine,
+      business,
       Date.today - 1.year,
       Date.today,
       'weekly'

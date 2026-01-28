@@ -34,13 +34,12 @@
       <% else %>
         <!-- Processing State -->
         <div class="text-center mb-8">
-        </div>
           <h1 class="font-display text-3xl sm:text-4xl font-bold text-slate-900 tracking-tight mb-4">
-          Setting Up Your Dashboard
+            Setting Up Your Dashboard
           </h1>
           <p class="text-slate-600 text-lg">
-          <% case @business.status.to_sym %>
-          <% when :created, :syncing_place %>
+            <% case @business.status.to_sym %>
+            <% when :created, :syncing_place %>
               Gathering information about your business...
             <% when :synced_place, :syncing_reviews %>
               Collecting your customer reviews...

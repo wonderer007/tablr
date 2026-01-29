@@ -1,5 +1,4 @@
 require 'openai'
-require 'tiktoken_ruby'
 
 class Ai::ReviewInference < ApplicationService
   attr_reader :business_id, :review_ids
@@ -15,11 +14,6 @@ class Ai::ReviewInference < ApplicationService
     return if reviews.empty?
 
     parsed_response = inference_response
-    # Validate response count matches input count
-    if parsed_response.size != reviews.size
-      Rails.logger.error("[ReviewInference] Mismatch: expected #{reviews.size} responses, got #{parsed_response.size}")
-      raise "AI returned #{parsed_response.size} responses for #{reviews.size} reviews"
-    end
 
     parsed_response.each_with_index do |inference, index|
       review = business.reviews.find(inference['review_id'])
@@ -60,25 +54,39 @@ class Ai::ReviewInference < ApplicationService
         messages: [
           {
             role: "system",
-            content: "You are an expert at analyzing customer reviews. Your task is to extract complaints and suggestions from a batch of reviews for any type of business and return structured JSON output for each review, in the same order and same number of reviews as the input (#{reviews.size})."
+            content: "You are an expert at analyzing customer reviews for a #{business_type}. Extract complaints and suggestions from reviews and return structured JSON output."
           },
           {
             role: "user",
             content: <<~PROMPT
-              ### INSTRUCTIONS:
-              1. For each review, extract complaints and suggestions grouped by relevant category
-              2. Infer categories from the review content (e.g., #{categories.join(',')})
-              3. For each complaint and suggestion, assign a severity score between 1 and 10. 1 is the lowest severity and 10 is the highest severity
-              4. Complaints and suggestions MUST be arrays of plain strings (human-readable text) for each category key
-              5. If a review has no complaints or suggestions, return empty objects for those fields
-              6. IMPORTANT: You MUST return EXACTLY #{reviews.size} objects in the array, one for each numbered review below. Do not split or merge reviews
-              7. Use lowercase category names.
+              Analyze the following #{reviews.size} reviews and extract complaints and suggestions from each one.
 
-              ### INPUT (#{reviews.size} reviews):
+              ## TASK
+              For each review:
+              1. Extract all COMPLAINTS (negative feedback, issues, problems mentioned)
+              2. Extract all SUGGESTIONS (recommendations, improvements, wishes mentioned)
+              3. Assign each complaint/suggestion to a CATEGORY
+              4. Assign a SEVERITY score (1-10) based on impact: 1 = minor, 10 = critical
+
+              ## CATEGORIES
+              Prefer these categories when applicable: #{categories.join(', ')}
+              If a complaint/suggestion doesn't fit these categories, create a descriptive category name.
+
+              ## REVIEWS
               #{numbered_reviews}
 
-              ### OUTPUT FORMAT (JSON array with EXACTLY #{reviews.size} objects):
+              ## OUTPUT REQUIREMENTS
+              - Return a JSON array with EXACTLY #{reviews.size} objects (one for each input review)
+              - CRITICAL: Include the exact "review_id" from the input (the number after "Review ID:")
+              - Group complaints under "complains" by category
+              - Group suggestions under "suggestions" by category
+              - Each item must have "text" and "severity" (1-10)
+              - if a review has no complains or suggestions then don't include it in the output and only return the review_id in object
+
+              ## EXAMPLE OUTPUT FORMAT
               #{output_sample.to_json}
+
+              Return ONLY the JSON array, no additional text.
             PROMPT
           }
         ]
@@ -119,16 +127,29 @@ class Ai::ReviewInference < ApplicationService
   def output_sample
     [
       {
-        "review_id": 1,
+        "review_id": 123,
         "complains": {
-          "service": [{"text": "service was slow", "severity": 5}],
-          "cleanliness": [{"text": "place was not very clean", "severity": 3}]
+          "service": [
+            { "text": "waited 30 minutes for our order", "severity": 6 }
+          ],
+          "cleanliness": [
+            { "text": "tables were sticky", "severity": 4 }
+          ]
         },
         "suggestions": {
-          "reservation": [{"text": "booking a table in advance", "severity": 7}]
+          "service": [
+            { "text": "hire more staff during peak hours", "severity": 5 }
+          ]
         }
+      },
+      {
+        "review_id": 124
       }
     ]
+  end
+
+  def business_type
+    @business_type ||= business.type.to_sym == :restaurant ? 'restaurant' : business.type.to_sym == :hotel ? 'hotel' : 'business'
   end
 
   def inference_response
@@ -137,34 +158,11 @@ class Ai::ReviewInference < ApplicationService
     JSON.parse(cleaned_output)
   end
 
-  def encoder
-    @encoder ||= Tiktoken.encoding_for_model(model)
-  end
-
   def input_token_count
-    system_message = "You are an expert at analyzing customer reviews. Your task is to extract complaints and suggestions from a batch of reviews for any type of business and return structured JSON output for each review, in the same order and same number of reviews as the input (#{reviews.size})."
-    user_message = <<~PROMPT
-      ### INSTRUCTIONS:
-      1. For each review, extract complaints and suggestions grouped by relevant category
-      2. Infer categories from the review content (e.g., #{categories.join(',')})
-      3. For each complaint and suggestion, assign a severity score between 1 and 10. 1 is the lowest severity and 10 is the highest severity
-      4. Complaints and suggestions MUST be arrays of plain strings (human-readable text) for each category key
-      5. If a review has no complaints or suggestions, return empty objects for those fields
-      6. IMPORTANT: You MUST return EXACTLY #{reviews.size} objects in the array, one for each numbered review below. Do not split or merge reviews
-      7. Use lowercase category names.
-
-      ### INPUT (#{reviews.size} reviews):
-      #{numbered_reviews}
-
-      ### OUTPUT FORMAT (JSON array with EXACTLY #{reviews.size} objects):
-      #{output_sample.to_json}
-    PROMPT
-
-    encoder.encode(system_message).length + encoder.encode(user_message).length
+    response.dig('usage', 'prompt_tokens') || 0
   end
 
   def output_token_count
-    output_text = response.dig('choices', 0, 'message', 'content') || ''
-    encoder.encode(output_text).length
+    response.dig('usage', 'completion_tokens') || 0
   end
 end

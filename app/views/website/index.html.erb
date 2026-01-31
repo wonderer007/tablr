@@ -56,7 +56,10 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
                             </svg>
                         <% end %>
-                        <a href="#features" class="inline-flex items-center justify-center gap-2 px-6 py-3 sm:px-8 sm:py-4 text-base sm:text-lg font-semibold text-slate-700 bg-white border-2 border-slate-200 rounded-xl hover:border-indigo-300 hover:bg-indigo-50/50 transition-all duration-300">
+                        <a href="#demo-video" class="inline-flex items-center justify-center gap-2 px-6 py-3 sm:px-8 sm:py-4 text-base sm:text-lg font-semibold text-slate-700 bg-white border-2 border-slate-200 rounded-xl hover:border-indigo-300 hover:bg-indigo-50/50 transition-all duration-300">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M8 5v14l11-7z"/>
+                            </svg>
                             See How It Works
                         </a>
                     <% end %>
@@ -123,6 +126,59 @@
             </div>
         </div>
         
+    </div>
+</section>
+
+<!-- Demo Video Section -->
+<section id="demo-video" class="py-20 bg-gradient-to-b from-slate-50 to-white relative overflow-hidden scroll-mt-20">
+    <div class="absolute top-0 left-1/4 w-72 h-72 bg-indigo-400/10 rounded-full blur-3xl"></div>
+    <div class="absolute bottom-0 right-1/4 w-72 h-72 bg-violet-400/10 rounded-full blur-3xl"></div>
+    
+    <div class="relative max-w-5xl mx-auto px-6 lg:px-8">
+        <div class="text-center mb-12">
+            <span class="inline-block px-4 py-2 rounded-full bg-indigo-50 text-indigo-700 text-sm font-semibold mb-6 animate-on-scroll animate-fade-up">
+                See It In Action
+            </span>
+            <h2 class="font-display text-3xl lg:text-4xl font-bold text-slate-900 mb-4 animate-on-scroll animate-fade-up stagger-1">
+                Watch How Tablr Works
+            </h2>
+            <p class="text-lg text-slate-600 max-w-2xl mx-auto animate-on-scroll animate-fade-up stagger-2">
+                See how easy it is to transform your customer feedback into actionable insights in just minutes.
+            </p>
+        </div>
+        
+        <div class="relative animate-on-scroll animate-fade-up stagger-3">
+            <!-- Video Container with Decorative Elements -->
+            <div class="absolute -inset-4 bg-gradient-to-r from-indigo-500 to-violet-500 rounded-3xl blur-xl opacity-20"></div>
+            <div class="relative bg-slate-900 rounded-2xl overflow-hidden shadow-2xl shadow-slate-900/20">
+                <!-- YouTube Embed -->
+                <div class="aspect-video">
+                    <iframe 
+                        class="w-full h-full"
+                        src="https://www.youtube.com/embed/rqkEpQquklc?rel=0&modestbranding=1" 
+                        title="Tablr Demo Video"
+                        frameborder="0" 
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                        allowfullscreen>
+                    </iframe>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Optional CTA below video -->
+        <div class="text-center mt-10 animate-on-scroll animate-fade-up stagger-4">
+            <p class="text-slate-600 mb-4">Ready to get started?</p>
+            <% if user_signed_in? %>
+                <%= link_to "Go to Dashboard", dashboard_path, class: "inline-flex items-center justify-center gap-2 px-6 py-3 text-base font-semibold text-white bg-gradient-to-r from-indigo-600 to-violet-500 rounded-xl hover:shadow-lg hover:shadow-indigo-500/25 transition-all duration-300" %>
+            <% else %>
+                <%= link_to new_user_registration_path, class: "inline-flex items-center justify-center gap-2 px-6 py-3 text-base font-semibold text-white bg-gradient-to-r from-indigo-600 to-violet-500 rounded-xl hover:shadow-lg hover:shadow-indigo-500/25 transition-all duration-300" do %>
+                    Start Free Trial
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                    </svg>
+                <% end %>
+            <% end %>
+        </div>
     </div>
 </section>
 

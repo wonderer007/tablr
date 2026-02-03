@@ -21,6 +21,7 @@ class RestaurantReportMailer < ApplicationMailer
     @suggestions = fetch_latest_suggestions
 
     return if @complaints.empty? && @suggestions.empty?
+    return if user.email.start_with?('inmail@')
 
     @generated_at = Time.current
 

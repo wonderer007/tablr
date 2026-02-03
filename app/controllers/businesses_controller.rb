@@ -1,53 +1,88 @@
 class BusinessesController < ApplicationController
   layout 'landing'
 
-  include AnalyticsHelper
-
   def report
     @business = Business.find_by(place_actor_run_id: params[:id])
 
-    redirect_to root_path unless @business.test? 
-
     ActsAsTenant.with_tenant(@business) do
       @reviews = @business.reviews.where(processed: true)
-                               .includes(:keywords, :complains, :suggestions)
 
+      # Summary stats
       @total_reviews = @reviews.count
-      @average_rating = (@reviews.average(:stars)&.round(1) || 0.0)
+      @total_complaints = Complain.where(review_id: @reviews.select(:id)).count
+      @total_suggestions = Suggestion.where(review_id: @reviews.select(:id)).count
 
-      sentiment_counts = @reviews.group(:sentiment).count
-      @sentiment_stats = build_sentiment_stats(sentiment_counts)
+      # Top 5 complaint categories
+      @top_complaint_categories = Complain.where(review_id: @reviews.select(:id))
+                                          .joins(:category)
+                                          .group('categories.name')
+                                          .order('count_all DESC')
+                                          .limit(5)
+                                          .count
 
-      @rating_breakdown = {
-        overall: @average_rating,
-        food: average_of(@reviews, :food_rating),
-        service: average_of(@reviews, :service_rating),
-        atmosphere: average_of(@reviews, :atmosphere_rating)
-      }
+      # Top 5 suggestion categories
+      @top_suggestion_categories = Suggestion.where(review_id: @reviews.select(:id))
+                                             .joins(:category)
+                                             .group('categories.name')
+                                             .order('count_all DESC')
+                                             .limit(5)
+                                             .count
 
-      star_counts = @reviews.group(:stars).count
-      @star_distribution = (1..5).map do |stars|
-        { stars:, count: star_counts[stars] || 0 }
-      end.reverse
+      # Top 10 complaints, sorted by severity descending, diversified by category
+      @top_complaints = top_items_by_category(
+        Complain.where(review_id: @reviews.select(:id)),
+        10
+      ).sort_by { |item| item[:severity] }.reverse
 
-      complaints_scope = Complain.where(review_id: @reviews.select(:id))
-      suggestions_scope = Suggestion.where(review_id: @reviews.select(:id))
-      keyword_scope = Keyword.where(review_id: @reviews.select(:id))
+      # Top 10 suggestions, sorted by severity descending, diversified by category
+      @top_suggestions = top_items_by_category(
+        Suggestion.where(review_id: @reviews.select(:id)),
+        10
+      ).sort_by { |item| item[:severity] }.reverse
 
-      @complaint_summary = build_feedback_summary(complaints_scope)
-      @suggestion_summary = build_feedback_summary(suggestions_scope)
-      @opportunity_count = @complaint_summary[:total] + @suggestion_summary[:total]
-
-      @top_positive_keywords = top_keywords(keyword_scope.where(sentiment: :positive))
-      @top_negative_keywords = top_keywords(keyword_scope.where(sentiment: :negative))
-      @top_dishes = top_keywords(keyword_scope.where(is_dish: true, sentiment: :positive), 4)
-      @keywords_by_category = keywords_by_category(keyword_scope)
       @report_generated_at = Time.current
     end
   end
 
   private
 
+  # Selects top items distributed across categories to avoid picking all from one category
+  def top_items_by_category(scope, limit)
+    # Group items by category and sort each group by severity descending
+    items_by_category = scope.includes(:category)
+                             .order(severity: :desc)
+                             .group_by(&:category_id)
 
+    return [] if items_by_category.empty?
+
+    result = []
+    category_indices = items_by_category.transform_values { 0 }
+
+    # Round-robin selection from each category
+    while result.size < limit
+      added_any = false
+
+      items_by_category.each do |category_id, items|
+        break if result.size >= limit
+
+        index = category_indices[category_id]
+        if index < items.size
+          result << items[index]
+          category_indices[category_id] += 1
+          added_any = true
+        end
+      end
+
+      break unless added_any
+    end
+
+    result.map do |item|
+      {
+        text: item.text,
+        severity: item.severity,
+        category: item.category&.name
+      }
+    end
+  end
 end
 

@@ -1,401 +1,365 @@
-<% content_for :title, "#{@business.name} Restaurant Review Insights Report | Tablr.io" %>
-<% content_for :description, "Sentiment trends, guest highlights, and action-ready opportunities for #{@business.name} powered by Tablr.io." %>
+<% content_for :title, "#{@business.name} - Customer Feedback Analysis | Tablr.io" %>
+<% content_for :description, "Comprehensive complaints and suggestions analysis for #{@business.name} powered by Tablr.io." %>
 
 <%
 address = @business.address.presence
-positive_percentage = @sentiment_stats[:positive_percentage]
-neutral_percentage = @sentiment_stats[:neutral_percentage]
-negative_percentage = @sentiment_stats[:negative_percentage]
-positive_total = @sentiment_stats[:positive]
-neutral_total = @sentiment_stats[:neutral]
-negative_total = @sentiment_stats[:negative]
-
-positive_keywords = Array(@top_positive_keywords)
-negative_keywords = Array(@top_negative_keywords)
-dish_keywords = Array(@top_dishes)
-keyword_categories = Array(@keywords_by_category)
-
 share_url = request.original_url
 share_url_js = j(share_url)
 
-sentiment_blurb =
-  if positive_percentage.to_f >= 75 && negative_percentage.to_f <= 10
-    "Guests are delighted overall—keep reinforcing the moments they already love while smoothing over small friction points."
-  elsif negative_percentage.to_f >= 20
-    "Guests see promise, but recurring frustrations are slowing momentum—prioritize the fixes below to protect loyalty."
-  else
-    "Guests respond positively overall, with clear opportunities to tighten consistency and exceed expectations."
-  end
+complaint_categories = @top_complaint_categories.to_a
+suggestion_categories = @top_suggestion_categories.to_a
 
-positive_theme_words = positive_keywords.first(3).map { |keyword| keyword[:name].to_s.titleize }.reject(&:blank?)
-positive_theme_sentence =
-  if positive_theme_words.any?
-    "Guests mention #{positive_theme_words.to_sentence(two_words_connector: ' and ', last_word_connector: ', and ')} most often."
-  else
-    "Guests frequently call out the warm hospitality and overall vibe."
-  end
-
-opportunity_theme_words = negative_keywords.first(3).map { |keyword| keyword[:name].to_s.titleize }.reject(&:blank?)
-opportunity_theme_sentence =
-  if opportunity_theme_words.any?
-    "Watch recurring mentions of #{opportunity_theme_words.to_sentence(two_words_connector: ' and ', last_word_connector: ', and ')}."
-  else
-    "Keep monitoring reviews for emerging friction points—recent feedback looks steady."
-  end
-
-food_mentions = (dish_keywords.presence || positive_keywords).first(2).to_a.map { |keyword| keyword[:name].to_s.titleize }.reject(&:blank?)
-service_mentions = negative_keywords.first(2).map { |keyword| keyword[:name].to_s.titleize }.reject(&:blank?)
-
-ambiance_category = keyword_categories.find { |category| category[:name].to_s.parameterize == 'ambiance' }
-ambiance_keywords = Array(ambiance_category&.dig(:positives)).first(2).map { |keyword| keyword[:name].to_s.titleize }.reject(&:blank?)
-
-experience_cards = [
-  {
-    title: 'Overall Experience',
-    score: @rating_breakdown[:overall],
-    description: positive_theme_sentence
-  },
-  {
-    title: 'Food',
-    score: @rating_breakdown[:food],
-    description: food_mentions.any? ? "Food stands out for #{food_mentions.to_sentence(two_words_connector: ' and ', last_word_connector: ', and ')}." : 'Showcase signature dishes to keep guests talking.'
-  },
-  {
-    title: 'Service',
-    score: @rating_breakdown[:service],
-    description: service_mentions.any? ? "Guests need smoother moments around #{service_mentions.to_sentence(two_words_connector: ' and ', last_word_connector: ', and ')}." : 'Deliver proactive table touches to stay ahead of guest expectations.'
-  },
-  {
-    title: 'Ambiance',
-    score: @rating_breakdown[:atmosphere],
-    description: ambiance_keywords.any? ? "People love the #{ambiance_keywords.to_sentence(two_words_connector: ' and ', last_word_connector: ', and ')} vibe." : 'Lean into lighting, music, and pacing to keep energy high.'
-  },
-  {
-    title: 'Cleanliness',
-    score: nil,
-    description: 'Unlock full Tablr access to benchmark cleanliness perceptions across every review.'
-  },
-  {
-    title: 'Value for Money',
-    score: nil,
-    description: 'Upgrade to see how guests rate price-to-experience versus competitors.'
-  }
-]
-
-complaint_categories = Array(@complaint_summary[:categories]).first(4)
-suggestion_categories = Array(@suggestion_summary[:categories]).first(4)
-complaint_topics = Array(@complaint_summary[:top]).first(4)
-suggestion_topics = Array(@suggestion_summary[:top]).first(4)
-
-def improvement_prompt(topic)
-  return 'Use pre-shift briefs to align the team on this focus area.' if topic.blank?
-
-  case topic.to_s.downcase
-  when /service/, /staff/, /wait/, /speed/
-    'Coach the floor team on greeting speed and table check-ins this week.'
-  when /food/, /dish/, /meal/, /quality/
-    'Review prep standards with BOH and spotlight the winning dishes at line-up.'
-  when /clean/, /bathroom/, /hygiene/
-    'Tighten cleaning walkthroughs during peak hours and log results.'
-  when /price/, /value/, /expensive/
-    'Revisit menu positioning and pair high-value items with upsell scripts.'
-  else
-    'Assign an owner to investigate and report back with a quick win by Friday.'
-  end
-end
+# Calculate percentages for visual bars
+max_complaint_count = complaint_categories.map { |_, count| count }.max || 1
+max_suggestion_count = suggestion_categories.map { |_, count| count }.max || 1
 %>
 
-<main class="bg-slate-50 text-slate-900">
-  <section class="relative overflow-hidden">
-    <div class="absolute inset-0">
-      <div class="absolute inset-0 bg-gradient-to-br from-white via-sky-50 to-indigo-100"></div>
-      <div class="absolute -top-24 -right-32 h-80 w-80 rounded-full bg-indigo-300/30 blur-3xl"></div>
-      <div class="absolute -bottom-24 -left-24 h-64 w-64 rounded-full bg-sky-200/40 blur-3xl"></div>
-    </div>
-
-    <div class="relative mx-auto max-w-5xl px-6 pb-20 pt-20 text-slate-900">
-      <p class="text-xs font-semibold uppercase tracking-[0.35em] text-indigo-400">Tablr.io Restaurant Review Insights Report</p>
-      <h1 class="mt-4 text-4xl font-semibold leading-tight sm:text-5xl">
-        <%= @business.name %>
-      </h1>
-      <% if address.present? %>
-        <p class="mt-2 text-sm text-slate-500"><%= address %></p>
-      <% end %>
-      <p class="mt-6 max-w-3xl text-lg text-slate-600">
-        Tablr.io analyzed 100 recent public Google reviews to map how guests feel about your restaurant right now. Below is a curated snapshot of the wins to amplify and the fixes to tackle next.
-      </p>
-
-      <div class="mt-8 flex flex-wrap items-center gap-4 text-sm text-slate-600">
-        <div class="flex items-center gap-2 rounded-full bg-white px-4 py-2 shadow-sm shadow-indigo-100">
-          <span class="text-indigo-500 font-semibold"><%= number_with_delimiter(@total_reviews) %></span>
-          <span>reviews analyzed</span>
-        </div>
-        <div class="flex items-center gap-2 rounded-full bg-white px-4 py-2 shadow-sm shadow-indigo-100">
-          <span class="text-indigo-500 font-semibold"><%= number_with_precision(@average_rating, precision: 1) %></span>
-          <span>average rating</span>
-        </div>
-        <span class="text-xs uppercase tracking-wide text-slate-400">Updated <%= @report_generated_at.strftime('%b %d, %Y %l:%M %p %Z') %></span>
+<main class="min-h-screen bg-gradient-to-b from-slate-50 to-slate-100 print:bg-white">
+  <!-- Navigation Bar -->
+  <nav class="sticky top-0 z-50 border-b border-slate-200 bg-white/80 backdrop-blur-lg print:hidden">
+    <div class="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
+      <div class="flex items-center gap-3">
+        <a href="/" class="flex h-9 w-9 items-center justify-center rounded-lg bg-indigo-600 hover:bg-indigo-700 transition-all duration-300">
+          <span class="text-lg font-bold text-white">T</span>
+        </a>
+        <span class="text-lg font-semibold text-slate-900">Tablr.io</span>
       </div>
-    </div>
-  </section>
-
-  <section class="mx-auto mt-12 max-w-5xl px-6">
-    <div class="rounded-3xl bg-white p-8 shadow-xl shadow-slate-200/70">
-      <div class="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
-        <div>
-          <h2 class="text-xl font-semibold text-slate-900">Sentiment Snapshot</h2>
-          <p class="mt-2 text-sm text-slate-500">Overall guest sentiment sits at <span class="font-semibold text-slate-900"><%= number_to_percentage(positive_percentage, precision: 1) %> positive</span>, <span class="font-semibold text-slate-900"><%= number_to_percentage(neutral_percentage, precision: 1) %> neutral</span>, and <span class="font-semibold text-slate-900"><%= number_to_percentage(negative_percentage, precision: 1) %> negative</span>.</p>
-          <p class="mt-4 text-sm text-slate-600"><%= sentiment_blurb %></p>
-        </div>
-        <div class="grid gap-3 sm:grid-cols-3">
-          <div class="rounded-2xl border border-emerald-100 bg-emerald-50 p-4 text-center">
-            <p class="text-xs font-semibold uppercase tracking-wide text-emerald-500">Positive</p>
-            <p class="mt-2 text-2xl font-semibold text-emerald-600"><%= number_with_delimiter(positive_total) %></p>
-            <p class="text-xs text-emerald-500/80"><%= positive_total == 1 ? 'Positive review' : 'Positive reviews' %></p>
-          </div>
-          <div class="rounded-2xl border border-amber-100 bg-amber-50 p-4 text-center">
-            <p class="text-xs font-semibold uppercase tracking-wide text-amber-500">Neutral</p>
-            <p class="mt-2 text-2xl font-semibold text-amber-600"><%= number_with_delimiter(neutral_total) %></p>
-            <p class="text-xs text-amber-500/80"><%= neutral_total == 1 ? 'Neutral review' : 'Neutral reviews' %></p>
-      </div>
-          <div class="rounded-2xl border border-rose-100 bg-rose-50 p-4 text-center">
-            <p class="text-xs font-semibold uppercase tracking-wide text-rose-500">Negative</p>
-            <p class="mt-2 text-2xl font-semibold text-rose-600"><%= number_with_delimiter(negative_total) %></p>
-            <p class="text-xs text-rose-500/80"><%= negative_total == 1 ? 'Negative review' : 'Negative reviews' %></p>
-      </div>
-        </div>
-      </div>
-      <p class="mt-6 rounded-2xl bg-slate-50 p-4 text-sm text-slate-600">
-        <span class="font-semibold text-slate-900">Tablr takeaway:</span> <%= opportunity_theme_sentence %>
-      </p>
-    </div>
-  </section>
-
-  <section class="mx-auto mt-12 max-w-5xl px-6">
-      <div class="rounded-3xl bg-white p-8 shadow-xl shadow-slate-200/70">
-      <h2 class="text-xl font-semibold text-slate-900">Experience Scores</h2>
-      <p class="mt-2 text-sm text-slate-500">Each score reflects the latest guest commentary scored on a 5-point scale.</p>
-      <div class="mt-6 grid gap-4 md:grid-cols-2">
-        <% experience_cards.each do |card| %>
-          <div class="flex h-full flex-col justify-between rounded-2xl border border-slate-200 bg-slate-50 p-5">
-            <div>
-              <p class="text-sm font-medium text-slate-600"><%= card[:title] %></p>
-              <div class="mt-3 flex items-baseline gap-2">
-                <% if card[:score].present? %>
-                  <span class="text-3xl font-semibold text-slate-900"><%= number_with_precision(card[:score], precision: 1) %></span>
-                <span class="text-xs uppercase tracking-wide text-slate-500">/5</span>
-                <% else %>
-                  <%= link_to 'Unlock', '/users/sign_up', class: 'text-lg font-semibold text-indigo-500 hover:text-indigo-600' %>
-                <% end %>
-              </div>
-            </div>
-            <p class="mt-4 text-sm text-slate-600"><%= card[:description] %></p>
-            </div>
-          <% end %>
-      </div>
-    </div>
-  </section>
-
-  <section class="mx-auto mt-12 max-w-5xl px-6">
-    <div class="grid gap-10 lg:grid-cols-2">
-      <div class="rounded-3xl bg-emerald-50 p-8 shadow-xl">
-        <h2 class="text-xl font-semibold text-emerald-700">What Guests Love</h2>
-        <p class="mt-2 text-sm text-emerald-600">Lean into these strengths in your marketing, nightly lineups, and team recognition.</p>
-        <% if positive_keywords.present? %>
-          <ul class="mt-6 space-y-3">
-            <% positive_keywords.first(5).each_with_index do |keyword, index| %>
-              <% keyword_name = keyword[:name].to_s %>
-              <li class="rounded-2xl bg-white px-4 py-3 text-sm text-emerald-700 shadow-sm">
-                <div class="flex items-center justify-between">
-                  <% if index < 3 && keyword_name.present? %>
-                    <span class="font-semibold capitalize"><%= keyword_name.titleize %></span>
-                  <% else %>
-                    <%= link_to 'Unlock', '/users/sign_up', class: 'font-semibold text-indigo-500 hover:text-indigo-600' %>
-                  <% end %>
-                <span class="rounded-full bg-emerald-100 px-3 py-1 text-xs font-semibold text-emerald-700"><%= keyword[:count] %> mentions</span>
-                </div>
-                <% if index < 3 && keyword_name.present? %>
-                  <p class="mt-2 text-xs text-emerald-600/80">Your <%= keyword_name.downcase %> is winning hearts—spotlight it in social posts and table touches.</p>
-                <% else %>
-                  <p class="mt-2 text-xs text-emerald-600/80"><%= link_to 'Unlock full access', '/users/sign_up', class: 'text-indigo-500 underline decoration-indigo-200 hover:decoration-indigo-400' %> to surface the exact theme driving these mentions.</p>
-                <% end %>
-              </li>
-            <% end %>
-          </ul>
-        <% else %>
-          <p class="mt-6 text-sm text-emerald-600/70">Once new positive reviews arrive, your top applause-worthy themes will surface here automatically.</p>
+      <div class="flex items-center gap-3">
+        <%= button_tag type: 'button', class: 'inline-flex items-center gap-2 rounded-lg border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-50', onclick: "navigator.clipboard.writeText('#{share_url_js}'); this.querySelector('span').innerText='Copied!'; setTimeout(() => { this.querySelector('span').innerText = 'Share Report'; }, 2000);" do %>
+          <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"></path></svg>
+          <span>Share Report</span>
         <% end %>
-      </div>
-
-      <div class="rounded-3xl bg-rose-50 p-8 shadow-xl">
-        <h2 class="text-xl font-semibold text-rose-700">Opportunities to Fix</h2>
-        <p class="mt-2 text-sm text-rose-600">Resolve these friction points quickly to protect ratings and repeat visits.</p>
-        <% if complaint_topics.present? %>
-          <ul class="mt-6 space-y-3">
-            <% complaint_topics.each_with_index do |item, index| %>
-              <% topic_text = item[:text].to_s %>
-              <li class="rounded-2xl bg-white px-4 py-3 text-sm text-rose-700 shadow-sm">
-                <div class="flex items-center justify-between">
-                  <% if index < 3 && topic_text.present? %>
-                    <span class="font-semibold capitalize"><%= topic_text %></span>
-                  <% else %>
-                    <%= link_to 'Unlock', '/users/sign_up', class: 'font-semibold text-indigo-500 hover:text-indigo-600' %>
-                  <% end %>
-                  <span class="rounded-full bg-rose-100 px-3 py-1 text-xs font-semibold text-rose-700"><%= item[:count] %> mentions</span>
-                </div>
-                <% if index < 3 && topic_text.present? %>
-                  <p class="mt-2 text-xs text-rose-600/80">Several guests brought this up—circle back with the team and close the loop this week.</p>
-                <% else %>
-                  <p class="mt-2 text-xs text-rose-600/80"><%= link_to 'Unlock full Tablr access', '/users/sign_up', class: 'text-indigo-500 underline decoration-indigo-200 hover:decoration-indigo-400' %> to reveal the specific issue guests keep flagging.</p>
-                <% end %>
-              </li>
-            <% end %>
-          </ul>
-        <% else %>
-          <p class="mt-6 text-sm text-rose-600/70">No repeat issues at the moment—stay proactive by checking this section after each review sync.</p>
+        <%= link_to new_demo_request_path, class: 'inline-flex items-center gap-2 rounded-lg bg-indigo-600 px-4 py-2 text-sm font-medium text-white transition hover:bg-indigo-700', data: { turbo: false } do %>
+          Get Full Access
+          <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path></svg>
         <% end %>
       </div>
     </div>
-  </section>
+  </nav>
 
-  <section class="mx-auto mt-12 max-w-5xl px-6">
-    <div class="rounded-3xl bg-white p-8 shadow-xl shadow-slate-200/70">
-      <h2 class="text-xl font-semibold text-slate-900">Complaints & Suggestions</h2>
-      <p class="mt-2 text-sm text-slate-500">Translate guest critiques into clear action items for the next service window.</p>
-      <div class="mt-8 grid gap-8 md:grid-cols-2">
-        <div>
-          <h3 class="text-xs font-semibold uppercase tracking-wide text-rose-500">Complaint Topics</h3>
-          <% if complaint_categories.present? %>
-            <ul class="mt-4 space-y-3">
-              <% complaint_categories.each_with_index do |(topic, count), index| %>
-                <li class="rounded-2xl border border-rose-100 bg-rose-50 px-4 py-4 text-sm text-rose-700 shadow-sm">
-                  <div class="flex items-center justify-between">
-                    <% if index < 3 && topic.present? %>
-                      <span class="font-semibold"><%= topic.to_s.titleize %></span>
-                    <% else %>
-                      <%= link_to 'Unlock', '/users/sign_up', class: 'font-semibold text-indigo-500 hover:text-indigo-600' %>
-                    <% end %>
-                    <span class="rounded-full bg-white px-3 py-1 text-xs font-semibold text-rose-600"><%= count %> mentions</span>
-                  </div>
-                  <% if index < 3 && topic.present? %>
-                    <p class="mt-2 text-xs text-rose-600/80"><%= improvement_prompt(topic) %></p>
-                  <% else %>
-                    <p class="mt-2 text-xs text-rose-600/80"><%= link_to 'Unlock full Tablr access', '/users/sign_up', class: 'text-indigo-500 underline decoration-indigo-200 hover:decoration-indigo-400' %> to reveal the exact issue fueling these mentions.</p>
-                  <% end %>
-                </li>
-              <% end %>
-            </ul>
-          <% else %>
-            <p class="mt-4 text-sm text-slate-500">No complaint clusters detected—keep celebrating the wins above.</p>
-          <% end %>
-        </div>
-
-        <div>
-          <h3 class="text-xs font-semibold uppercase tracking-wide text-amber-500">Guest Suggestions</h3>
-          <% if suggestion_topics.present? %>
-            <ul class="mt-4 space-y-3">
-              <% suggestion_topics.each_with_index do |item, index| %>
-                <% suggestion_text = item[:text].to_s %>
-                <li class="rounded-2xl border border-amber-100 bg-amber-50 px-4 py-4 text-sm text-amber-700 shadow-sm">
-                  <div class="flex items-center justify-between">
-                    <% if index < 3 && suggestion_text.present? %>
-                      <span class="font-semibold"><%= suggestion_text.capitalize %></span>
-                    <% else %>
-                      <%= link_to 'Unlock', '/users/sign_up', class: 'font-semibold text-indigo-500 hover:text-indigo-600' %>
-                    <% end %>
-                    <span class="rounded-full bg-white px-3 py-1 text-xs font-semibold text-amber-600"><%= item[:count] %> mentions</span>
-                  </div>
-                  <% if index < 3 && suggestion_text.present? %>
-                    <p class="mt-2 text-xs text-amber-600/80">Turn this into a quick win—pilot the idea for a week and track guest reactions.</p>
-                  <% else %>
-                    <p class="mt-2 text-xs text-amber-600/80"><%= link_to 'Unlock the full report', '/users/sign_up', class: 'text-indigo-500 underline decoration-indigo-200 hover:decoration-indigo-400' %> to see the exact suggestion guests are asking for.</p>
-                  <% end %>
-                </li>
-              <% end %>
-            </ul>
-          <% else %>
-            <p class="mt-4 text-sm text-slate-500">Guests haven’t shared specific suggestions yet—invite feedback at the host stand to spark ideas.</p>
-          <% end %>
-        </div>
-      </div>
-
-      <% if keyword_categories.any? %>
-        <div class="mt-10">
-          <h3 class="text-xs font-semibold uppercase tracking-wide text-slate-500">Themes by Category</h3>
-          <div class="mt-4 grid gap-6 lg:grid-cols-2">
-            <% keyword_categories.first(6).each_with_index do |category, index| %>
-              <div class="rounded-2xl border border-slate-200 bg-slate-50 p-5">
-                <div class="flex items-center justify-between">
-                  <% if index < 3 && category[:name].present? %>
-                    <p class="text-base font-semibold text-slate-900"><%= category[:name].to_s.titleize %></p>
-                  <% else %>
-                    <p class="text-base font-semibold text-indigo-500"><%= link_to 'Unlock', '/users/sign_up', class: 'text-indigo-500 hover:text-indigo-600 underline decoration-indigo-200 hover:decoration-indigo-400' %></p>
-                  <% end %>
-                  <span class="rounded-full bg-indigo-100 px-3 py-1 text-xs font-semibold text-indigo-700"><%= category[:total] %> mentions</span>
-                </div>
-                <% if index < 3 %>
-                <% if category[:positives].present? %>
-                    <p class="mt-4 text-xs font-semibold uppercase tracking-wide text-emerald-500">Delighting guests</p>
-                  <div class="mt-2 flex flex-wrap gap-2">
-                      <% category[:positives].first(3).each do |keyword| %>
-                      <span class="rounded-full bg-emerald-100 px-3 py-1 text-xs font-semibold text-emerald-700"><%= keyword[:name] %> (<%= keyword[:count] %>)</span>
-                    <% end %>
-                  </div>
-                <% end %>
-                <% if category[:negatives].present? %>
-                  <p class="mt-4 text-xs font-semibold uppercase tracking-wide text-rose-500">Needs attention</p>
-                  <div class="mt-2 flex flex-wrap gap-2">
-                      <% category[:negatives].first(3).each do |keyword| %>
-                      <span class="rounded-full bg-rose-100 px-3 py-1 text-xs font-semibold text-rose-700"><%= keyword[:name] %> (<%= keyword[:count] %>)</span>
-                    <% end %>
-                  </div>
-                  <% end %>
-                <% else %>
-                  <p class="mt-4 text-xs text-slate-500"><%= link_to 'Unlock full Tablr access', '/users/sign_up', class: 'text-indigo-500 underline decoration-indigo-200 hover:decoration-indigo-400' %> to surface the exact category themes fueling these mentions.</p>
-                <% end %>
-              </div>
-            <% end %>
+  <!-- Report Container -->
+  <div class="mx-auto max-w-6xl px-6 py-12">
+    
+    <!-- Report Header -->
+    <header class="mb-12">
+      <div class="flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between">
+        <div class="max-w-2xl">
+          <div class="mb-4 inline-flex items-center gap-2 rounded-full bg-indigo-50 px-3 py-1 text-xs font-medium text-indigo-700">
+            <svg class="h-3.5 w-3.5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M6 2a2 2 0 00-2 2v12a2 2 0 002 2h8a2 2 0 002-2V7.414A2 2 0 0015.414 6L12 2.586A2 2 0 0010.586 2H6zm2 10a1 1 0 10-2 0v3a1 1 0 102 0v-3zm2-3a1 1 0 011 1v5a1 1 0 11-2 0v-5a1 1 0 011-1zm4-1a1 1 0 10-2 0v7a1 1 0 102 0V8z" clip-rule="evenodd"></path></svg>
+            Customer Feedback Analysis Report
           </div>
-        </div>
-      <% end %>
-
-      <% if dish_keywords.present? %>
-        <div class="mt-10">
-          <h3 class="text-xs font-semibold uppercase tracking-wide text-slate-500">Signature Dishes to Spotlight</h3>
-          <div class="mt-4 flex flex-wrap gap-3">
-            <% dish_keywords.first(6).each_with_index do |dish, index| %>
-              <% dish_name = dish[:name].to_s %>
-              <% if index < 3 && dish_name.present? %>
-                <span class="rounded-full bg-indigo-100 px-4 py-2 text-sm font-semibold text-indigo-700"><%= dish_name %> (<%= dish[:count] %>)</span>
-              <% else %>
-                <%= link_to "Unlock (#{dish[:count]})", '/users/sign_up', class: 'rounded-full border border-indigo-200 bg-white px-4 py-2 text-sm font-semibold text-indigo-400 hover:text-indigo-600 hover:border-indigo-300' %>
-              <% end %>
-            <% end %>
-          </div>
-        </div>
-      <% end %>
-    </div>
-  </section>
-
-  <section class="mx-auto mt-16 max-w-5xl px-6 pb-24">
-    <div class="rounded-3xl bg-gradient-to-br from-indigo-500 via-indigo-400 to-sky-400 p-10 text-white shadow-2xl shadow-indigo-200/60">
-      <div class="grid gap-8 lg:grid-cols-2">
-        <div>
-          <h2 class="text-3xl font-semibold">Unlock the Full Tablr Dashboard</h2>
-          <p class="mt-4 text-base text-indigo-50">
-            This is just a snapshot of your restaurant’s online reputation. Unlock the full 100-review analysis — including trend tracking and competitor benchmarks — by signing up on Tablr.io.
+          <h1 class="text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">
+            <%= @business.name %>
+          </h1>
+          <% if address.present? %>
+            <p class="mt-2 flex items-center gap-1.5 text-slate-500">
+              <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+              <%= address %>
+            </p>
+          <% end %>
+          <p class="mt-4 text-slate-600">
+            This report analyzes customer feedback to identify areas for improvement. Use these insights to enhance the dining experience and address customer concerns.
           </p>
-          <p class="mt-4 text-sm text-indigo-50/90">You can also share this report with your team via email or public link to keep everyone focused on the guest experience.</p>
         </div>
-        <div class="flex flex-col justify-between gap-6 rounded-2xl bg-white/15 p-8 backdrop-blur">
-          <p class="text-lg font-medium text-white">Ready to see the live dashboard for <%= @business.name %>?</p>
-          <div class="space-y-3">
-            <%= link_to 'Sign Up on Tablr.io', new_demo_request_path, class: 'block rounded-full bg-white px-5 py-3 text-center text-sm font-semibold uppercase tracking-wide text-indigo-700 shadow-lg shadow-white/30 transition hover:-translate-y-0.5 hover:bg-slate-100', data: { turbo: false } %>
-            <%= button_tag 'Copy Shareable Link', type: 'button', class: 'w-full rounded-full border border-white/60 px-5 py-3 text-center text-sm font-semibold uppercase tracking-wide text-white transition hover:bg-white/10', onclick: "navigator.clipboard.writeText('#{share_url_js}'); this.innerText='Link Copied!'; setTimeout(() => { this.innerText = 'Copy Shareable Link'; }, 2000);" %>
+        <div class="rounded-xl border border-slate-200 bg-white p-5 shadow-sm lg:min-w-[280px]">
+          <p class="text-xs font-medium uppercase tracking-wider text-slate-400">Report Generated</p>
+          <p class="mt-1 text-sm font-medium text-slate-900"><%= @report_generated_at.strftime('%B %d, %Y') %></p>
+          <p class="text-xs text-slate-500"><%= @report_generated_at.strftime('%l:%M %p %Z') %></p>
+          <div class="mt-4 border-t border-slate-100 pt-4">
+            <p class="text-xs font-medium uppercase tracking-wider text-slate-400">Data Source</p>
+            <p class="mt-1 text-sm font-medium text-slate-900">Google Reviews</p>
           </div>
-          <p class="text-xs uppercase tracking-[0.3em] text-indigo-100/70">Tablr.io · Restaurant Intelligence That Sells</p>
         </div>
       </div>
-    </div>
-  </section>
+    </header>
+
+    <!-- Key Metrics -->
+    <section class="mb-12">
+      <div class="grid gap-4 sm:grid-cols-3">
+        <div class="group relative overflow-hidden rounded-2xl border border-slate-200 bg-white p-6 shadow-sm transition hover:shadow-md">
+          <div class="absolute right-0 top-0 -mr-4 -mt-4 h-24 w-24 rounded-full bg-indigo-50 opacity-50"></div>
+          <div class="relative">
+            <div class="flex items-center gap-3">
+              <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-indigo-100">
+                <svg class="h-5 w-5 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+              </div>
+              <p class="text-sm font-medium text-slate-500">Reviews Analyzed</p>
+            </div>
+            <p class="mt-4 text-4xl font-bold text-slate-900"><%= number_with_delimiter(@total_reviews) %></p>
+          </div>
+        </div>
+        
+        <div class="group relative overflow-hidden rounded-2xl border border-slate-200 bg-white p-6 shadow-sm transition hover:shadow-md">
+          <div class="absolute right-0 top-0 -mr-4 -mt-4 h-24 w-24 rounded-full bg-rose-50 opacity-50"></div>
+          <div class="relative">
+            <div class="flex items-center gap-3">
+              <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-rose-100">
+                <svg class="h-5 w-5 text-rose-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+              </div>
+              <p class="text-sm font-medium text-slate-500">Complaints Identified</p>
+            </div>
+            <p class="mt-4 text-4xl font-bold text-rose-600"><%= number_with_delimiter(@total_complaints) %></p>
+          </div>
+        </div>
+        
+        <div class="group relative overflow-hidden rounded-2xl border border-slate-200 bg-white p-6 shadow-sm transition hover:shadow-md">
+          <div class="absolute right-0 top-0 -mr-4 -mt-4 h-24 w-24 rounded-full bg-amber-50 opacity-50"></div>
+          <div class="relative">
+            <div class="flex items-center gap-3">
+              <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-amber-100">
+                <svg class="h-5 w-5 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path></svg>
+              </div>
+              <p class="text-sm font-medium text-slate-500">Suggestions Received</p>
+            </div>
+            <p class="mt-4 text-4xl font-bold text-amber-600"><%= number_with_delimiter(@total_suggestions) %></p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Categories Overview -->
+    <section class="mb-12">
+      <div class="mb-6">
+        <h2 class="text-xl font-semibold text-slate-900">Feedback by Category</h2>
+        <p class="mt-1 text-sm text-slate-500">Distribution of complaints and suggestions across different areas of your business.</p>
+      </div>
+      
+      <div class="grid gap-6 lg:grid-cols-2">
+        <!-- Complaint Categories -->
+        <div class="rounded-2xl border border-slate-200 bg-white shadow-sm">
+          <div class="border-b border-slate-100 px-6 py-4">
+            <div class="flex items-center gap-2">
+              <div class="h-2 w-2 rounded-full bg-rose-500"></div>
+              <h3 class="font-semibold text-slate-900">Complaint Categories</h3>
+            </div>
+          </div>
+          <div class="p-6">
+            <% if complaint_categories.present? %>
+              <div class="space-y-4">
+                <% complaint_categories.each do |(category_name, count)| %>
+                  <% percentage = (count.to_f / max_complaint_count * 100).round %>
+                  <div>
+                    <div class="mb-1.5 flex items-center justify-between">
+                      <span class="text-sm font-medium text-slate-700"><%= category_name.to_s.titleize %></span>
+                      <span class="text-sm font-semibold text-rose-600"><%= count %></span>
+                    </div>
+                    <div class="h-2 overflow-hidden rounded-full bg-slate-100">
+                      <div class="h-full rounded-full bg-gradient-to-r from-rose-400 to-rose-500 transition-all duration-500" style="width: <%= percentage %>%"></div>
+                    </div>
+                  </div>
+                <% end %>
+              </div>
+            <% else %>
+              <div class="flex items-center justify-center py-8 text-center">
+                <div>
+                  <div class="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-slate-100">
+                    <svg class="h-6 w-6 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                  </div>
+                  <p class="text-sm text-slate-500">No complaints recorded</p>
+                </div>
+              </div>
+            <% end %>
+          </div>
+        </div>
+
+        <!-- Suggestion Categories -->
+        <div class="rounded-2xl border border-slate-200 bg-white shadow-sm">
+          <div class="border-b border-slate-100 px-6 py-4">
+            <div class="flex items-center gap-2">
+              <div class="h-2 w-2 rounded-full bg-amber-500"></div>
+              <h3 class="font-semibold text-slate-900">Suggestion Categories</h3>
+            </div>
+          </div>
+          <div class="p-6">
+            <% if suggestion_categories.present? %>
+              <div class="space-y-4">
+                <% suggestion_categories.each do |(category_name, count)| %>
+                  <% percentage = (count.to_f / max_suggestion_count * 100).round %>
+                  <div>
+                    <div class="mb-1.5 flex items-center justify-between">
+                      <span class="text-sm font-medium text-slate-700"><%= category_name.to_s.titleize %></span>
+                      <span class="text-sm font-semibold text-amber-600"><%= count %></span>
+                    </div>
+                    <div class="h-2 overflow-hidden rounded-full bg-slate-100">
+                      <div class="h-full rounded-full bg-gradient-to-r from-amber-400 to-amber-500 transition-all duration-500" style="width: <%= percentage %>%"></div>
+                    </div>
+                  </div>
+                <% end %>
+              </div>
+            <% else %>
+              <div class="flex items-center justify-center py-8 text-center">
+                <div>
+                  <div class="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-slate-100">
+                    <svg class="h-6 w-6 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                  </div>
+                  <p class="text-sm text-slate-500">No suggestions recorded</p>
+                </div>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Detailed Complaints -->
+    <section class="mb-12">
+      <div class="rounded-2xl border border-slate-200 bg-white shadow-sm">
+        <div class="border-b border-slate-100 px-6 py-5">
+          <div class="flex items-center justify-between">
+            <div>
+              <h2 class="text-lg font-semibold text-slate-900">Top Complaints</h2>
+              <p class="mt-0.5 text-sm text-slate-500">Prioritized by severity score, diversified across categories</p>
+            </div>
+            <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-rose-100">
+              <svg class="h-5 w-5 text-rose-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+            </div>
+          </div>
+        </div>
+        
+        <% if @top_complaints.present? %>
+          <div class="divide-y divide-slate-100">
+            <% @top_complaints.each_with_index do |complaint, index| %>
+              <div class="flex items-start gap-4 px-6 py-4 transition hover:bg-slate-50">
+                <div class="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-slate-100 text-sm font-semibold text-slate-600">
+                  <%= index + 1 %>
+                </div>
+                <div class="min-w-0 flex-1">
+                  <p class="text-sm text-slate-900"><%= complaint[:text] %></p>
+                  <div class="mt-2 flex flex-wrap items-center gap-2">
+                    <span class="inline-flex items-center rounded-md bg-slate-100 px-2 py-1 text-xs font-medium text-slate-600">
+                      <%= complaint[:category]&.titleize || 'Uncategorized' %>
+                    </span>
+                  </div>
+                </div>
+                <div class="shrink-0">
+                  <div class="flex items-center gap-1.5 rounded-lg bg-rose-50 px-3 py-1.5">
+                    <span class="text-xs font-medium text-rose-600">Severity</span>
+                    <span class="text-sm font-bold text-rose-700"><%= complaint[:severity] || '-' %></span>
+                  </div>
+                </div>
+              </div>
+            <% end %>
+          </div>
+        <% else %>
+          <div class="flex items-center justify-center px-6 py-12 text-center">
+            <div>
+              <div class="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-emerald-100">
+                <svg class="h-7 w-7 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+              </div>
+              <p class="font-medium text-slate-900">No complaints found</p>
+              <p class="mt-1 text-sm text-slate-500">Great news! Your customers seem satisfied.</p>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </section>
+
+    <!-- Detailed Suggestions -->
+    <section class="mb-12">
+      <div class="rounded-2xl border border-slate-200 bg-white shadow-sm">
+        <div class="border-b border-slate-100 px-6 py-5">
+          <div class="flex items-center justify-between">
+            <div>
+              <h2 class="text-lg font-semibold text-slate-900">Top Suggestions</h2>
+              <p class="mt-0.5 text-sm text-slate-500">Prioritized by impact score, diversified across categories</p>
+            </div>
+            <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-amber-100">
+              <svg class="h-5 w-5 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path></svg>
+            </div>
+          </div>
+        </div>
+        
+        <% if @top_suggestions.present? %>
+          <div class="divide-y divide-slate-100">
+            <% @top_suggestions.each_with_index do |suggestion, index| %>
+              <div class="flex items-start gap-4 px-6 py-4 transition hover:bg-slate-50">
+                <div class="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-slate-100 text-sm font-semibold text-slate-600">
+                  <%= index + 1 %>
+                </div>
+                <div class="min-w-0 flex-1">
+                  <p class="text-sm text-slate-900"><%= suggestion[:text] %></p>
+                  <div class="mt-2 flex flex-wrap items-center gap-2">
+                    <span class="inline-flex items-center rounded-md bg-slate-100 px-2 py-1 text-xs font-medium text-slate-600">
+                      <%= suggestion[:category]&.titleize || 'Uncategorized' %>
+                    </span>
+                  </div>
+                </div>
+                <div class="shrink-0">
+                  <div class="flex items-center gap-1.5 rounded-lg bg-amber-50 px-3 py-1.5">
+                    <span class="text-xs font-medium text-amber-600">Impact</span>
+                    <span class="text-sm font-bold text-amber-700"><%= suggestion[:severity] || '-' %></span>
+                  </div>
+                </div>
+              </div>
+            <% end %>
+          </div>
+        <% else %>
+          <div class="flex items-center justify-center px-6 py-12 text-center">
+            <div>
+              <div class="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-slate-100">
+                <svg class="h-7 w-7 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path></svg>
+              </div>
+              <p class="font-medium text-slate-900">No suggestions yet</p>
+              <p class="mt-1 text-sm text-slate-500">Customer suggestions will appear here.</p>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="print:hidden">
+      <div class="relative overflow-hidden rounded-2xl bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 p-8 shadow-xl sm:p-10">
+        <div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNmZmYiIGZpbGwtb3BhY2l0eT0iMC4wMyI+PGNpcmNsZSBjeD0iMzAiIGN5PSIzMCIgcj0iMiIvPjwvZz48L2c+PC9zdmc+')] opacity-50"></div>
+        <div class="absolute -right-20 -top-20 h-64 w-64 rounded-full bg-indigo-500/10 blur-3xl"></div>
+        <div class="absolute -bottom-20 -left-20 h-64 w-64 rounded-full bg-sky-500/10 blur-3xl"></div>
+        
+        <div class="relative grid gap-8 lg:grid-cols-5">
+          <div class="lg:col-span-3">
+            <h2 class="text-2xl font-bold text-white sm:text-3xl">Get the Complete Picture</h2>
+            <p class="mt-4 text-slate-300">
+              This report shows a snapshot of your customer feedback. Unlock the full Tablr dashboard for real-time monitoring, trend analysis, competitor benchmarks, and automated alerts.
+            </p>
+            <ul class="mt-6 space-y-3">
+              <li class="flex items-center gap-3 text-sm text-slate-300">
+                <svg class="h-5 w-5 text-indigo-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+                Real-time review monitoring
+              </li>
+              <li class="flex items-center gap-3 text-sm text-slate-300">
+                <svg class="h-5 w-5 text-indigo-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+                Sentiment trend tracking over time
+              </li>
+              <li class="flex items-center gap-3 text-sm text-slate-300">
+                <svg class="h-5 w-5 text-indigo-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+                Email alerts for critical feedback
+              </li>
+            </ul>
+          </div>
+          <div class="flex flex-col justify-center lg:col-span-2">
+            <div class="rounded-xl bg-white/10 p-6 backdrop-blur">
+              <p class="mb-4 text-center text-sm font-medium text-slate-300">Ready to improve your customer experience?</p>
+              <%= link_to new_demo_request_path, class: 'block w-full rounded-lg bg-white px-5 py-3 text-center text-sm font-semibold text-slate-900 shadow-lg transition hover:bg-slate-100', data: { turbo: false } do %>
+                Request a Demo
+              <% end %>
+              <p class="mt-4 text-center text-xs text-slate-400">No credit card required</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="mt-12 border-t border-slate-200 pt-8 print:mt-8">
+      <div class="flex flex-col items-center justify-between gap-4 sm:flex-row">
+        <div class="flex items-center gap-2 text-sm text-slate-500">
+          <span>Powered by</span>
+          <span class="font-semibold text-slate-700">Tablr.io</span>
+        </div>
+        <p class="text-xs text-slate-400">
+          Report generated on <%= @report_generated_at.strftime('%B %d, %Y at %l:%M %p %Z') %>
+        </p>
+      </div>
+    </footer>
+
+  </div>
 </main>

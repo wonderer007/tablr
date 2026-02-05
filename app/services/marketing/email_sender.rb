@@ -10,7 +10,8 @@ module Marketing
       end
 
       def default_subject_for(company)
-        "Unlock 22% Revenue Growth from #{company.name&.downcase&.split&.map(&:titleize)&.join(" ")} Reviews"
+        company_name = company.name&.split&.map(&:titleize)&.join(" ")
+        "Some customer feedback about #{company_name}"
       end
 
       private
@@ -18,16 +19,22 @@ module Marketing
       def send_to_contact(company:, contact:, draft_email:)
         return if contact.marketing_emails.where(sent_at: 30.days.ago..).any?
 
-        ai_generated_intro = draft_email&.ai_generated_intro
-        email_content = PromotionalMailer.cold_email_outreach(contact, ai_generated_intro: ai_generated_intro).deliver_later
+        # Use AI-generated draft if available, otherwise fall back to old template
+        if draft_email.present? && draft_email.body.present?
+          subject = draft_email.subject.presence || default_subject_for(company)
+          PromotionalMailer.send_draft_email(contact, subject: subject, body: draft_email.body).deliver_later
+        else
+          PromotionalMailer.cold_email_outreach(contact, ai_generated_intro: nil).deliver_later
+        end
 
-        if draft_email.present? && draft_email.marketing_contact.id == contact.id
+        # Update or create the email record
+        if draft_email.present? && draft_email.marketing_contact_id == contact.id
           draft_email.update(sent_at: Time.current, status: "sent")
         else
           Marketing::Email.create(
             marketing_contact: contact,
-            subject: default_subject_for(company),
-            body: draft_email.body.to_s,
+            subject: draft_email&.subject.presence || default_subject_for(company),
+            body: draft_email&.body.to_s,
             sent_at: Time.current,
             status: "sent",
             error_message: nil
@@ -37,4 +44,3 @@ module Marketing
     end
   end
 end
-

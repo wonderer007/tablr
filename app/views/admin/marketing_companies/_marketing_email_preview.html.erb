@@ -1,38 +1,53 @@
 <%
-  preview_contact =
-    company.marketing_contacts.first
-
-  draft_email = company.marketing_emails.where(status: 'draft').first_or_initialize
-  ai_generated_intro = draft_email.ai_generated_intro
-
-  email = PromotionalMailer.cold_email_outreach(preview_contact, ai_generated_intro: ai_generated_intro)
-  html_body = email.html_part ? email.html_part.body.to_s : email.body.to_s
-  email_subject = "Unlock 22% Revenue Growth from #{company.name&.downcase&.split&.map(&:titleize)&.join(" ")} Reviews"
-
-  draft_email.body = html_body
-  draft_email.subject = email_subject
-  draft_email.marketing_contact = preview_contact
-  draft_email.save
+  preview_contact = company.marketing_contacts.first
+  draft_email = company.marketing_emails.find_by(status: 'draft')
+  has_draft = draft_email.present? && draft_email.body.present?
+  
+  # Get preview recipient name (same logic as mailer)
+  preview_name = if preview_contact&.first_name.present? && preview_contact.first_name.length > 1
+    preview_contact.first_name
+  elsif preview_contact&.last_name.present? && preview_contact.last_name.length > 1
+    preview_contact.last_name
+  elsif preview_contact&.email.present?
+    preview_contact.email.split("@").first
+  else
+    "there"
+  end
 %>
 
 <p>Total Emails Sent: <%= company.marketing_emails.where(status: 'sent').count %></p>
-<% if company.marketing_contacts.any? %>
 
-  <div style="margin-bottom: 20px; display: flex; gap: 10px;">
-    <%= button_to "Send Email", send_marketing_email_admin_marketing_company_path(company), method: :post, style: "background: #10b981; color: white; padding: 8px 16px; border: none; border-radius: 4px; cursor: pointer;"%>
-    <%= button_to "Generate with AI", generate_ai_email_admin_marketing_company_path(company), method: :post, style: "background: #6366f1; color: white; padding: 8px 16px; border: none; border-radius: 4px; cursor: pointer;" %>
+<% if company.marketing_contacts.any? %>
+  <div style="margin-bottom: 20px; display: flex; gap: 10px; align-items: center;">
+    <% if has_draft %>
+      <%= button_to "Send Email", send_marketing_email_admin_marketing_company_path(company), method: :post, style: "background: #10b981; color: white; padding: 8px 16px; border: none; border-radius: 4px; cursor: pointer;" %>
+    <% end %>
+    <%= button_to "Generate AI Email", generate_ai_email_admin_marketing_company_path(company), method: :post, style: "background: #6366f1; color: white; padding: 8px 16px; border: none; border-radius: 4px; cursor: pointer;" %>
   </div>
+
+  <% if has_draft %>
+    <div style="margin-bottom: 10px; padding: 8px 12px; background: #fef3c7; border-radius: 4px; display: inline-block;">
+      <span style="color: #92400e; font-size: 13px;">
+        Draft generated: <%= draft_email.updated_at.strftime("%B %d, %Y at %I:%M %p") %>
+      </span>
+    </div>
+
+    <div style="border: 1px solid #e5e7eb; border-radius: 8px; overflow: hidden; margin-top: 10px;">
+      <div style="padding: 12px; background: #f9fafb; border-bottom: 1px solid #e5e7eb;">
+        <strong>Subject:</strong> <%= draft_email.subject %>
+      </div>
+      <div style="padding: 16px;">
+        <%= raw draft_email.body.to_s
+              .gsub('{{RECIPIENT_NAME}}', preview_name)
+              .gsub('{{UNSUBSCRIBE_LINK}}', link_to('Unsubscribe', '#', style: 'color: #666;')) %>
+      </div>
+    </div>
+  <% else %>
+    <div style="border: 1px solid #e5e7eb; border-radius: 8px; padding: 40px; text-align: center; margin-top: 10px; background: #f9fafb;">
+      <p style="color: #6b7280; margin: 0;">No draft email generated yet.</p>
+      <p style="color: #9ca3af; font-size: 13px; margin-top: 8px;">Click "Generate AI Email" to create a personalized email based on customer insights.</p>
+    </div>
+  <% end %>
 <% else %>
   <p style="color: #ef4444;">No marketing contacts found for this company. Please add a marketing contact first.</p>
 <% end %>
-
-<div style="border: 1px solid #e5e7eb; border-radius: 8px; overflow: hidden; margin-top: 20px;">
-  <div style="padding: 12px; background: #f9fafb; border-bottom: 1px solid #e5e7eb;">
-    <strong>Subject: <%= email_subject %></strong>
-  </div>
-  <br/>
-
-  <div style="padding: 0;">
-    <%= raw html_body %>
-  </div>
-</div>

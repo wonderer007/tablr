@@ -46,31 +46,44 @@ ActiveAdmin.register Marketing::Company do
 
   member_action :generate_ai_email, method: :post do
     company = resource
-    contact = company.marketing_contacts.first
 
+    unless company.business.present?
+      redirect_to admin_marketing_company_path(company), alert: "No business linked to this company."
+      return
+    end
+
+    unless company.business.first_inference_completed?
+      redirect_to admin_marketing_company_path(company), alert: "Business analysis not completed yet."
+      return
+    end
+
+    contact = company.marketing_contacts.first
     if contact.blank?
       redirect_to admin_marketing_company_path(company), alert: "No marketing contact found for this company."
       return
     end
 
-    intro_sentences = default_intro_sentences_for(company)
-    ai_generated_intro = RephraseSentences.new(sentences: intro_sentences).call
+    result = Marketing::AiEmailGenerator.new(company: company).call
 
-    if ai_generated_intro.blank?
-      redirect_to admin_marketing_company_path(company), alert: "Failed to generate AI content."
+    if result[:error].present?
+      redirect_to admin_marketing_company_path(company), alert: "Failed to generate AI email: #{result[:error]}"
       return
     end
 
     draft_email = company.marketing_emails.where(status: 'draft').first_or_initialize
-    draft_email.ai_generated_intro = ai_generated_intro
+    draft_email.assign_attributes(
+      subject: result[:subject],
+      body: result[:body],
+      marketing_contact: contact
+    )
 
     if draft_email.save
-      redirect_to admin_marketing_company_path(company), notice: "AI generated introduction added to draft."
+      redirect_to admin_marketing_company_path(company), notice: "AI email generated and saved as draft."
     else
-      redirect_to admin_marketing_company_path(company), alert: "Failed to generate AI content: #{draft_email.errors.full_messages.join(', ')}"
+      redirect_to admin_marketing_company_path(company), alert: "Failed to save draft: #{draft_email.errors.full_messages.join(', ')}"
     end
   rescue StandardError => e
-    redirect_to admin_marketing_company_path(company), alert: "Failed to generate AI content: #{e.message}"
+    redirect_to admin_marketing_company_path(company), alert: "Failed to generate AI email: #{e.message}"
   end
 
   member_action :find_google_map_place, method: :post do
@@ -94,33 +107,6 @@ ActiveAdmin.register Marketing::Company do
         .select("marketing_companies.*, COUNT(marketing_contacts.id) AS contacts_count")
         .group("marketing_companies.id")
     end
-
-    private
-
-    def default_intro_sentences_for(company)
-      insights = Marketing::ReviewInsights.for_business(company.business)
-      customer_complains = insights[:customer_complains]
-      customer_suggestions = insights[:customer_suggestions]
-
-      company_name = company.name.to_s.downcase.split.map(&:titleize).join(" ").gsub(".", "")
-
-      introduction = if company.business.rating.to_f >= 4.5
-        "With a #{company.business.rating} rating, #{company_name} is clearly winning customers over."
-      elsif company.business.rating.to_f >= 4.0
-        "#{company_name}'s #{company.business.rating} rating is solid—there's room to make it even better."
-      else
-        "At #{company.business.rating}, #{company_name} has an opportunity to turn things around."
-      end
-
-      complain_sentence = customer_complains.any? ? "However, customers complains about #{customer_complains.first(2).to_sentence(two_words_connector: ' and ', last_word_connector: ', and ')} needs your attention, potentially impacting repeats." : nil
-      suggestion_sentence = customer_suggestions.any? ? "Additionally, customers suggestions for #{customer_suggestions.first(2).to_sentence(two_words_connector: ' and ', last_word_connector: ', and ')} are a great opportunity to improve your business." : nil
-
-      [
-        introduction,
-        complain_sentence,
-        suggestion_sentence
-      ].compact
-    end
   end
 
   index do
@@ -132,7 +118,7 @@ ActiveAdmin.register Marketing::Company do
     end
     column 'Emails' do |company|
       company.marketing_emails.where(status: 'sent').count
-    end    
+    end
     column :city
     column :country
 
@@ -164,6 +150,9 @@ ActiveAdmin.register Marketing::Company do
         row("Find Google Map Place") do |company|
           button_to "Find Google Map Place", find_google_map_place_admin_marketing_company_path(company), method: :post
         end
+      end
+      row 'Report' do |company|
+        link_to "Report", report_path(company.business.place_actor_run_id), target: "_blank" if company.business.present? && company.business.place_actor_run_id.present?
       end
       row :business
       row :reviews_count do |company|

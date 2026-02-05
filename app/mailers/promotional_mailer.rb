@@ -58,4 +58,22 @@ class PromotionalMailer < ApplicationMailer
       format.html
     end
   end
+
+  def send_draft_email(contact, subject:, body:)
+    @recipient_name = recipient_name(contact)
+    @unsubscribe_token = contact.unsubscribe_token
+    @body = body.to_s
+              .gsub('{{RECIPIENT_NAME}}', @recipient_name)
+              .gsub('{{UNSUBSCRIBE_LINK}}', '<a href="' + unsubscribe_url(token: @unsubscribe_token) + '" target="_blank">Unsubscribe</a>')
+
+    mail(
+      to: contact.email,
+      subject: subject,
+      headers: {
+        'List-Unsubscribe' => "<#{unsubscribe_url(token: @unsubscribe_token)}>"
+      }
+    ) do |format|
+      format.html { render 'send_draft_email' }
+    end
+  end
 end

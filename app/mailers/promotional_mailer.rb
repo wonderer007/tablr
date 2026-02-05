@@ -1,5 +1,5 @@
 class PromotionalMailer < ApplicationMailer
-  default from: "Haider Ali <hello@tablr.io>"
+  default from: "Haider Ali <mail@tablr.org>"
   include AnalyticsHelper
   include Rails.application.routes.url_helpers
 

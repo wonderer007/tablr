@@ -3,6 +3,16 @@ class PromotionalMailer < ApplicationMailer
   include AnalyticsHelper
   include Rails.application.routes.url_helpers
 
+  self.delivery_method = :smtp
+  self.smtp_settings = {
+    address: 'smtp.resend.com',
+    port: 465,
+    user_name: 'resend',
+    password: ENV['OUTREACH_RESEND_API_KEY'],
+    authentication: :plain,
+    tls: true
+  }
+
   private
 
   def recipient_name(contact)

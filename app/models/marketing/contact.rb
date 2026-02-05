@@ -5,10 +5,22 @@ class Marketing::Contact < ApplicationRecord
   validates :email, presence: true, uniqueness: true
   validates :first_name, presence: true
 
+  enum :email_status, {
+    valid: "valid",
+    invalid: "invalid",
+    disposable: "disposable",
+    accept_all: "accept_all",
+    unknown: "unknown"
+  }, prefix: :email
+
   belongs_to :company, class_name: "Marketing::Company", optional: true
   has_many :marketing_emails, class_name: "Marketing::Email", foreign_key: "marketing_contact_id", dependent: :destroy
 
   before_create :generate_unsubscribe_token
+
+  def email_verified?
+    email_status.present?
+  end
 
   private
 
@@ -19,7 +31,7 @@ class Marketing::Contact < ApplicationRecord
   public
 
   def self.ransackable_attributes(auth_object = nil)
-    %w[created_at email email_sent_at first_name id last_name secondary_email unsubscribed updated_at company_id company_name]
+    %w[created_at email email_sent_at email_status first_name id last_name secondary_email unsubscribed updated_at company_id company_name]
   end
 
   def self.ransackable_associations(auth_object = nil)

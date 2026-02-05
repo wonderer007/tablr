@@ -92,6 +92,21 @@ ActiveAdmin.register Marketing::Company do
     redirect_to admin_marketing_company_path(company), notice: "Google Map Place finding job started"
   end
 
+  member_action :verify_contact_email, method: :post do
+    contact = resource.marketing_contacts.find(params[:contact_id])
+    result = Marketing::EmailVerifier.new(contact.email).call
+
+    if result[:error]
+      redirect_to admin_marketing_company_path(resource), alert: "Verification failed: #{result[:error]}"
+    else
+      contact.update!(
+        email_status: result[:email_status],
+        never_bounce_response: result[:never_bounce_response]
+      )
+      redirect_to admin_marketing_company_path(resource), notice: "Email verified for #{contact.email}: #{result[:email_status]}"
+    end
+  end
+
   filter :name
   filter :linkedin_url
   filter :city
@@ -184,8 +199,14 @@ ActiveAdmin.register Marketing::Company do
           "#{contact.first_name} #{contact.last_name}"
         end
         column :email
+        column :email_status
         column "Last Email Sent At" do |contact|
           contact.marketing_emails.where(status: 'sent').last&.sent_at&.strftime("%B %d, %Y %I:%M %p")
+        end
+        column "Actions" do |contact|
+          unless contact.email_verified?
+            button_to "Verify Email", verify_contact_email_admin_marketing_company_path(resource, contact_id: contact.id), method: :post
+          end
         end
       end
     end

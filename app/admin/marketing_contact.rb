@@ -3,6 +3,20 @@ ActiveAdmin.register Marketing::Contact do
 
   permit_params :first_name, :last_name, :email, :company_name, :company_id, :secondary_email, :business_id
 
+  member_action :verify_email, method: :post do
+    result = Marketing::EmailVerifier.new(resource.email).call
+
+    if result[:error]
+      redirect_to resource_path(resource), alert: "Verification failed: #{result[:error]}"
+    else
+      resource.update!(
+        email_status: result[:email_status],
+        never_bounce_response: result[:never_bounce_response]
+      )
+      redirect_to resource_path(resource), notice: "Email verified: #{result[:email_status]}"
+    end
+  end
+
   # CSV Import UI in the index sidebar
   sidebar "Import Marketing Contacts", only: :index do
     para "Upload a CSV with headers: first_name,last_name,email,company"
@@ -51,6 +65,7 @@ ActiveAdmin.register Marketing::Contact do
   filter :first_name
   filter :last_name
   filter :email
+  filter :email_status, as: :select, collection: %w[valid invalid disposable accept_all unknown]
   filter :company_name
   filter :company_id
   filter :secondary_email
@@ -63,6 +78,7 @@ ActiveAdmin.register Marketing::Contact do
       "#{contact.first_name} #{contact.last_name}"
     end
     column :email
+    column :email_status
     column :company_name
     column :website do |contact|
       link_to contact.website, contact.website, target: "_blank" if contact.website.present?
@@ -76,6 +92,17 @@ ActiveAdmin.register Marketing::Contact do
       row :first_name
       row :last_name
       row :email
+      row :email_status
+      row :never_bounce_response do |contact|
+        if contact.never_bounce_response.present?
+          pre { contact.never_bounce_response.to_json }
+        end
+      end
+      unless resource.email_verified?
+        row "Verify Email" do |contact|
+          button_to "Verify Email", verify_email_admin_marketing_contact_path(contact), method: :post
+        end
+      end
       row :company_name
       row :company do |contact|
         if contact.company

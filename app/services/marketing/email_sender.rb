@@ -4,7 +4,7 @@ module Marketing
       def send_for_company(company)
         draft_email = company.marketing_emails.find_by(status: "draft")
 
-        company.marketing_contacts.where(unsubscribed: false).each do |contact|
+        company.marketing_contacts.where(unsubscribed: false, email_status: "valid").each do |contact|
           send_to_contact(company: company, contact: contact, draft_email: draft_email)
         end
       end

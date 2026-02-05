@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2026_01_27_222211) do
+ActiveRecord::Schema[7.2].define(version: 2026_02_06_000001) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
   enable_extension "plpgsql"
@@ -147,8 +147,11 @@ ActiveRecord::Schema[7.2].define(version: 2026_01_27_222211) do
     t.string "company_name", limit: 255
     t.string "unsubscribe_token"
     t.string "unsubscribe_reason"
+    t.jsonb "never_bounce_response"
+    t.string "email_status"
     t.index ["company_id"], name: "index_marketing_contacts_on_company_id"
     t.index ["email"], name: "index_marketing_contacts_on_email", unique: true
+    t.index ["email_status"], name: "index_marketing_contacts_on_email_status"
     t.index ["secondary_email"], name: "index_marketing_contacts_on_secondary_email"
     t.index ["unsubscribe_token"], name: "index_marketing_contacts_on_unsubscribe_token", unique: true
   end

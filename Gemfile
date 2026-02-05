@@ -41,6 +41,7 @@ gem "sidekiq-scheduler"
 gem "groupdate"
 gem "resend"
 gem 'country_select', '~> 8.0'
+gem "neverbounce-api"
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem "tzinfo-data", platforms: %i[ windows jruby ]

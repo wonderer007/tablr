@@ -3,17 +3,19 @@ class PromotionalMailer < ApplicationMailer
   include AnalyticsHelper
   include Rails.application.routes.url_helpers
 
-  default_url_options = { host: ENV['OUTREACH_RESEND_DOMAIN'] }
 
-  self.delivery_method = :smtp
-  self.smtp_settings = {
-    address: 'smtp.resend.com',
-    port: 465,
-    user_name: 'resend',
-    password: ENV['OUTREACH_RESEND_API_KEY'],
-    authentication: :plain,
-    tls: true
-  }
+  if Rails.env.production?
+    default_url_options = { host: ENV['OUTREACH_RESEND_DOMAIN'] }
+    self.delivery_method = :smtp
+    self.smtp_settings = {
+      address: 'smtp.resend.com',
+      port: 465,
+      user_name: 'resend',
+      password: ENV['OUTREACH_RESEND_API_KEY'],
+      authentication: :plain,
+      tls: true
+    }
+  end
 
   private
 
@@ -48,7 +50,7 @@ class PromotionalMailer < ApplicationMailer
       to: contact.email,
       subject: "Unlock 22% Revenue Growth from #{@company_name} Reviews",
       headers: {
-        'List-Unsubscribe' => "<#{unsubscribe_url(token: @unsubscribe_token)}>"
+        'List-Unsubscribe' => "<#{unsubscribe_url(token: @unsubscribe_token, host: 'tablr.org')}>"
       }
     ) do |format|
         format.html
@@ -64,7 +66,7 @@ class PromotionalMailer < ApplicationMailer
       to: contact.email,
       subject: "Turn Customer Feedback into Revenue with AI",
       headers: {
-        'List-Unsubscribe' => "<#{unsubscribe_url(token: @unsubscribe_token)}>"
+        'List-Unsubscribe' => "<#{unsubscribe_url(token: @unsubscribe_token, host: 'tablr.org')}>"
       }
     ) do |format|
       format.html
@@ -76,13 +78,13 @@ class PromotionalMailer < ApplicationMailer
     @unsubscribe_token = contact.unsubscribe_token
     @body = body.to_s
               .gsub('{{RECIPIENT_NAME}}', @recipient_name)
-              .gsub('{{UNSUBSCRIBE_LINK}}', '<a href="' + unsubscribe_url(token: @unsubscribe_token) + '" target="_blank">Unsubscribe</a>')
+              .gsub('{{UNSUBSCRIBE_LINK}}', '<a href="' + unsubscribe_url(token: @unsubscribe_token, host: 'tablr.org') + '" target="_blank">Unsubscribe</a>')
 
     mail(
       to: contact.email,
       subject: subject,
       headers: {
-        'List-Unsubscribe' => "<#{unsubscribe_url(token: @unsubscribe_token)}>"
+        'List-Unsubscribe' => "<#{unsubscribe_url(token: @unsubscribe_token, host: 'tablr.org')}>"
       }
     ) do |format|
       format.html { render 'send_draft_email' }

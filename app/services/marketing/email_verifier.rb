@@ -13,6 +13,8 @@ module Marketing
     end
 
     def call
+      return default_response if Rails.env.development?
+
       client = NeverBounce::API::Client.new(api_key: ENV["NEVER_BOUNCE_API_KEY"])
       response = client.single_check(email: @email)
 
@@ -36,6 +38,17 @@ module Marketing
 
     def map_result(result)
       RESULT_MAPPING[result] || "unknown"
+    end
+
+    def default_response
+      { 
+        email_status: "valid",
+        never_bounce_response: {
+          result: "valid",
+          flags: {},
+          checked_at: Time.current.iso8601
+        }
+      }
     end
   end
 end

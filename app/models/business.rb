@@ -83,7 +83,7 @@ class Business < ApplicationRecord
   end
 
   def self.ransackable_attributes(auth_object = nil)
-    %w[name place_actor_run_id review_actor_run_id status url rating id first_inference_completed test business_type]
+    %w[name place_actor_run_id review_actor_run_id status url rating id first_inference_completed test type]
   end
 
   def self.ransackable_associations(auth_object = nil)

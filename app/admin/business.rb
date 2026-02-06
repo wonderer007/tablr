@@ -1,22 +1,31 @@
 ActiveAdmin.register Business do
   menu label: "Businesses"
 
-  permit_params :name, :url, :data, :business_type
+  permit_params :name, :url, :type
 
   filter :name
   filter :status
   filter :rating
-  filter :business_type
+  filter :type
   filter :place_actor_run_id
   filter :review_actor_run_id
   filter :first_inference_completed
   filter :test
 
+  form do |f|
+    f.inputs do
+      f.input :name
+      f.input :url
+      f.input :type
+      f.submit 'Update'
+    end
+  end
+
   index do
     selectable_column
     id_column
     column :name
-    column :business_type
+    column :type
     column :status
     column :rating
     column :first_inference_completed
@@ -30,7 +39,7 @@ ActiveAdmin.register Business do
     attributes_table do
       row :id
       row :name
-      row :business_type
+      row :type
       row "URL" do |business|
         link_to "Google Map", business.url, target: "_blank"
       end
@@ -42,6 +51,7 @@ ActiveAdmin.register Business do
       row "Suggestions Count" do |business|
         business.suggestions.count
       end
+      row :type
       row :first_inference_completed
       row :test
       row "Place Actor Run ID" do |business|

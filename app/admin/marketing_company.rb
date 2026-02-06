@@ -170,6 +170,9 @@ ActiveAdmin.register Marketing::Company do
         link_to "Report", report_path(company.business.place_actor_run_id), target: "_blank" if company.business.present? && company.business.place_actor_run_id.present?
       end
       row :business
+      row "Business Type" do |company|
+        company&.business&.type
+      end
       row :reviews_count do |company|
         company&.business&.reviews&.count
       end

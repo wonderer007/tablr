@@ -3,6 +3,8 @@ class PromotionalMailer < ApplicationMailer
   include AnalyticsHelper
   include Rails.application.routes.url_helpers
 
+  default_url_options = { host: ENV['OUTREACH_RESEND_DOMAIN'] }
+
   self.delivery_method = :smtp
   self.smtp_settings = {
     address: 'smtp.resend.com',

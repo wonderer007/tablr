@@ -180,7 +180,7 @@ module Marketing
 
         Write an email that:
         1. Acknowledges their business briefly
-        2. Mention Google Map reviews as source of customer feedback
+        2. Mention used tablr.io to analyze recent reviews from Google Map reviews
         3. Share complains patterns and if possible references from complains to make it more engaging and persuasive.
         4. Share suggestions from customers and if possible references from suggestions to make it more engaging and persuasive.
         5. Keep sentences short and concise.

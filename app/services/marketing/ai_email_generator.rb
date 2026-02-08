@@ -27,7 +27,6 @@ module Marketing
         reviews = business.reviews.where(processed: true)
 
         {
-          company_name: company.name,
           business_name: business.name,
           rating: business.rating,
           food_rating: business.food_rating,
@@ -185,6 +184,7 @@ module Marketing
         4. Share suggestions from customers and if possible references from suggestions to make it more engaging and persuasive.
         5. Keep sentences short and concise.
         6. Offers to share the full analysis report if they're interested (soft CTA)
+        7. Start with like: Hi {{RECIPIENT_NAME}},
 
         Keep it genuine and helpful, not salesy.
       PROMPT

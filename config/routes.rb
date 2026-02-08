@@ -47,6 +47,10 @@ Rails.application.routes.draw do
   resources :suggestions, only: [:index]
   resources :reviews, only: [:index, :show]
 
+  namespace :webhooks do
+    post 'resend/emails', to: 'resend#emails'
+  end
+
   resources :demo_requests, only: [:new, :create] do
     collection do
       get :thank_you

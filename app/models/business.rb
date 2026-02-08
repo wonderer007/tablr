@@ -103,19 +103,19 @@ class Business < ApplicationRecord
   def food_rating
     return 0 if reviews.none?
 
-    reviews.where.not(food_rating: nil).average(:food_rating).round(1)
+    reviews.where.not(food_rating: nil).average(:food_rating).to_f.round(1)
   end
 
   def service_rating
     return 0 if reviews.none?
 
-    reviews.where.not(service_rating: nil).average(:service_rating).round(1)
+    reviews.where.not(service_rating: nil).average(:service_rating).to_f.round(1)
   end
 
   def atmosphere_rating
     return 0 if reviews.none?
 
-    reviews.where.not(atmosphere_rating: nil).average(:atmosphere_rating).round(1)
+    reviews.where.not(atmosphere_rating: nil).average(:atmosphere_rating).to_f.round(1)
   end
 
   def address

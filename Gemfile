@@ -40,6 +40,7 @@ gem "sidekiq"
 gem "sidekiq-scheduler"
 gem "groupdate"
 gem "resend"
+gem "svix"
 gem 'country_select', '~> 8.0'
 gem "neverbounce-api"
 

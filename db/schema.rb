@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2026_02_09_000001) do
+ActiveRecord::Schema[7.2].define(version: 2026_02_10_000001) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
   enable_extension "plpgsql"
@@ -170,6 +170,7 @@ ActiveRecord::Schema[7.2].define(version: 2026_02_09_000001) do
     t.string "resend_email_id"
     t.string "resend_status"
     t.jsonb "webhook_payload"
+    t.string "model"
     t.index ["resend_email_id"], name: "index_marketing_emails_on_resend_email_id"
     t.index ["resend_status"], name: "index_marketing_emails_on_resend_status"
   end

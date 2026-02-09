@@ -22,13 +22,30 @@
     <% if has_draft %>
       <%= button_to "Send Email", send_marketing_email_admin_marketing_company_path(company), method: :post, style: "background: #10b981; color: white; padding: 8px 16px; border: none; border-radius: 4px; cursor: pointer;" %>
     <% end %>
-    <%= button_to "Generate AI Email", generate_ai_email_admin_marketing_company_path(company), method: :post, style: "background: #6366f1; color: white; padding: 8px 16px; border: none; border-radius: 4px; cursor: pointer;" %>
+    <%= form_tag generate_ai_email_admin_marketing_company_path(company), method: :post, style: "display: inline-flex; gap: 8px; align-items: center;" do %>
+      <select name="model" style="padding: 8px 12px; border: 1px solid #d1d5db; border-radius: 4px; font-size: 13px;">
+        <optgroup label="OpenAI">
+          <option value="gpt-5-nano">GPT-5 Nano</option>
+          <option value="gpt-5-mini" selected>GPT-5 Mini (Default)</option>
+          <option value="gpt-5.2">GPT-5.2</option>
+        </optgroup>
+        <optgroup label="Gemini">
+          <option value="gemini-2.0-flash">Gemini 2.0 Flash</option>
+          <option value="gemini-2.5-pro">Gemini 2.5 Pro</option>
+          <option value="gemini-2.5-flash">Gemini 2.5 Flash</option>
+        </optgroup>
+      </select>
+      <%= submit_tag "Generate AI Email", style: "background: #6366f1; color: white; padding: 8px 16px; border: none; border-radius: 4px; cursor: pointer;" %>
+    <% end %>
   </div>
 
   <% if has_draft %>
     <div style="margin-bottom: 10px; padding: 8px 12px; background: #fef3c7; border-radius: 4px; display: inline-block;">
       <span style="color: #92400e; font-size: 13px;">
         Draft generated: <%= draft_email.updated_at.strftime("%B %d, %Y at %I:%M %p") %>
+        <% if draft_email.model.present? %>
+          &middot; Model: <%= draft_email.model %>
+        <% end %>
       </span>
     </div>
 

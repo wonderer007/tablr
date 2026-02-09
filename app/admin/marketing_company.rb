@@ -63,7 +63,13 @@ ActiveAdmin.register Marketing::Company do
       return
     end
 
-    result = Marketing::AiEmailGenerator.new(company: company).call
+    selected_model = if Marketing::Email::MODELS.key?(params[:model])
+                        params[:model]
+                      else
+                        Marketing::Email::DEFAULT_MODEL
+                      end
+
+    result = Marketing::AiEmailGenerator.new(company: company, model: selected_model).call
 
     if result[:error].present?
       redirect_to admin_marketing_company_path(company), alert: "Failed to generate AI email: #{result[:error]}"
@@ -74,7 +80,8 @@ ActiveAdmin.register Marketing::Company do
     draft_email.assign_attributes(
       subject: result[:subject],
       body: result[:body],
-      marketing_contact: contact
+      marketing_contact: contact,
+      model: selected_model
     )
 
     if draft_email.save

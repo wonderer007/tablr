@@ -1,8 +1,10 @@
 module Marketing
   class AiEmailGenerator
-    def initialize(company:)
+    def initialize(company:, model: Marketing::Email::DEFAULT_MODEL)
       @company = company
       @business = company.business
+      @model = model
+      @provider = Marketing::Email::MODELS[model] || :openai
     end
 
     def call
@@ -20,7 +22,7 @@ module Marketing
 
     private
 
-    attr_reader :company, :business
+    attr_reader :company, :business, :model, :provider
 
     def fetch_business_report_data
       ActsAsTenant.with_tenant(business) do
@@ -43,8 +45,8 @@ module Marketing
       end
     end
 
-    def fetch_top_items(model, reviews, limit)
-      items_by_category = model.where(review_id: reviews.select(:id))
+    def fetch_top_items(model_class, reviews, limit)
+      items_by_category = model_class.where(review_id: reviews.select(:id))
                                .includes(:category)
                                .order(severity: :desc)
                                .group_by(&:category_id)
@@ -80,8 +82,8 @@ module Marketing
       end
     end
 
-    def fetch_category_counts(model, reviews, limit)
-      model.where(review_id: reviews.select(:id))
+    def fetch_category_counts(model_class, reviews, limit)
+      model_class.where(review_id: reviews.select(:id))
            .joins(:category)
            .group('categories.name')
            .order('count_all DESC')
@@ -90,20 +92,53 @@ module Marketing
     end
 
     def generate_email(report_data)
-      client.chat(
-        parameters: {
-          model: 'gpt-4o-mini',
-          temperature: 0.7,
-          messages: build_prompt(report_data)
-        }
-      ).dig('choices', 0, 'message', 'content')
+      case provider
+      when :openai
+        generate_via_openai(report_data)
+      when :gemini
+        generate_via_gemini(report_data)
+      else
+        generate_via_openai(report_data)
+      end
     end
 
-    def build_prompt(report_data)
-      [
-        { role: 'system', content: system_prompt },
-        { role: 'user', content: user_prompt(report_data) }
-      ]
+    # GPT-5 family models are reasoning models that don't support the temperature parameter.
+    # They use reasoning_effort instead. Only gpt-5.2 supports temperature when reasoning_effort is "none".
+    GPT5_REASONING_MODELS = %w[gpt-5-nano gpt-5-mini].freeze
+
+    def generate_via_openai(report_data)
+      params = {
+        model: model,
+        messages: [
+          { role: 'system', content: system_prompt },
+          { role: 'user', content: user_prompt(report_data) }
+        ]
+      }
+
+      if GPT5_REASONING_MODELS.include?(model)
+        params[:reasoning_effort] = 'medium'
+      elsif model.start_with?('gpt-5')
+        params[:reasoning_effort] = 'none'
+        params[:temperature] = 0.7
+      else
+        params[:temperature] = 0.7
+      end
+
+      openai_client.chat(parameters: params).dig('choices', 0, 'message', 'content')
+    end
+
+    def generate_via_gemini(report_data)
+      result = gemini_client.generate_content({
+        system_instruction: { role: 'user', parts: { text: system_prompt } },
+        contents: { role: 'user', parts: { text: user_prompt(report_data) } },
+        generation_config: { temperature: 0.7 }
+      })
+
+      # Gemini 2.5 thinking models may return thought parts before the answer.
+      # Find the last non-thought text part, which contains the actual response.
+      parts = result.dig('candidates', 0, 'content', 'parts') || []
+      text_part = parts.reverse.find { |p| p['text'] && !p['thought'] }
+      text_part&.dig('text')
     end
 
     def system_prompt
@@ -224,7 +259,7 @@ module Marketing
 
     def default_subject
       company_name = company.name.to_s.split.map(&:titleize).join(" ")
-      "Some customer feedback about #{company_name}"
+      "Customer feedback analysis for #{company_name}"
     end
 
     def default_body
@@ -237,8 +272,19 @@ module Marketing
       HTML
     end
 
-    def client
-      @client ||= OpenAI::Client.new(access_token: ENV.fetch('OPENAI_API_KEY'))
+    def openai_client
+      @openai_client ||= OpenAI::Client.new(access_token: ENV.fetch('OPENAI_API_KEY'))
+    end
+
+    def gemini_client
+      @gemini_client ||= Gemini.new(
+        credentials: {
+          service: 'generative-language-api',
+          api_key: ENV.fetch('GEMINI_API_KEY'),
+          version: 'v1beta'
+        },
+        options: { model: model, server_sent_events: false }
+      )
     end
   end
 end

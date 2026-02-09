@@ -4,6 +4,18 @@ class Marketing::Email < ApplicationRecord
   belongs_to :marketing_contact, class_name: "Marketing::Contact", foreign_key: "marketing_contact_id"
   has_one :company, through: :marketing_contact
 
+  # Supported AI models grouped by provider
+  MODELS = {
+    "gpt-5-nano" => :openai,
+    "gpt-5-mini" => :openai,
+    "gpt-5.2" => :openai,
+    "gemini-2.0-flash" => :gemini,
+    "gemini-2.5-pro" => :gemini,
+    "gemini-2.5-flash" => :gemini
+  }.freeze
+
+  DEFAULT_MODEL = "gpt-5-mini"
+
   # Internal application statuses
   STATUSES = %w[draft sent].freeze
 
@@ -25,6 +37,7 @@ class Marketing::Email < ApplicationRecord
   validates :subject, presence: true
   validates :body, presence: true
   validates :status, presence: true
+  validates :model, inclusion: { in: MODELS.keys }, allow_nil: true
   validates :resend_status, inclusion: { in: RESEND_STATUSES }, allow_nil: true
 
   # Scopes for querying by resend status

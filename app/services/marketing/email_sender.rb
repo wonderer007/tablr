@@ -56,6 +56,7 @@ module Marketing
             body: draft_email&.body.to_s,
             sent_at: Time.current,
             status: "sent",
+            model: draft_email&.model.presence || Marketing::Email::DEFAULT_MODEL,
             resend_email_id: result[:email_id],
             error_message: result[:success] ? nil : result[:error]
           )

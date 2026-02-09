@@ -178,6 +178,7 @@ module Marketing
         #{suggestions_text}
 
         Write an email that:
+        1. compose a subject line for the email
         1. Acknowledges their business briefly
         2. Mention used tablr.io to analyze recent reviews from Google Map reviews
         3. Share complains patterns and if possible references from complains to make it more engaging and persuasive.

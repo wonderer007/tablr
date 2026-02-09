@@ -213,14 +213,14 @@ module Marketing
         #{suggestions_text}
 
         Write an email that:
-        1. compose a subject line for the email
-        1. Acknowledges their business briefly
-        2. Mention used tablr.io to analyze recent reviews from Google Map reviews
-        3. Share complains patterns and if possible references from complains to make it more engaging and persuasive.
-        4. Share suggestions from customers and if possible references from suggestions to make it more engaging and persuasive.
-        5. Keep sentences short and concise.
-        6. Offers to share the full analysis report if they're interested (soft CTA)
-        7. Start with like: Hi {{RECIPIENT_NAME}},
+        1. compose a subject using business_name
+        2. Acknowledges their business briefly
+        3. Mention used tablr.io to analyze recent reviews from Google Map reviews
+        4. Share complains patterns and if possible references from complains to make it more engaging and persuasive.
+        5. Share suggestions from customers and if possible references from suggestions to make it more engaging and persuasive.
+        6. Keep sentences short and concise.
+        7. Offers to share the full analysis report if they're interested (soft CTA)
+        8. Start with like: Hi {{RECIPIENT_NAME}},
 
         Keep it genuine and helpful, not salesy.
       PROMPT

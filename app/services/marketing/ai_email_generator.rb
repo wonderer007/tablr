@@ -177,7 +177,7 @@ module Marketing
         - Use <p> tags for paragraphs
         - Keep formatting minimal and clean
         - Do NOT use <strong>, <bold>, <b>, <em>, or <i> tags
-        - End with a simple signature: Best,<br/>Haider Ali<br/>Founder, Tablr.io
+        - End with a simple signature: Best,<br/>Haider Ali<br/>Tablr.io
         - Include an unsubscribe placeholder at the end: <p style="font-size: 12px; color: #666; margin-top: 20px;">Don't want to receive these emails? {{UNSUBSCRIBE_LINK}}</p>
       PROMPT
     end
@@ -267,7 +267,7 @@ module Marketing
         <p>Hi {{RECIPIENT_NAME}},</p>
         <p>I recently analyzed customer reviews for your business and found some interesting insights I thought you might find valuable.</p>
         <p>Would you be interested in seeing the full analysis?</p>
-        <p>Best,<br/>Haider Ali<br/>Founder, Tablr</p>
+        <p>Best,<br/>Haider Ali<br/>Tablr.io</p>
         <p style="font-size: 12px; color: #666; margin-top: 20px;">Don't want to receive these emails? {{UNSUBSCRIBE_LINK}}</p>
       HTML
     end

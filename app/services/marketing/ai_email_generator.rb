@@ -15,7 +15,7 @@ module Marketing
       generated_content = generate_email(report_data)
 
       {
-        subject: extract_subject(generated_content),
+        subject: random_subject,
         body: extract_body(generated_content)
       }
     end
@@ -156,27 +156,31 @@ module Marketing
         - Use sales language or urgency tactics
         - Promise revenue increases or ROI
         - Push for demos or meetings aggressively
-        - Use phrases like "unlock", "boost", "skyrocket", "game-changer"
-        - Use excessive exclamation marks
+        - Use phrases like "unlock", "boost", "skyrocket", "game-changer", "exclusive", "act now", "limited time", "free", "guaranteed", "congratulations"
+        - Use excessive exclamation marks or ALL CAPS words
+        - Use spam-trigger phrases like "click here", "buy now", "order now", "don't miss out", "once in a lifetime", "winner", "no obligation"
+        - Use deceptive or misleading language
+        - Use excessive punctuation (!!!, ???, $$$)
 
         DO:
         - Share 2-3 specific customer insights that would be genuinely useful
         - Mention patterns you noticed in the feedback
         - Offer to share more details full analysis report if they're interested
         - Keep the email concise (under 150 words for the body)
-        - Keep sentences short and concise. Whereever possible use bullet points and references from complains and suggestions to make it more engaging and persuasive.
+        - Keep sentences short and concise. Wherever possible use bullet points and references from complaints and suggestions to make it more engaging and persuasive.
+        - Write naturally and conversationally, like a real person would
+        - Avoid repeating the same word or phrase multiple times
+        - Keep the language simple and straightforward
 
         Output format:
-        Return the email in this exact format:
-        SUBJECT: [Your subject line here]
-        BODY:
-        [Your email body in HTML format here]
+        Return the email body in HTML format directly (no subject line needed).
 
         For the HTML body:
         - Start with a greeting using the placeholder {{RECIPIENT_NAME}} like: <p>Hi {{RECIPIENT_NAME}},</p>
         - Use <p> tags for paragraphs
-        - Keep formatting minimal and clean
+        - Keep formatting minimal and clean — avoid excessive HTML tags, inline styles, or complex nesting
         - Do NOT use <strong>, <bold>, <b>, <em>, or <i> tags
+        - Do NOT use colored text, font-size changes, or other inline styling in the body content
         - End with a simple signature: Best,<br/>Haider Ali<br/>Tablr.io
         - Include an unsubscribe placeholder at the end: <p style="font-size: 12px; color: #666; margin-top: 20px;">Don't want to receive these emails? {{UNSUBSCRIBE_LINK}}</p>
       PROMPT
@@ -212,17 +216,21 @@ module Marketing
         Top Suggestions from Customers:
         #{suggestions_text}
 
-        Write an email that:
-        1. compose a subject using business_name
-        2. Acknowledges their business briefly
-        3. Mention used tablr.io to analyze recent reviews from Google Map reviews
-        4. Share complains patterns and if possible references from complains to make it more engaging and persuasive.
+        Write the email body (HTML only, no subject line) that:
+        1. Start with like: Hi {{RECIPIENT_NAME}},
+        2. Introduce tablr.io and how it can help businesses improve their customer experience briefly.
+        3. Acknowledges their business briefly
+        4. Share complaint patterns and if possible references from complaints to make it more engaging and persuasive.
         5. Share suggestions from customers and if possible references from suggestions to make it more engaging and persuasive.
         6. Keep sentences short and concise.
         7. Offers to share the full analysis report if they're interested (soft CTA)
-        8. Start with like: Hi {{RECIPIENT_NAME}},
 
-        Keep it genuine and helpful, not salesy.
+        Important guidelines:
+        - Keep it genuine and helpful, not salesy.
+        - Write like a real person — natural, conversational tone.
+        - Avoid spam-trigger words (free, guaranteed, act now, exclusive, etc.).
+        - No ALL CAPS words, excessive punctuation, or exclamation marks.
+        - Keep HTML minimal — just <p> tags and <br/> where needed, no extra styling.
       PROMPT
     end
 
@@ -240,26 +248,24 @@ module Marketing
       categories.map { |name, count| "- #{name}: #{count} mentions" }.join("\n")
     end
 
-    def extract_subject(content)
-      return default_subject unless content.present?
+    SUBJECT_TEMPLATES = [
+      'A few insights from your recent customer reviews',
+      'Insights from customer feedback for %{business_name}',
+      'Customer feedback insights for %{business_name}'
+    ].freeze
 
-      match = content.match(/SUBJECT:\s*(.+?)(?:\n|BODY:)/i)
-      match ? match[1].strip : default_subject
+    def random_subject
+      SUBJECT_TEMPLATES.sample % { business_name: business.name }
     end
 
     def extract_body(content)
       return default_body unless content.present?
 
+      # Strip BODY: prefix if the model still includes it
       match = content.match(/BODY:\s*(.+)/im)
-      body = match ? match[1].strip : content
+      body = match ? match[1].strip : content.strip
 
-      # Replace unsubscribe placeholder - will be replaced with actual link when sending
       body
-    end
-
-    def default_subject
-      company_name = company.name.to_s.split.map(&:titleize).join(" ")
-      "Customer feedback analysis for #{company_name}"
     end
 
     def default_body

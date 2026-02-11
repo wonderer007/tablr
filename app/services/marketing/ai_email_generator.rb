@@ -145,10 +145,10 @@ module Marketing
         Follow this exact structure for every email:
 
         1. Greeting: "Hi {{RECIPIENT_NAME}},"
-        2. Opening (1 short sentence, under 25 words): mention you used Tablr.io to analyze their recent reviews and found patterns worth sharing.
-        3. Complaint transition (1 short sentence): lead into the patterns, e.g. "Here are some patterns I noticed:"
+        2. Opening (1 sentence, under 25 words): mention you used Tablr.io to analyze their recent reviews and found patterns worth sharing.
+        3. Complaint transition (1 sentence): lead into the patterns, e.g. "Here are some patterns I noticed:"
         4. Complaints (2-3 bullet points): each names a theme and includes a brief customer quote.
-        5. Suggestion transition (1 short sentence): lead into suggestions, e.g. "Customers also had a few suggestions:"
+        5. Suggestion transition (1 sentence): lead into suggestions, e.g. "Customers also had a few suggestions:"
         6. Suggestions (2-3 bullet points): each is a specific, actionable suggestion from customers.
         7. Soft CTA (1 sentence): offer to share the full analysis report. No pressure.
         8. Sign-off: Best,<br/>Haider Ali<br/>Founder, Tablr.io

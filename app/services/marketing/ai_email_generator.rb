@@ -31,16 +31,11 @@ module Marketing
         {
           business_name: business.name,
           rating: business.rating,
-          food_rating: business.food_rating,
-          service_rating: business.service_rating,
-          atmosphere_rating: business.atmosphere_rating,
           total_reviews: reviews.count,
-          total_complaints: Complain.where(review_id: reviews.select(:id)).count,
-          total_suggestions: Suggestion.where(review_id: reviews.select(:id)).count,
-          top_complaints: fetch_top_items(Complain, reviews, 10),
-          top_suggestions: fetch_top_items(Suggestion, reviews, 10),
-          top_complaint_categories: fetch_category_counts(Complain, reviews, 5),
-          top_suggestion_categories: fetch_category_counts(Suggestion, reviews, 5)
+          top_complaints: fetch_top_items(Complain, reviews, 5),
+          top_suggestions: fetch_top_items(Suggestion, reviews, 5),
+          top_complaint_categories: fetch_category_counts(Complain, reviews, 3),
+          top_suggestion_categories: fetch_category_counts(Suggestion, reviews, 3)
         }
       end
     end
@@ -143,46 +138,33 @@ module Marketing
 
     def system_prompt
       <<~PROMPT
-        You are a helpful consultant who genuinely wants to help business owners improve their customer experience.
-        You have analyzed their customer reviews and want to share valuable insights with them.
+        You write helpful outreach emails on behalf of Tablr.io, a platform that analyzes customer feedback for businesses. You have analyzed their reviews and want to share genuine insights.
 
-        Your tone should be:
-        - Warm and professional, like a helpful colleague
-        - Focused on sharing insights, not selling anything
-        - Empathetic to the challenges of running a business
-        - Specific and actionable with the feedback you share
+        Tone: warm, professional, conversational. Write like a real colleague, not a marketer.
 
-        Do NOT:
-        - Use sales language or urgency tactics
-        - Promise revenue increases or ROI
-        - Push for demos or meetings aggressively
-        - Use phrases like "unlock", "boost", "skyrocket", "game-changer", "exclusive", "act now", "limited time", "free", "guaranteed", "congratulations"
-        - Use excessive exclamation marks or ALL CAPS words
-        - Use spam-trigger phrases like "click here", "buy now", "order now", "don't miss out", "once in a lifetime", "winner", "no obligation"
-        - Use deceptive or misleading language
-        - Use excessive punctuation (!!!, ???, $$$)
+        Follow this exact structure for every email:
 
-        DO:
-        - Share 2-3 specific customer insights that would be genuinely useful
-        - Mention patterns you noticed in the feedback
-        - Offer to share more details full analysis report if they're interested
-        - Keep the email concise (under 150 words for the body)
-        - Keep sentences short and concise. Wherever possible use bullet points and references from complaints and suggestions to make it more engaging and persuasive.
-        - Write naturally and conversationally, like a real person would
-        - Avoid repeating the same word or phrase multiple times
-        - Keep the language simple and straightforward
+        1. Greeting: "Hi {{RECIPIENT_NAME}},"
+        2. Opening (1 short sentence, under 25 words): mention you used Tablr.io to analyze their recent reviews and found patterns worth sharing.
+        3. Complaint transition (1 short sentence): lead into the patterns, e.g. "Here are some patterns I noticed:"
+        4. Complaints (2-3 bullet points): each names a theme and includes a brief customer quote.
+        5. Suggestion transition (1 short sentence): lead into suggestions, e.g. "Customers also had a few suggestions:"
+        6. Suggestions (2-3 bullet points): each is a specific, actionable suggestion from customers.
+        7. Soft CTA (1 sentence): offer to share the full analysis report. No pressure.
+        8. Sign-off: Best,<br/>Haider Ali<br/>Founder, Tablr.io
 
-        Output format:
-        Return the email body in HTML format directly (no subject line needed).
+        Rules:
+        - Body under 150 words (excluding signature and unsubscribe)
+        - Always use bullet points for complaints and suggestions
+        - Keep each sentence under 25 words
+        - Vary wording naturally across sections — do not repeat phrases
+        - Never use: free, guaranteed, act now, exclusive, unlock, boost, skyrocket, game-changer, limited time, click here, buy now, don't miss out, congratulations
+        - No ALL CAPS, no excessive punctuation (!!, ??, $$)
 
-        For the HTML body:
-        - Start with a greeting using the placeholder {{RECIPIENT_NAME}} like: <p>Hi {{RECIPIENT_NAME}},</p>
-        - Use <p> tags for paragraphs
-        - Keep formatting minimal and clean — avoid excessive HTML tags, inline styles, or complex nesting
-        - Do NOT use <strong>, <bold>, <b>, <em>, or <i> tags
-        - Do NOT use colored text, font-size changes, or other inline styling in the body content
-        - End with a simple signature: Best,<br/>Haider Ali<br/>Tablr.io
-        - Include an unsubscribe placeholder at the end: <p style="font-size: 12px; color: #666; margin-top: 20px;">Don't want to receive these emails? {{UNSUBSCRIBE_LINK}}</p>
+        HTML output:
+        - Use <p> for paragraphs, <ul><li> for bullet lists
+        - No <strong>, <b>, <em>, <i> tags or inline styles in body content
+        - End with: <p style="font-size: 12px; color: #666; margin-top: 20px;">Don't want to receive these emails? {{UNSUBSCRIBE_LINK}}</p>
       PROMPT
     end
 
@@ -193,51 +175,30 @@ module Marketing
       suggestion_categories = format_categories(data[:top_suggestion_categories])
 
       <<~PROMPT
-        Please write a helpful email to the owner of #{data[:company_name]}.
+        Write an email for the owner of #{data[:business_name]}.
 
-        Business Details:
-        - Rating: #{data[:rating] || 'N/A'} stars
-        - Food rating: #{data[:food_rating] || 'N/A'}
-        - Service rating: #{data[:service_rating] || 'N/A'}
-        - Atmosphere rating: #{data[:atmosphere_rating] || 'N/A'}
-        - Reviews analyzed: #{data[:total_reviews]}
-        - Total complaints found: #{data[:total_complaints]}
-        - Total suggestions found: #{data[:total_suggestions]}
+        #{data[:total_reviews]} reviews analyzed | Overall rating: #{data[:rating] || 'N/A'}
 
-        Top Complaint Categories:
+        Complaint categories:
         #{complaint_categories}
 
-        Top Complaints from Customers:
+        Customer complaints:
         #{complaints_text}
 
-        Top Suggestion Categories:
+        Suggestion categories:
         #{suggestion_categories}
 
-        Top Suggestions from Customers:
+        Customer suggestions:
         #{suggestions_text}
 
-        Write the email body (HTML only, no subject line) that:
-        1. Start with like: Hi {{RECIPIENT_NAME}},
-        2. Introduce tablr.io and how it can help businesses improve their customer experience briefly.
-        3. Acknowledges their business briefly
-        4. Share complaint patterns and if possible references from complaints to make it more engaging and persuasive.
-        5. Share suggestions from customers and if possible references from suggestions to make it more engaging and persuasive.
-        6. Keep lines short and concise.
-        7. Offers to share the full analysis report if they're interested (soft CTA)
-
-        Important guidelines:
-        - Keep it genuine and helpful, not salesy.
-        - Write like a real person — natural, conversational tone.
-        - Avoid spam-trigger words (free, guaranteed, act now, exclusive, etc.).
-        - No ALL CAPS words, excessive punctuation, or exclamation marks.
-        - Keep HTML minimal — just <p> tags and <br/> where needed, no extra styling.
+        Pick the 2-3 most impactful complaints and 2-3 most actionable suggestions. Include customer quotes. Follow the structure from your instructions.
       PROMPT
     end
 
     def format_items(items, type)
       return "No #{type}s found" if items.empty?
 
-      items.first(10).map.with_index do |item, i|
+      items.first(5).map.with_index do |item, i|
         "#{i + 1}. [#{item[:category]}] \"#{item[:text]}\""
       end.join("\n")
     end

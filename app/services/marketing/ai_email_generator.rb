@@ -222,7 +222,7 @@ module Marketing
         3. Acknowledges their business briefly
         4. Share complaint patterns and if possible references from complaints to make it more engaging and persuasive.
         5. Share suggestions from customers and if possible references from suggestions to make it more engaging and persuasive.
-        6. Keep sentences short and concise.
+        6. Keep lines short and concise.
         7. Offers to share the full analysis report if they're interested (soft CTA)
 
         Important guidelines:

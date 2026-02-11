@@ -222,11 +222,14 @@ module Marketing
     def extract_body(content)
       return default_body unless content.present?
 
-      # Strip BODY: prefix if the model still includes it
-      match = content.match(/BODY:\s*(.+)/im)
-      body = match ? match[1].strip : content.strip
+      body = content.strip
 
-      body
+      # Strip markdown code fences (```html ... ``` or ``` ... ```)
+      if body.match?(/\A```/)
+        body = body.sub(/\A```\w*\s*\n?/, '').sub(/\n?```\s*\z/, '')
+      end
+
+      body.strip
     end
 
     def default_body

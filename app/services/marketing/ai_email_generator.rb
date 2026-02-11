@@ -210,7 +210,7 @@ module Marketing
     end
 
     SUBJECT_TEMPLATES = [
-      'A few insights from your recent customer reviews',
+      'A few insights from %{business_name} recent customer reviews',
       'Insights from customer feedback for %{business_name}',
       'Customer feedback insights for %{business_name}'
     ].freeze

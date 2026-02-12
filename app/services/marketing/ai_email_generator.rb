@@ -29,7 +29,7 @@ module Marketing
         reviews = business.reviews.where(processed: true)
 
         {
-          business_name: business.name,
+          business_name: business.name&.humanize,
           rating: business.rating,
           total_reviews: reviews.count,
           top_complaints: fetch_top_items(Complain, reviews, 5),
@@ -145,7 +145,7 @@ module Marketing
         Follow this exact structure for every email:
 
         1. Greeting: "Hi {{RECIPIENT_NAME}},"
-        2. Opening (1 sentence, under 25 words): mention you used Tablr.io to analyze their recent reviews and found patterns worth sharing.
+        2. Opening (1 sentence, under 25 words): mention you used Tablr.io to analyze recent reviews for #{business.name&.humanize} and found patterns worth sharing.
         3. Complaint transition (1 sentence): lead into the patterns, e.g. "Here are some patterns I noticed:"
         4. Complaints (2-3 bullet points): each names a theme and includes a brief customer quote.
         5. Suggestion transition (1 sentence): lead into suggestions, e.g. "Customers also had a few suggestions:"
@@ -175,7 +175,7 @@ module Marketing
       suggestion_categories = format_categories(data[:top_suggestion_categories])
 
       <<~PROMPT
-        Write an email for the owner of #{data[:business_name]}.
+        Write an email for the owner of #{data[:business_name]&.humanize}.
 
         #{data[:total_reviews]} reviews analyzed | Overall rating: #{data[:rating] || 'N/A'}
 
@@ -216,7 +216,7 @@ module Marketing
     ].freeze
 
     def random_subject
-      SUBJECT_TEMPLATES.sample % { business_name: business.name }
+      SUBJECT_TEMPLATES.sample % { business_name: business.name&.humanize }
     end
 
     def extract_body(content)
@@ -235,7 +235,7 @@ module Marketing
     def default_body
       <<~HTML
         <p>Hi {{RECIPIENT_NAME}},</p>
-        <p>I recently analyzed customer reviews for your business and found some interesting insights I thought you might find valuable.</p>
+        <p>I recently analyzed customer reviews for #{business.name&.humanize} and found some interesting insights I thought you might find valuable.</p>
         <p>Would you be interested in seeing the full analysis?</p>
         <p>Best,<br/>Haider Ali<br/>Tablr.io</p>
         <p style="font-size: 12px; color: #666; margin-top: 20px;">Don't want to receive these emails? {{UNSUBSCRIBE_LINK}}</p>

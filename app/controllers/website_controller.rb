@@ -7,6 +7,15 @@ class WebsiteController < ApplicationController
   def unsubscribe
     @token = params[:token]
     @email = params[:email]
+
+    if @token.present?
+      contact = Marketing::Contact.find_by(unsubscribe_token: @token)
+      contact&.update(unsubscribed: true)
+    elsif @email.present?
+      contact = Marketing::Contact.find_by(email: @email)
+      contact&.update(unsubscribed: true)
+    end
+
     @unsubscribed = params[:success] == "true"
   end
 

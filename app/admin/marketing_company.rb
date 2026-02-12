@@ -15,12 +15,12 @@ ActiveAdmin.register Marketing::Company do
     business.status = :created
     business.business_type = :google_place
     business.test = true
-    business.plan = :free
+    business.plan = 'free'
 
     if business.save
       company.update(business: business)
       # Set payment_approved, onboarding_completed and plan on business
-      business.update!(payment_approved: true, onboarding_completed: true, plan: :pro)
+      business.update!(payment_approved: true, onboarding_completed: true, plan: 'free')
       # Create a test user for the business
       random_password = SecureRandom.hex(10)
       business.users.create!(

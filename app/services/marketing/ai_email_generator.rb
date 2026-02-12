@@ -151,7 +151,7 @@ module Marketing
         5. Suggestion transition (1 sentence): lead into suggestions, e.g. "Customers also had a few suggestions:"
         6. Suggestions (2-3 bullet points): each is a specific, actionable suggestion from customers.
         7. Soft CTA (1 sentence): offer to share the full analysis report. No pressure.
-        8. Sign-off: Best,<br/>Haider Ali<br/>Founder, Tablr.io
+        8. Sign-off: Best,<br/>Haider Ali<br/>Tablr.io
 
         Rules:
         - Body under 150 words (excluding signature and unsubscribe)

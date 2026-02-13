@@ -126,7 +126,8 @@ ActiveAdmin.register Marketing::Company do
     def scoped_collection
       super
         .left_joins(:marketing_contacts)
-        .select("marketing_companies.*, COUNT(marketing_contacts.id) AS contacts_count")
+        .select("marketing_companies.*, COUNT(marketing_contacts.id) AS contacts_count, COUNT(marketing_emails.id) AS emails_count")
+        .left_joins(:marketing_emails)
         .group("marketing_companies.id")
     end
   end
@@ -138,8 +139,8 @@ ActiveAdmin.register Marketing::Company do
     column "Contacts", sortable: "contacts_count" do |company|
       company.respond_to?(:contacts_count) ? company.contacts_count : company.marketing_contacts.count
     end
-    column 'Emails' do |company|
-      company.marketing_emails.where(status: 'sent').count
+    column 'Emails', sortable: "emails_count" do |company|
+      company.respond_to?(:emails_count) ? company.emails_count : company.marketing_emails.where(status: 'sent').count
     end
     column :city
     column :country

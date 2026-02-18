@@ -13,7 +13,7 @@ class Apify::SyncReviews < ApplicationService
 
   def call    
     return if business.status.to_sym == :syncing_place || business.status.to_sym == :syncing_reviews
-    if business.test? && (business&.data["temporarilyClosed"] || business&.data["permanentlyClosed"])
+    if business.test? && (business&.data["reviewsCount"].to_i <= 100 || business&.data["temporarilyClosed"] || business&.data["permanentlyClosed"])
       business.update(status: :failed)
       return
     end

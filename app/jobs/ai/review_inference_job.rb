@@ -1,5 +1,7 @@
 class Ai::ReviewInferenceJob < ApplicationJob
-  queue_as :default
+  queue_as :inference
+
+  sidekiq_options throttle: { concurrency: { limit: 2 } }
 
   def perform(business_id:, review_ids:, batch_id: nil)
     business = Business.find(business_id)

@@ -2,6 +2,7 @@
 :queues:
   - default
   - process_company
+  - inference
 :scheduler:
   :schedule:
     apify_place_sync_processor:

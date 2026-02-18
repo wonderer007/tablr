@@ -181,6 +181,9 @@ ActiveAdmin.register Marketing::Company do
       row "Business Type" do |company|
         company&.business&.type
       end
+      row "Business Status" do |company|
+        company&.business&.status
+      end
       row :reviews_count do |company|
         company&.business&.reviews&.count
       end

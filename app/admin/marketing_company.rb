@@ -249,6 +249,14 @@ ActiveAdmin.register Marketing::Company do
     redirect_back(fallback_location: request.referer, notice: "Google Map Place finding jobs started for #{companies.count} companies")
   end
 
+  batch_action :process_companies do |ids|
+    companies = Marketing::Company.where(id: ids)
+    companies.each do |company|
+      ProcessCompanyJob.perform_later(company.id)
+    end
+    redirect_back(fallback_location: request.referer, notice: "Processing companies started for #{companies.count} companies")
+  end
+
   batch_action :send_marketing_emails do |ids|
     companies = Marketing::Company.where(id: ids)
     sent_count = 0

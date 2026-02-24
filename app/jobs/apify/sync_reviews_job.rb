@@ -1,6 +1,8 @@
 class Apify::SyncReviewsJob < ApplicationJob
   queue_as :default
 
+  sidekiq_options throttle: { concurrency: { limit: 3 } }
+
   def perform(business_id:)
     business = Business.find(business_id)
 

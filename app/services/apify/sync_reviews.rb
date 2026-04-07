@@ -6,7 +6,7 @@ class Apify::SyncReviews < ApplicationService
   end
 
   def max_reviews
-    return Review::REVIEW_COUNT_FOR_TEST if business.test?
+    return 100 if business.test?
 
     business.plan.to_sym == :pro ? Review::MAX_REVIEW_COUNT : Review::REVIEW_COUNT_FOR_TEST
   end

@@ -114,6 +114,9 @@ ActiveAdmin.register Marketing::Company do
     end
   end
 
+  scope :all, default: true
+  scope :ready_for_outreach
+
   filter :name
   filter :linkedin_url
   filter :city
@@ -121,6 +124,7 @@ ActiveAdmin.register Marketing::Company do
   filter :country
   filter :business_id
   filter :updated_at
+  filter :ready_for_outreach, as: :boolean, label: "Ready for Outreach"
 
   controller do
     def scoped_collection

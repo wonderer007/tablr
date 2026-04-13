@@ -272,4 +272,12 @@ ActiveAdmin.register Marketing::Company do
 
     redirect_to admin_marketing_companies_path, notice: "Marketing emails sent successfully for #{sent_count} compan#{sent_count == 1 ? 'y' : 'ies'}"
   end
+
+  batch_action :complete_processing do |ids|
+    companies = Marketing::Company.where(id: ids)
+    companies.each do |company|
+      Marketing::CompleteProcessingJob.perform_later(company.id)
+    end
+    redirect_back(fallback_location: request.referer, notice: "Complete processing started for #{companies.count} companies")
+  end
 end

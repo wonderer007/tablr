@@ -36,6 +36,7 @@
         </optgroup>
       </select>
       <%= submit_tag "Generate AI Email", style: "background: #6366f1; color: white; padding: 8px 16px; border: none; border-radius: 4px; cursor: pointer;" %>
+      <button type="submit" formaction="<%= generate_and_send_ai_email_admin_marketing_company_path(company) %>" style="background: #f59e0b; color: white; padding: 8px 16px; border: none; border-radius: 4px; cursor: pointer;">Generate & Send AI Email</button>
     <% end %>
   </div>
 

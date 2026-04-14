@@ -93,6 +93,57 @@ ActiveAdmin.register Marketing::Company do
     redirect_to admin_marketing_company_path(company), alert: "Failed to generate AI email: #{e.message}"
   end
 
+  member_action :generate_and_send_ai_email, method: :post do
+    company = resource
+
+    unless company.business.present?
+      redirect_to admin_marketing_company_path(company), alert: "No business linked to this company."
+      return
+    end
+
+    unless company.business.first_inference_completed?
+      redirect_to admin_marketing_company_path(company), alert: "Business analysis not completed yet."
+      return
+    end
+
+    contact = company.marketing_contacts.first
+    if contact.blank?
+      redirect_to admin_marketing_company_path(company), alert: "No marketing contact found for this company."
+      return
+    end
+
+    selected_model = if Marketing::Email::MODELS.key?(params[:model])
+                        params[:model]
+                      else
+                        Marketing::Email::DEFAULT_MODEL
+                      end
+
+    result = Marketing::AiEmailGenerator.new(company: company, model: selected_model).call
+
+    if result[:error].present?
+      redirect_to admin_marketing_company_path(company), alert: "Failed to generate AI email: #{result[:error]}"
+      return
+    end
+
+    draft_email = company.marketing_emails.where(status: 'draft').first_or_initialize
+    draft_email.assign_attributes(
+      subject: result[:subject],
+      body: result[:body],
+      marketing_contact: contact,
+      model: selected_model
+    )
+
+    unless draft_email.save
+      redirect_to admin_marketing_company_path(company), alert: "Failed to save draft: #{draft_email.errors.full_messages.join(', ')}"
+      return
+    end
+
+    Marketing::EmailSender.send_for_company(company)
+    redirect_to admin_marketing_company_path(company), notice: "AI email generated and sent successfully."
+  rescue StandardError => e
+    redirect_to admin_marketing_company_path(company), alert: "Failed to generate and send AI email: #{e.message}"
+  end
+
   member_action :find_google_map_place, method: :post do
     company = resource
     FindGoogleMapJob.perform_later(company.id)

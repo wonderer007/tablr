@@ -27,7 +27,7 @@ module Marketing
     end
 
     def verify_contact_emails(company)
-      company.marketing_contacts.where(email_status: nil).find_each do |contact|
+      company.marketing_contacts.where(email_status: nil).limit(5).each do |contact|
         result = Marketing::EmailVerifier.new(contact.email).call
         next if result[:error]
 

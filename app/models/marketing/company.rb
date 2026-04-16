@@ -19,7 +19,7 @@ class Marketing::Company < ApplicationRecord
   }
 
   def self.ransackable_attributes(auth_object = nil)
-    %w[name linkedin_url address city state country phone google_map_url business_id created_at updated_at]
+    %w[name linkedin_url address city state country phone google_map_url business_id flagged created_at updated_at]
   end
 
   def self.ransackable_associations(auth_object = nil)

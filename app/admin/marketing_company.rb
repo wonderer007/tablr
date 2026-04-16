@@ -1,7 +1,7 @@
 ActiveAdmin.register Marketing::Company do
   menu label: "Marketing Companies"
 
-  permit_params :name, :linkedin_url, :address, :city, :state, :country, :phone, :google_map_url, :business_id
+  permit_params :name, :linkedin_url, :address, :city, :state, :country, :phone, :google_map_url, :business_id, :flagged
 
   member_action :create_business, method: :post do
     company = resource
@@ -175,6 +175,7 @@ ActiveAdmin.register Marketing::Company do
   filter :country
   filter :business_id
   filter :updated_at
+  filter :flagged
   filter :ready_for_outreach, as: :boolean, label: "Ready for Outreach"
 
   controller do
@@ -200,6 +201,9 @@ ActiveAdmin.register Marketing::Company do
     column :city
     column :country
 
+    column :flagged do |company|
+      status_tag company.flagged? ? "Yes" : "No", class: company.flagged? ? "red" : "green"
+    end
     column :business
     column :updated_at
     actions
@@ -254,6 +258,9 @@ ActiveAdmin.register Marketing::Company do
       row :first_inference_completed do |company|
         company&.business&.first_inference_completed?
       end
+      row :flagged do |company|
+        status_tag company.flagged? ? "Yes" : "No", class: company.flagged? ? "red" : "green"
+      end
       row :created_at
       row :updated_at
     end
@@ -292,6 +299,7 @@ ActiveAdmin.register Marketing::Company do
       f.input :phone
       f.input :google_map_url
       f.input :business_id
+      f.input :flagged
     end
     f.actions
   end
@@ -325,10 +333,13 @@ ActiveAdmin.register Marketing::Company do
   end
 
   batch_action :complete_processing do |ids|
-    companies = Marketing::Company.where(id: ids)
+    companies = Marketing::Company.where(id: ids).where(flagged: false)
+    skipped_count = Marketing::Company.where(id: ids).where(flagged: true).count
     companies.each do |company|
       Marketing::CompleteProcessingJob.perform_later(company.id)
     end
-    redirect_back(fallback_location: request.referer, notice: "Complete processing started for #{companies.count} companies")
+    notice = "Complete processing started for #{companies.count} companies"
+    notice += " (#{skipped_count} flagged #{'company'.pluralize(skipped_count)} skipped)" if skipped_count > 0
+    redirect_back(fallback_location: request.referer, notice: notice)
   end
 end

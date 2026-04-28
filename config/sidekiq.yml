@@ -8,3 +8,8 @@
     apify_place_sync_processor:
       every: "20s"
       class: Apify::BusinessSyncProcessorJob
+    marketing_schedule_outreach:
+      cron: "*/10 11-15 * * * America/Los_Angeles"
+      class: Marketing::ScheduleOutreachJob
+      queue: default
+      description: "Every 10 min from 11:00 AM to 4:00 PM Pacific, kick off CompleteProcessingJob for the next ready_for_outreach company (smallest contact list first)."

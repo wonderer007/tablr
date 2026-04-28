@@ -342,4 +342,15 @@ ActiveAdmin.register Marketing::Company do
     notice += " (#{skipped_count} flagged #{'company'.pluralize(skipped_count)} skipped)" if skipped_count > 0
     redirect_back(fallback_location: request.referer, notice: notice)
   end
+
+  batch_action :complete_processing_with_ai_email do |ids|
+    companies = Marketing::Company.where(id: ids).where(flagged: false)
+    skipped_count = Marketing::Company.where(id: ids).where(flagged: true).count
+    companies.each do |company|
+      Marketing::CompleteProcessingAndEmailJob.perform_later(company.id)
+    end
+    notice = "Complete processing + AI email started for #{companies.count} companies"
+    notice += " (#{skipped_count} flagged #{'company'.pluralize(skipped_count)} skipped)" if skipped_count > 0
+    redirect_back(fallback_location: request.referer, notice: notice)
+  end
 end

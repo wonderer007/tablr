@@ -32,6 +32,15 @@ module Marketing
 
     def ready_for_ai_email?(company)
       return false if company.business.blank?
+
+      if company.business.failed?
+        Rails.logger.warn(
+          "[Marketing::CompleteProcessingAndEmailJob] Skipping company=#{company.id}: " \
+          "business=#{company.business.id} status is failed"
+        )
+        return false
+      end
+
       return false if valid_contacts(company).none?
       return false if recently_sent_email?(company)
 

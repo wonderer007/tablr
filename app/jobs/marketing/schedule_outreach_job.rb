@@ -6,8 +6,8 @@ module Marketing
       company = next_company_for_outreach
       return unless company
 
-      Rails.logger.info("[Marketing::ScheduleOutreachJob] Enqueuing CompleteProcessingJob for company_id=#{company.id}")
-      Marketing::CompleteProcessingJob.perform_later(company.id)
+      Rails.logger.info("[Marketing::ScheduleOutreachJob] Enqueuing CompleteProcessingAndEmailJob for company_id=#{company.id}")
+      Marketing::CompleteProcessingAndEmailJob.perform_later(company.id)
     end
 
     private

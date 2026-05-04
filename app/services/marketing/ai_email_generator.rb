@@ -99,7 +99,7 @@ module Marketing
 
     # GPT-5 family models are reasoning models that don't support the temperature parameter.
     # They use reasoning_effort instead. Only gpt-5.2 supports temperature when reasoning_effort is "none".
-    GPT5_REASONING_MODELS = %w[gpt-5-nano gpt-5-mini].freeze
+    GPT5_REASONING_MODELS = %w[gpt-5-mini].freeze
 
     def generate_via_openai(report_data)
       params = {

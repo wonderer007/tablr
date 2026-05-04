@@ -6,12 +6,12 @@ class Marketing::Email < ApplicationRecord
 
   # Supported AI models grouped by provider
   MODELS = {
-    "gpt-5-nano" => :openai,
+    # "gpt-5-nano" => :openai,
     "gpt-5-mini" => :openai,
-    "gpt-5.2" => :openai,
-    "gemini-2.0-flash" => :gemini,
-    "gemini-2.5-pro" => :gemini,
-    "gemini-2.5-flash" => :gemini
+    # "gpt-5.2" => :openai,
+    # "gemini-2.0-flash" => :gemini,
+    # "gemini-2.5-pro" => :gemini,
+    # "gemini-2.5-flash" => :gemini
   }.freeze
 
   DEFAULT_MODEL = "gpt-5-mini"
